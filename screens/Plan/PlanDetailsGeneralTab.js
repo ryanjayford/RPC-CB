@@ -82,7 +82,7 @@ const General = ({  route, PlanToggle }) => {
     if (dataState["Plan Details"] === null || (dataState["Plan Details"] && dataState["Plan Details"].Name === 'Plan Details')){
       console.log("useEffect ====PLAN DETAILS GENERAL=========> ", PlanName, PlanDescription);      
       setPlanDetailsData(planDetailsData => null);
-      alert('load plan');
+      alert('load plan ' + PlanName);
       if (route.params && route.params.homeClick === 'Add'){
           if (DefaultPlan) {
             console.log('===========================> DEFAULT PLAN', DefaultPlan);
