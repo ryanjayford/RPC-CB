@@ -1,0 +1,706 @@
+import React from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity,Button,ScrollView,TextInput, Alert, ActivityIndicator } from 'react-native';
+import{ AuthContext } from '../../components/context';
+import Feather from 'react-native-vector-icons/Feather';
+import { useTheme } from '@react-navigation/native';
+import CheckBox from 'react-native-check-box';
+import DropDownPicker from 'react-native-dropdown-picker';
+import RadioButton from 'react-native-customizable-radio-button';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from 'moment';
+import Settings from '../../settings.json';
+import { set } from 'react-native-reanimated';
+const baseURL = Settings.domain;
+
+const General = ({  route, PlanToggle }) => {
+  const [{},dataState] = React.useContext(AuthContext);
+  const DefaultPlan = dataState.DefaultPlan;
+  const DropdownData = dataState.DefaultDropdown;
+  const [planDetailsData, setPlanDetailsData] = React.useState(null);
+  let planDetailsDataState = dataState.Details; //dataState.General for checking
+
+  //console.log('==PlanID==>', dataState.plan.planId);
+  //console.log('==SelectedPlanID==>', dataState.selectedPlan);
+
+  let [PlanName, setPlanName] = React.useState(DefaultPlan.planName); 
+  let [PlanDescription, setPlanDescription] = React.useState(DefaultPlan.planDescription); 
+  let [PlanEffDate, setPlanEffDate] = React.useState(DefaultPlan.planEffDate? moment(DefaultPlan.planEffDate).format('MM/DD/YYYY'):null); 
+  let [RetAge, setRetAge] = React.useState(DefaultPlan.retAge.toString? DefaultPlan.retAge.toString():null); 
+  let [YearOfParticipationForNRA, setYearOfParticipationForNRA] = React.useState(DefaultPlan.yearOfParticipationForNRA);
+  let [PSRetAge, setPSRetAge] = React.useState(DefaultPlan.psRetAge);
+  let [MinAge, setMinAge] = React.useState(DefaultPlan.minAge);
+  let [MonthCk, setMonthCk] = React.useState(DefaultPlan.minSvcMonths != null? true: false);
+  let [MinSvcMonths, setMinSvcMonths] = React.useState(DefaultPlan.minSvcMonths);
+  let [HourCk, setHourCk] = React.useState((DefaultPlan.minSvcHours && DefaultPlan.minSvcHours > 0) ? true: false);
+  let [MinSvcHours, setMinSvcHours] = React.useState(DefaultPlan.minSvcHours ? DefaultPlan.minSvcHours.toString():"0");
+  let [EntryDate, setEntryDate] = React.useState(DefaultPlan.entryDate); 
+  let [VestingSchedYear1, setVestingSchedYear1] = React.useState(DefaultPlan.vestingSchedYear1 ? DefaultPlan.vestingSchedYear1.toString():"0");
+  let [VestingSchedYear2, setVestingSchedYear2] = React.useState(DefaultPlan.vestingSchedYear2 ? DefaultPlan.vestingSchedYear2.toString():"0");
+  let [VestingSchedYear3, setVestingSchedYear3] = React.useState(DefaultPlan.vestingSchedYear3 ? DefaultPlan.vestingSchedYear3.toString():null); 
+  let [ExcludedYears_18, setExcludedYears_18] = React.useState(DefaultPlan.excludedYears_18); 
+  let [ExcludedYears_Eff, setExcludedYears_Eff] = React.useState(DefaultPlan.excludedYears_Eff); 
+  let [AgeDefinition, setAgeDefinition] = React.useState(DefaultPlan.ageDefinition == "N"? 1: 2); 
+  let [HCETopPaid, setHCETopPaid] = React.useState(DefaultPlan.hceTopPaid == 1? 1: 2); 
+  let [IncludeDefInEmployerCost, setIncludeDefInEmployerCost] = React.useState(DefaultPlan.includeDefInEmployerCost); 
+  let [Include401k, setInclude401k] = React.useState(DefaultPlan.include401k); 
+  let [MinTaxBracket, setMinTaxBracket] = React.useState(DefaultPlan.minTaxBracket ? DefaultPlan.minTaxBracket.toString():null); 
+  let [MaxTaxBracket, setMaxTaxBracket] = React.useState(DefaultPlan.maxTaxBracket ? DefaultPlan.maxTaxBracket.toString():null); 
+  let [Entity, setEntity] = React.useState(DefaultPlan.entity); 
+  let [PreparedBy, setPreparedBy] = React.useState(DefaultPlan.preparedBy); 
+  let [CompanyName, setCompanyName] = React.useState(DefaultPlan.companyName); 
+
+  planDetailsDataState.planName = PlanName;
+  planDetailsDataState.planDescription = PlanDescription;
+  planDetailsDataState.planEffDate = PlanEffDate;
+  planDetailsDataState.retAge = RetAge;
+  planDetailsDataState.yearOfParticipationForNRA = YearOfParticipationForNRA === undefined ? null : YearOfParticipationForNRA;
+  planDetailsDataState.psRetAge = PSRetAge === undefined ? null : PSRetAge;
+  planDetailsDataState.minAge = MinAge === undefined ? null : MinAge;
+  planDetailsDataState.monthCk = MonthCk;
+  planDetailsDataState.minSvcMonths = MinSvcMonths === undefined ? null : MinSvcMonths;
+  planDetailsDataState.hourCk = HourCk;
+  planDetailsDataState.minSvcHours = MinSvcHours;
+  planDetailsDataState.entryDate = EntryDate === undefined ? null : EntryDate;
+  planDetailsDataState.vestingSchedYear1 = VestingSchedYear1;
+  planDetailsDataState.vestingSchedYear2 = VestingSchedYear2;
+  planDetailsDataState.vestingSchedYear3 = VestingSchedYear3;
+  planDetailsDataState.excludedYears_18 = ExcludedYears_18;
+  planDetailsDataState.excludedYears_Eff = ExcludedYears_Eff
+  planDetailsDataState.ageDefinition = AgeDefinition === undefined ? null : AgeDefinition;
+  planDetailsDataState.hceTopPaid = HCETopPaid === undefined ? null : HCETopPaid;
+  planDetailsDataState.includeDefInEmployerCost = IncludeDefInEmployerCost;
+  planDetailsDataState.include401k = Include401k;
+  planDetailsDataState.minTaxBracket = MinTaxBracket;
+  planDetailsDataState.maxTaxBracket = MaxTaxBracket;
+  planDetailsDataState.entity = Entity === undefined ? null : Entity;
+  planDetailsDataState.preparedBy = PreparedBy;
+  planDetailsDataState.companyName = CompanyName;
+
+  React.useEffect(() => {
+    //Api Data
+    console.log("useEffect ====PLAN DETAILS DATA STATE ======================ROUTE========> ", route, dataState["Plan Details"]);
+    if (dataState["Plan Details"] === null || (dataState["Plan Details"] && dataState["Plan Details"].Name === 'Plan Details')){
+      console.log("useEffect ====PLAN DETAILS GENERAL=========> ", PlanName, PlanDescription);      
+      setPlanDetailsData(planDetailsData => null);
+      alert('load plan');
+      if (route.params && route.params.homeClick === 'Add'){
+          if (DefaultPlan) {
+            console.log('===========================> DEFAULT PLAN', DefaultPlan);
+            setPlanDetailsData(planDetailsData => DefaultPlan);
+          }else{
+            getPlanDetails();
+          }
+      }else {
+        getPlanDetails(dataState.plan.planId);
+      }
+      
+    }
+  }, [dataState["Plan Details"]]);
+
+    var Age = [
+      {
+        id: 1, // required
+        text: 'Age at nearest birthday', //required
+      },
+      {
+        id: 2,
+        text: 'Age at last birthday',
+      },
+    ];
+
+    var HCE = [
+      {
+        id: 1, // required
+        text: 'Yes', //required
+      },
+      {
+        id: 2,
+        text: 'No',
+      },
+    ];
+
+    const { colors } = useTheme();
+    
+    let [value, setDate] = React.useState(new Date());
+    let [show, setShow] = React.useState(false);
+    let [date, setInputDate] = React.useState(null);
+    let today = value;
+
+    const getPlanDetails = async (planId) => {
+      let url = null; 
+      let method = 'GET';
+      let headers = new Headers();
+      if (planId){
+        url = baseURL + '/Plans/Plan?id=' +  planId;
+      }else{
+        url = baseURL + '/Plans/PlanInit';
+      }
+      headers.append('Content-Type', 'application/json');
+      headers.append('Authorization', dataState.userToken);
+     
+      let req = new Request(url, {
+          method,
+          headers
+      });
+  
+      await fetch(req)
+      .then((response) => response.json())
+      .then((responseJson) => {
+          if (responseJson.isSuccess && responseJson.obj){
+            console.log("FROM UseEffect =====Api Called PLAN========> ", responseJson.obj);
+            if (planId){
+              setPlanDetailsTab(responseJson.obj[0]);
+            } else{
+              setPlanDetailsTab(responseJson.obj);
+            }
+
+          } else {
+            Alert.alert("Data Error", responseJson.message);
+            setPlanData(planData => []);
+          }
+      })
+      .catch((error) => {
+          Alert.alert("Connection Error", error.message);
+          return false;
+      });
+    }
+
+    const setPlanDetailsTab = (responseData) => {
+
+      setPlanDetailsData(planDetailsData => responseData);
+      // GENERAL
+      setPlanName(PlanName = responseData.planName); 
+      setPlanDescription(PlanDescription = responseData.planDescription); 
+      setPlanEffDate(PlanEffDate  = responseData.planEffDate? moment(responseData.planEffDate).format('MM/DD/YYYY'):null); 
+      setRetAge(RetAge = responseData.retAge.toString? responseData.retAge.toString():null); 
+      setYearOfParticipationForNRA(YearOfParticipationForNRA = prepareVal(responseData.yearOfParticipationForNRA));
+      setPSRetAge(PSRetAge = prepareVal(responseData.psRetAge));
+      setMinAge(MinAge = prepareVal(responseData.minAge));
+      setMonthCk(MonthCk  = responseData.minSvcMonths != null? true: false);
+      setMinSvcMonths(MinSvcMonths = prepareVal(responseData.minSvcMonths));
+      setHourCk(HourCk = (responseData.minSvcHours && responseData.minSvcHours > 0) ? true: false);
+      setMinSvcHours(MinSvcHours = responseData.minSvcHours ? responseData.minSvcHours.toString():"0");
+      setEntryDate(EntryDate = responseData.entryDate); 
+      setVestingSchedYear1(VestingSchedYear1 = responseData.vestingSchedYear1 ? responseData.vestingSchedYear1.toString():"0");
+      setVestingSchedYear2(VestingSchedYear2  = responseData.vestingSchedYear2 ? responseData.vestingSchedYear2.toString():"0");
+      setVestingSchedYear3(VestingSchedYear3 = responseData.vestingSchedYear3 ? responseData.vestingSchedYear3.toString():"0"); 
+      setExcludedYears_18(ExcludedYears_18  = responseData.excludedYears_18); 
+      setExcludedYears_Eff(ExcludedYears_Eff  = responseData.excludedYears_Eff); 
+      setAgeDefinition(AgeDefinition  =  responseData.ageDefinition == "N"? 1:2); //
+      setHCETopPaid(HCETopPaid  = responseData.hceTopPaid == 1? 1: 2); 
+      setIncludeDefInEmployerCost(IncludeDefInEmployerCost  = responseData.includeDefInEmployerCost); 
+      setInclude401k(Include401k  = responseData.include401k); 
+      setMinTaxBracket(MinTaxBracket  = responseData.minTaxBracket ? responseData.minTaxBracket.toString():null); 
+      setMaxTaxBracket(MaxTaxBracket  = responseData.maxTaxBracket ? responseData.maxTaxBracket.toString():null); 
+      setEntity(Entity  = responseData.entity); 
+      setPreparedBy(PreparedBy  = responseData.preparedBy); 
+      setCompanyName(CompanyName  = responseData.companyName); 
+      
+      // CASH BALANCE
+      
+      planDetailsDataState.isPBGCCovered = responseData.isPBGCCovered === undefined ? null : responseData.isPBGCCovered;
+      planDetailsDataState.cbInterestCredit = responseData.cbInterestCredit;
+      planDetailsDataState.overrideSegRate1 = responseData.overrideSegRate1;
+      planDetailsDataState.overrideSegRate2 = responseData.overrideSegRate2;
+      planDetailsDataState.overrideSegRate3 = responseData.overrideSegRate3;
+      planDetailsDataState.preRetMortality = responseData.preRetMortality === undefined ? null : responseData.preRetMortality;
+      planDetailsDataState.mortalityTableCombined = responseData.mortalityTableCombined === undefined ? null : responseData.mortalityTableCombined;
+      planDetailsDataState.fundingForLumpSum = responseData.fundingForLumpSum === undefined ? null : responseData.fundingForLumpSum;
+      planDetailsDataState.imputeDisparity = responseData.imputeDisparity === undefined ? null : responseData.imputeDisparity;
+      planDetailsDataState.aePostRetMortalityTable = responseData.aePostRetMortalityTable === undefined ? null : responseData.aePostRetMortalityTable;
+      planDetailsDataState.aePreRetInt = responseData.aePreRetInt;
+      planDetailsDataState.aePostRetInt = responseData.aePostRetInt;
+      planDetailsDataState.taPostRetMort = responseData.taPostRetMort === undefined ? null : responseData.taPostRetMort;
+      planDetailsDataState.taPreRetInt = responseData.taPreRetInt;
+      planDetailsDataState.taPostRetInt = responseData.taPostRetInt;
+      
+    }
+
+    const prepareVal = (val, def) => {
+      //console.log(val);
+      if (val) {
+        return val
+      } else{
+        if (def){
+          return def
+        } else{
+          return ""
+        }
+      }
+    }
+    //DateTimePicker
+    const onChange = (event, selectedDate) => {
+      let currentDate = selectedDate || date;
+      //console.log("A date has been picked: ", date);
+      currentDate = moment(currentDate).format('MM/DD/YYYY')
+      setShow(Platform.OS === 'ios');
+      setDate(value = currentDate);
+      setInputDate(date = currentDate)
+    };
+    
+    //DateTimePickerModal
+    const handleConfirm = (selectedDate) => {
+      let currentDate = selectedDate || date;
+      //console.log("A date has been picked: ", date);
+      currentDate = moment(currentDate).format('MM/DD/YYYY')
+      setShow(show = !show);
+      setPlanEffDate(PlanEffDate=currentDate)
+      //setDate(value = currentDate);
+      //setInputDate(date = currentDate)
+    };
+
+    //console.log(date, "date")
+    /*
+    if(today != null)
+    {
+       //convert to M/D/Y: 
+        let nowdate = parseInt(today.getMonth()+1) +"-"+ today.getDate() +"-"+ today.getFullYear();
+        let thisDate = nowdate.toString();
+        console.log("M/D/Y: ", thisDate);
+        //setInputDate(date =  thisDate)
+    }
+    */
+    //console.log(date)
+    //console.log(value, 'date')
+
+    return(
+    
+      <View style= {[styles.container,{backgroundColor: colors.tertiary}]}>
+      <View style= {styles.inputContainer}>
+      {!planDetailsData?
+          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+            <ActivityIndicator size="large" color={colors.secondary}/>
+          </View>
+          : 
+      <ScrollView style= {styles.ScrollContainer}>
+        <View style={{marginBottom: 30}}>
+
+        <Text style={styles.title}>Plan Name</Text>
+
+        <TextInput 
+          placeholderTextColor = 'rgba(51,51,51,0.7)'
+          placeholder="Name"
+          style={[styles.textInput,{color: colors.Logintext}]}
+          //autoCapitalize="none"
+          value={PlanName}
+          keyboardType='default'
+          onChangeText={(val) => setPlanName(PlanName = val)}
+        />
+        <Text style={[styles.title,{marginTop: 10}]}>Plan Description</Text>
+
+        <TextInput 
+          multiline={true}
+          numberOfLines={4}
+          placeholderTextColor = 'rgba(51,51,51,0.7)'
+          placeholder="Description"
+          style={[styles.textArea,{color: colors.Logintext}]}
+          //autoCapitalize="none"
+          value={PlanDescription}
+          keyboardType='default'
+          onChangeText={(val) => setPlanDescription(PlanDescription = val)}
+        />
+
+        <Text style={[styles.title,{marginTop: 10}]}>Plan Effective Date</Text>
+        
+        
+        <TouchableOpacity style = {{ flexDirection: 'row'}} onPress={() => setShow(show = !show)}>
+          <TextInput style={{flex: 1}}
+            placeholderTextColor = 'rgba(51,51,51,0.7)'
+            placeholder="Date"
+            style={[styles.textInput,{color: colors.Logintext}]}
+            value={date != null ? date.toString() : PlanEffDate}
+            editable={false}
+            
+            //autoCapitalize="none"
+            //keyboardType='default'
+            onChangeText={(val) => setPlanEffDate(PlanEffDate = val)}
+          />
+          <Feather style={{ marginLeft: 5}}
+                name="calendar"
+                color="grey"
+                size={25}
+            /> 
+        </TouchableOpacity>
+          
+
+        {show && (
+          <DateTimePickerModal
+          isVisible={show}
+          mode="date"
+          date={(PlanEffDate) ? new Date(PlanEffDate): new Date()}
+          onConfirm={handleConfirm}
+          onCancel={() => setShow(show = !show)}
+        />
+        )}
+        <Text style={[styles.title,{marginTop: 10}]}>Normal Retirement Age</Text>
+          <View style={{ flexDirection: 'row'}}>
+            <Text style={[styles.subNames,{}]}>The later of Age</Text>
+            <TextInput style={{alignSelf:'flex-start', flex:1}}
+              placeholderTextColor = 'rgba(51,51,51,0.7)'
+              placeholder="0"
+              style={[styles.SubtextInput,{color: colors.Logintext}]}
+              //autoCapitalize="none"
+              value={RetAge}
+              keyboardType='numeric'
+              onChangeText={(val) => setRetAge(RetAge = val)}
+            />
+            <Text style={styles.subNames}>years of participation</Text>
+              <DropDownPicker
+                items={DropdownData.yearOfParticipationForNRA}
+                defaultIndex={0}
+                defaultValue={YearOfParticipationForNRA}
+              
+                zIndex={5}
+                placeholder=""
+                placeholderStyle={{color: colors.Logintext}}
+                activeLabelStyle={{color: 'green'}}
+                labelStyle={{color: colors.Logintext}}
+                style={{borderWidth: 1}}
+                dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
+                containerStyle={{ height: 38, flex: 1,marginLeft: 0, marginTop:-12}}
+                arrowColor='rgba(51,51,51,0.5)'
+                onChangeItem={item => setYearOfParticipationForNRA(YearOfParticipationForNRA = item.value)}
+              />
+          </View>  
+         
+        <Text style={[styles.title,{marginTop: 10}]}>Testing Age</Text>
+
+        <DropDownPicker
+            items={DropdownData.psRetAge}
+            defaultIndex={0}
+            defaultValue={PSRetAge}
+            zIndex={4}
+            placeholder="Select an testing age"
+            placeholderStyle={{color: colors.Logintext}}
+            activeLabelStyle={{color: 'green'}}
+            labelStyle={{color: colors.Logintext}}
+            style={{borderWidth: 1}}
+            dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1,zIndex: 10}}
+            containerStyle={{ height: 38, flex: 1}}
+            arrowColor='rgba(51,51,51,0.5)'
+            onChangeItem={item => setPSRetAge(PSRetAge = item.value)}
+        />
+
+        <Text style={[styles.title,{marginTop: 10}]}>Minimum Age</Text>
+
+          <DropDownPicker
+              items={DropdownData.minAge}
+              defaultIndex={0}
+              defaultValue={MinAge}
+              zIndex={3}
+              placeholder="Select an minimum Age"
+              placeholderStyle={{color: colors.Logintext}}
+              activeLabelStyle={{color: 'green'}}
+              labelStyle={{color: colors.Logintext}}
+              style={{borderWidth: 1}}
+              dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
+              containerStyle={{ height: 38, flex: 1}}
+              arrowColor='rgba(51,51,51,0.5)'
+              onChangeItem={item => setMinAge(MinAge = item.value)}
+          />
+        <Text style={[styles.title,{marginTop: 10}]}>Minimum Service</Text>
+
+        <View style={{flexDirection: 'row', marginBottom: 5}}>
+            <CheckBox 
+            style={{paddingRight: 5}}
+            checkedCheckBoxColor = {'#333333'}
+            uncheckedCheckBoxColor	= {colors.Logintext}
+            isChecked={MonthCk} onClick = {()=> setMonthCk(MonthCk = !MonthCk)}/>
+            <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Months</Text>
+        </View>
+
+            <DropDownPicker
+              items={DropdownData.minSvcMonths}
+              defaultIndex={0}
+              defaultValue={MinSvcMonths}
+              zIndex={2}
+              placeholder="Select number of months"
+              placeholderStyle={{color: colors.Logintext}}
+              activeLabelStyle={{color: 'green'}}
+              labelStyle={{color: colors.Logintext}}
+              style={{borderWidth: 1}}
+              dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
+              containerStyle={{ height: 38, flex: 1,marginLeft: 5}}
+              arrowColor='rgba(51,51,51,0.5)'
+              onChangeItem={item => setMinSvcMonths(MinSvcMonths = item.value)}
+            />
+
+          <View style={{flexDirection: 'row', marginTop: 5,marginBottom: 5}}>
+            <CheckBox 
+            style={{paddingRight: 5}}
+            checkedCheckBoxColor = {'#333333'}
+            uncheckedCheckBoxColor	= {colors.Logintext}
+            isChecked={HourCk} onClick = {()=> setHourCk(HourCk = !HourCk)}/>
+            <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Hours</Text>
+          </View>
+
+            <TextInput 
+              placeholderTextColor = 'rgba(51,51,51,0.7)'
+              placeholder="Number of hours"
+              style={[styles.SubtextInput,{color: colors.Logintext}]}
+              //autoCapitalize="none"
+              value={MinSvcHours}
+              keyboardType='numeric'
+              onChangeText={(val) => setMinSvcHours(MinSvcHours = val)}
+            />
+
+          <Text style = {{color: colors.Logintext,marginTop: 10,marginBottom: 5}}>Entry Date</Text>
+              
+            <DropDownPicker
+              items={DropdownData.entryDate}
+              defaultIndex={0}
+              defaultValue={EntryDate}
+              zIndex={1}
+              placeholder="Select entry date"
+              placeholderStyle={{color: colors.Logintext}}
+              activeLabelStyle={{color: 'green'}}
+              labelStyle={{color: colors.Logintext}}
+              style={{borderWidth: 1}}
+              dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
+              containerStyle={{ height: 38, flex: 1,marginLeft: 5}}
+              arrowColor='rgba(51,51,51,0.5)'
+              onChangeItem={item => setEntryDate(EntryDate = item.value)}
+            />
+
+        <Text style={[styles.title,{marginTop: 10}]}>Vesting Schedule</Text>
+
+        <View style={{flexDirection: 'row'}}>
+            <Text style={styles.subNames}>Year 1</Text>
+            <TextInput 
+              placeholderTextColor = 'rgba(51,51,51,0.7)'
+              placeholder="0"
+              style={[styles.textInput,{color: colors.Logintext}]}
+              //autoCapitalize="none"
+              value={VestingSchedYear1}
+              keyboardType='numeric'
+              onChangeText={(val) => setVestingSchedYear1(VestingSchedYear1 = val)}
+            />
+            <Text style={styles.subNames}>Year 2</Text>
+
+            <TextInput 
+              placeholderTextColor = 'rgba(51,51,51,0.7)'
+              placeholder="0"
+              style={[styles.textInput2,{color: colors.Logintext}]}
+              //autoCapitalize="none"
+              value={VestingSchedYear2}
+              keyboardType='numeric'
+              onChangeText={(val) => setVestingSchedYear2(VestingSchedYear2 = val)}
+            />
+
+          <Text style={styles.subNames}>Year 3</Text>
+
+          <TextInput 
+            placeholderTextColor = 'rgba(51,51,51,0.7)'
+            placeholder="0"
+            style={[styles.textInput3,{color: colors.Logintext}]}
+            //autoCapitalize="none"
+            value={VestingSchedYear3}
+            keyboardType='numeric'
+            onChangeText={(val) => setVestingSchedYear3(VestingSchedYear3 = val)}
+          />
+          </View>
+
+        <Text style={[styles.title,{marginTop: 10}]}>Excluded Years</Text>
+
+          <View style={{flexDirection: 'row'}}>
+            <CheckBox 
+            style={{paddingRight: 5}}
+            checkedCheckBoxColor = {'#333333'}
+            uncheckedCheckBoxColor	= {colors.Logintext}
+            isChecked={ExcludedYears_18} onClick = {()=> setExcludedYears_18(ExcludedYears_18 = !ExcludedYears_18)}/>
+            <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Service Prior to Age 18</Text>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <CheckBox 
+            style={{paddingRight: 5}}
+            checkedCheckBoxColor = {'#333333'}
+            uncheckedCheckBoxColor	= {colors.Logintext}
+            isChecked={ExcludedYears_Eff} onClick = {()=> setExcludedYears_Eff(ExcludedYears_Eff = !ExcludedYears_Eff)}/>
+            <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Service Prior to Effective Date</Text>
+          </View>
+
+        <Text style={[styles.title,{marginTop: 10}]}>Age Definition</Text>
+
+        <RadioButton
+          data={Age} //required
+          defaultOption={AgeDefinition}
+          formStyle = {{}} 
+          containerStyle={{marginBottom: 5,justifyContent: 'flex-start'}}
+          labelStyle={{}}
+          circleContainerStyle={{ }} // add your styles to each outer circle
+          innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
+          onValueChange={(value) => setAgeDefinition(AgeDefinition = value.id)} //required
+        />
+        <Text style={[styles.title,{marginTop: 10}]}>HCE Top Paid Group Limited to 20%</Text>
+          
+        
+        <RadioButton
+          data={HCE} //required
+          defaultOption={HCETopPaid}
+          formStyle = {{flexDirection: 'row'}} 
+          containerStyle={{marginBottom: 0}}
+          labelStyle={{paddingRight: 10}}
+          circleContainerStyle={{ }} // add your styles to each outer circle
+          innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
+          onValueChange={(value) => setHCETopPaid(HCETopPaid = value.id)} //required
+        />
+
+        <Text style={[styles.title,{marginTop: 10}]}>Include Deferrals in Employer Cost</Text>
+
+          <View style={{flexDirection: 'row'}}>
+            <CheckBox 
+            style={{paddingRight: 5}}
+            checkedCheckBoxColor = {'#333333'}
+            uncheckedCheckBoxColor	= {colors.Logintext}
+            isChecked={IncludeDefInEmployerCost} onClick = {()=> setIncludeDefInEmployerCost(IncludeDefInEmployerCost = !IncludeDefInEmployerCost)}/>
+            <Text style = {{color: colors.Logintext,paddingTop: 2.5,fontSize: 13.5}}>Check to include deferrals in employer costs</Text>
+          </View>
+
+
+
+        <Text style={[styles.title,{marginTop: 10}]}>Include 401(k) </Text>
+
+          <View style={{flexDirection: 'row'}}>
+            <CheckBox 
+            style={{paddingRight: 5}}
+            checkedCheckBoxColor = {'#333333'}
+            uncheckedCheckBoxColor	= {colors.Logintext}
+            isChecked={Include401k} onClick = {()=> setInclude401k(Include401k = !Include401k)}/>
+            <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Check to include 401(k)</Text>
+          </View>
+
+        <Text style={[styles.title,{marginTop: 10}]}>Tax Bracket</Text>
+
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.subNames}>Minimum</Text>
+            <TextInput 
+              placeholderTextColor = 'rgba(51,51,51,0.7)'
+              placeholder="0"
+              style={[styles.textInput,{color: colors.Logintext}]}
+              //autoCapitalize="none"
+              value={MinTaxBracket}
+              keyboardType='numeric'
+              onChangeText={(val) => setMinTaxBracket(MinTaxBracket = val)}
+            />
+            <Text style={styles.subNames}>Maximum</Text>
+
+            <TextInput 
+              placeholderTextColor = 'rgba(51,51,51,0.7)'
+              placeholder="0"
+              style={[styles.textInput2,{color: colors.Logintext}]}
+              //autoCapitalize="none"
+              value={MaxTaxBracket}
+              keyboardType='numeric'
+              onChangeText={(val) => setMaxTaxBracket(MaxTaxBracket = val)}
+            />
+          </View>
+
+        <Text style={[styles.title,{marginTop: 10}]}>How is your business taxed?</Text>
+          
+          <DropDownPicker
+              items={DropdownData.entity}
+              defaultIndex={0}
+              defaultValue={Entity}
+              placeholder="Select an business taxed" 
+              placeholderStyle={{color: colors.Logintext}}
+              activeLabelStyle={{color: 'green'}}
+              labelStyle={{color: colors.Logintext}}
+              style={{borderWidth: 1}}
+              dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
+              containerStyle={{ height: 38, flex: 1}}
+              arrowColor='rgba(51,51,51,0.5)'
+              onChangeItem={item => setEntity(Entity = item.value)}
+          />
+
+
+        <Text style={[styles.title,{marginTop: 10}]}>Report Prepared By</Text>
+
+        <TextInput 
+          placeholderTextColor = 'rgba(51,51,51,0.7)'
+          placeholder="Reporter"
+          style={[styles.textInput,{color: colors.Logintext}]}
+          //autoCapitalize="none"
+          value={PreparedBy}
+          keyboardType='default'
+          onChangeText={(val) => setPreparedBy(PreparedBy = val)}
+        />
+
+        <Text style={[styles.title,{marginTop: 10}]}>Firm</Text>
+
+        <TextInput 
+          placeholderTextColor = 'rgba(51,51,51,0.7)'
+          placeholder="Firm"
+          style={[styles.textInput,{color: colors.Logintext}]}
+          //autoCapitalize="none"
+          value={planDetailsDataState.CompanyName}
+          keyboardType='default'
+          onChangeText={(val) => setCompanyName(CompanyName = val)}
+        />
+        
+        </View>
+      </ScrollView>
+      }
+      </View>
+    </View>
+  )
+}
+export default General;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 10
+  },
+  inputContainer: {
+    marginTop: 10,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  ScrollContainer: {
+    marginTop: 20,
+    paddingHorizontal: 16,
+  },
+  title: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 7
+  },
+  subNames: {
+    paddingRight: 3,
+    marginTop: 7,
+    paddingLeft: 3,
+    fontSize: 12
+  },
+  textArea: {
+    flex: 1,  
+    textAlignVertical: 'top',
+    padding: 5,
+    borderRadius: 5,
+    borderWidth: 1.5,
+    borderColor: '#989c9d',
+  },
+  textInput: {
+    flex: 1,  
+    borderBottomWidth: 1.5,
+    borderBottomColor: '#989c9d',
+  },
+  textInput2: {
+    flex: 1, 
+    borderBottomWidth: 1.5,
+    borderBottomColor: '#989c9d',
+  },
+  textInput3: {
+    flex: 1, 
+    borderBottomWidth: 1.5,
+    borderBottomColor: '#989c9d',
+  },
+  SubtextInput: {
+    flex: 1,  
+    marginLeft: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#989c9d',
+  },
+  });

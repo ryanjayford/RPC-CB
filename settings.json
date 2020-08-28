@@ -1,0 +1,8 @@
+{
+    "site":   "https://restsandbox.azurewebsites.net/services/rest", 
+    "domain":   "http://rpcapi-dev.azurewebsites.net/api/CB",
+    "apiKey": "Key",
+    "token": "token",
+    "clientId": "Mobile",
+    "version": "Dev Ver 0.0.2 SDK38"  
+}
