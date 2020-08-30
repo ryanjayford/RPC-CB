@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Text,View,Alert, BackHandler} from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator,HeaderBackButton } from '@react-navigation/stack';
 import { useTheme } from '@react-navigation/native';
 import{ AuthContext } from '../components/context';
-import { Button, Paragraph, Menu, Divider, Provider } from 'react-native-paper';
+//import { Button, Paragraph, Menu, Divider, Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon3 from 'react-native-vector-icons/Octicons';
@@ -19,6 +19,7 @@ import ProfileScreen from './Menu/ProfileScreen';
 import PlanDetailsTopTab from './Plan/PlanDetailsTopTab'
 import CensusScreen from './Census/CensusScreen';  //'./CensusScreen';
 import reportTab from './Report/ReportTopTabScreen';
+import reportList from './Report/ReportListScreen';
 import Standard from './Report/ReportStandardScreen'; //'./BlankReportsScreen;
 import CalculateScreen from './Calculate/CalculateScreen';
 import Classes from './Classes/ClassesScreen';
@@ -27,10 +28,14 @@ import ClassesUpdate from './Classes/ClassesUpdateScreen';
 import PlanListScreen from './Plan/PlanListScreen';
 import PPACalculator from './PPACalculator/BlankPPACalculatorScreen';
 import OwnerOnlyScreen from './OwnerOnly/BlankOwnerOnlyScreen';
-import AddModal from './Census/CensusUpdateScreen'
+import AddModal from './Census/CensusUpdateScreen';
+import PlanCopy from './Plan/PlanCopyList';
+import CopyModal from '../components/CopyModal';
+import AlertModal from '../components/AlertModalExcel';
 import moment from 'moment';
 import MenuModal from '../components/MenuModal';
 import Settings from '../settings.json';
+import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 const baseURL = Settings.domain;
 //import PlanTopTab from './PlandetailsTopTab'
 
@@ -142,7 +147,43 @@ function getPlanHeaderTitle(route, setScreen, dataState) {
   }
 }
 
-function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen) {
+function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType) {
+
+  const hideMenuXls = () =>
+  {
+    menu.current.hide(() => {
+      navigation.navigate('Alert modal')
+    });
+    setdocumentType(documentType = 'application/vnd.ms-excel');
+    //ConfirmUpload(setScreen);
+   
+    
+    //alert(documentType);
+  } 
+  const hideMenuXlsx = () =>
+  { 
+    menu.current.hide(() => {
+      
+        navigation.navigate('Alert modal')
+     
+    });
+    setdocumentType(documentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    //alert(documentType);
+  } 
+  /*
+  const hideMenuXlsx = () =>
+  { 
+    setdocumentType(documentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    menu.current.hide(() => {
+      setTimeout(() => {
+        ConfirmUpload(setScreen);
+      }, 500);
+    });
+    
+    //alert(documentType);
+  } 
+  */
+  const showMenu = () => menu.current.show();
   // Access the tab navigator's state using `route.state`
   const routeName = route.state
     ? // Get the currently active route name in the tab navigator
@@ -161,11 +202,24 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
         return <Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() =>  ConfirmSave(save, navigation,'Edit', dataState.selectedPlan, dataState.Details.planName, dataState.userToken)}></Icon.Button>;  //Alert.alert('No function yet')
     case 'Classes':
       return <Icon.Button key={0} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Class Detail Entry',{State: 'addnew'})}></Icon.Button>; 
-    case 'Census':
-      return [<Icon.Button key={0} name="ios-search" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setCensus(Census = !Census)}></Icon.Button>,//search() //navigation.setParams({censusSearch: !route.params.censusSearch})
-      <Icon.Button key={1} name="md-cloud-upload" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmUpload(setScreen)}></Icon.Button>, //dataState, setCensusData, CensusIsloading, setCensusIsloading// Alert.alert('Upload Census')
-      <Icon.Button key={2} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Add',{State: 'CensusAddUser'})}></Icon.Button>]; //Alert.alert('Add')
-    case 'Calculate':
+      case 'Census':
+        return [<Icon.Button key={0} name="ios-search" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setCensus(Census = !Census)}></Icon.Button>,//search() //navigation.setParams({censusSearch: !route.params.censusSearch})
+        //<Icon.Button key={1} name="md-cloud-upload" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmUpload(setScreen)}></Icon.Button>, //dataState, setCensusData, CensusIsloading, setCensusIsloading// Alert.alert('Upload Census')
+        <View key={1} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Menu 
+            ref={menu}
+            button={<Icon.Button name="md-cloud-upload" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => showMenu()}></Icon.Button>}
+          >
+           
+            <MenuItem onPress={hideMenuXls} ><Icon name="ios-document" size={20}>  xls</Icon> </MenuItem>
+            <MenuDivider />
+            <MenuItem onPress={hideMenuXlsx}><Icon name="md-document" size={20}>  xlsx</Icon></MenuItem>
+          </Menu>
+        </View>,
+        <Icon.Button key={2} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Add',{State: 'CensusAddUser'})}></Icon.Button>]; //Alert.alert('Add')
+      case 'Report':
+        return <Icon.Button key={0} name="md-more" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate("Report list")}></Icon.Button>;
+      case 'Calculate':
   return [<Icon4.Button key={0} name="refresh" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setScreen({Name: 'Calculate', Method: 'Refresh'})}></Icon4.Button>,
           <Icon.Button key={1} name="ios-calculator" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmCalculate(dataState,setScreen)}></Icon.Button>]; 
   }
@@ -254,12 +308,13 @@ const PlanTabScreen = ({navigation, route}) => {
   console.log('Allroute', route.params)
   let [Plan, setPlan] = React.useState(false);
   let [Census, setCensus] = React.useState(false);
-  
+  let [documentType, setdocumentType] = React.useState('*/*');
+  const menu = useRef();
   React.useLayoutEffect(() => {
     navigation.setOptions({ headerTitle: getPlanHeaderTitle(route, setScreen, dataState),  
       headerRight: () => (
         <View style={{flexDirection:"row"}}>
-          {getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen)}
+          {getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType)}
         </View>
       ),
 
@@ -390,7 +445,7 @@ const PlanTabScreen = ({navigation, route}) => {
       
       <PlanTab.Screen
         name="Census"
-        component={CensusScreen}
+        //component={CensusScreen}
         options={{
           tabBarLabel: 'Census',
           tabBarColor: colors.primary,
@@ -407,7 +462,9 @@ const PlanTabScreen = ({navigation, route}) => {
           }
           })
         }
-      />
+      >
+         {props => <CensusScreen {...props} DocumentType={documentType} />}
+      </PlanTab.Screen>
          
 
       <PlanTab.Screen
@@ -491,13 +548,14 @@ const HomeStackScreen = ({navigation}) => {
               //elevation: 0,
             },
           }}/>
-           <HomeStack.Screen name="menu" component={MenuModal}  options={{ 
+          <HomeStack.Screen name="menu" component={MenuModal}  options={{ 
               headerShown: false,
               animationEnabled: false,
               cardStyle: {
                 backgroundColor: 'transparent'
               }
           }}/>
+
           <HomeStack.Screen name="PPA Calculator" component={PPACalculator} />
           <HomeStack.Screen name="Owner Only" component={OwnerOnlyScreen} />
           <HomeStack.Screen name="Add" component={AddModal} options={{
@@ -505,7 +563,32 @@ const HomeStackScreen = ({navigation}) => {
               headerBackTitleVisible: false,
               headerPressColorAndroid: 'white',
           }}/>
+             <HomeStack.Screen name="Copy modal" component={CopyModal}  options={{ 
+              headerShown: false,
+              animationEnabled: false,
+              cardStyle: {
+                backgroundColor: 'transparent'
+              }
+          }}/>
+          <HomeStack.Screen name="Alert modal" component={AlertModal}  options={{ 
+              headerShown: false,
+              animationEnabled: false,
+              
+              cardStyle: {
+                backgroundColor: 'transparent'
+              }
+              
+          }}/>
           <HomeStack.Screen name="Class Detail Entry" component={ClassesUpdate} options={{
+              headerBackTitleVisible: false,
+              headerPressColorAndroid: 'white',
+          }}/>
+          <HomeStack.Screen name="Plan Duplication" component={PlanCopy} options={{
+              headerBackTitleVisible: false,
+              headerPressColorAndroid: 'white',
+          }}/>
+
+        <HomeStack.Screen name="Report list" component={reportList} options={{
               headerBackTitleVisible: false,
               headerPressColorAndroid: 'white',
           }}/>

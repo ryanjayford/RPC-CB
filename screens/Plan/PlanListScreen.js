@@ -174,7 +174,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
   }
 
   CopyClickEventListener = (item) => {
-    Alert.alert('Copy ' + item.userNameOnly);
+    navigation.navigate('Copy modal', {CopyInfo: item});
   }
 
   editClickEventListener = (item) => {

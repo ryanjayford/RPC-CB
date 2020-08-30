@@ -38,7 +38,7 @@ let RightAction = ({item}) =>
   )
 };
 
-const CensusScreen = ({ navigation, CensusToggle, CensusLoading }) => {
+const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) => {
   const { colors } = useTheme();
   const [{setScreen },dataState] = React.useContext(AuthContext);
 
@@ -101,7 +101,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading }) => {
   const PickAndUpload = async (planId) => {
     
     
-    let result = await DocumentPicker.getDocumentAsync({type: '*/*',copyToCacheDirectory: true}); //type: '*/*' for all files
+    let result = await DocumentPicker.getDocumentAsync({type: DocumentType,copyToCacheDirectory: true}); //type: '*/*' for all files
     //alert(result.uri);
     
     if(result.uri != undefined)

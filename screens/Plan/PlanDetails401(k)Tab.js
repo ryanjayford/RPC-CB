@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity,ScrollView,TextInput } from 'r
 import{ AuthContext } from '../../components/context';
 import { useTheme } from '@react-navigation/native';
 import CheckBox from 'react-native-check-box';
-import RadioButton from 'react-native-customizable-radio-button';
+import RadioButtonRN from 'radio-buttons-react-native';
 
 
 const FOI = ({ navigation }) => {
@@ -38,55 +38,57 @@ const FOI = ({ navigation }) => {
     Details.isSafeHarborContrib = IsSafeHarborContrib;
     Details.exclusions = Exclusions === undefined ? null : Exclusions;
     
-    //console.log('Details',Details)
-    const catchRbt = [
-      {
-        id: 1, // required
-        text: 'Yes', //required
-      },
-      {
-        id: 2,
-        text: 'No',
-      },
-    ];
+   //console.log('Details',Details)
+   const catchRbt = [
+    {
+      id: 1, 
+      //text: 'Yes', 
+      label: 'Yes'
+    },
+    {
+      id: 2,
+      //text: 'No',
+      label: 'No'
+    },
+  ];
 
-    const matchRbt = [
-      {
-        id: 1, // required
-        text: 'No Match', //required
-      },
-      {
-        id: 2,
-        text: 'Regular Match',
-      },
-      {
-        id: 3, // required
-        text: 'Safe Harbor Match', //required
-      },
-      {
-        id: 4,
-        text: 'Discretionary Match',
-      },
-    ];
+  const matchRbt = [
+    {
+      id: 1, 
+      label: 'No Match'
+    },
+    {
+      id: 2,
+      label: 'Regular Match'
+    },
+    {
+      id: 3, 
+      label: 'Safe Harbor Match'
+    },
+    {
+      id: 4,
+      label: 'Discretionary Match'
+    },
+  ];
 
-    const exclusionRbt = [
-      {
-        id: 1, // required
-        text: 'Owner', //required
-      },
-      {
-        id: 2,
-        text: 'HCE',
-      },
-      {
-        id: 3, // required
-        text: 'Non-owner HCE', //required
-      },
-      {
-        id: 4,
-        text: 'None',
-      },
-    ];
+  const exclusionRbt = [
+    {
+      id: 1,
+      label: 'Owner'
+    },
+    {
+      id: 2,
+      label: 'HCE'
+    },
+    {
+      id: 3, 
+      label: 'Non-owner HCE'
+    },
+    {
+      id: 4,
+      label: 'None'
+    },
+  ];
     
     const { colors } = useTheme();
     //console.log('value',value)
@@ -125,29 +127,39 @@ const FOI = ({ navigation }) => {
 
         <Text style={[styles.title,{marginTop: 10}]}>Catch-Up</Text>
 
-          <RadioButton
-            data={catchRbt} //required
-            defaultOption={CatchUp}
-            formStyle = {{flexDirection: 'row'}} 
-            containerStyle={{marginBottom: 0}}
-            labelStyle={{paddingRight: 10}}
-            circleContainerStyle={{ }} // add your styles to each outer circle
-            innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
-            onValueChange={(value) => setCatchUp(CatchUp = value.id)} //required
+        <RadioButtonRN
+            data={catchRbt}
+            activeOpacity={2}
+            initial={CatchUp}
+            animationTypes={['pulse']}
+            style={{paddingLeft: 10,flexDirection: 'row'}}
+            textStyle={{paddingLeft: 10}}
+            boxStyle={{width: 70}}
+					  box={false}
+            selectedBtn={(e) => setCatchUp(CatchUp = e.id)}
+            circleSize={13}
+            activeColor={'#333333'}
+            deactiveColor={'grey'}
+            textColor={'#333333'}
           />
 
 
         <Text style={[styles.title,{marginTop: 10}]}>Match %</Text>
 
-          <RadioButton
-            data={matchRbt} //required
-            defaultOption={IncludeMatch}
-            formStyle = {{}} 
-            containerStyle={{marginBottom: 5,justifyContent: 'flex-start'}}
-            labelStyle={{}}
-            circleContainerStyle={{ }} // add your styles to each outer circle
-            innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
-            onValueChange={(value) => setIncludeMatch(IncludeMatch = value.id)} //required
+        <RadioButtonRN
+            data={matchRbt}
+            activeOpacity={2}
+            initial={IncludeMatch}
+            animationTypes={['pulse']}
+            style={{paddingLeft: 0}}
+            textStyle={{paddingLeft: 10}}
+            boxStyle={{width: 200}}
+					  box={false}
+            selectedBtn={(e) => setIncludeMatch(IncludeMatch = e.id)}
+            circleSize={13}
+            activeColor={'#333333'}
+            deactiveColor={'grey'}
+            textColor={'#333333'}
           />
 
           <View style={{flexDirection: 'row', marginTop: 5}}>
@@ -236,15 +248,20 @@ const FOI = ({ navigation }) => {
         </View>
         <Text style={[styles.title,{marginTop: 10}]}>Exclusions</Text>
 
-          <RadioButton
-            data={exclusionRbt} //required
-            defaultOption={Exclusions}
-            formStyle = {{}} 
-            containerStyle={{marginBottom: 5,justifyContent: 'flex-start'}}
-            labelStyle={{}}
-            circleContainerStyle={{}} // add your styles to each outer circle
-            innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
-            onValueChange={(value) => setExclusions(Exclusions = value.id)} //required
+        <RadioButtonRN
+            data={exclusionRbt}
+            activeOpacity={2}
+            initial={Exclusions}
+            animationTypes={['pulse']}
+            style={{paddingLeft: 0}}
+            textStyle={{paddingLeft: 10}}
+            boxStyle={{width: 200}}
+					  box={false}
+            selectedBtn={(e) => setExclusions(Exclusions = e.id)}
+            circleSize={13}
+            activeColor={'#333333'}
+            deactiveColor={'grey'}
+            textColor={'#333333'}
           />
 
         </View>

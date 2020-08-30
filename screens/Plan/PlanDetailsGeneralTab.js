@@ -1,15 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity,Button,ScrollView,TextInput, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Button,ScrollView,TextInput, Alert, ActivityIndicator,Platform } from 'react-native';
 import{ AuthContext } from '../../components/context';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from '@react-navigation/native';
 import CheckBox from 'react-native-check-box';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from 'react-native-customizable-radio-button';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import Settings from '../../settings.json';
 import { set } from 'react-native-reanimated';
+import RadioButtonRN from 'radio-buttons-react-native';
 const baseURL = Settings.domain;
 
 const General = ({  route, PlanToggle }) => {
@@ -76,13 +78,111 @@ const General = ({  route, PlanToggle }) => {
   planDetailsDataState.preparedBy = PreparedBy;
   planDetailsDataState.companyName = CompanyName;
 
+  console.log(DropdownData.psRetAge, PSRetAge)
+  const Scroll = React.useRef();
+  //Dd1;
+  //let Dd1 = React.useRef(); 
+  const Dd2 = React.useRef();
+  let [TesthideDrop, setTesthideDrop] = React.useState(false); 
+  let [MinAgehideDrop, setMinAgehideDrop] = React.useState(false); 
+  let [MonthHideDrop, setMonthHideDrop] = React.useState(false); 
+  let [EntryHideDrop, setEntryHideDrop] = React.useState(false); 
+  let [TaxHideDrop, setTaxHideDrop] = React.useState(false); 
+
+  let [TestAgemargin, setTestAgemargin] = React.useState(0); 
+  let [MinAgemargin, setMinAgemargin] = React.useState(0); 
+  let [Monthmargin, setMonthmargin] = React.useState(0); 
+  let [EntryDatemargin, setEntryDatemargin] = React.useState(0); 
+  let [Taxmargin, setTaxmargin] = React.useState(0); 
+
+  let DropSelected = null;
+  const DropdownController = (DropSelected) => {
+    if(DropSelected === 1)//Test Age
+    {
+      setTestAgemargin(TestAgemargin = 150)
+      setTesthideDrop(TesthideDrop = true)
+
+      setMinAgemargin(MinAgemargin = 0)
+      setMinAgehideDrop(MinAgehideDrop = false)
+
+      setMonthmargin(Monthmargin = 0)
+      setMonthHideDrop(MonthHideDrop = false)
+      setEntryDatemargin(EntryDatemargin = 0)
+      setEntryHideDrop(EntryHideDrop = false)
+
+      setTaxmargin(Taxmargin = 0)
+      setTaxHideDrop(TaxHideDrop = false)
+    }
+    else if(DropSelected === 2)//Min Age
+    {
+      setTestAgemargin(TestAgemargin = 0)
+      setTesthideDrop(TesthideDrop = false)
+
+      setMinAgemargin(MinAgemargin = 150)
+      setMinAgehideDrop(MinAgehideDrop = true)
+
+      setMonthmargin(Monthmargin = 0)
+      setMonthHideDrop(MonthHideDrop = false)
+      setEntryDatemargin(EntryDatemargin = 0)
+      setEntryHideDrop(EntryHideDrop = false)
+      setTaxmargin(Taxmargin = 0)
+      setTaxHideDrop(TaxHideDrop = false)
+    }
+    else if(DropSelected === 3)//Month
+    {
+      setTestAgemargin(TestAgemargin = 0)
+      setTesthideDrop(TesthideDrop = false)
+
+      setMinAgemargin(MinAgemargin = 0)
+      setMinAgehideDrop(MinAgehideDrop = false)
+
+      setMonthmargin(Monthmargin = 150)
+      setMonthHideDrop(MonthHideDrop = true)
+      setEntryDatemargin(EntryDatemargin = 0)
+      setEntryHideDrop(EntryHideDrop = false)
+      setTaxmargin(Taxmargin = 0)
+      setTaxHideDrop(TaxHideDrop = false)
+    }
+    else if(DropSelected === 4)//Entry
+    {
+      setTestAgemargin(TestAgemargin = 0)
+      setTesthideDrop(TesthideDrop = false)
+
+      setMinAgemargin(MinAgemargin = 0)
+      setMinAgehideDrop(MinAgehideDrop = false)
+
+      setMonthmargin(Monthmargin = 0)
+      setMonthHideDrop(MonthHideDrop = false)
+      setEntryDatemargin(EntryDatemargin = 150)
+      setEntryHideDrop(EntryHideDrop = true)
+
+      setTaxmargin(Taxmargin = 0)
+      setTaxHideDrop(TaxHideDrop = false)
+    }
+    else if(DropSelected === 5)//Tax
+    {
+      setTestAgemargin(TestAgemargin = 0)
+      setTesthideDrop(TesthideDrop = false)
+
+      setMinAgemargin(MinAgemargin = 0)
+      setMinAgehideDrop(MinAgehideDrop = false)
+
+      setMonthmargin(Monthmargin = 0)
+      setMonthHideDrop(MonthHideDrop = false)
+      setEntryDatemargin(EntryDatemargin = 0)
+      setEntryHideDrop(EntryHideDrop = false)
+
+      setTaxmargin(Taxmargin = 70)
+      setTaxHideDrop(TaxHideDrop = true)
+    }
+  };
+
   React.useEffect(() => {
     //Api Data
     console.log("useEffect ====PLAN DETAILS DATA STATE ======================ROUTE========> ", route, dataState["Plan Details"]);
     if (dataState["Plan Details"] === null || (dataState["Plan Details"] && dataState["Plan Details"].Name === 'Plan Details')){
       console.log("useEffect ====PLAN DETAILS GENERAL=========> ", PlanName, PlanDescription);      
       setPlanDetailsData(planDetailsData => null);
-      alert('load plan ' + PlanName);
       if (route.params && route.params.homeClick === 'Add'){
           if (DefaultPlan) {
             console.log('===========================> DEFAULT PLAN', DefaultPlan);
@@ -95,29 +195,33 @@ const General = ({  route, PlanToggle }) => {
       }
       
     }
-  }, [dataState["Plan Details"]]);
+  }, [dataState.selectedPlan, dataState["Plan Details"]]);
 
-    var Age = [
-      {
-        id: 1, // required
-        text: 'Age at nearest birthday', //required
-      },
-      {
-        id: 2,
-        text: 'Age at last birthday',
-      },
-    ];
+  var Age = [
+    {
+      id: 1, // required
+      text: 'Age at nearest birthday', //required
+      label: 'Age at nearest birthday'
+    },
+    {
+      id: 2,
+      text: 'Age at last birthday',
+      label: 'Age at last birthday'
+    },
+  ];
 
-    var HCE = [
-      {
-        id: 1, // required
-        text: 'Yes', //required
-      },
-      {
-        id: 2,
-        text: 'No',
-      },
-    ];
+  var HCE = [
+    {
+      id: 1, // required
+      //text: 'Yes', //required
+      label: 'Yes'
+    },
+    {
+      id: 2,
+      ///text: 'No',
+      label: 'No'
+    },
+  ];
 
     const { colors } = useTheme();
     
@@ -262,18 +366,31 @@ const General = ({  route, PlanToggle }) => {
     */
     //console.log(date)
     //console.log(value, 'date')
-
-    return(
-    
-      <View style= {[styles.container,{backgroundColor: colors.tertiary}]}>
-      <View style= {styles.inputContainer}>
-      {!planDetailsData?
-          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-            <ActivityIndicator size="large" color={colors.secondary}/>
-          </View>
-          : 
-      <ScrollView style= {styles.ScrollContainer}>
-        <View style={{marginBottom: 30}}>
+    /*
+    open = (setState = true) => {
+      this.setState({...(setState && {isVisible: true})
+      }, () => this.props.onOpen());
+   }
+   */
+  return(
+      
+    <KeyboardAwareScrollView
+      style={{ /*backgroundColor: '#4c69a5'*/ }}
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={{flex: 1}}
+      scrollEnabled={false}
+      //enableOnAndroid={false}
+  >
+    <View style= {[styles.container,{backgroundColor: colors.tertiary}]}>
+    <View style= {styles.inputContainer}>
+    {!planDetailsData?
+        <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+          <ActivityIndicator size="large" color={colors.secondary}/>
+        </View>
+        : 
+   
+    <ScrollView ref={Scroll} style= {styles.ScrollContainer}>
+      <View style={{marginBottom: 30}}>
 
         <Text style={styles.title}>Plan Name</Text>
 
@@ -345,6 +462,7 @@ const General = ({  route, PlanToggle }) => {
               onChangeText={(val) => setRetAge(RetAge = val)}
             />
             <Text style={styles.subNames}>years of participation</Text>
+            
               <DropDownPicker
                 items={DropdownData.yearOfParticipationForNRA}
                 defaultIndex={0}
@@ -361,11 +479,14 @@ const General = ({  route, PlanToggle }) => {
                 arrowColor='rgba(51,51,51,0.5)'
                 onChangeItem={item => setYearOfParticipationForNRA(YearOfParticipationForNRA = item.value)}
               />
+            
           </View>  
          
         <Text style={[styles.title,{marginTop: 10}]}>Testing Age</Text>
-
+        
         <DropDownPicker
+            //controller={Dd1}
+            isVisible={TesthideDrop}
             items={DropdownData.psRetAge}
             defaultIndex={0}
             defaultValue={PSRetAge}
@@ -376,14 +497,20 @@ const General = ({  route, PlanToggle }) => {
             labelStyle={{color: colors.Logintext}}
             style={{borderWidth: 1}}
             dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1,zIndex: 10}}
-            containerStyle={{ height: 38, flex: 1}}
+            containerStyle={{ height: 38, flex: 1, marginBottom: TestAgemargin}}
             arrowColor='rgba(51,51,51,0.5)'
+            onOpen={() => {[DropSelected = 1, DropdownController(DropSelected),Scroll.current.scrollTo({ x: 0, y: 150, animated: true })]}}
+            onClose={() => {[setTesthideDrop(TesthideDrop = false),setTestAgemargin(TestAgemargin = 0)]}}
             onChangeItem={item => setPSRetAge(PSRetAge = item.value)}
         />
-
+        
+        {/*<Button onPress={() => {console.log(JSON.stringify(Dd1, null, 2))}} title='test1'></Button>*/}
         <Text style={[styles.title,{marginTop: 10}]}>Minimum Age</Text>
-
-          <DropDownPicker
+          
+          <DropDownPicker 
+              ref={Dd2}
+              //controller={(instance) => {Dd1 = instance}}
+              isVisible={MinAgehideDrop}
               items={DropdownData.minAge}
               defaultIndex={0}
               defaultValue={MinAge}
@@ -394,12 +521,16 @@ const General = ({  route, PlanToggle }) => {
               labelStyle={{color: colors.Logintext}}
               style={{borderWidth: 1}}
               dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-              containerStyle={{ height: 38, flex: 1}}
+              containerStyle={{ height: 38, flex: 1, marginBottom: MinAgemargin}}
               arrowColor='rgba(51,51,51,0.5)'
+              onOpen={() => {[DropSelected = 2, DropdownController(DropSelected),Scroll.current.scrollTo({ x: 0, y: 250, animated: true })]}}
+              onClose={() => {[setMinAgehideDrop(MinAgehideDrop = false),setMinAgemargin(MinAgemargin = 0)]}}
               onChangeItem={item => setMinAge(MinAge = item.value)}
           />
+          
+          {/*<Button onPress={() => [sethideDrop(hideDrop = false),setMinAgemargin(MinAgemargin = 0)]} title='test'></Button>
+          <Button onPress={() => [console.log(JSON.stringify(Dd2, null, 2))]} title='test'></Button>*/}
         <Text style={[styles.title,{marginTop: 10}]}>Minimum Service</Text>
-
         <View style={{flexDirection: 'row', marginBottom: 5}}>
             <CheckBox 
             style={{paddingRight: 5}}
@@ -408,9 +539,10 @@ const General = ({  route, PlanToggle }) => {
             isChecked={MonthCk} onClick = {()=> setMonthCk(MonthCk = !MonthCk)}/>
             <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Months</Text>
         </View>
-
-            <DropDownPicker
+          
+        <DropDownPicker
               items={DropdownData.minSvcMonths}
+              isVisible={MonthHideDrop}
               defaultIndex={0}
               defaultValue={MinSvcMonths}
               zIndex={2}
@@ -420,11 +552,13 @@ const General = ({  route, PlanToggle }) => {
               labelStyle={{color: colors.Logintext}}
               style={{borderWidth: 1}}
               dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-              containerStyle={{ height: 38, flex: 1,marginLeft: 5}}
+              containerStyle={{ height: 38, flex: 1,marginLeft: 5, marginBottom: Monthmargin}}
               arrowColor='rgba(51,51,51,0.5)'
+              onOpen={() => {[DropSelected = 3, DropdownController(DropSelected),Scroll.current.scrollTo({ x: 0, y: 400, animated: true })]}}
+              onClose={() => {[setMonthHideDrop(MonthHideDrop = false),setMonthmargin(Monthmargin = 0)]}}
               onChangeItem={item => setMinSvcMonths(MinSvcMonths = item.value)}
             />
-
+          
           <View style={{flexDirection: 'row', marginTop: 5,marginBottom: 5}}>
             <CheckBox 
             style={{paddingRight: 5}}
@@ -445,9 +579,10 @@ const General = ({  route, PlanToggle }) => {
             />
 
           <Text style = {{color: colors.Logintext,marginTop: 10,marginBottom: 5}}>Entry Date</Text>
-              
-            <DropDownPicker
+              {
+          <DropDownPicker
               items={DropdownData.entryDate}
+              isVisible={EntryHideDrop}
               defaultIndex={0}
               defaultValue={EntryDate}
               zIndex={1}
@@ -457,11 +592,13 @@ const General = ({  route, PlanToggle }) => {
               labelStyle={{color: colors.Logintext}}
               style={{borderWidth: 1}}
               dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-              containerStyle={{ height: 38, flex: 1,marginLeft: 5}}
+              containerStyle={{ height: 38, flex: 1,marginLeft: 5,marginBottom: EntryDatemargin}}
               arrowColor='rgba(51,51,51,0.5)'
+              onOpen={() => {[DropSelected = 4, DropdownController(DropSelected),Scroll.current.scrollTo({ x: 0, y: 500, animated: true })]}}
+              onClose={() => {[setEntryHideDrop(EntryHideDrop = false),setEntryDatemargin(EntryDatemargin = 0)]}}
               onChangeItem={item => setEntryDate(EntryDate = item.value)}
             />
-
+              }
         <Text style={[styles.title,{marginTop: 10}]}>Vesting Schedule</Text>
 
         <View style={{flexDirection: 'row'}}>
@@ -521,19 +658,41 @@ const General = ({  route, PlanToggle }) => {
 
         <Text style={[styles.title,{marginTop: 10}]}>Age Definition</Text>
 
-        <RadioButton
-          data={Age} //required
-          defaultOption={AgeDefinition}
-          formStyle = {{}} 
-          containerStyle={{marginBottom: 5,justifyContent: 'flex-start'}}
-          labelStyle={{}}
-          circleContainerStyle={{ }} // add your styles to each outer circle
-          innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
-          onValueChange={(value) => setAgeDefinition(AgeDefinition = value.id)} //required
-        />
+        <RadioButtonRN
+            data={Age}
+            activeOpacity={1}
+            initial={AgeDefinition}
+            animationTypes={['pulse']}
+            style={{paddingLeft: 0}}
+            textStyle={{paddingLeft: 10}}
+            boxStyle={{width: 200}}
+					  box={false}
+            selectedBtn={(e) => setAgeDefinition(AgeDefinition = e.id)}
+            circleSize={13}
+            activeColor={'#333333'}
+            deactiveColor={'grey'}
+            textColor={'#333333'}
+          />
+
+       
         <Text style={[styles.title,{marginTop: 10}]}>HCE Top Paid Group Limited to 20%</Text>
           
-        
+        <RadioButtonRN
+            data={HCE}
+            activeOpacity={1}
+            initial={HCETopPaid}
+            animationTypes={['pulse']}
+            style={{paddingLeft: 10,flexDirection: 'row'}}
+            textStyle={{paddingLeft: 10}}
+            boxStyle={{width: 70}}
+					  box={false}
+            selectedBtn={(e) => setHCETopPaid(HCETopPaid = e.id)}
+            circleSize={13}
+            activeColor={'#333333'}
+            deactiveColor={'grey'}
+            textColor={'#333333'}
+          />
+          {/*
         <RadioButton
           data={HCE} //required
           defaultOption={HCETopPaid}
@@ -541,10 +700,10 @@ const General = ({  route, PlanToggle }) => {
           containerStyle={{marginBottom: 0}}
           labelStyle={{paddingRight: 10}}
           circleContainerStyle={{ }} // add your styles to each outer circle
-          innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
+          innerCircleStyle={{ /*backgroundColor: 'green' }} // add your styles to each inner circle
           onValueChange={(value) => setHCETopPaid(HCETopPaid = value.id)} //required
         />
-
+          */}
         <Text style={[styles.title,{marginTop: 10}]}>Include Deferrals in Employer Cost</Text>
 
           <View style={{flexDirection: 'row'}}>
@@ -594,25 +753,7 @@ const General = ({  route, PlanToggle }) => {
               onChangeText={(val) => setMaxTaxBracket(MaxTaxBracket = val)}
             />
           </View>
-
-        <Text style={[styles.title,{marginTop: 10}]}>How is your business taxed?</Text>
           
-          <DropDownPicker
-              items={DropdownData.entity}
-              defaultIndex={0}
-              defaultValue={Entity}
-              placeholder="Select an business taxed" 
-              placeholderStyle={{color: colors.Logintext}}
-              activeLabelStyle={{color: 'green'}}
-              labelStyle={{color: colors.Logintext}}
-              style={{borderWidth: 1}}
-              dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-              containerStyle={{ height: 38, flex: 1}}
-              arrowColor='rgba(51,51,51,0.5)'
-              onChangeItem={item => setEntity(Entity = item.value)}
-          />
-
-
         <Text style={[styles.title,{marginTop: 10}]}>Report Prepared By</Text>
 
         <TextInput 
@@ -637,11 +778,36 @@ const General = ({  route, PlanToggle }) => {
           onChangeText={(val) => setCompanyName(CompanyName = val)}
         />
         
+        <Text style={[styles.title,{marginTop: 10}]}>How is your business taxed?</Text>
+          
+          <DropDownPicker
+              items={DropdownData.entity}
+              isVisible={TaxHideDrop}
+              defaultIndex={0}
+              defaultValue={Entity}
+              placeholder="Select an business taxed" 
+              placeholderStyle={{color: colors.Logintext}}
+              activeLabelStyle={{color: 'green'}}
+              labelStyle={{color: colors.Logintext}}
+              style={{borderWidth: 1}}
+              dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
+              containerStyle={{ height: 38, flex: 1,marginBottom: Taxmargin}}
+              arrowColor='rgba(51,51,51,0.5)'
+              onOpen={() => {[DropSelected = 5, DropdownController(DropSelected),
+                setTimeout(() => {
+                  Scroll.current.scrollTo({ x: 0, y: 985, animated: true })
+                }, 5)
+              ]}}
+              onClose={() => {[setTaxHideDrop(TaxHideDrop = false),setTaxmargin(Taxmargin = 0)]}}
+              onChangeItem={item => setEntity(Entity = item.value)}
+          />
+            
         </View>
       </ScrollView>
       }
       </View>
     </View>
+    </KeyboardAwareScrollView>
   )
 }
 export default General;

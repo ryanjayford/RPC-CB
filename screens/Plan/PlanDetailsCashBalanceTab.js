@@ -6,10 +6,8 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from 'react-native-customizable-radio-button';
 import Interest from '../../components/InterestModal'
-import RadioButtonRN from 'radio-buttons-react-native';
 import * as WebBrowser from 'expo-web-browser';
-import defaultPlan from '../../model/defaultPlan';
-
+import RadioButtonRN from 'radio-buttons-react-native';
 const {width,height} = Dimensions.get('window');
 const CashBalance = ({ route }) => {
   const [{},dataState] = React.useContext(AuthContext);
@@ -67,6 +65,32 @@ const CashBalance = ({ route }) => {
   Balance.taPreRetInt = TAPreRetInt;
   Balance.taPostRetInt = TAPostRetInt;
 
+  const CBScroll = React.useRef();
+  let [ACTUARIALMargin, setACTUARIALMargin] = React.useState(0); 
+  let [TESTINGMargin, setTESTINGMargin] = React.useState(0); 
+
+  let [ACTUARIALhideDrop, setACTUARIALhideDrop] = React.useState(false); 
+  let [TESTINGhideDrop, setTESTINGhideDrop] = React.useState(false); 
+
+  let CashDropSelected = null;
+  const DropdownCashController = (CashDropSelected) => {
+    if(CashDropSelected === 1)//ACTUARIAL
+    {
+      setACTUARIALMargin(ACTUARIALMargin = 150)
+      setACTUARIALhideDrop(ACTUARIALhideDrop = true)
+
+      setTESTINGMargin(TESTINGMargin = 0)
+      setTESTINGhideDrop(TESTINGhideDrop = false)
+    }
+    else if(CashDropSelected === 2)//Testing
+    {
+      setACTUARIALMargin(ACTUARIALMargin = 0)
+      setACTUARIALhideDrop(ACTUARIALhideDrop = false)
+
+      setTESTINGMargin(TESTINGMargin = 150)
+      setTESTINGhideDrop(TESTINGhideDrop = true)
+    }
+  };
   React.useEffect(() => {
     //Api Data
     console.log("useEffect ====PLAN DETAILS DATA STATE ======================ROUTE========> ", route, dataState["Plan Details"]);
@@ -136,12 +160,12 @@ const CashBalance = ({ route }) => {
     
       <View style= {[styles.container,{backgroundColor: colors.primary}]}>
       <View style= {styles.inputContainer}>
-      <ScrollView style= {styles.ScrollContainer}>
+      <ScrollView ref={CBScroll} style= {styles.ScrollContainer}>
         <View style={{marginBottom: 45}}> 
           <Text style={styles.title}>Will Plan be covered by PBGC?</Text>
           <RadioButtonRN
             data={RbtnData}
-            activeOpacity={1}
+            activeOpacity={2}
             initial={IsPBGCCovered}
             animationTypes={['pulse']}
             style={{paddingLeft: 10,flexDirection: 'row'}}
@@ -224,53 +248,73 @@ const CashBalance = ({ route }) => {
 
             <Text style={styles.subNames}>Pre-Retirement Mortality </Text>
 
-            <RadioButton
+            <RadioButtonRN
               data={RadioBtn} //required
-              defaultOption={PreRetMortality}
-              formStyle = {{flexDirection: 'row'}} 
-              containerStyle={{marginBottom: 5,marginTop: 10}}
-              labelStyle={{paddingRight: 10}}
-              circleContainerStyle={{ }} // add your styles to each outer circle
-              innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
-              onValueChange={(value) => setPreRetMortality(PreRetMortality = value.id)} //required
-            />
+              activeOpacity={1}
+                initial={PreRetMortality}
+                animationTypes={['pulse']}
+                style={{paddingLeft: 5,flexDirection: 'row'}}
+                textStyle={{paddingLeft: 10}}
+                boxStyle={{width: 70}}
+                box={false}
+                selectedBtn={(e) => setPreRetMortality(PreRetMortality = e.id)}
+                circleSize={13}
+                activeColor={'#333333'}
+                deactiveColor={'grey'}
+                textColor={'#333333'}
+              />
             <Text style={styles.subNames}>Combined Mortality Table</Text>
 
-              <RadioButton
+              <RadioButtonRN
                 data={RadioBtn} //required
-                defaultOption={MortalityTableCombined}
-                formStyle = {{flexDirection: 'row'}} 
-                containerStyle={{marginBottom: 5,marginTop: 10}}
-                labelStyle={{paddingRight: 10}}
-                circleContainerStyle={{ }} // add your styles to each outer circle
-                innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
-                onValueChange={(value) => setMortalityTableCombined(MortalityTableCombined = value.id)} //required
+                activeOpacity={1}
+                initial={MortalityTableCombined}
+                animationTypes={['pulse']}
+                style={{paddingLeft: 5,flexDirection: 'row'}}
+                textStyle={{paddingLeft: 10}}
+                boxStyle={{width: 70}}
+                box={false}
+                selectedBtn={(e) => setMortalityTableCombined(MortalityTableCombined = e.id)}
+                circleSize={13}
+                activeColor={'#333333'}
+                deactiveColor={'grey'}
+                textColor={'#333333'}
               />
             <Text style={styles.subNames}>Funding for Lump Sum</Text>
 
-              <RadioButton
+              <RadioButtonRN
                 data={RadioBtn} //required
-                defaultOption={FundingForLumpSum}
-                formStyle = {{flexDirection: 'row'}} 
-                containerStyle={{marginBottom: 5,marginTop: 10}}
-                labelStyle={{paddingRight: 10}}
-                circleContainerStyle={{ }} // add your styles to each outer circle
-                innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
-                onValueChange={(value) => setFundingForLumpSum(FundingForLumpSum = value.id)} //required
+                activeOpacity={1}
+                initial={FundingForLumpSum}
+                animationTypes={['pulse']}
+                style={{paddingLeft: 5,flexDirection: 'row'}}
+                textStyle={{paddingLeft: 10}}
+                boxStyle={{width: 70}}
+                box={false}
+                selectedBtn={(e) => setFundingForLumpSum(FundingForLumpSum = e.id)}
+                circleSize={13}
+                activeColor={'#333333'}
+                deactiveColor={'grey'}
+                textColor={'#333333'}
               />
 
             <Text style={styles.subNames}>Impute Disparity</Text>
 
-              <RadioButton
+              <RadioButtonRN
                 
                 data={RadioBtn} //required
-                defaultOption={ImputeDisparity}
-                formStyle = {{flexDirection: 'row'}} 
-                containerStyle={{marginBottom: 5,marginTop: 10}}
-                labelStyle={{paddingRight: 10}}
-                circleContainerStyle={{ }} // add your styles to each outer circle
-                innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
-                onValueChange={(value) => setImputeDisparity(ImputeDisparity = value.id)} //required
+                activeOpacity={1}
+                initial={ImputeDisparity}
+                animationTypes={['pulse']}
+                style={{paddingLeft: 5,flexDirection: 'row'}}
+                textStyle={{paddingLeft: 10}}
+                boxStyle={{width: 70}}
+                box={false}
+                selectedBtn={(e) => setImputeDisparity(ImputeDisparity = e.id)}
+                circleSize={13}
+                activeColor={'#333333'}
+                deactiveColor={'grey'}
+                textColor={'#333333'}
               />
           </View>
 
@@ -291,26 +335,7 @@ const CashBalance = ({ route }) => {
                 onChangeText={(val) => setAEPreRetInt(AEPreRetInt = val)}
                 />
 
-                <Text style={[styles.subNames,{paddingLeft: 0}]}>Post Retirement Mortality</Text>
-
-                <DropDownPicker
-                  items={DropdownData.aePostRetMortalityTable}
-                    defaultIndex={0}
-                    defaultValue={AEPostRetMortalityTable} //value
-                    placeholder="Select an retirement mortality"
-                    placeholderStyle={{color: colors.Logintext}}
-                    activeLabelStyle={{color: 'green'}}
-                    labelStyle={{color: colors.Logintext}}
-                    style={{borderWidth: 1}}
-                    dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-                    containerStyle={{ height: 38, flex: 1,marginTop: 10}}
-                    searchable={true}
-                    searchablePlaceholder="Search..."
-                    searchableError="Not Found"
-                    searchableStyle={{color: 'rgba(51,51,51,0.5)'}}
-                    arrowColor='rgba(51,51,51,0.5)'
-                    onChangeItem={item => setAEPostRetMortalityTable(AEPostRetMortalityTable = item.value)}
-                />                
+                               
 
               <Text style={[styles.subNames,{}]}>Post Retirement Interest</Text>
 
@@ -323,6 +348,30 @@ const CashBalance = ({ route }) => {
                 keyboardType='numeric'
                 onChangeText={(val) => setAEPostRetInt(AEPostRetInt = val)}
                 />
+
+              <Text style={[styles.subNames,{paddingLeft: 0}]}>Post Retirement Mortality</Text>
+
+              <DropDownPicker
+                items={DropdownData.aePostRetMortalityTable}
+                  isVisible={ACTUARIALhideDrop}
+                  defaultIndex={0}
+                  defaultValue={AEPostRetMortalityTable.toString()} //value
+                  placeholder="Select an retirement mortality"
+                  placeholderStyle={{color: colors.Logintext}}
+                  activeLabelStyle={{color: 'green'}}
+                  labelStyle={{color: colors.Logintext}}
+                  style={{borderWidth: 1}}
+                  dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
+                  containerStyle={{ height: 38, flex: 1,marginTop: 10, marginBottom: ACTUARIALMargin}}
+                  searchable={true}
+                  searchablePlaceholder="Search..."
+                  searchableError={() => alert('Not found from dropdown')}
+                  searchableStyle={{color: 'rgba(51,51,51,0.5)'}}
+                  arrowColor='rgba(51,51,51,0.5)'
+                  onOpen={() => [CashDropSelected = 1,DropdownCashController(CashDropSelected),CBScroll.current.scrollTo({ x: 0, y: 500, animated: true })]}
+                onClose={() => {[setACTUARIALhideDrop(ACTUARIALhideDrop = false),setACTUARIALMargin(ACTUARIALMargin = 0)]}}
+                  onChangeItem={item => setAEPostRetMortalityTable(AEPostRetMortalityTable = item.value)}
+              /> 
             </View>
           <Text style={[styles.title,{marginTop: 10}]}>TESTING ASSUMPTIONS</Text>
             <View style={{paddingLeft: 10, paddingBottom: 50}}>
@@ -337,25 +386,7 @@ const CashBalance = ({ route }) => {
                   keyboardType='numeric'
                   onChangeText={(val) => setTAPreRetInt(TAPreRetInt = val)}
                   />
-                <Text style={styles.subNames}>Post Retirement Mortality</Text>  
-                <DropDownPicker
-                  items={DropdownData.taPostRetMort}
-                    defaultIndex={0}
-                    defaultValue={TAPostRetMort} //value
-                    placeholder="Select an retirement mortality"
-                    placeholderStyle={{color: colors.Logintext}}
-                    activeLabelStyle={{color: 'green'}}
-                    labelStyle={{color: colors.Logintext}}
-                    style={{borderWidth: 1}}
-                    dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-                    containerStyle={{ height: 38, flex: 1,marginTop: 10}}
-                    searchable={true}
-                    searchablePlaceholder="Search..."
-                    searchableError="Not Found"
-                    searchableStyle={{color: 'rgba(51,51,51,0.5)'}}
-                    arrowColor='rgba(51,51,51,0.5)'
-                    onChangeItem={item => setTAPostRetMort(TAPostRetMort = item.value)}
-                />              
+                            
                 <Text style={styles.subNames}>Post Retirement Interest</Text>
                   <TextInput 
                   placeholderTextColor = 'rgba(51,51,51,0.7)'
@@ -366,6 +397,32 @@ const CashBalance = ({ route }) => {
                   keyboardType='numeric'
                   onChangeText={(val) => setTAPostRetInt(TAPostRetInt = val)}
                   />
+                  <Text style={styles.subNames}>Post Retirement Mortality</Text>  
+                  <DropDownPicker
+                    items={DropdownData.taPostRetMort}
+                    isVisible={TESTINGhideDrop}
+                    defaultIndex={0}
+                    defaultValue={TAPostRetMort} //value
+                    placeholder="Select an retirement mortality"
+                    placeholderStyle={{color: colors.Logintext}}
+                    activeLabelStyle={{color: 'green'}}
+                    labelStyle={{color: colors.Logintext}}
+                    style={{borderWidth: 1}}
+                    dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
+                    containerStyle={{ height: 38, flex: 1,marginTop: 10, marginBottom: TESTINGMargin}}
+                    searchable={true}
+                    searchablePlaceholder="Search..."
+                    searchableError={() => alert('Not found from dropdown')}
+                    searchableStyle={{color: 'rgba(51,51,51,0.5)'}}
+                    arrowColor='rgba(51,51,51,0.5)'
+                    onOpen={() => [CashDropSelected = 2,DropdownCashController(CashDropSelected),
+                        setTimeout(() => {
+                          CBScroll.current.scrollTo({ x: 0, y: 750, animated: true })
+                        }, 1)
+                      ]}
+                    onClose={() => {[setTESTINGhideDrop(TESTINGhideDrop = false),setTESTINGMargin(TESTINGMargin = 0)]}}
+                    onChangeItem={item => setTAPostRetMort(TAPostRetMort = item.value)}
+                />     
             </View>
         </View>
       </ScrollView>
