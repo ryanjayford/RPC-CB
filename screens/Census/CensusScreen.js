@@ -120,7 +120,6 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
         
         if (data && data.length){
           payload.planId = planId;
-          //console.log (data);
           data.forEach(function(item, idx) {        
             let censusD = {};
             censusD.CashBalance = item["Cash Balance"];
@@ -165,11 +164,11 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     //Api Data
     if (dataState.Census === null || (dataState.Census && dataState.Census.Name === 'Census')){
     setCensusData(censusData => null);
-    console.log("useEffect =====CENSUS SCREEN========> ");
+    //console.log("useEffect =====CENSUS SCREEN========> ");
       if (dataState.Census && dataState.Census.Method === 'PickAndUpload') {
         PickAndUpload(dataState.plan.planId);
       } else {
-        console.log('=====================getCensus==========================');
+        //console.log('=====================getCensus==========================');
         getCensus(dataState.plan.planId);
       }
     }
@@ -180,7 +179,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     let url = baseURL + '/Participants/ParticipantList?planid=' +  planId + '&sortBy=Lastname';
     let method = 'GET';
     let headers = new Headers();
-    console.log(url);
+    //console.log(url);
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', dataState.userToken);
     
@@ -192,7 +191,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     await fetch(req)
     .then((response) => response.json())
     .then((responseJson) => {
-     console.log('CHECKING ERROR================>');
+     //console.log('CHECKING ERROR================>');
       if (responseJson.isSuccess && responseJson.obj){
           console.log("FROM UseEffect =====Api Called CENSUS========> " );
           TransfromCensusData(responseJson.obj);
@@ -210,7 +209,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
   const TransfromCensusData = (data) => {
     let censusTransformData = [];
     if (data && data.length){
-      console.log (data);
+      //console.log (data);
       data.forEach(function(item, idx) {
         let tags = [];
         let censusD = {};
