@@ -33,7 +33,7 @@ let RightAction = ({item,index}) =>
 };
 
 const PlanScreen = ({ navigation,route,PlanToggle }) => {
-  //console.log('toggle', PlanToggle)
+  console.log('toggle', PlanToggle)
   ///console.log(route,'from list');
   const [{updatePlanData, Delete,setPlanID, initScreen, setScreen},dataState] = React.useContext(AuthContext);
 
