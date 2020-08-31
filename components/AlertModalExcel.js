@@ -37,7 +37,11 @@ const AlertModal = ({ navigation }) => {
                 
                 <View style={styles.button}>
                 
-                    <TouchableOpacity style={[styles.signIn,{marginRight: 2.5}]} onPress={() => {[navigation.goBack(),setScreen({Name: 'Census', Method: 'PickAndUpload'})]}}>
+                    <TouchableOpacity style={[styles.signIn,{marginRight: 2.5}]} onPress={() => {[navigation.goBack(), 
+                        setTimeout(() => {
+                            setScreen({Name: 'Census', Method: 'PickAndUpload'})
+                        }, 50)
+                    ]}}>
                         <View style={styles.signIn}>
                             <Text style={[styles.textSign, {color:'#333333'}]}>Yes</Text>
                         </View>
@@ -64,16 +68,19 @@ const styles = StyleSheet.create({
     },
     ModalBackground: {
         flex: 1,
-        backgroundColor: 'rgba(51,51,51, 0.9)'
+        backgroundColor: 'rgba(51,51,51, 0.9)',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     Modalcontainer: {
-        flex: 1,
-        //height: height/1.5,
+        //flex: 1,
+        height: height/5,
+        width: width/1.2,
         borderRadius: 5,
-        marginBottom: Platform.OS === 'ios' ? 260 : 280,
-        marginTop: Platform.OS === 'ios' ? 260 : 280,
-        marginRight: 30,
-        marginLeft: 30,
+        //marginBottom: Platform.OS === 'ios' ? height/2.4 : height/2.52,
+       // marginTop: Platform.OS === 'ios' ? height/2.4 : height/2.52,
+        //marginRight: 30,
+        //marginLeft: 30,
         //top: '10%',
         //padding: 20,
         //backgroundColor: 'rgba(51,51,51,1)',
@@ -118,12 +125,10 @@ const styles = StyleSheet.create({
     },
     button: {
         //backgroundColor: 'grey',
-       
-        //marginTop: 10,
-        //bottom: 0,
+        flex: 1,
         margin: 10,
         flexDirection: 'row',
-        flex: 1,
+        alignItems: 'center',
         justifyContent: 'flex-end',
     },
     signIn: {
