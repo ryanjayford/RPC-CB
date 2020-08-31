@@ -161,7 +161,7 @@ const CashBalance = ({ route }) => {
       <View style= {[styles.container,{backgroundColor: colors.primary}]}>
       <View style= {styles.inputContainer}>
       <ScrollView ref={CBScroll} style= {styles.ScrollContainer}>
-        <View style={{marginBottom: 45}}> 
+        <View style={{marginBottom: 20}}> 
           <Text style={styles.title}>Will Plan be covered by PBGC?</Text>
           <RadioButtonRN
             data={RbtnData}
@@ -374,7 +374,7 @@ const CashBalance = ({ route }) => {
               /> 
             </View>
           <Text style={[styles.title,{marginTop: 10}]}>TESTING ASSUMPTIONS</Text>
-            <View style={{paddingLeft: 10, paddingBottom: 50}}>
+            <View style={{paddingLeft: 10}}>
               
                 <Text style={styles.subNames}>Pre-Retirement Interest</Text>
                   <TextInput 
