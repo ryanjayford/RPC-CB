@@ -390,7 +390,7 @@ const General = ({  route, PlanToggle }) => {
         : 
    
     <ScrollView ref={Scroll} style= {styles.ScrollContainer}>
-      <View style={{marginBottom: 30}}>
+      <View style={{marginBottom: 20}}>
 
         <Text style={styles.title}>Plan Name</Text>
 
@@ -473,6 +473,7 @@ const General = ({  route, PlanToggle }) => {
                 placeholderStyle={{color: colors.Logintext}}
                 activeLabelStyle={{color: 'green'}}
                 labelStyle={{color: colors.Logintext}}
+                itemStyle={{justifyContent: 'flex-start'}}
                 style={{borderWidth: 1}}
                 dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
                 containerStyle={{ height: 38, flex: 1,marginLeft: 0, marginTop:-12}}
@@ -495,6 +496,7 @@ const General = ({  route, PlanToggle }) => {
             placeholderStyle={{color: colors.Logintext}}
             activeLabelStyle={{color: 'green'}}
             labelStyle={{color: colors.Logintext}}
+            itemStyle={{justifyContent: 'flex-start'}}
             style={{borderWidth: 1}}
             dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1,zIndex: 10}}
             containerStyle={{ height: 38, flex: 1, marginBottom: TestAgemargin}}
@@ -519,6 +521,7 @@ const General = ({  route, PlanToggle }) => {
               placeholderStyle={{color: colors.Logintext}}
               activeLabelStyle={{color: 'green'}}
               labelStyle={{color: colors.Logintext}}
+              itemStyle={{justifyContent: 'flex-start'}}
               style={{borderWidth: 1}}
               dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
               containerStyle={{ height: 38, flex: 1, marginBottom: MinAgemargin}}
@@ -550,6 +553,7 @@ const General = ({  route, PlanToggle }) => {
               placeholderStyle={{color: colors.Logintext}}
               activeLabelStyle={{color: 'green'}}
               labelStyle={{color: colors.Logintext}}
+              itemStyle={{justifyContent: 'flex-start'}}
               style={{borderWidth: 1}}
               dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
               containerStyle={{ height: 38, flex: 1,marginLeft: 5, marginBottom: Monthmargin}}
@@ -590,6 +594,7 @@ const General = ({  route, PlanToggle }) => {
               placeholderStyle={{color: colors.Logintext}}
               activeLabelStyle={{color: 'green'}}
               labelStyle={{color: colors.Logintext}}
+              itemStyle={{justifyContent: 'flex-start'}}
               style={{borderWidth: 1}}
               dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
               containerStyle={{ height: 38, flex: 1,marginLeft: 5,marginBottom: EntryDatemargin}}
@@ -790,6 +795,7 @@ const General = ({  route, PlanToggle }) => {
               activeLabelStyle={{color: 'green'}}
               labelStyle={{color: colors.Logintext}}
               style={{borderWidth: 1}}
+              itemStyle={{justifyContent: 'flex-start'}}
               dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
               containerStyle={{ height: 38, flex: 1,marginBottom: Taxmargin}}
               arrowColor='rgba(51,51,51,0.5)'

@@ -361,6 +361,7 @@ const CashBalance = ({ route }) => {
                   activeLabelStyle={{color: 'green'}}
                   labelStyle={{color: colors.Logintext}}
                   style={{borderWidth: 1}}
+                  itemStyle={{justifyContent: 'flex-start'}}
                   dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
                   containerStyle={{ height: 38, flex: 1,marginTop: 10, marginBottom: ACTUARIALMargin}}
                   searchable={true}
@@ -408,6 +409,7 @@ const CashBalance = ({ route }) => {
                     activeLabelStyle={{color: 'green'}}
                     labelStyle={{color: colors.Logintext}}
                     style={{borderWidth: 1}}
+                    itemStyle={{justifyContent: 'flex-start'}}
                     dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
                     containerStyle={{ height: 38, flex: 1,marginTop: 10, marginBottom: TESTINGMargin}}
                     searchable={true}

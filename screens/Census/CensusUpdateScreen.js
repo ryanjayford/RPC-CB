@@ -251,6 +251,7 @@ const AddModal = ({ navigation,route }) => {
                             activeLabelStyle={{color: 'green'}}
                             labelStyle={{color: colors.Logintext}}
                             style={{borderWidth: 1}}
+                            itemStyle={{justifyContent: 'flex-start'}}
                             dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
                             containerStyle={{ height: 40, flex: 1, marginTop: 5}}
                             arrowColor='rgba(51,51,51,0.5)'
@@ -337,6 +338,7 @@ const AddModal = ({ navigation,route }) => {
                             defaultIndex={0}
                             defaultValue={classtype}
                             zIndex={3}
+                            itemStyle={{justifyContent: 'flex-start'}}
                             //placeholder="Select number of years"
                             placeholderStyle={{color: colors.Logintext}}
                             activeLabelStyle={{color: 'green'}}

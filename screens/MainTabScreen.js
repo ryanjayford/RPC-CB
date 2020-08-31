@@ -195,7 +195,8 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
   switch (routeName) {
     case 'Plan List': 
       return [<Icon.Button key={0} name="ios-search" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [setPlan(Plan = !Plan)]}></Icon.Button>,//, Alert.alert('Function ' + Plan)
-              <Icon.Button key={1} name="ios-more" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
+              <Icon.Button key={1} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate("Plan Directory", {screen: 'Plan Details', params: {screen: 'General', params: {homeClick: 'Add'}}})}></Icon.Button>,
+              <Icon.Button key={2} name="md-more" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
     case 'Plan Details':
   if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken)}></Icon.Button>, // Alert.alert('Save')
         <Icon.Button key={1} name="ios-close-circle" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Plan Directory', {screen: 'Plan List'})}></Icon.Button>]

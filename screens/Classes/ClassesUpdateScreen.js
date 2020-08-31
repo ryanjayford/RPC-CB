@@ -131,6 +131,7 @@ const ClassUpdate = ({ navigation,route }) => {
                             defaultValue={contritype}
                             zIndex={3}
                             //placeholder="Select number of years"
+                            itemStyle={{justifyContent: 'flex-start'}}
                             placeholderStyle={{color: colors.Logintext}}
                             activeLabelStyle={{color: 'green'}}
                             labelStyle={{color: colors.Logintext}}
@@ -163,6 +164,7 @@ const ClassUpdate = ({ navigation,route }) => {
                                 activeLabelStyle={{color: 'green'}}
                                 labelStyle={{color: colors.Logintext}}
                                 style={{borderWidth: 1}}
+                                itemStyle={{justifyContent: 'flex-start'}}
                                 dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
                                 containerStyle={{ height: 40,width: 60, marginTop: 5,marginLeft: 10}}
                                 arrowColor='rgba(51,51,51,0.5)'
@@ -192,6 +194,7 @@ const ClassUpdate = ({ navigation,route }) => {
                                 activeLabelStyle={{color: 'green'}}
                                 labelStyle={{color: colors.Logintext}}
                                 style={{borderWidth: 1}}
+                                itemStyle={{justifyContent: 'flex-start'}}
                                 dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
                                 containerStyle={{ height: 40,width: 60, marginTop: 5,marginLeft: 10}}
                                 arrowColor='rgba(51,51,51,0.5)'
