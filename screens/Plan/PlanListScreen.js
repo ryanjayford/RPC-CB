@@ -121,13 +121,13 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
         break;  
     }
     let url = baseURL + '/Plans/PlanListQuery?lastModified=' + filter + '&filteredUserId=' + dataState.userName + '&maxRows=20'; //+ '&filteredCompanyName=EBG&filteredUserId=01247@noemail.com&maxRows=10';
-    //console.log('===============',url);
+    
     let method = 'GET';
     let headers = new Headers();
     console.log(dataState.userToken);
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', dataState.userToken);
-   
+    console.log('===PLAN LIST API CALL============',url,headers);
     let req = new Request(url, {
         method,
         headers
@@ -140,7 +140,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
         //console.log('Response: API Called =======>' , responseJson);
         if (responseJson.obj &&  responseJson.obj.length){
           //console.log(responseJson.obj[0].planId);
-          console.log('=======PLAN LIST====>', responseJson.obj);
+          //console.log('=======PLAN LIST====>', responseJson.obj);
           initScreen(responseJson.obj[0].planId);
           updatePlanData(responseJson.obj);
           setindexChecked(indexChecked = responseJson.obj[0].planId);

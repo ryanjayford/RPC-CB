@@ -342,11 +342,12 @@ const App = () => {
 
   const authContext = React.useMemo(() => ({
     signIn: async(foundUser, defaultPlanDetails, defaultDropdown) => {
-      const token = "bearer {'userNumber':5,'userId':'" + foundUser.email + "','userType':'A','userStatus':'A','userSponsorId':1}"; 
+      const token = foundUser.apiToken; //"bearer {'userNumber':5,'userId':'" + foundUser.email + "','userType':'A','userStatus':'A','userSponsorId':1}"
       const id = foundUser.email; 
       const firstName = foundUser.firstName;
       const lastName = foundUser.lastName;      
       let appDefaults = { defaultPlanDetails, defaultDropdown }
+      console.log('API TOKEN ===============================>', token);
       foundUser.token = token;
       try {
         await AsyncStorage.setItem('userProfile', JSON.stringify(foundUser));
