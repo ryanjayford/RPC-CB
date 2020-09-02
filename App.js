@@ -435,11 +435,11 @@ const App = () => {
       if (!dataState.Details.sponsorId) dataState.Details.sponsorId = userSponsorId;
       if (!dataState.Details.userNo) dataState.Details.userNo = userNumber;
 
-      if (planId){
+      if (planId && type != 'Add New'){
           dataState.Details.planId = planId; 
        }
       //console.log('=====CHECK DETAILS==>',dataState.Details);
-      savePlan(navigation, planId, userToken);
+      savePlan(navigation, planId, userToken, type);
       
       /*
       //planData.length = total of current number of objects in the array
@@ -565,7 +565,7 @@ const App = () => {
     });
   }
 
-  const savePlan = async (navigation, planId, userToken) => {
+  const savePlan = async (navigation, planId, userToken, type) => {
     let url = baseURL + '/Plans/Plan';
     let method = 'POST';
     let headers = new Headers();
@@ -589,7 +589,7 @@ const App = () => {
     .then((response) => response.json())
     .then((responseJson) => {
         if (responseJson.isSuccess && responseJson.obj){
-          if (!planId){
+          if (type === 'Add New'){
             let PlanId = responseJson.obj;
             dispatch({ type: 'PLANID', PlanId});
           } else {
