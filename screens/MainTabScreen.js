@@ -46,14 +46,14 @@ const Tab = createMaterialBottomTabNavigator();
 const PlanTab = createMaterialBottomTabNavigator();
 
 
-const ConfirmSave = (save, navigation, type, planId, planName, userToken) => {
+const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNumber, userSponsorId) => {
   console.log('CONFIRM ====>', planName, userToken);
   
   let msg = "Are you sure you want to Add New Plan?"
   if (planId) msg = "Are you sure you want to save change to " + planName + " Plan?"
   if (planName){
     Alert.alert("Save Plan", msg, 
-    [{ text: "Yes", onPress: () => save(navigation, type, planId, userToken) }, //CalculatePlan(dataState, setScreen)
+    [{ text: "Yes", onPress: () => save(navigation, type, planId, userToken, userNumber, userSponsorId) }, //CalculatePlan(dataState, setScreen)
     { text: "No", onPress: () => {}, style: "cancel" }],
     { cancelable: false }); 
   } else {
@@ -198,9 +198,9 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
               <Icon.Button key={1} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate("Plan Directory", {screen: 'Plan Details', params: {screen: 'General', params: {homeClick: 'Add'}}})}></Icon.Button>,
               <Icon.Button key={2} name="md-more" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
     case 'Plan Details':
-  if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken)}></Icon.Button>, // Alert.alert('Save')
+  if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId)}></Icon.Button>, // Alert.alert('Save')
         <Icon.Button key={1} name="ios-close-circle" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Plan Directory', {screen: 'Plan List'})}></Icon.Button>]
-        return <Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() =>  ConfirmSave(save, navigation,'Edit', dataState.selectedPlan, dataState.Details.planName, dataState.userToken)}></Icon.Button>;  //Alert.alert('No function yet')
+        return <Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() =>  ConfirmSave(save, navigation,'Edit', dataState.selectedPlan, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId)}></Icon.Button>;  //Alert.alert('No function yet')
     case 'Classes':
       return <Icon.Button key={0} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Class Detail Entry',{State: 'addnew'})}></Icon.Button>; 
       case 'Census':

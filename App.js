@@ -72,6 +72,8 @@ const App = () => {
     userName: null,
     firstName: null,
     lastName: null,
+    userNumber: null,
+    userSponsorId: null,
     userToken: null,
     isDarkTheme: true,
     screen: null,
@@ -186,6 +188,8 @@ const App = () => {
           firstName: action.firstName,
           lastName: action.lastName,
           userToken: action.token,
+          userNumber: action.userNumber,
+          userSponsorId: action.userSponsorId,
           isLoading: false,
         };
       case 'LOGIN': 
@@ -195,6 +199,8 @@ const App = () => {
           firstName: action.firstName,
           lastName: action.lastName,
           userToken: action.token,
+          userNumber: action.userNumber,
+          userSponsorId: action.userSponsorId,
           isLoading: false,
         };
       case 'LOGOUT': 
@@ -342,10 +348,12 @@ const App = () => {
 
   const authContext = React.useMemo(() => ({
     signIn: async(foundUser, defaultPlanDetails, defaultDropdown) => {
-      const token = foundUser.apiToken; //"bearer {'userNumber':5,'userId':'" + foundUser.email + "','userType':'A','userStatus':'A','userSponsorId':1}"
+      const token = foundUser.apiToken;
       const id = foundUser.email; 
       const firstName = foundUser.firstName;
-      const lastName = foundUser.lastName;      
+      const lastName = foundUser.lastName;
+      const userNumber = foundUser.userNumber;
+      const userSponsorId = foundUser.userSponsorId;
       let appDefaults = { defaultPlanDetails, defaultDropdown }
       console.log('API TOKEN ===============================>', token);
       foundUser.token = token;
@@ -356,7 +364,7 @@ const App = () => {
         console.log(e);
       }
       //console.log(foundUser);
-      dispatch({ type: 'LOGIN', id, token, firstName, lastName });
+      dispatch({ type: 'LOGIN', id, token, firstName, lastName, userNumber, userSponsorId });
       if (defaultPlanDetails && defaultDropdown){
         dispatch({ type: 'APPDEFAULTS', defaultPlanDetails, defaultDropdown });
       }
@@ -420,14 +428,16 @@ const App = () => {
       //console.log('MY SCREEN CALCULATE====>', dataState.screenCalculate);
       //console.log('SET SCREEN DATA =============================>', dataState.Screen);
     },
-    save: (navigation, type, planId, userToken) => {
-      //console.log('===========================>',dataState.selectedPlan, dataState.Details, type, planId);
+    save: (navigation, type, planId, userToken, userNumber, userSponsorId) => {
+      console.log('==========DATA STATE============>',userSponsorId, userNumber);
+
       if (!dataState.Details.minSvcType) dataState.Details.minSvcType = DefaultPlan.minSvcType;
-      if (!dataState.Details.sponsorId) dataState.Details.sponsorId = "1000";
-      if (!dataState.Details.userNo) dataState.Details.userNo = "5";
+      if (!dataState.Details.sponsorId) dataState.Details.sponsorId = userSponsorId;
+      if (!dataState.Details.userNo) dataState.Details.userNo = userNumber;
+
       if (planId){
-        dataState.Details.planId = planId; 
-      }
+          dataState.Details.planId = planId; 
+       }
       //console.log('=====CHECK DETAILS==>',dataState.Details);
       savePlan(navigation, planId, userToken);
       
@@ -623,6 +633,8 @@ const App = () => {
             userName = userProfileObj.email;
             firstName =userProfileObj.firstName;
             lastName = userProfileObj.lastName;
+            userNumber = userProfileObj.userNumber;
+            userSponsorId = userProfileObj.userSponsorId;
         }
         appDefaults = await AsyncStorage.getItem('appDefaults');
         appDefaultsObj = JSON.parse(appDefaults);
@@ -635,8 +647,8 @@ const App = () => {
           console.log(e);
       }
 
-      dispatch({ type: 'RETRIEVE_TOKEN', token, id: userName, firstName, lastName });
-      console.log('RETRIEVE_TOKEN', token);
+      dispatch({ type: 'RETRIEVE_TOKEN', token, id: userName, firstName, lastName, userNumber, userSponsorId });
+      console.log('RETRIEVE_TOKEN=========================>', token, userNumber, userSponsorId);
       if (defaultPlanDetails && defaultDropdown) {
         dispatch({ type: 'APPDEFAULTS', defaultPlanDetails, defaultDropdown });
       }
