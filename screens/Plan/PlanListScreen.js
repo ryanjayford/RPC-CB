@@ -127,7 +127,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     console.log(dataState.userToken);
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', dataState.userToken);
-    console.log('===PLAN LIST API CALL============',url,headers);
+    console.log('===PLAN LIST API CALL============>',url,headers);
     let req = new Request(url, {
         method,
         headers
@@ -137,7 +137,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     .then((response) => response.json())
     .then((responseJson) => {
         //console.log('Response:', responseJson);
-        //console.log('Response: API Called =======>' , responseJson);
+        console.log('Response: API Called FOR PLAN LIST =======>' , responseJson);
         if (responseJson.obj &&  responseJson.obj.length){
           //console.log(responseJson.obj[0].planId);
           //console.log('=======PLAN LIST====>', responseJson.obj);

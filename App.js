@@ -567,7 +567,7 @@ const App = () => {
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', userToken);
 
-    console.log("==================SAVE UPDATE PLAN====TOKEN===>", body); //, url, method, headers
+    console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers); //,
    
     let req = new Request(url, {
         method,
@@ -588,7 +588,7 @@ const App = () => {
           }
 
           navigation.navigate('Plan Directory', {screen: 'Plan List'})
-          //console.log(responseJson);
+          console.log("==================SAVE RESPONSE ===>", responseJson);
         } else {
           Alert.alert("Data Error------------", responseJson);
         }
