@@ -172,7 +172,7 @@ const ClassUpdate = ({ navigation,route }) => {
                             dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
                             containerStyle={{ height: 40, flex: 1, marginTop: 5, marginBottom: ContriTypeMargin}}
                             arrowColor='rgba(51,51,51,0.5)'
-                            onOpen={() => [ContriTypeSelected = 1,DropContriTypeController(ContriTypeSelected),CUpdateScroll.current.scrollTo({ x: 0, y: 250, animated: true })]}
+                            onOpen={() => [ContriTypeSelected = 1,DropContriTypeController(ContriTypeSelected)/*,CUpdateScroll.current.scrollTo({ x: 0, y: 100, animated: true })*/]}
                             onClose={() => {[setContriTypeMarginhideDrop(ContriTypeMarginhideDrop = false),setContriTypeMargin(ContriTypeMargin = 0)]}}
                             onChangeItem={item => {setcontritype(contritype = item.value)}} //item.value
                         />
