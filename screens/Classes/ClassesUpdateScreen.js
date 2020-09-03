@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView,TextInpu
 import{ AuthContext } from '../../components/context';
 import { useTheme } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
-import CheckBox from 'react-native-check-box';
+//import CheckBox from 'react-native-check-box';
 import DropDownPicker from 'react-native-dropdown-picker';
-import RadioButton from 'react-native-customizable-radio-button';
+//import RadioButton from 'react-native-customizable-radio-button';
 
 const {width,height} = Dimensions.get('window');
 
@@ -35,47 +35,79 @@ const ClassUpdate = ({ navigation,route }) => {
     let [profitSharing, setprofitSharing] = React.useState(route.params?.State === 'addnew' ? null : Edited.psValue); 
     let [profitAmt, setprofitAmt] = React.useState(route.params?.State === 'addnew' ? "%" : Edited.psValueType);
 
+    const CUpdateScroll = React.useRef();
+    let [ContriTypeMargin, setContriTypeMargin] = React.useState(0);
+    let [ContriTypeMarginhideDrop, setContriTypeMarginhideDrop] = React.useState(false); 
+
+    let ContriTypeSelected = null;
+    const DropContriTypeController = (ContriTypeSelected) => {
+      if(ContriTypeSelected === 1)//ContriType
+      {
+        setContriTypeMargin(ContriTypeMargin = 150)
+        setContriTypeMarginhideDrop(ContriTypeMarginhideDrop = true)
+      }
+    };
+
+
     if(route.params?.State === 'addnew') // for add
     {
         //alert(route.params?.State);
     
         SaveArray = (navigation,Classload, setClassload) => {
-            //setClassload(Classload = true);
-            let ClassesState = 'ClassAdd';
-            let StateArray = {
-                Code: classcode,
-                Description: classDes,
-                Contritype: contritype,
-                CashBalance: cashBalance,
-                CashAmt: cashAmt,
-                ProfitSharing: profitSharing,
-                ProfitAmt: profitAmt
-            }
-            setTimeout(() => {
+            if(classcode === null | classcode === "")
+            {
+                alert("Class code Can't Be Empty");
                 setClassload(Classload = false);
-                ClassAddorEdit(navigation,StateArray,ClassesState);
-            }, 500);
+            }
+            else
+            {
+                //setClassload(Classload = true);
+                let ClassesState = 'ClassAdd';
+                let StateArray = {
+                    Code: classcode,
+                    Description: classDes,
+                    Contritype: contritype,
+                    CashBalance: cashBalance,
+                    CashAmt: cashAmt,
+                    ProfitSharing: profitSharing,
+                    ProfitAmt: profitAmt
+                }
+                setTimeout(() => {
+                    setClassload(Classload = false);
+                    ClassAddorEdit(navigation,StateArray,ClassesState);
+                }, 500);
+            }
+        
         }
     }
     else// for edit
     {
         //alert('edit now'); 
         SaveArray = (navigation,Classload, setClassload) => {
-            //setClassload(Classload = true);
-            let ClassesState = 'ClassEdit';
-            let StateArray = {
-                Code: classcode,
-                Description: classDes,
-                Contritype: contritype,
-                CashBalance: cashBalance,
-                CashAmt: cashAmt,
-                ProfitSharing: profitSharing,
-                ProfitAmt: profitAmt
-            }
-            setTimeout(() => {
+
+            if(classcode === null | classcode === "")
+            {
+                alert("Class code Can't Be Empty");
                 setClassload(Classload = false);
-                ClassAddorEdit(navigation,StateArray,ClassesState);
-            }, 500);
+            }
+            else
+            {
+                //setClassload(Classload = true);
+                let ClassesState = 'ClassEdit';
+                let StateArray = {
+                    Code: classcode,
+                    Description: classDes,
+                    Contritype: contritype,
+                    CashBalance: cashBalance,
+                    CashAmt: cashAmt,
+                    ProfitSharing: profitSharing,
+                    ProfitAmt: profitAmt
+                }
+                setTimeout(() => {
+                    setClassload(Classload = false);
+                    ClassAddorEdit(navigation,StateArray,ClassesState);
+                }, 500);
+            }
         }
     }
     
@@ -99,9 +131,9 @@ const ClassUpdate = ({ navigation,route }) => {
             <ActivityIndicator size="large" color={colors.primary}/>
           </View>
           :
-            <ScrollView style ={styles.scroll}>
+            <ScrollView ref={CUpdateScroll} style ={styles.scroll}>
                 {/*<Text style={styles.header}>CLASS DETAIL ENTRY</Text>*/}
-                <Text style={styles.columnNames}>Class Code</Text>
+                <Text style={styles.columnNames}>Class Code {classcode === null | classcode === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
                     <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
                             placeholder="Code"
@@ -127,6 +159,7 @@ const ClassUpdate = ({ navigation,route }) => {
                 
                     <DropDownPicker
                             items={contribution}
+                            isVisible={ContriTypeMarginhideDrop}
                             defaultIndex={0}
                             defaultValue={contritype}
                             zIndex={3}
@@ -137,8 +170,10 @@ const ClassUpdate = ({ navigation,route }) => {
                             labelStyle={{color: colors.Logintext}}
                             style={{borderWidth: 1}}
                             dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-                            containerStyle={{ height: 40, flex: 1, marginTop: 5}}
+                            containerStyle={{ height: 40, flex: 1, marginTop: 5, marginBottom: ContriTypeMargin}}
                             arrowColor='rgba(51,51,51,0.5)'
+                            onOpen={() => [ContriTypeSelected = 1,DropContriTypeController(ContriTypeSelected),CUpdateScroll.current.scrollTo({ x: 0, y: 250, animated: true })]}
+                            onClose={() => {[setContriTypeMarginhideDrop(ContriTypeMarginhideDrop = false),setContriTypeMargin(ContriTypeMargin = 0)]}}
                             onChangeItem={item => {setcontritype(contritype = item.value)}} //item.value
                         />
                 <Text style={styles.columnNames}>Cash Balance Amt</Text>

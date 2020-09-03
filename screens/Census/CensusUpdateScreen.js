@@ -5,8 +5,8 @@ import { useTheme } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
 import CheckBox from 'react-native-check-box';
 import DropDownPicker from 'react-native-dropdown-picker';
-import RadioButton from 'react-native-customizable-radio-button';
-
+//import RadioButton from 'react-native-customizable-radio-button';
+import RadioButtonRN from 'radio-buttons-react-native';
 const {width,height} = Dimensions.get('window');
 
 const AddModal = ({ navigation,route }) => {
@@ -32,7 +32,7 @@ const AddModal = ({ navigation,route }) => {
     let [pastservice, setpastservice] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.PastService.toString()); 
     let [LYcompensation, setLYcompensation] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.lastYearComp.toString()); 
     let [w2earnings, setw2earnings] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.W2Earnings.toString()); 
-    let [catchup, setcatchup] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.HasCatchUp); 
+    let [catchup, setcatchup] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.HasCatchUp); //checking
     let [classtype, setclasstype] = React.useState('A - Owner HCEs'); 
     let [deferral, setdeferral] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.DeferralPercent); 
     let [deferralchoice, setdeferralchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.DeferCode); 
@@ -40,42 +40,77 @@ const AddModal = ({ navigation,route }) => {
     let [Cashbalancechoice, setCashbalancechoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.CbCode); 
     let [Profitsharinginput, setProfitsharinginput] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.PsPercent); 
     let [Profitsharingchoice, setProfitsharingchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode); 
-    let [HCEchoice, setHCEchoice] = React.useState(0); 
+    let [HCEchoice, setHCEchoice] = React.useState(1); 
     let [Overridecheck, setOverridecheck] = React.useState(parameter === 'CensusAddUser' ? false : selectedUser.OverrideParticipationDate); 
 
+    const CensusUpdateScroll = React.useRef();
+    let [FamilyCodeMargin, setFamilyCodeMargin] = React.useState(0); 
+    let [ClassTypeMargin, setClassTypeMargin] = React.useState(0); 
+  
+    let [FamilyCodehideDrop, setFamilyCodehideDrop] = React.useState(false); 
+    let [ClassTypehideDrop, setClassTypehideDrop] = React.useState(false); 
+  
+    let CensusDropSelected = null;
+    const DropdownCensusController = (CensusDropSelected) => {
+      if(CensusDropSelected === 1)//family
+      {
+        setFamilyCodeMargin(FamilyCodeMargin = 150)
+        setFamilyCodehideDrop(FamilyCodehideDrop = true)
+  
+        setClassTypeMargin(ClassTypeMargin = 0)
+        setClassTypehideDrop(ClassTypehideDrop = false)
+      }
+      else if(CensusDropSelected === 2)//class
+      {
+        setFamilyCodeMargin(FamilyCodeMargin = 0)
+        setFamilyCodehideDrop(FamilyCodehideDrop = false)
+  
+        setClassTypeMargin(ClassTypeMargin = 125)
+        setClassTypehideDrop(ClassTypehideDrop = true)
+      }
+    };
+
+    let required = fname === null | fname === "" | lname === null | lname === "" | datebirth === null | datebirth === "" | datehire === null | datehire === "" | w2earnings === null | w2earnings === "";
+    //alert(catchup)
     if(route.params?.State === 'CensusAddUser') // for add
     {
         //alert(route.params?.State);
-    
         SaveUserArray = (navigation) => {
-            //setClassload(Classload = true);
-            let CensusState = 'CensusAdduser';
-            let userArray = { //incomplete
-                Firstname: fname,
-                Lastname: lname,
-                Sex: sex,
-                Pricipal: pricipal,
-                Owner: owner,
-                Familycode: familycode,
-                DateOfBirth: datebirth,
-                DateOfHire: datehire,
-                Hourswork: hourswork,
-                Pastservice: pastservice,
-                LY_Compensation: LYcompensation,
-                W2_Earnings: w2earnings,
-                Catchup: catchup,
-                Classtype: classtype,
-                DeferralText: deferral,
-                Deferralchoice: deferralchoice,
-                Cashbalanceinput: CashbalanceInput,
-                CashBalanceChoice: Cashbalancechoice,
-                ProfitsharingInput: Profitsharinginput,
-                ProfitSharingChoice: Profitsharingchoice,
-                HCE_choice: HCEchoice,
-                OverrideParticipationDate: Overridecheck
+           
+            if(required) 
+            {
+                alert('Please, Fill Up All Required Inputs')
             }
-            
-            CensusAddorEdit(navigation,userArray,CensusState);
+            else
+            {
+                let CensusState = 'CensusAdduser';
+                let userArray = { //incomplete test new radio button
+                    Firstname: fname,
+                    Lastname: lname,
+                    Sex: sex,
+                    Pricipal: pricipal,
+                    Owner: owner,
+                    Familycode: familycode,
+                    DateOfBirth: datebirth,
+                    DateOfHire: datehire,
+                    Hourswork: hourswork,
+                    Pastservice: pastservice,
+                    LY_Compensation: LYcompensation,
+                    W2_Earnings: w2earnings,
+                    Catchup: catchup,
+                    Classtype: classtype,
+                    DeferralText: deferral,
+                    Deferralchoice: deferralchoice,
+                    Cashbalanceinput: CashbalanceInput,
+                    CashBalanceChoice: Cashbalancechoice,
+                    ProfitsharingInput: Profitsharinginput,
+                    ProfitSharingChoice: Profitsharingchoice,
+                    HCE_choice: HCEchoice,
+                    OverrideParticipationDate: Overridecheck
+                }
+                CensusAddorEdit(navigation,userArray,CensusState);
+               
+            }
            
         }
     }
@@ -83,93 +118,111 @@ const AddModal = ({ navigation,route }) => {
     {
         //alert('edit now'); 
         SaveUserArray = (navigation) => {
-            //setClassload(Classload = true);
-            let CensusState = 'CensusEdituser';
-            let userArray = { //incomplete
-                Firstname: fname,
-                Lastname: lname,
-                Sex: sex,
-                Pricipal: pricipal,
-                Owner: owner,
-                Familycode: familycode,
-                DateOfBirth: datebirth,
-                DateOfHire: datehire,
-                Hourswork: hourswork,
-                Pastservice: pastservice,
-                LY_Compensation: LYcompensation,
-                W2_Earnings: w2earnings,
-                Catchup: catchup,
-                Classtype: classtype,
-                DeferralText: deferral,
-                Deferralchoice: deferralchoice,
-                Cashbalanceinput: CashbalanceInput,
-                CashBalanceChoice: Cashbalancechoice,
-                ProfitsharingInput: Profitsharinginput,
-                ProfitSharingChoice: Profitsharingchoice,
-                HCE_choice: HCEchoice,
-                OverrideParticipationDate: Overridecheck
+
+            if(required) 
+            {
+                alert('Please, Fill Up All Required Inputs')
             }
-          
-            CensusAddorEdit(navigation,userArray,CensusState);
-       
+            else
+            {
+                let CensusState = 'CensusEdituser';
+                let userArray = { //incomplete test new radio button
+                    Firstname: fname,
+                    Lastname: lname,
+                    Sex: sex, 
+                    Pricipal: pricipal,
+                    Owner: owner,
+                    Familycode: familycode,
+                    DateOfBirth: datebirth,
+                    DateOfHire: datehire,
+                    Hourswork: hourswork,
+                    Pastservice: pastservice,
+                    LY_Compensation: LYcompensation,
+                    W2_Earnings: w2earnings,
+                    Catchup: catchup,
+                    Classtype: classtype,
+                    DeferralText: deferral,
+                    Deferralchoice: deferralchoice,
+                    Cashbalanceinput: CashbalanceInput,
+                    CashBalanceChoice: Cashbalancechoice,
+                    ProfitsharingInput: Profitsharinginput,
+                    ProfitSharingChoice: Profitsharingchoice,
+                    HCE_choice: HCEchoice,
+                    OverrideParticipationDate: Overridecheck
+                }
+                CensusAddorEdit(navigation,userArray,CensusState);
+            }
         }
     }
 
-    var Sex = [
+    var Sex = [ //not tested
         {
             id: 'M', // required
-            text: 'Male', //required
+            //text: 'Male', //required
+            label: 'Male'
         },
         {
             id: 'F',
-            text: 'Female',
+            //text: 'Female',
+            label: 'Female'
         },
     ];
-    var choice = [
+    var choice = [ //not tested
         {
-            id: 0, // required
-            text: 'Yes', //required
-        },
-        {
-            id: 1,
-            text: 'No',
-        },
-    ];
-    var HCE = [
-        {
-            id: 0, // required
-            text: 'N/A', //required
-        },
-        {
-            id: 1,
-            text: 'Yes',
+            id: 1, // required
+            label: 'Yes'
         },
         {
             id: 2,
             text: 'No',
+            label: 'No'
         },
     ];
-    var Money = [
+    var choiceCatchup = [ //not tested
+        {
+            id: 0, // required
+            label: 'Yes'
+        },
+        {
+            id: 1,
+            label: 'No'
+        },
+    ];
+    var HCE = [
+        {
+            id: 1, // required
+            label: 'N/A'
+        },
+        {
+            id: 2,
+            label: 'Yes'
+        },
+        {
+            id: 3,
+            label: 'No'
+        },
+    ];
+    var Money = [ //not tested
         {
             id: '%', // required
-            text: '%', //required
+            label: '%'
         },
         {
             id: '$',
-            text: '$',
+            label: '$'
         },
     ];
        
     return(
     
         <View style ={styles.container}>
-            <ScrollView style ={styles.scroll}>
+            <ScrollView ref={CensusUpdateScroll} style ={styles.scroll}>
                
                 <Text style={styles.header}>General Info</Text>
                
 
                 <View style={styles.ItemsSpace}>
-                    <Text style={styles.columnNames}>First Name</Text>
+                    <Text style={styles.columnNames}>First Name {fname === null | fname === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
 
                         <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
@@ -181,7 +234,7 @@ const AddModal = ({ navigation,route }) => {
                             onChangeText={(val) => {setfname(fname = val)}}
                         />
 
-                    <Text style={styles.columnNames}>Last Name</Text>
+                    <Text style={styles.columnNames}>Last Name  {lname === null | lname === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
 
                         <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
@@ -194,7 +247,22 @@ const AddModal = ({ navigation,route }) => {
                         />
 
                     <Text style={styles.columnNames}>Sex</Text>
-
+                        <RadioButtonRN
+                            data={Sex}
+                            activeOpacity={2}
+                            initial={sex === 'M' ? 1 : 2}
+                            animationTypes={['pulse']}
+                            style={{paddingLeft: 10,flexDirection: 'row'}}
+                            textStyle={{paddingLeft: 10}}
+                            boxStyle={{width: 80}}
+                            box={false}
+                            selectedBtn={(e) => setsex(sex = e.id)}
+                            circleSize={13}
+                            activeColor={'#333333'}
+                            deactiveColor={'grey'}
+                            textColor={'#333333'}
+                        />
+                        {/*
                         <RadioButton
                             data={Sex} //required
                             defaultOption={sex}
@@ -202,11 +270,28 @@ const AddModal = ({ navigation,route }) => {
                             containerStyle={{marginBottom: 0}}
                             labelStyle={{paddingRight: 10}}
                             circleContainerStyle={{ }} // add your styles to each outer circle
-                            innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
+                            innerCircleStyle={{ /*backgroundColor: 'green' }} // add your styles to each inner circle
                             onValueChange={(value) => {setsex(sex = value.id)}} //required
-                        />
+                        />*/}
 
                     <Text style={styles.columnNames}>Principal?</Text>
+
+                        <RadioButtonRN
+                            data={choice}
+                            activeOpacity={2}
+                            initial={pricipal}
+                            animationTypes={['pulse']}
+                            style={{paddingLeft: 10,flexDirection: 'row'}}
+                            textStyle={{paddingLeft: 10}}
+                            boxStyle={{width: 70}}
+                            box={false}
+                            selectedBtn={(e) => setpricipal(pricipal = e.id)}
+                            circleSize={13}
+                            activeColor={'#333333'}
+                            deactiveColor={'grey'}
+                            textColor={'#333333'}
+                        />
+                        {/*
                         <RadioButton
                             data={choice} //required
                             defaultOption={pricipal}
@@ -214,10 +299,27 @@ const AddModal = ({ navigation,route }) => {
                             containerStyle={{marginBottom: 0}}
                             labelStyle={{paddingRight: 10}}
                             circleContainerStyle={{ }} // add your styles to each outer circle
-                            innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
+                            innerCircleStyle={{ /*backgroundColor: 'green' }} // add your styles to each inner circle
                             onValueChange={(value) => {setpricipal(pricipal = value.id)}} //required
-                        />
+                        />*/}
                     <Text style={styles.columnNames}>Owner?</Text>
+
+                        <RadioButtonRN
+                            data={choice}
+                            activeOpacity={2}
+                            initial={owner}
+                            animationTypes={['pulse']}
+                            style={{paddingLeft: 10,flexDirection: 'row'}}
+                            textStyle={{paddingLeft: 10}}
+                            boxStyle={{width: 70}}
+                            box={false}
+                            selectedBtn={(e) => setowner(owner = e.id)}
+                            circleSize={13}
+                            activeColor={'#333333'}
+                            deactiveColor={'grey'}
+                            textColor={'#333333'}
+                        />
+                        {/*
                         <RadioButton
                             data={choice} //required
                             defaultOption={owner}
@@ -225,9 +327,9 @@ const AddModal = ({ navigation,route }) => {
                             containerStyle={{marginBottom: 0}}
                             labelStyle={{paddingRight: 10}}
                             circleContainerStyle={{ }} // add your styles to each outer circle
-                            innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
+                            innerCircleStyle={{ /*backgroundColor: 'green' }} // add your styles to each inner circle
                             onValueChange={(value) => {setowner(owner = value.id)}} //required
-                        />
+                        />*/}
                     <Text style={styles.columnNames}>Family Code</Text>
                         <DropDownPicker
                             items={[
@@ -243,6 +345,7 @@ const AddModal = ({ navigation,route }) => {
                                 {label: 'I', value: 'I'},
                                 {label: 'K', value: 'K'},
                             ]}
+                            isVisible={FamilyCodehideDrop}
                             defaultIndex={0}
                             defaultValue={familycode}
                             zIndex={2}
@@ -253,11 +356,13 @@ const AddModal = ({ navigation,route }) => {
                             style={{borderWidth: 1}}
                             itemStyle={{justifyContent: 'flex-start'}}
                             dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-                            containerStyle={{ height: 40, flex: 1, marginTop: 5}}
+                            containerStyle={{ height: 40, flex: 1, marginTop: 5, marginBottom: FamilyCodeMargin}}
                             arrowColor='rgba(51,51,51,0.5)'
+                            onOpen={() => [CensusDropSelected = 1,DropdownCensusController(CensusDropSelected),CensusUpdateScroll.current.scrollTo({ x: 0, y: 200, animated: true })]}
+                            onClose={() => {[setFamilyCodehideDrop(FamilyCodehideDrop = false),setFamilyCodeMargin(FamilyCodeMargin = 0)]}}
                             onChangeItem={item => {setfamilycode(familycode = item.value)}} //item.value
                         />
-                    <Text style={styles.columnNames}>Date of Birth</Text>
+                    <Text style={styles.columnNames}>Date of Birth {datebirth === null | datebirth === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
                         <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
                             placeholder="date of birth"
@@ -267,7 +372,7 @@ const AddModal = ({ navigation,route }) => {
                             keyboardType='default'
                             onChangeText={(val) => {setdatebirth(datebirth = val)}}
                         />
-                    <Text style={styles.columnNames}>Date of Hire</Text>
+                    <Text style={styles.columnNames}>Date of Hire {datehire === null | datehire === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
                         <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
                             placeholder="date of hire"
@@ -307,7 +412,7 @@ const AddModal = ({ navigation,route }) => {
                             keyboardType='default'
                             onChangeText={(val) => {setLYcompensation(LYcompensation = val)}}
                         />
-                    <Text style={styles.columnNames}>W-2 Earnings</Text>
+                    <Text style={styles.columnNames}>W-2 Earnings {w2earnings === null | w2earnings === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
                         <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
                             placeholder="Earnings"
@@ -318,6 +423,23 @@ const AddModal = ({ navigation,route }) => {
                             onChangeText={(val) => {setw2earnings(w2earnings = val)}}
                         />
                     <Text style={styles.columnNames}>Catch Up</Text>
+
+                        <RadioButtonRN
+                            data={choiceCatchup}
+                            activeOpacity={2}
+                            initial={catchup === 0 ? 1 : 2}//error changing to 2
+                            animationTypes={['pulse']}
+                            style={{paddingLeft: 10,flexDirection: 'row'}}
+                            textStyle={{paddingLeft: 10}}
+                            boxStyle={{width: 70}}
+                            box={false}
+                            selectedBtn={(e) => setcatchup(catchup = e.id)}
+                            circleSize={13}
+                            activeColor={'#333333'}
+                            deactiveColor={'grey'}
+                            textColor={'#333333'}
+                        />
+                        {/* 
                         <RadioButton
                             data={choice} //required
                             defaultOption={catchup}
@@ -325,9 +447,9 @@ const AddModal = ({ navigation,route }) => {
                             containerStyle={{marginBottom: 0}}
                             labelStyle={{paddingRight: 10}}
                             circleContainerStyle={{ }} // add your styles to each outer circle
-                            innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
+                            innerCircleStyle={{ /*backgroundColor: 'green' }} // add your styles to each inner circle
                             onValueChange={(value) => {setcatchup(catchup = value.id)}} //required
-                        />
+                        />*/}
                     <Text style={styles.columnNames}>Class Type</Text>
                         <DropDownPicker
                             items={[
@@ -335,6 +457,7 @@ const AddModal = ({ navigation,route }) => {
                                 {label: 'B - Non HCEs', value: 'B - Non HCEs'},
                                 {label: 'C - Non-Owner HCEs', value: 'C - Non-Owner HCEs'},
                             ]}
+                            isVisible={ClassTypehideDrop}
                             defaultIndex={0}
                             defaultValue={classtype}
                             zIndex={3}
@@ -345,8 +468,10 @@ const AddModal = ({ navigation,route }) => {
                             labelStyle={{color: colors.Logintext}}
                             style={{borderWidth: 1}}
                             dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-                            containerStyle={{ height: 40, flex: 1, marginTop: 5}}
+                            containerStyle={{ height: 40, flex: 1, marginTop: 5, marginBottom: ClassTypeMargin}}
                             arrowColor='rgba(51,51,51,0.5)'
+                            onOpen={() => [CensusDropSelected = 2,DropdownCensusController(CensusDropSelected),CensusUpdateScroll.current.scrollTo({ x: 0, y: 500, animated: true })]}
+                            onClose={() => {[setClassTypehideDrop(ClassTypehideDrop = false),setClassTypeMargin(ClassTypeMargin = 0)]}}
                             onChangeItem={item => {setclasstype(classtype = item.value)}} //item.value
                         />
                 </View>
@@ -365,6 +490,22 @@ const AddModal = ({ navigation,route }) => {
                                 keyboardType='default'
                                 onChangeText={(val) => {setdeferral(deferral = val)}}
                             />
+                             <RadioButtonRN
+                                data={Money}
+                                activeOpacity={2}
+                                initial={deferralchoice === '%' ? 1 : 2}
+                                animationTypes={['pulse']}
+                                style={{paddingLeft: 10,flexDirection: 'row'}}
+                                textStyle={{paddingLeft: 10}}
+                                boxStyle={{width: 70}}
+                                box={false}
+                                selectedBtn={(e) => setdeferralchoice(deferralchoice = e.id)}
+                                circleSize={13}
+                                activeColor={'#333333'}
+                                deactiveColor={'grey'}
+                                textColor={'#333333'}
+                            />
+                            {/*
                             <RadioButton
                                 data={Money} //required
                                 defaultOption={deferralchoice}
@@ -372,9 +513,9 @@ const AddModal = ({ navigation,route }) => {
                                 containerStyle={{marginBottom: 0, marginLeft: 10}}
                                 labelStyle={{paddingRight: 10}}
                                 circleContainerStyle={{ }} // add your styles to each outer circle
-                                innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
+                                innerCircleStyle={{ /*backgroundColor: 'green' }} // add your styles to each inner circle
                                 onValueChange={(value) => {setdeferralchoice(deferralchoice = value.id)}} //required
-                            />
+                            />*/}
                         </View>
                     <Text style={styles.columnNames}>Cash Balance</Text>
                          <View style={{flexDirection: 'row'}}>
@@ -387,6 +528,22 @@ const AddModal = ({ navigation,route }) => {
                                 keyboardType='default'
                                 onChangeText={(val) => {setCashbalanceInput(CashbalanceInput = val)}}
                             />
+                             <RadioButtonRN
+                                data={Money}
+                                activeOpacity={2}
+                                initial={Cashbalancechoice === '%' ? 1 : 2}
+                                animationTypes={['pulse']}
+                                style={{paddingLeft: 10,flexDirection: 'row'}}
+                                textStyle={{paddingLeft: 10}}
+                                boxStyle={{width: 70}}
+                                box={false}
+                                selectedBtn={(e) => setCashbalancechoice(Cashbalancechoice = e.id)}
+                                circleSize={13}
+                                activeColor={'#333333'}
+                                deactiveColor={'grey'}
+                                textColor={'#333333'}
+                            />
+                            {/*
                             <RadioButton
                                 data={Money} //required
                                 defaultOption={Cashbalancechoice}
@@ -394,9 +551,9 @@ const AddModal = ({ navigation,route }) => {
                                 containerStyle={{marginBottom: 0, marginLeft: 10}}
                                 labelStyle={{paddingRight: 10}}
                                 circleContainerStyle={{ }} // add your styles to each outer circle
-                                innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
-                                onValueChange={(value) => {setCashbalancechoice(Cashbalancechoice = value.id)}} //required
-                            />
+                                innerCircleStyle={{ /*backgroundColor: 'green' }} // add your styles to each inner circle
+                            onValueChange={(value) => {setCashbalancechoice(Cashbalancechoice = value.id)}} //required
+                            /> */}
                         </View>
                     <Text style={styles.columnNames}>Profit Sharing</Text>
                         <View style={{flexDirection: 'row'}}>
@@ -409,6 +566,22 @@ const AddModal = ({ navigation,route }) => {
                                 keyboardType='default'
                                 onChangeText={(val) => {setProfitsharinginput(Profitsharinginput = val)}}
                             />
+                            <RadioButtonRN
+                                data={Money}
+                                activeOpacity={2}
+                                initial={Profitsharingchoice === '%' ? 1 : 2}
+                                animationTypes={['pulse']}
+                                style={{paddingLeft: 10,flexDirection: 'row'}}
+                                textStyle={{paddingLeft: 10}}
+                                boxStyle={{width: 70}}
+                                box={false}
+                                selectedBtn={(e) => setProfitsharingchoice(Profitsharingchoice = e.id)}
+                                circleSize={13}
+                                activeColor={'#333333'}
+                                deactiveColor={'grey'}
+                                textColor={'#333333'}
+                            />
+                            {/* 
                             <RadioButton
                                 data={Money} //required
                                 defaultOption={Profitsharingchoice}
@@ -416,11 +589,27 @@ const AddModal = ({ navigation,route }) => {
                                 containerStyle={{marginBottom: 0, marginLeft: 10}}
                                 labelStyle={{paddingRight: 10}}
                                 circleContainerStyle={{ }} // add your styles to each outer circle
-                                innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
+                                innerCircleStyle={{ /*backgroundColor: 'green' }} // add your styles to each inner circle
                                 onValueChange={(value) => {setProfitsharingchoice(Profitsharingchoice = value.id)}} //required
-                            />
+                            />*/}
                         </View>
                     <Text style={styles.columnNames}>HCE Override?</Text>
+                        <RadioButtonRN
+                            data={HCE}
+                            activeOpacity={2}
+                            initial={HCEchoice}
+                            animationTypes={['pulse']}
+                            style={{paddingLeft: 10,flexDirection: 'row'}}
+                            textStyle={{paddingLeft: 10}}
+                            boxStyle={{width: 70}}
+                            box={false}
+                            selectedBtn={(e) => setHCEchoice(HCEchoice = e.id)}
+                            circleSize={13}
+                            activeColor={'#333333'}
+                            deactiveColor={'grey'}
+                            textColor={'#333333'}
+                        />
+                        {/*
                         <RadioButton
                             data={HCE} //required
                             defaultOption={HCEchoice}
@@ -428,9 +617,9 @@ const AddModal = ({ navigation,route }) => {
                             containerStyle={{marginBottom: 0}}
                             labelStyle={{paddingRight: 10}}
                             circleContainerStyle={{ }} // add your styles to each outer circle
-                            innerCircleStyle={{ /*backgroundColor: 'green'*/ }} // add your styles to each inner circle
+                            innerCircleStyle={{ /*backgroundColor: 'green' }} // add your styles to each inner circle
                             onValueChange={(value) => {setHCEchoice(HCEchoice = value.id)}} //required
-                        />
+                        />*/}
                     <Text style={styles.columnNames}>Date of Participation</Text>
                     <View style={{flexDirection: 'row', marginBottom: 5}}>
                         <CheckBox 
