@@ -156,6 +156,7 @@ const SignInScreen = ({navigation}) => {
         .then((response) => response.json())
         .then((responseJson) => {
             if (responseJson && responseJson.success){
+                console.log("LOGIN==>", responseJson.details.apiToken);
                 getDefaultPlanDetails(responseJson.details)
             } else{
                 setData({...data, isLoading: false});
@@ -178,7 +179,7 @@ const SignInScreen = ({navigation}) => {
         let headers = new Headers();
         
         headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', "bearer {'userId':'" + userDetails.email + "','userType':'A','userStatus':'A','userSponsorId':1}");
+        headers.append('Authorization', userDetails.apiToken);
        
         let req = new Request(url, {
             method,
@@ -209,7 +210,7 @@ const SignInScreen = ({navigation}) => {
         let headers = new Headers();
         
         headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', "bearer {'userId':'" + userDetails.email + "','userType':'A','userStatus':'A','userSponsorId':1}");
+        headers.append('Authorization', userDetails.apiToken);
        
         let req = new Request(url, {
             method,

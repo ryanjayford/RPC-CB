@@ -356,7 +356,7 @@ const App = () => {
       const userSponsorId = foundUser.userSponsorId;
       let appDefaults = { defaultPlanDetails, defaultDropdown }
       console.log('API TOKEN ===============================>', token);
-      foundUser.token = token;
+      //foundUser.token = token;
       try {
         await AsyncStorage.setItem('userProfile', JSON.stringify(foundUser));
         await AsyncStorage.setItem('appDefaults', JSON.stringify(appDefaults));
@@ -620,7 +620,9 @@ const App = () => {
         let userName = null;
         let firstName = null;
         let lastName = null;
-      
+        let userNumber = null;
+        let userSponsorId = null;
+      console.log("START++>");
       try {
           //getting theme from Storage
           var isDarkThemeStorage = await AsyncStorage.getItem('isDarkTheme');
