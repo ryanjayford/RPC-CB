@@ -306,7 +306,7 @@ const MainTabScreen = ({navigation, route}) => {
 const PlanTabScreen = ({navigation, route}) => {
   const { colors } = useTheme();
   const [{save, setCensusData, setScreen},dataState] = React.useContext(AuthContext);
-  console.log('Allroute', route.params)
+  //console.log('Allroute', route.params)
   let [Plan, setPlan] = React.useState(false);
   let [Census, setCensus] = React.useState(false);
   let [documentType, setdocumentType] = React.useState('*/*');

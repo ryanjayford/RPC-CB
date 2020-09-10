@@ -355,7 +355,7 @@ const App = () => {
       const userNumber = foundUser.userNumber;
       const userSponsorId = foundUser.userSponsorId;
       let appDefaults = { defaultPlanDetails, defaultDropdown }
-      console.log('API TOKEN ===============================>', token);
+      console.log('API TOKEN ===============================>', userNumber, userSponsorId, token);
       //foundUser.token = token;
       try {
         await AsyncStorage.setItem('userProfile', JSON.stringify(foundUser));
@@ -432,13 +432,13 @@ const App = () => {
       console.log('==========DATA STATE============>',userSponsorId, userNumber);
 
       if (!dataState.Details.minSvcType) dataState.Details.minSvcType = DefaultPlan.minSvcType;
-      if (!dataState.Details.sponsorId) dataState.Details.sponsorId = userSponsorId;
-      if (!dataState.Details.userNo) dataState.Details.userNo = userNumber;
+      //if (!dataState.Details.sponsorId) dataState.Details.sponsorId = userSponsorId;
+      //if (!dataState.Details.userNo) dataState.Details.userNo = userNumber;
 
       if (planId && type != 'Add New'){
           dataState.Details.planId = planId; 
        }
-      //console.log('=====CHECK DETAILS==>',dataState.Details);
+      //console.log('=====CHECK DETAILS==>',userToken, dataState.Details);
       savePlan(navigation, planId, userToken, type);
       
       /*
@@ -577,7 +577,7 @@ const App = () => {
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', userToken);
 
-    console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers); //,
+    console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers, body); //,
    
     let req = new Request(url, {
         method,
@@ -629,9 +629,9 @@ const App = () => {
           if (isDarkThemeStorage && isDarkThemeStorage != null) setIsDarkTheme( isDarkTheme = (isDarkThemeStorage == '1' ? true : false) );
           userProfile = await AsyncStorage.getItem('userProfile');
           userProfileObj = JSON.parse(userProfile);
-          console.log(userProfile);
+          console.log('User Profile=>', userProfile);
         if (userProfileObj && userProfileObj.apiToken){
-            token = userProfileObj.token;
+            token = userProfileObj.apiToken;
             userName = userProfileObj.email;
             firstName =userProfileObj.firstName;
             lastName = userProfileObj.lastName;
@@ -650,7 +650,7 @@ const App = () => {
       }
 
       dispatch({ type: 'RETRIEVE_TOKEN', token, id: userName, firstName, lastName, userNumber, userSponsorId });
-      console.log('RETRIEVE_TOKEN=========================>', token, userNumber, userSponsorId);
+      console.log('RETRIEVE_TOKEN=========================>', userNumber, userSponsorId, token);
       if (defaultPlanDetails && defaultDropdown) {
         dispatch({ type: 'APPDEFAULTS', defaultPlanDetails, defaultDropdown });
       }

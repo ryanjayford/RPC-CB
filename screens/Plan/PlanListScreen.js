@@ -33,7 +33,7 @@ let RightAction = ({item,index}) =>
 };
 
 const PlanScreen = ({ navigation,route,PlanToggle }) => {
-  console.log('toggle', PlanToggle)
+  //console.log('toggle', PlanToggle)
   ///console.log(route,'from list');
   const [{updatePlanData, Delete,setPlanID, initScreen, setScreen},dataState] = React.useContext(AuthContext);
 
@@ -137,7 +137,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     .then((response) => response.json())
     .then((responseJson) => {
         //console.log('Response:', responseJson);
-        console.log('Response: API Called FOR PLAN LIST =======>' , responseJson);
+        //console.log('Response: API Called FOR PLAN LIST =======>' , responseJson);
         if (responseJson.obj &&  responseJson.obj.length){
           //console.log(responseJson.obj[0].planId);
           //console.log('=======PLAN LIST====>', responseJson.obj);
@@ -289,7 +289,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
       planStorage.userNameOnly = item.userNameOnly
       
       //?console.log('plan',planStorage);
-      console.log('PlanID',dataState.selectedPlan)
+      //?console.log('PlanID',dataState.selectedPlan)
     }
     
     return (

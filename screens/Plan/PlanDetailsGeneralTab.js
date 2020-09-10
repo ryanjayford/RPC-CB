@@ -179,7 +179,7 @@ const General = ({  route, PlanToggle }) => {
 
   React.useEffect(() => {
     //Api Data
-    console.log("useEffect ====PLAN DETAILS DATA STATE ======================ROUTE========> ", route, dataState["Plan Details"]);
+    //console.log("useEffect ====PLAN DETAILS DATA STATE ======================ROUTE========> ", route, dataState["Plan Details"]);
     if (dataState["Plan Details"] === null || (dataState["Plan Details"] && dataState["Plan Details"].Name === 'Plan Details')){
       console.log("useEffect ====PLAN DETAILS GENERAL=========> ", PlanName, PlanDescription);      
       setPlanDetailsData(planDetailsData => null);
