@@ -119,8 +119,10 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
             console.log("FROM UseEffect =====Api Called GET CALCULATE========> ");
             setCalculateData(calculateData => responseJson.obj);            
           } else {
-            Alert.alert("Data Error", responseJson.message);
-            getCalculatedPlan(planId);
+            //Alert.alert("Data Error", responseJson.message);
+            //getCalculatedPlan(planId);
+            console.log(responseJson)
+            setCalculateData(calculateData => []);
           }
         })
         .catch((error) => {

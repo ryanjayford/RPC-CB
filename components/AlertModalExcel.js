@@ -40,7 +40,7 @@ const AlertModal = ({ navigation }) => {
                     <TouchableOpacity style={[styles.signIn,{marginRight: 2.5}]} onPress={() => {[navigation.goBack(), 
                         setTimeout(() => {
                             setScreen({Name: 'Census', Method: 'PickAndUpload'})
-                        }, 50)
+                        }, 800)
                     ]}}>
                         <View style={styles.signIn}>
                             <Text style={[styles.textSign, {color:'#333333'}]}>Yes</Text>

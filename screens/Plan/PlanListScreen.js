@@ -120,7 +120,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
         filter = '3';
         break;  
     }
-    let url = baseURL + '/Plans/PlanListQuery?lastModified=' + filter + '&filteredUserId=' + dataState.userName + '&maxRows=20'; //+ '&filteredCompanyName=EBG&filteredUserId=01247@noemail.com&maxRows=10';
+    let url = baseURL + '/Plans/PlanListQuery?lastModified=' + filter + '&filteredUserId=' + dataState.userName + '&maxRows=50'; //+ '&filteredCompanyName=EBG&filteredUserId=01247@noemail.com&maxRows=10';
     
     let method = 'GET';
     let headers = new Headers();
