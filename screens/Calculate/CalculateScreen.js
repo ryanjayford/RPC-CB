@@ -86,10 +86,12 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
         .then((responseJson) => {
             if (responseJson.isSuccess){
               console.log("FROM UseEffect =====Api Called CALCULATE========> ", responseJson);
+              setTimeout(() => {
+                getCalculatedPlan(planId);
+              }, 1000)
             } else {
               Alert.alert("Data Error", responseJson.message);              
             }
-            getCalculatedPlan(planId);
         })
         .catch((error) => {
             Alert.alert("Connection Error", error.message);
