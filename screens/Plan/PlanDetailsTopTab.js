@@ -11,7 +11,7 @@ const TopTab = createMaterialTopTabNavigator();
 
 const TopTabs = ({navigation, route}) => {
     //let [check1, setcheck] = React.useState(false); 
-    console.log(route,'nested details ------------------->')
+    //console.log(route,'nested details ------------------->')
     const [{},dataState] = React.useContext(AuthContext);
   
     console.log('dataState.Details.PlanName', dataState.Details.planName)

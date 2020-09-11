@@ -15,7 +15,7 @@ import RadioButtonRN from 'radio-buttons-react-native';
 const baseURL = Settings.domain;
 
 const General = ({  route, PlanToggle }) => {
-  const [{},dataState] = React.useContext(AuthContext);
+  const [{setDetails},dataState] = React.useContext(AuthContext);
   const DefaultPlan = dataState.DefaultPlan;
   const DropdownData = dataState.DefaultDropdown;
   const [planDetailsData, setPlanDetailsData] = React.useState(null);
@@ -61,24 +61,24 @@ const General = ({  route, PlanToggle }) => {
   planDetailsDataState.monthCk = MonthCk;
   planDetailsDataState.minSvcMonths = MinSvcMonths === undefined ? null : MinSvcMonths;
   planDetailsDataState.hourCk = HourCk;
-  planDetailsDataState.minSvcHours = MinSvcHours;
+  planDetailsDataState.minSvcHours = MinSvcHours  ? MinSvcHours.toString() : "0";
   planDetailsDataState.entryDate = EntryDate === undefined ? null : EntryDate;
-  planDetailsDataState.vestingSchedYear1 = VestingSchedYear1;
-  planDetailsDataState.vestingSchedYear2 = VestingSchedYear2;
-  planDetailsDataState.vestingSchedYear3 = VestingSchedYear3;
+  planDetailsDataState.vestingSchedYear1 = VestingSchedYear1 ? VestingSchedYear1.toString() : "0";
+  planDetailsDataState.vestingSchedYear2 = VestingSchedYear2 ? VestingSchedYear2.toString() : "0";
+  planDetailsDataState.vestingSchedYear3 = VestingSchedYear3 ? VestingSchedYear3.toString() : "0";
   planDetailsDataState.excludedYears_18 = ExcludedYears_18;
   planDetailsDataState.excludedYears_Eff = ExcludedYears_Eff
   planDetailsDataState.ageDefinition = AgeDefinition === undefined ? null : AgeDefinition;
   planDetailsDataState.hceTopPaid = HCETopPaid === undefined ? null : HCETopPaid;
   planDetailsDataState.includeDefInEmployerCost = IncludeDefInEmployerCost;
   planDetailsDataState.include401k = Include401k;
-  planDetailsDataState.minTaxBracket = MinTaxBracket;
-  planDetailsDataState.maxTaxBracket = MaxTaxBracket;
+  planDetailsDataState.minTaxBracket = MinTaxBracket ? MinTaxBracket.toString() : "0";
+  planDetailsDataState.maxTaxBracket = MaxTaxBracket ? MaxTaxBracket.toString() : "0";
   planDetailsDataState.entity = Entity === undefined ? null : Entity;
   planDetailsDataState.preparedBy = PreparedBy;
   planDetailsDataState.companyName = CompanyName;
 
-  console.log(DropdownData.psRetAge, PSRetAge)
+  
   const Scroll = React.useRef();
   //Dd1;
   //let Dd1 = React.useRef(); 
@@ -185,17 +185,15 @@ const General = ({  route, PlanToggle }) => {
       setPlanDetailsData(planDetailsData => null);
       if (route.params && route.params.homeClick === 'Add'){
           if (DefaultPlan) {
-            console.log('===========================> DEFAULT PLAN', DefaultPlan);
+            //console.log('===========================> DEFAULT PLAN', DefaultPlan);
             setPlanDetailsData(planDetailsData => DefaultPlan);
             dataState.selectedPlan = null;
-            
           }else{
             getPlanDetails();
           }
       }else {
         getPlanDetails(dataState.plan.planId);
-      }
-      
+      }    
     }
   }, [dataState.selectedPlan, dataState["Plan Details"]]);
 
@@ -253,7 +251,7 @@ const General = ({  route, PlanToggle }) => {
       .then((response) => response.json())
       .then((responseJson) => {
           if (responseJson.isSuccess && responseJson.obj){
-            console.log("FROM UseEffect =====Api Called PLAN========> ", responseJson.obj);
+            //console.log("FROM UseEffect =====Api Called PLAN========> ", responseJson.obj);
             if (planId){
               setPlanDetailsTab(responseJson.obj[0]);
             } else{
@@ -272,7 +270,7 @@ const General = ({  route, PlanToggle }) => {
     }
 
     const setPlanDetailsTab = (responseData) => {
-
+      setDetails(responseData);
       setPlanDetailsData(planDetailsData => responseData);
       // GENERAL
       setPlanName(PlanName = responseData.planName); 
@@ -301,24 +299,6 @@ const General = ({  route, PlanToggle }) => {
       setEntity(Entity  = responseData.entity); 
       setPreparedBy(PreparedBy  = responseData.preparedBy); 
       setCompanyName(CompanyName  = responseData.companyName); 
-      
-      // CASH BALANCE
-      
-      planDetailsDataState.isPBGCCovered = responseData.isPBGCCovered === undefined ? null : responseData.isPBGCCovered;
-      planDetailsDataState.cbInterestCredit = responseData.cbInterestCredit;
-      planDetailsDataState.overrideSegRate1 = responseData.overrideSegRate1;
-      planDetailsDataState.overrideSegRate2 = responseData.overrideSegRate2;
-      planDetailsDataState.overrideSegRate3 = responseData.overrideSegRate3;
-      planDetailsDataState.preRetMortality = responseData.preRetMortality === undefined ? null : responseData.preRetMortality;
-      planDetailsDataState.mortalityTableCombined = responseData.mortalityTableCombined === undefined ? null : responseData.mortalityTableCombined;
-      planDetailsDataState.fundingForLumpSum = responseData.fundingForLumpSum === undefined ? null : responseData.fundingForLumpSum;
-      planDetailsDataState.imputeDisparity = responseData.imputeDisparity === undefined ? null : responseData.imputeDisparity;
-      planDetailsDataState.aePostRetMortalityTable = responseData.aePostRetMortalityTable === undefined ? null : responseData.aePostRetMortalityTable;
-      planDetailsDataState.aePreRetInt = responseData.aePreRetInt;
-      planDetailsDataState.aePostRetInt = responseData.aePostRetInt;
-      planDetailsDataState.taPostRetMort = responseData.taPostRetMort === undefined ? null : responseData.taPostRetMort;
-      planDetailsDataState.taPreRetInt = responseData.taPreRetInt;
-      planDetailsDataState.taPostRetInt = responseData.taPostRetInt;
       
     }
 

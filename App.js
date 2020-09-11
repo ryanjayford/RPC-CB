@@ -86,6 +86,7 @@ const App = () => {
     planData,
     plan: {},
     Details: {},
+    DetailsFetchedData: {},
     DefaultPlan,
     DefaultDropdown,
     //Array: array,
@@ -310,25 +311,30 @@ const App = () => {
           //SavePlanId: action.newId
         };  
       case 'ClassADD': 
-          return {
-            ...prevState,
-            classAdded: action.NewInfo
-          };  
-        case 'ClassEdit': 
-          return {
-            ...prevState,
-            classEdited: action.EditInfo
-          };  
-        case 'CensusADD': 
-          return {
-            ...prevState,
-            censusAdded: action.NewUserInfo
-          };  
-        case 'CensusEdit': 
-          return {
-            ...prevState,
-           censusEdited: action.EditUserInfo
-          };   
+        return {
+          ...prevState,
+          classAdded: action.NewInfo
+        };  
+      case 'ClassEdit': 
+        return {
+          ...prevState,
+          classEdited: action.EditInfo
+        };  
+      case 'CensusADD': 
+        return {
+          ...prevState,
+          censusAdded: action.NewUserInfo
+        };  
+      case 'CensusEdit': 
+        return {
+          ...prevState,
+          censusEdited: action.EditUserInfo
+        };
+      case 'SetDetails': 
+        return {
+          ...prevState,
+          DetailsFetchedData: action.Data
+        };  
         /*
       case 'OPEN': 
         return {
@@ -399,7 +405,7 @@ const App = () => {
       dispatch({ type: 'SCREENINIT', planDetails, classes, census, calculate});
     },
     setScreen: (Data) => {
-      console.log('SET SCREEN CALLED =============================>', Data);
+      //console.log('SET SCREEN CALLED =============================>', Data);
       if (Data){
         Data.PlanId = dataState.plan.planId;
         switch (Data.Name) {
@@ -508,6 +514,10 @@ const App = () => {
         dispatch({ type: 'CensusEdit', EditUserInfo});
       }
      
+    },
+    setDetails: (Data) => {
+      console.log("App=== Set Details", Data.planName);
+      dispatch({ type: 'SetDetails', Data});
     }
     /*
     search: () => {

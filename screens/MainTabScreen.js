@@ -116,15 +116,15 @@ function getPlanHeaderTitle(route, setScreen, dataState) {
     route.params?.screen || 'Plan List';
       
     if(route.state !== undefined){
-      console.log('checker =====BOTOM TAB NAV CLICKED ======>', route.state.routes[route.state.index].name);
+      //console.log('checker =====BOTOM TAB NAV CLICKED ======>', route.state.routes[route.state.index].name);
     }
 
-    console.log('screen',route.params?.screen)
+    //console.log('screen',route.params?.screen)
     let Method = 'Load';
     if (routeName === 'Plan Details' && route.params?.screen === 'Plan Details'){
       Method = 'New Plan';
     } 
-    console.log('Check=====>', routeName, route.params?.screen);
+    //console.log('Check=====>', routeName, route.params?.screen);
     if (!dataState[routeName]){
       setScreen({Name: routeName, Method});
     } else if (dataState[routeName] && dataState[routeName].PlanId != dataState.plan.planId) {

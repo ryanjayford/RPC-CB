@@ -10,6 +10,7 @@ const FOI = ({ navigation }) => {
     const [{},dataState] = React.useContext(AuthContext);
     const DefaultPlan = dataState.DefaultPlan;
     let Details = dataState.Details;
+    let DetailsFetchedData = dataState.DetailsFetchedData;
     
     let [TotOwnerCost, setTotOwnerCost] = React.useState(DefaultPlan.totOwnerCost ? DefaultPlan.totOwnerCost.toString() : null); 
     let [TotNonOwnerCost, setTotNonOwnerCost] = React.useState(DefaultPlan.totNonOwnerCost ? DefaultPlan.totNonOwnerCost.toString() : null); 
@@ -25,16 +26,16 @@ const FOI = ({ navigation }) => {
     let [Exclusions, setExclusions] = React.useState(DefaultPlan.exclusions == 0 ? 4:1); 
 
     //changing value of loginstate details
-    Details.totOwnerCost = TotOwnerCost;
-    Details.totNonOwnerCost = TotNonOwnerCost;
+    Details.totOwnerCost = TotOwnerCost ? TotOwnerCost.toString() : "0";
+    Details.totNonOwnerCost = TotNonOwnerCost ? TotNonOwnerCost.toString() : "0";
     Details.catchUp = CatchUp === undefined ? null : CatchUp;
     Details.includeMatch = IncludeMatch === undefined ? null : IncludeMatch;
-    Details.matchPercent1 = MatchPercent1;
-    Details.matchLimit1 = MatchLimit1;
-    Details.matchPercent2 = MatchPercent2;
-    Details.matchLimit2 = MatchLimit2;
-    Details.matchPercent3 = MatchPercent3;
-    Details.matchLimit3 = MatchLimit3;
+    Details.matchPercent1 = MatchPercent1 ? MatchPercent1.toString() : "0";
+    Details.matchLimit1 = MatchLimit1 ? MatchLimit1.toString() : "0";
+    Details.matchPercent2 = MatchPercent2 ? MatchPercent2.toString() : "0";
+    Details.matchLimit2 = MatchLimit2 ? MatchLimit2.toString() : "0";
+    Details.matchPercent3 = MatchPercent3 ? MatchPercent3.toString() : "0";
+    Details.matchLimit3 = MatchLimit3 ? MatchLimit3.toString() : "0";
     Details.isSafeHarborContrib = IsSafeHarborContrib;
     Details.exclusions = Exclusions === undefined ? null : Exclusions;
     
@@ -91,7 +92,26 @@ const FOI = ({ navigation }) => {
   ];
     
     const { colors } = useTheme();
-    //console.log('value',value)
+    
+
+    React.useEffect(() => {
+      //Api Data
+      //console.log("useEffect ====PLAN DETAILS DATA STATE ======================ROUTE========> ", route, dataState["Plan Details"]);
+      console.log("USE EFFECT 401 TAB+++++++++++++++++");
+      if (dataState["Plan Details"] === null || (dataState["Plan Details"] && dataState["Plan Details"].Name === 'Plan Details')){
+        setPlanDetailsTab();     
+      }
+    }, [dataState.DetailsFetchedData]);
+  
+  
+    const setPlanDetailsTab = () => {
+      console.log('==============401K==================FETCHED DATA', DetailsFetchedData.planName);
+  
+      if (DetailsFetchedData && DetailsFetchedData.planName){
+        console.log("has Data");
+      }
+    }
+
     return(
     
     <View style= {[styles.container,{backgroundColor: colors.primary}]}>

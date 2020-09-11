@@ -29,8 +29,9 @@ const CashBalance = ({ route }) => {
   const DefaultPlan = dataState.DefaultPlan;
   const DropdownData = dataState.DefaultDropdown;
   let Balance = dataState.Details;
+  let DetailsFetchedData = dataState.DetailsFetchedData;
 
-  console.log('MORTALITY TABLE===========>',Balance.aePostRetMortalityTable, DefaultPlan.aePostRetMortalityTable, DropdownData.aePostRetMortalityTable);
+  //console.log('MORTALITY TABLE===========>',Balance.aePostRetMortalityTable, DefaultPlan.aePostRetMortalityTable, DropdownData.aePostRetMortalityTable);
 
 
   let [IsPBGCCovered, setIsPBGCCovered] = React.useState(DefaultPlan.isPBGCCovered === true ? 1:2); 
@@ -50,20 +51,20 @@ const CashBalance = ({ route }) => {
   let [TAPostRetInt, setTAPostRetInt] = React.useState(DefaultPlan.taPostRetInt ? DefaultPlan.taPostRetInt.toString() : null); 
 
   Balance.isPBGCCovered = IsPBGCCovered === undefined ? null : IsPBGCCovered;
-  Balance.cbInterestCredit = CBInterestCredit;
-  Balance.overrideSegRate1 = OverrideSegRate1;
-  Balance.overrideSegRate2 = OverrideSegRate2;
-  Balance.overrideSegRate3 = OverrideSegRate3;
+  Balance.cbInterestCredit = CBInterestCredit ? CBInterestCredit.toString() : "0";
+  Balance.overrideSegRate1 = OverrideSegRate1 ? OverrideSegRate1.toString() : "0";
+  Balance.overrideSegRate2 = OverrideSegRate2 ? OverrideSegRate2.toString() : "0";
+  Balance.overrideSegRate3 = OverrideSegRate3 ? OverrideSegRate3.toString() : "0";
   Balance.preRetMortality = PreRetMortality === undefined ? null : PreRetMortality;
   Balance.mortalityTableCombined = MortalityTableCombined === undefined ? null : MortalityTableCombined;
   Balance.fundingForLumpSum = FundingForLumpSum === undefined ? null : FundingForLumpSum;
   Balance.imputeDisparity = ImputeDisparity === undefined ? null : ImputeDisparity;
   Balance.aePostRetMortalityTable = AEPostRetMortalityTable === undefined ? null : AEPostRetMortalityTable;
-  Balance.aePreRetInt = AEPreRetInt;
-  Balance.aePostRetInt = AEPostRetInt;
+  Balance.aePreRetInt = AEPreRetInt ? AEPreRetInt.toString() : "0";
+  Balance.aePostRetInt = AEPostRetInt ? AEPreRetInt.toString() : "0";
   Balance.taPostRetMort = TAPostRetMort === undefined ? null : TAPostRetMort;
-  Balance.taPreRetInt = TAPreRetInt;
-  Balance.taPostRetInt = TAPostRetInt;
+  Balance.taPreRetInt = TAPreRetInt ? TAPreRetInt.toString() : "0";
+  Balance.taPostRetInt = TAPostRetInt ? TAPostRetInt.toString() : "0";
 
   const CBScroll = React.useRef();
   let [ACTUARIALMargin, setACTUARIALMargin] = React.useState(0); 
@@ -94,14 +95,19 @@ const CashBalance = ({ route }) => {
   React.useEffect(() => {
     //Api Data
     //console.log("useEffect ====PLAN DETAILS DATA STATE ======================ROUTE========> ", route, dataState["Plan Details"]);
+    console.log("USE EFFECT CB TAB+++++++++++++++++");
     if (dataState["Plan Details"] === null || (dataState["Plan Details"] && dataState["Plan Details"].Name === 'Plan Details')){
       setPlanDetailsTab();     
     }
-  }, [dataState["Plan Details"]]);
+  }, [dataState.DetailsFetchedData]);
 
 
   const setPlanDetailsTab = () => {
-    
+    console.log('=================CB=====================FETCHED DATA', dataState.selectedPlan, '=', DetailsFetchedData.planId, DetailsFetchedData.planName);
+
+    if (DetailsFetchedData && DetailsFetchedData.planName){
+      console.log("has Data");
+    }
     //setIsPBGCCovered(IsPBGCCovered = 1); 
     /*
     setCBInterestCredit(CBInterestCredit = '120')
