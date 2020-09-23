@@ -14,9 +14,10 @@ const ClassUpdate = ({ navigation,route }) => {
     let [Classload, setClassload] = React.useState(false); 
     let currentClasses = dataState.classData;
     let token = dataState.userToken;
+
+    let userId = dataState.selectedPlan;
     //console.log('classEdited',dataState.classEdited)
     //console.log('classAdded',dataState.classAdded)
-
     //console.log(route.params?.State, 'State for classes')
     //console.log('Info in the Classupdatescreen',route.params?.Info)
     const { colors } = useTheme();
@@ -26,12 +27,26 @@ const ClassUpdate = ({ navigation,route }) => {
     //let Edited = dataState.censusEdited;
     if(route.params?.State !== 'addnew')
     {
-        contriTypeDes = Edited.contributionTypeDesc.trim();
+        contriTypeTrim = Edited.contributionTypeDesc.trim();
+        if(contriTypeTrim === 'Fixed Contribution per Individual')
+        {
+            contriTypeDes = 1;
+        }
+        else if(contriTypeTrim === 'Entire class gets the same percent as the 415 max for youngest')
+        {
+            contriTypeDes = 2;
+        }
+        else if(contriTypeTrim === 'Maximize Class to 415 Limit')
+        {
+            contriTypeDes = 3;
+        }
+        
+        
+        //error
     }
-    
     let [classcode, setclasscode] = React.useState(route.params?.State === 'addnew' ? null : Edited.classCode); 
     let [classDes, setclassDes] = React.useState(route.params?.State === 'addnew' ? null : Edited.description); 
-    let [contritype, setcontritype] = React.useState(route.params?.State === 'addnew' ? '1' : contriTypeDes); 
+    let [contritype, setcontritype] = React.useState(route.params?.State === 'addnew' ? 1 : contriTypeDes); 
     let [cashBalance, setcashBalance] = React.useState(route.params?.State === 'addnew' ? null : Edited.cbValue); 
     let [cashAmt, setcashAmt] = React.useState( route.params?.State === 'addnew' ? "%" : Edited.cbValueType); 
     let [profitSharing, setprofitSharing] = React.useState(route.params?.State === 'addnew' ? null : Edited.psValue); 
@@ -95,13 +110,14 @@ const ClassUpdate = ({ navigation,route }) => {
             let ClassesState = 'ClassEdit';
             if (route.params?.State === 'addnew') ClassesState = 'ClassAdd';
             let StateArray = {
-                Code: classcode,
+                PlanId: userId,
+                ClassCode: classcode,
                 Description: classDes,
-                Contritype: contritype,
-                CashBalance: cashBalance,
-                CashAmt: cashAmt,
-                ProfitSharing: profitSharing,
-                ProfitAmt: profitAmt
+                ContributionType: contritype,
+                CBValue: cashBalance,
+                CBValueType: cashAmt,
+                PSValue: profitSharing,
+                PSValueType: profitAmt
             }
             setTimeout(() => {
                 setClassload(Classload = false);
@@ -112,9 +128,9 @@ const ClassUpdate = ({ navigation,route }) => {
     }  
 
     var contribution = [
-        {label: 'Fixed Contribution per Individual', value: '1'},
-        {label: 'Entire class gets the same percent as the 415 max for youngest', value: '2'},
-        {label: 'Maximize Class to 415 Limit', value: '3'},
+        {label: 'Fixed Contribution per Individual', value: 1},
+        {label: 'Entire class gets the same percent as the 415 max for youngest', value: 2},
+        {label: 'Maximize Class to 415 Limit', value: 3},
     ]
     var Amt = [
         {label: '$', value: '$'},
@@ -175,6 +191,7 @@ const ClassUpdate = ({ navigation,route }) => {
                             onClose={() => {[setContriTypeMarginhideDrop(ContriTypeMarginhideDrop = false),setContriTypeMargin(ContriTypeMargin = 0)]}}
                             onChangeItem={item => {setcontritype(contritype = item.value)}} //item.value
                         />
+                        
                 <Text style={styles.columnNames}>Cash Balance Amt</Text>
 
                     <View style={{flexDirection: 'row'}}>

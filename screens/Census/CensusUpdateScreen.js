@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView,TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView,TextInput,Alert } from 'react-native';
 import{ AuthContext } from '../../components/context';
 import { useTheme } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -16,10 +16,12 @@ const AddModal = ({ navigation,route }) => {
     const [{CensusAddorEdit},dataState] = React.useContext(AuthContext);
    // console.log('censusEdited',dataState.censusEdited)
    // console.log('censusAdded',dataState.censusAdded)
-
+    let Censustoken = dataState.userToken;
+    let CensusUserId = dataState.selectedPlan;
     let parameter = route.params?.State;
     let selectedUser = route.params?.CensusInfo; //'CensusAddUser'
     //alert(selectedUser.tags['pastService'])
+
     let [fname, setfname] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.Firstname); 
     let [lname, setlname] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.Lastname); 
     let [sex, setsex] = React.useState(parameter === 'CensusAddUser' ? 'M' : selectedUser.Sex); 
@@ -70,8 +72,86 @@ const AddModal = ({ navigation,route }) => {
       }
     };
 
-    let required = fname === null | fname === "" | lname === null | lname === "" | datebirth === null | datebirth === "" | datehire === null | datehire === "" | w2earnings === null | w2earnings === "";
+    //let required = fname === null | fname === "" | lname === null | lname === "" | datebirth === null | datebirth === "" | datehire === null | datehire === "" | w2earnings === null | w2earnings === "";
     //alert(catchup)
+
+    const SaveUserArray = (navigation,Censustoken) => {
+        let CensushasError = false;
+        
+        //check if First Name is blank
+        if (fname === null | fname === "") {
+            //setClassload(Classload = false);
+            CensushasError = true;
+            Alert.alert("Error:", "First Name cannot be blank.");
+        }
+
+        //check if Last Name is blank
+        if (lname === null | lname === "") {
+            //setClassload(Classload = false);
+            CensushasError = true;
+            Alert.alert("Error:", "Last Name cannot be blank.");
+        }
+
+        //check if Date of Birth is blank
+        if (datebirth === null | datebirth === "") {
+            //setClassload(Classload = false);
+            CensushasError = true;
+            Alert.alert("Error:", "Date of Birth cannot be blank.");
+        }
+
+        //check if Date of Hire is blank
+        if (datehire === null | datehire === "") {
+            //setClassload(Classload = false);
+            CensushasError = true;
+            Alert.alert("Error:", "Date of Hire cannot be blank.");
+        }
+
+        //check if W-2 Earnings is blank
+        if (w2earnings === null | w2earnings === "") {
+            //setClassload(Classload = false);
+            CensushasError = true;
+            Alert.alert("Error:", "W-2 Earnings cannot be blank.");
+        }
+    
+        
+        if (!CensushasError) {
+            let CensusState = 'ClassEdit';
+            if (route.params?.State === 'CensusAddUser') CensusState = 'CensusAdduser';
+            let userArray = { 
+                PlanId: CensusUserId, 
+                FirstName: fname,
+                LastName: lname,
+                Principal: pricipal,
+                Sex: sex,
+                IsOwner: owner, 
+                FamilyCode: familycode,
+                DateOfBirth: datebirth,
+                DateOfHire: datehire,
+                WorkHours: hourswork,
+                //Age?
+                PastService: pastservice,//??
+                LastYearComp: LYcompensation,
+                W2Earnings: w2earnings,
+                CatchUp: catchup,
+                //HighlyComp?
+                //ClassId?
+                //RetAge
+                Classtype: classtype,//??
+                DeferralOverrideValue: deferral,
+                DeferralOverrideType: deferralchoice,
+                CBOverrideValue: CashbalanceInput,
+                CBOverrideType: Cashbalancechoice,
+                PSOverrideValue: Profitsharinginput,
+                PSOverrideType: Profitsharingchoice,
+                //ParticipationDate?
+                ParticipationDateOverride: Overridecheck,
+                HCEOverride: HCEchoice, //false?
+            }
+            CensusAddorEdit(navigation,userArray,CensusState,Censustoken);
+        }
+        
+    }  
+    /*
     if(route.params?.State === 'CensusAddUser') // for add
     {
         //alert(route.params?.State);
@@ -84,7 +164,7 @@ const AddModal = ({ navigation,route }) => {
             else
             {
                 let CensusState = 'CensusAdduser';
-                let userArray = { //incomplete test new radio button
+                let userArray = { 
                     Firstname: fname,
                     Lastname: lname,
                     Sex: sex,
@@ -126,7 +206,7 @@ const AddModal = ({ navigation,route }) => {
             else
             {
                 let CensusState = 'CensusEdituser';
-                let userArray = { //incomplete test new radio button
+                let userArray = { 
                     Firstname: fname,
                     Lastname: lname,
                     Sex: sex, 
@@ -154,7 +234,7 @@ const AddModal = ({ navigation,route }) => {
             }
         }
     }
-
+    */
     var Sex = [ //not tested
         {
             id: 'M', // required
@@ -632,7 +712,7 @@ const AddModal = ({ navigation,route }) => {
                 </View>
 
                 <View style={styles.button}>
-                    <TouchableOpacity style={styles.signIn} onPress={() => {SaveUserArray(navigation)}}>
+                    <TouchableOpacity style={styles.signIn} onPress={() => {SaveUserArray(navigation,Censustoken)}}>
                         <LinearGradient
                             colors={['#72be03','#397e05']} //'#72be03','#397e05'
                             style={styles.signIn}

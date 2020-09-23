@@ -502,14 +502,15 @@ const App = () => {
       }
       */
     },
-    CensusAddorEdit: (navigation,userArray,CensusState) => {
+    CensusAddorEdit: (navigation,userArray,CensusState,Censustoken) => {
       if(CensusState === 'CensusAdduser')
       {
         let NewUserInfo = userArray;
+        console.log('Newuser--------------->', NewUserInfo)
         console.log('state for: ', CensusState)
         console.log('AddUserArray: ==================>', userArray)
         navigation.goBack();
-        dispatch({ type: 'CensusADD', NewUserInfo});
+        //dispatch({ type: 'CensusADD', NewUserInfo});
       }
       else//CensusState === CensusEdituser
       {
@@ -517,7 +518,7 @@ const App = () => {
         console.log('state for: ', CensusState)
         console.log('EditUserArray:', userArray)
         navigation.goBack();
-        dispatch({ type: 'CensusEdit', EditUserInfo});
+        //dispatch({ type: 'CensusEdit', EditUserInfo});
       }
      
     },
