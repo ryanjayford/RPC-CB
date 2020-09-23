@@ -638,7 +638,7 @@ const AddModal = ({ navigation,route }) => {
                             style={styles.signIn}
                             start={[0, 1]} end={[1, 0]}
                         >
-                            <Text style={[styles.textSign, {color:'#fff'}]}>{parameter === 'CensusAddUser' ? 'Save New' : 'Save Edit'}</Text>
+                            <Text style={[styles.textSign, {color:'#fff'}]}>{parameter === 'CensusAddUser' ? 'Save New' : 'Update'}</Text>
                         </LinearGradient>
                     </TouchableOpacity>
 

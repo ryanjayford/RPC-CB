@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView,TextInput,ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView,TextInput,ActivityIndicator, Alert } from 'react-native';
 import{ AuthContext } from '../../components/context';
 import { useTheme } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -12,6 +12,8 @@ const {width,height} = Dimensions.get('window');
 const ClassUpdate = ({ navigation,route }) => {
     const [{ClassAddorEdit },dataState] = React.useContext(AuthContext);
     let [Classload, setClassload] = React.useState(false); 
+    let currentClasses = dataState.classData;
+    let token = dataState.userToken;
     //console.log('classEdited',dataState.classEdited)
     //console.log('classAdded',dataState.classAdded)
 
@@ -29,7 +31,7 @@ const ClassUpdate = ({ navigation,route }) => {
     
     let [classcode, setclasscode] = React.useState(route.params?.State === 'addnew' ? null : Edited.classCode); 
     let [classDes, setclassDes] = React.useState(route.params?.State === 'addnew' ? null : Edited.description); 
-    let [contritype, setcontritype] = React.useState(route.params?.State === 'addnew' ? 'Fixed Contribution per Individual' : contriTypeDes); 
+    let [contritype, setcontritype] = React.useState(route.params?.State === 'addnew' ? '1' : contriTypeDes); 
     let [cashBalance, setcashBalance] = React.useState(route.params?.State === 'addnew' ? null : Edited.cbValue); 
     let [cashAmt, setcashAmt] = React.useState( route.params?.State === 'addnew' ? "%" : Edited.cbValueType); 
     let [profitSharing, setprofitSharing] = React.useState(route.params?.State === 'addnew' ? null : Edited.psValue); 
@@ -41,81 +43,76 @@ const ClassUpdate = ({ navigation,route }) => {
 
     let ContriTypeSelected = null;
     const DropContriTypeController = (ContriTypeSelected) => {
-      if(ContriTypeSelected === 1)//ContriType
-      {
-        setContriTypeMargin(ContriTypeMargin = 150)
-        setContriTypeMarginhideDrop(ContriTypeMarginhideDrop = true)
-      }
+
+    if(ContriTypeSelected === 1)//ContriType
+        {
+            setContriTypeMargin(ContriTypeMargin = 150);
+            setContriTypeMarginhideDrop(ContriTypeMarginhideDrop = true);
+        }
     };
 
 
-    if(route.params?.State === 'addnew') // for add
-    {
-        //alert(route.params?.State);
-    
-        SaveArray = (navigation,Classload, setClassload) => {
-            if(classcode === null | classcode === "")
-            {
-                alert("Class code Can't Be Empty");
-                setClassload(Classload = false);
-            }
-            else
-            {
-                //setClassload(Classload = true);
-                let ClassesState = 'ClassAdd';
-                let StateArray = {
-                    Code: classcode,
-                    Description: classDes,
-                    Contritype: contritype,
-                    CashBalance: cashBalance,
-                    CashAmt: cashAmt,
-                    ProfitSharing: profitSharing,
-                    ProfitAmt: profitAmt
-                }
-                setTimeout(() => {
-                    setClassload(Classload = false);
-                    ClassAddorEdit(navigation,StateArray,ClassesState);
-                }, 500);
-            }
+    const SaveArray = (navigation,Classload, setClassload, currentClasses, token) => {
+        let hasError = false;
         
+        //check if Class Code is blank
+        if (classcode === null | classcode === "") {
+            setClassload(Classload = false);
+            hasError = true;
+            Alert.alert("Error:", "Class code cannot be blank.");
         }
-    }
-    else// for edit
-    {
-        //alert('edit now'); 
-        SaveArray = (navigation,Classload, setClassload) => {
-
-            if(classcode === null | classcode === "")
-            {
-                alert("Class code Can't Be Empty");
-                setClassload(Classload = false);
-            }
-            else
-            {
-                //setClassload(Classload = true);
-                let ClassesState = 'ClassEdit';
-                let StateArray = {
-                    Code: classcode,
-                    Description: classDes,
-                    Contritype: contritype,
-                    CashBalance: cashBalance,
-                    CashAmt: cashAmt,
-                    ProfitSharing: profitSharing,
-                    ProfitAmt: profitAmt
-                }
-                setTimeout(() => {
+        //check if Class Code already Exist
+        if (route.params?.State === 'addnew') {
+            currentClasses.forEach(cls => {
+                if (classcode === cls.classCode){
                     setClassload(Classload = false);
-                    ClassAddorEdit(navigation,StateArray,ClassesState);
-                }, 500);
-            }
+                    hasError = true;
+                    Alert.alert("Error:", "Class code " + classcode + " already exist.");    
+                }
+            });
         }
-    }
-    
+        
+        //invalid CB
+        if (cashBalance && isNaN(cashBalance)) {
+            setClassload(Classload = false);
+            hasError = true;
+            let err = "Cash balance percent (%) must be from 0 to 200.";
+            if (cashAmt === '$') err = "Invalid Cash balance amount."
+            Alert.alert("Error:", err );    
+        }
+        //invalid PS
+        if (profitSharing && isNaN(profitSharing)) {
+            setClassload(Classload = false);
+            hasError = true;
+            let err = "Profit sharing percent (%) must be from 0 to 100.";
+            if (profitAmt === 'S') err = "Invalid Profit sharing amount.";
+            Alert.alert("Error:", err); 
+        }
+        
+        if (!hasError) {
+            let ClassesState = 'ClassEdit';
+            if (route.params?.State === 'addnew') ClassesState = 'ClassAdd';
+            let StateArray = {
+                Code: classcode,
+                Description: classDes,
+                Contritype: contritype,
+                CashBalance: cashBalance,
+                CashAmt: cashAmt,
+                ProfitSharing: profitSharing,
+                ProfitAmt: profitAmt
+            }
+            setTimeout(() => {
+                setClassload(Classload = false);
+                ClassAddorEdit(navigation,StateArray,ClassesState, token);
+            }, 500);
+        }
+        
+    }  
 
     var contribution = [
-        {label: 'Fixed Contribution per Individual', value: 'Fixed Contribution per Individual'},
-        {label: 'Entire class gets the same percent as the 415 max for youngest', value: 'Entire class gets the same percent as the 415 max for youngest'},
-        {label: 'Maximize Class to 415 Limit', value: 'Maximize Class to 415 Limit'},
+        {label: 'Fixed Contribution per Individual', value: '1'},
+        {label: 'Entire class gets the same percent as the 415 max for youngest', value: '2'},
+        {label: 'Maximize Class to 415 Limit', value: '3'},
     ]
     var Amt = [
         {label: '$', value: '$'},
@@ -239,13 +236,13 @@ const ClassUpdate = ({ navigation,route }) => {
                 
                 <View style={styles.button}>
                 <Text style={{color: 'grey',fontSize: 12, marginBottom: 10}}>*Note: You can only maximize one class to the 415 Limit. The design will not calculate if you attempt to maximize multiple classes.</Text>
-                    <TouchableOpacity style={styles.signIn} onPress={() => {[setClassload(Classload = true),SaveArray(navigation,Classload, setClassload)]}}>
+                    <TouchableOpacity style={styles.signIn} onPress={() => {[setClassload(Classload = true), SaveArray(navigation,Classload, setClassload, currentClasses, token)]}}>
                         <LinearGradient
                             colors={['#72be03','#397e05']} //'#72be03','#397e05'
                             style={styles.signIn}
                             start={[0, 1]} end={[1, 0]}
                         >
-                            <Text style={[styles.textSign, {color:'#fff'}]}>{route.params?.State === 'addnew' ? 'Save New' : 'Save Edit'}</Text>
+                            <Text style={[styles.textSign, {color:'#fff'}]}>{route.params?.State === 'addnew' ? 'Save New' : 'Update'}</Text>
                         </LinearGradient>
                     </TouchableOpacity>
 

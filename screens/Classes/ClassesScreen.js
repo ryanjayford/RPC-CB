@@ -13,9 +13,11 @@ let RightAction = ({item}) =>
 {
   return(
     <View style={{flexDirection: 'row'}}>
+    {(item.classCode === 'A' || item.classCode === 'B' || item.classCode === 'C')? null:
     <TouchableOpacity  style={styles.DeleteAction} onPress={() =>  ClassesdeleteClickEventListener(item)}>
         <Icon style={styles.actionText} name="delete" size={25} color="white" />
     </TouchableOpacity>
+    }
     <TouchableOpacity style={styles.EditAction} onPress={() => ClassesEditEventListener(item)}>
         <Icon style={styles.actionText} name="pencil-outline" size={25} color="white" />
     </TouchableOpacity>
@@ -25,6 +27,7 @@ let RightAction = ({item}) =>
 const ClassesScreen = ({ navigation }) => {
     const { colors } = useTheme();
     const [{ },dataState] = React.useContext(AuthContext);
+    dataState.Classes;
     
     const ClassDATA = [
         {
@@ -80,17 +83,20 @@ const ClassesScreen = ({ navigation }) => {
         },
       ];
       const [classData, setClassData] = React.useState(null);
+      
+      dataState.classData = classData;
 
       React.useEffect(() => {
         //Api Data
         //console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',dataState.Classes, dataState.Classes.Name);
+        alert('called');
         if (dataState.Classes === null || (dataState.Classes && dataState.Classes.Name === 'Classes')){
           setClassData(classData => null);
           console.log("useEffect =====CLASS SCREEN========> ", dataState.plan.planId);
           getClass(dataState.plan.planId);
         }
         
-      }, [dataState.Class]);
+      }, [dataState.Classes]);
 
       const getClass = async (planId) => {
         let url = baseURL + '/Classes/ClassList?planId=' +  planId;

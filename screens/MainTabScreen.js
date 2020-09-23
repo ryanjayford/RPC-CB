@@ -93,7 +93,7 @@ function getHeaderTitle(route) {
     case 'Home':
       return 'Home';
     case 'Profile':
-      return 'My profile';
+      return 'My Profile';
     case 'Contact':
       return 'My Contacts';
     case 'Setup':

@@ -102,6 +102,7 @@ const App = () => {
     MenuResponse: false,
     classEdited: null,
     classAdded: null,
+    classData: null,
     censusEdited: null,
     censusAdded: null,
     censusData 
@@ -477,7 +478,11 @@ const App = () => {
       navigation.goBack();
       dispatch({ type: 'Menu', index,MenuName,Response});
     },
-    ClassAddorEdit: (navigation,StateArray,ClassesState) => {
+    ClassAddorEdit: (navigation,StateArray,ClassesState, userToken) => {
+      //dispatch({ type: 'SCREEN', Data: {Name: 'Classes', Method: 'Reload'}});
+      alert(ClassesState);
+      addEditClass(navigation, StateArray, ClassesState, userToken);
+      /*
       if(ClassesState === 'ClassAdd')
       {
         let NewInfo = StateArray;
@@ -495,6 +500,7 @@ const App = () => {
         navigation.goBack();
         dispatch({ type: 'ClassEdit', EditInfo});
       }
+      */
     },
     CensusAddorEdit: (navigation,userArray,CensusState) => {
       if(CensusState === 'CensusAdduser')
@@ -540,6 +546,62 @@ const App = () => {
         console.log(e);
     }
   };
+
+  //https://rpcapi-dev.azurewebsites.net/api/CB/Classes/Class
+  // {"PlanId":43773, "ClassCode":"G","Description":"Class G","ContributionType":1,"CBValue":1,"CBValueType":"%","PSValue":1,"PSValueType":"%","IsDefault":0}
+  //{"Code":"T","Description":null,"Contritype":"1","CashBalance":null,"CashAmt":"%","ProfitSharing":null,"ProfitAmt":"%"}
+
+  //DELETE : https://rpcapi-dev.azurewebsites.net/api/CB/Classes/Class?id=174107
+  const addEditClass = async (navigation, data, type, userToken) => {
+    let url = baseURL + '/Plans/Plan';
+    let method = 'POST';
+    let headers = new Headers();
+    let body = JSON.stringify(data);
+    if (type === 'ClassEdit' ) method = 'PUT'
+    
+    
+    
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', userToken);
+
+    console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers, body); //,
+   
+    /*
+    let req = new Request(url, {
+        method,
+        headers,
+        body
+    });
+
+    
+
+    
+
+
+    await fetch(req)
+    .then((response) => response.json())
+    .then((responseJson) => {
+        if (responseJson.isSuccess && responseJson.obj){
+          if (type === 'Add New'){
+            let PlanId = responseJson.obj;
+            dispatch({ type: 'PLANID', PlanId});
+          } else {
+            let Data = {Name: 'Plan List', Method : 'Load'};
+            dispatch({ type: 'SCREENPlanList', Data});
+          }
+
+          navigation.navigate('Plan Directory', {screen: 'Plan List'})
+          console.log("==================SAVE RESPONSE ===>", responseJson);
+        } else {
+          Alert.alert("Data Error------------", responseJson);
+        }
+    })
+    .catch((error) => {
+        Alert.alert("Connection Error", error.message);
+        return false;
+    });
+    */
+  }
 
   const updatePlan = async (navigation, planId, userToken) => {
     let url = baseURL + '/Plans/Plan';
