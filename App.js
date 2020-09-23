@@ -479,7 +479,7 @@ const App = () => {
       dispatch({ type: 'Menu', index,MenuName,Response});
     },
     ClassAddorEdit: (navigation,StateArray,ClassesState, userToken) => {
-      dispatch({ type: 'SCREENClass', Data: {Name: 'Classes', Method: 'Reload'}});
+      
       //alert(ClassesState);
       addEditClass(navigation, StateArray, ClassesState, userToken);
       /*
@@ -561,54 +561,41 @@ const App = () => {
 
   //DELETE : https://rpcapi-dev.azurewebsites.net/api/CB/Classes/Class?id=174107
   const addEditClass = async (navigation, data, type, userToken) => {
-    let url = baseURL + '/Plans/Plan';
+    let url = baseURL + '/Classes/Class';
     let method = 'POST';
     let headers = new Headers();
     let body = JSON.stringify(data);
     if (type === 'ClassEdit' ) method = 'PUT'
     
-    
-    
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', userToken);
 
-    console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers, body); //,
+    //console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers, body); //,
    
-    /*
     let req = new Request(url, {
         method,
         headers,
         body
     });
 
-    
-
-    
-
-
     await fetch(req)
     .then((response) => response.json())
     .then((responseJson) => {
+      console.log(responseJson);
+        
         if (responseJson.isSuccess && responseJson.obj){
-          if (type === 'Add New'){
-            let PlanId = responseJson.obj;
-            dispatch({ type: 'PLANID', PlanId});
-          } else {
-            let Data = {Name: 'Plan List', Method : 'Load'};
-            dispatch({ type: 'SCREENPlanList', Data});
-          }
-
-          navigation.navigate('Plan Directory', {screen: 'Plan List'})
-          console.log("==================SAVE RESPONSE ===>", responseJson);
+          //alert(JSON.stringify(responseJson));
+          dispatch({ type: 'SCREENClass', Data: {Name: 'Classes', Method: 'Reload'}});
+          navigation.goBack();
         } else {
-          Alert.alert("Data Error------------", responseJson);
+          Alert.alert("Data Error", responseJson.message);
         }
+        
     })
     .catch((error) => {
         Alert.alert("Connection Error", error.message);
         return false;
     });
-    */
   }
 
   const updatePlan = async (navigation, planId, userToken) => {
@@ -650,14 +637,14 @@ const App = () => {
     let method = 'POST';
     let headers = new Headers();
     let body = JSON.stringify(dataState.Details);
-    if (planId) method = 'PUT'
     
+    if (planId) method = 'PUT'
     
     
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', userToken);
 
-    console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers, body); //,
+    //console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers, body); //,
    
     let req = new Request(url, {
         method,
@@ -672,15 +659,17 @@ const App = () => {
           if (type === 'Add New'){
             let PlanId = responseJson.obj;
             dispatch({ type: 'PLANID', PlanId});
+            let Data = {Name: 'Plan List', Method : PlanId};
+            dispatch({ type: 'SCREENPlanList', Data});
           } else {
-            let Data = {Name: 'Plan List', Method : 'Load'};
+            let Data = {Name: 'Plan List', Method : "reload"};
             dispatch({ type: 'SCREENPlanList', Data});
           }
 
           navigation.navigate('Plan Directory', {screen: 'Plan List'})
           console.log("==================SAVE RESPONSE ===>", responseJson);
         } else {
-          Alert.alert("Data Error------------", responseJson);
+          Alert.alert("Data Error", responseJson.message);
         }
     })
     .catch((error) => {

@@ -94,7 +94,7 @@ const ClassesScreen = ({ navigation }) => {
           setClassData(classData => null);
           console.log("useEffect =====CLASS SCREEN========> ", dataState.plan.planId);
           getClass(dataState.plan.planId);
-          alert('called');
+          //alert('called');
         }
         
       }, [dataState.Classes]);
@@ -131,7 +131,13 @@ const ClassesScreen = ({ navigation }) => {
       }
 
       ClassesdeleteClickEventListener = (item) => {
-        Alert.alert('delete ' + item.classCode);
+        console.log(dataState.userToken );
+        //deleteClass(item)
+        //Alert.alert('delete ' + item.classCode);
+        Alert.alert("Delete Class", "Are you sure you want to delete Class Code " + item.classCode, 
+        [{ text: "Yes", onPress: () => deleteClass(item) }, 
+        { text: "No", onPress: () => {}, style: "cancel" }],
+        { cancelable: false }); 
       }
     
       ClassesEditEventListener = (item) => {
@@ -143,6 +149,39 @@ const ClassesScreen = ({ navigation }) => {
       toggleClass = (item) => {
         //Alert.alert('info:',item.classId + " " + item.classCode);
         console.log('info:',item.classId + " " + item.classCode);
+      }
+
+      const deleteClass = async (item) => {
+        let url = baseURL + '/Classes/Class?id=' + item.classId;
+        let method = 'DELETE';
+        let headers = new Headers();
+                    
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', dataState.userToken);
+    
+        //console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers, body); //,
+       
+        let req = new Request(url, {
+            method,
+            headers
+        });
+    
+        await fetch(req)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          console.log(responseJson);
+            
+            if (responseJson.isSuccess && responseJson.obj){
+              //alert(JSON.stringify(responseJson));
+              getClass(dataState.plan.planId);
+            } else {
+              Alert.alert("Data Error", responseJson.message);
+            }
+        })
+        .catch((error) => {
+            Alert.alert("Connection Error", error.message);
+            return false;
+        });
       }
 
 

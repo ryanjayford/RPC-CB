@@ -139,7 +139,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
         //console.log('Response:', responseJson);
         //console.log('Response: API Called FOR PLAN LIST =======>' , responseJson);
         if (responseJson.obj &&  responseJson.obj.length){
-          //console.log(responseJson.obj[0].planId);
+          console.log(responseJson.obj[0].planId);
           //console.log('=======PLAN LIST====>', responseJson.obj);
           initScreen(responseJson.obj[0].planId);
           updatePlanData(responseJson.obj);

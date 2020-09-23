@@ -50,7 +50,7 @@ const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNu
   console.log('CONFIRM ====>', planName, userToken);
   
   let msg = "Are you sure you want to Add New Plan?"
-  if (planId) msg = "Are you sure you want to save change to " + planName + " Plan?"
+  if (planId) msg = "Are you sure you want to save changes to " + planName + " Plan?"
   if (planName){
     Alert.alert("Save Plan", msg, 
     [{ text: "Yes", onPress: () => save(navigation, type, planId, userToken, userNumber, userSponsorId) }, //CalculatePlan(dataState, setScreen)

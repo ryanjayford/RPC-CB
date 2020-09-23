@@ -8,6 +8,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import moment from 'moment';
 import Settings from '../../settings.json';
 import { color } from 'react-native-reanimated';
+import * as WebBrowser from 'expo-web-browser';
 const {width,height} = Dimensions.get('window');
 const baseURL = Settings.domain;
 //CalculateDownloadActionClickEventListener(item,index)
@@ -15,11 +16,19 @@ let CalculateRightAction = ({item,index}) =>
 {
   return(
     <View style={{flexDirection: 'row'}}>
-      <TouchableOpacity  style={styles.DownloadAction} onPress={() => alert('Download')}>
+      {(item.requestStatus === 'C')?
+      <TouchableOpacity  style={styles.DownloadAction} onPress={() => handleDownload(item)}>
           <Icon style={styles.actionText} name="download" size={25} color="white" />
       </TouchableOpacity>
+      : null
+      }
     </View>
   )
+};
+
+const handleDownload = async (item) => {
+  let result = await WebBrowser.openBrowserAsync(item.reportOutputName);
+  setresult(thisresult = result)
 };
 const CalculateScreen = ({ navigation, CalculateLoading }) => {
     const { colors } = useTheme();
@@ -86,12 +95,13 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
         .then((responseJson) => {
             if (responseJson.isSuccess){
               console.log("FROM UseEffect =====Api Called CALCULATE========> ", responseJson);
-              setTimeout(() => {
-                getCalculatedPlan(planId);
-              }, 1000)
+              
             } else {
               Alert.alert("Data Error", responseJson.message);              
             }
+            setTimeout(() => {
+              getCalculatedPlan(planId);
+            }, 1000)
         })
         .catch((error) => {
             Alert.alert("Connection Error", error.message);
@@ -118,7 +128,7 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
         .then((response) => response.json())
         .then((responseJson) => {
           if (responseJson.isSuccess && responseJson.obj){
-            console.log("FROM UseEffect =====Api Called GET CALCULATE========> ");
+            console.log("FROM UseEffect =====Api Called GET CALCULATE========> ", responseJson.obj);
             setCalculateData(calculateData => responseJson.obj);            
           } else {
             //Alert.alert("Data Error", responseJson.message);
