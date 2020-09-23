@@ -479,8 +479,8 @@ const App = () => {
       dispatch({ type: 'Menu', index,MenuName,Response});
     },
     ClassAddorEdit: (navigation,StateArray,ClassesState, userToken) => {
-      //dispatch({ type: 'SCREEN', Data: {Name: 'Classes', Method: 'Reload'}});
-      alert(ClassesState);
+      dispatch({ type: 'SCREENClass', Data: {Name: 'Classes', Method: 'Reload'}});
+      //alert(ClassesState);
       addEditClass(navigation, StateArray, ClassesState, userToken);
       /*
       if(ClassesState === 'ClassAdd')
@@ -546,6 +546,13 @@ const App = () => {
         console.log(e);
     }
   };
+
+//
+//CENSUS 
+//https://rpcapi-dev.azurewebsites.net/api/CB/Participants/Participant
+//{"PlanId":43773,"FirstName":"Ramir A","LastName":"Cortezano","Principal":false,"PercentOwnership":0,"FamilyCode":" ","DateOfBirth":"02/01/1980","DateOfHire":"01/01/2016","WorkHours":"1000","Age":0,"PastService":4,"LastYearComp":10000,"W2Earnings":25000,"CatchUp":1,"HighlyComp":0,"ClassId":65,"Sex":"M","DeferralOverrideType":"%","DeferralOverrideValue":" ","CBOverrideValue":" ","CBOverrideType":"%","PSOverrideValue":" ","PSOverrideType":"%","IsOwner":false,"RetAge":0,"ParticipationDate":"01/01/2020","ParticipationDateOverride":false,"HCEOverride":false}
+
+
 
   //https://rpcapi-dev.azurewebsites.net/api/CB/Classes/Class
   // {"PlanId":43773, "ClassCode":"G","Description":"Class G","ContributionType":1,"CBValue":1,"CBValueType":"%","PSValue":1,"PSValueType":"%","IsDefault":0}

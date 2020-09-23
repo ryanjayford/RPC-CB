@@ -79,7 +79,9 @@ const ClassUpdate = ({ navigation,route }) => {
             let err = "Cash balance percent (%) must be from 0 to 200.";
             if (cashAmt === '$') err = "Invalid Cash balance amount."
             Alert.alert("Error:", err );    
-        }
+        } //else if (cashBalance && cashBalance)
+
+
         //invalid PS
         if (profitSharing && isNaN(profitSharing)) {
             setClassload(Classload = false);

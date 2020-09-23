@@ -89,11 +89,12 @@ const ClassesScreen = ({ navigation }) => {
       React.useEffect(() => {
         //Api Data
         //console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',dataState.Classes, dataState.Classes.Name);
-        alert('called');
+        
         if (dataState.Classes === null || (dataState.Classes && dataState.Classes.Name === 'Classes')){
           setClassData(classData => null);
           console.log("useEffect =====CLASS SCREEN========> ", dataState.plan.planId);
           getClass(dataState.plan.planId);
+          alert('called');
         }
         
       }, [dataState.Classes]);
