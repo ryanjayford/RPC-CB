@@ -6,6 +6,8 @@ import {LinearGradient} from 'expo-linear-gradient';
 import CheckBox from 'react-native-check-box';
 import DropDownPicker from 'react-native-dropdown-picker';
 //import RadioButton from 'react-native-customizable-radio-button';
+import moment from 'moment';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RadioButtonRN from 'radio-buttons-react-native';
 const {width,height} = Dimensions.get('window');
 
@@ -20,6 +22,9 @@ const AddModal = ({ navigation,route }) => {
     let CensusUserId = dataState.selectedPlan;
     let parameter = route.params?.State;
     let selectedUser = route.params?.CensusInfo; //'CensusAddUser'
+
+    let [BirthShow, setBirthShow] = React.useState(false);
+    let [HireShow, setHireShow] = React.useState(false);
     //alert(selectedUser.tags['pastService'])
 
     let [fname, setfname] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.Firstname); 
@@ -235,6 +240,21 @@ const AddModal = ({ navigation,route }) => {
         }
     }
     */
+   const CensusBirthhandleConfirm = (BselectedDate) => {
+        let BirthcurrentDate = BselectedDate;
+        BirthcurrentDate = moment(BirthcurrentDate).format('MM/DD/YYYY')
+        //alert(currentDate)
+        setBirthShow(BirthShow = !BirthShow);
+        setdatebirth(datebirth = BirthcurrentDate)
+    };
+   const CensusHirehandleConfirm = (HselectedDate) => {
+        let HirecurrentDate = HselectedDate;
+        HirecurrentDate = moment(HirecurrentDate).format('MM/DD/YYYY')
+        //alert(currentDate)
+        setHireShow(HireShow = !HireShow);
+        setdatehire(datehire = HirecurrentDate)
+    };
+    
     var Sex = [ //not tested
         {
             id: 'M', // required
@@ -442,7 +462,9 @@ const AddModal = ({ navigation,route }) => {
                             onClose={() => {[setFamilyCodehideDrop(FamilyCodehideDrop = false),setFamilyCodeMargin(FamilyCodeMargin = 0)]}}
                             onChangeItem={item => {setfamilycode(familycode = item.value)}} //item.value
                         />
+                      
                     <Text style={styles.columnNames}>Date of Birth {datebirth === null | datebirth === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
+                    <TouchableOpacity onPress={() => setBirthShow(BirthShow = !BirthShow)}>
                         <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
                             placeholder="date of birth"
@@ -450,18 +472,41 @@ const AddModal = ({ navigation,route }) => {
                             //autoCapitalize="none"
                             value={datebirth}
                             keyboardType='default'
+                            editable={false}
                             onChangeText={(val) => {setdatebirth(datebirth = val)}}
                         />
+                        {BirthShow && (
+                            <DateTimePickerModal
+                            isVisible={BirthShow}
+                            mode="date"
+                            date={(datebirth) ? new Date(datebirth): new Date()}
+                            onConfirm={(val) => CensusBirthhandleConfirm(val)}
+                            onCancel={() => setBirthShow(BirthShow = !BirthShow)}
+                            />
+                        )}
+                    </TouchableOpacity>
                     <Text style={styles.columnNames}>Date of Hire {datehire === null | datehire === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
-                        <TextInput 
-                            placeholderTextColor = 'rgba(51,51,51,0.7)'
-                            placeholder="date of hire"
-                            style={[styles.textInput,{color: colors.Logintext}]}
-                            //autoCapitalize="none"
-                            value={datehire}
-                            keyboardType='default'
-                            onChangeText={(val) => {setdatehire(datehire = val)}}
-                        />
+                        <TouchableOpacity onPress={() => setHireShow(HireShow = !HireShow)}>
+                            <TextInput 
+                                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                placeholder="date of hire"
+                                style={[styles.textInput,{color: colors.Logintext}]}
+                                //autoCapitalize="none"
+                                value={datehire}
+                                keyboardType='default'
+                                editable={false}
+                                onChangeText={(val) => {setdatehire(datehire = val)}}
+                            />
+                        </TouchableOpacity>
+                        {HireShow && (
+                            <DateTimePickerModal
+                            isVisible={HireShow}
+                            mode="date"
+                            date={(datehire) ? new Date(datehire): new Date()}
+                            onConfirm={(val) => CensusHirehandleConfirm(val)}
+                            onCancel={() => setHireShow(HireShow = !HireShow)}
+                            />
+                        )}
                     <Text style={styles.columnNames}>Hours Worked</Text>
                         <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
