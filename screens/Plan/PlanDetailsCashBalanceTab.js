@@ -107,7 +107,7 @@ const CashBalance = ({ route }) => {
 
     if (DetailsFetchedData && DetailsFetchedData.planName){
       console.log("has Data");
-    }
+    } //edit this with dataState.DetailsFetchedData
     //setIsPBGCCovered(IsPBGCCovered = 1); 
     /*
     setCBInterestCredit(CBInterestCredit = '120')

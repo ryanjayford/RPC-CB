@@ -86,7 +86,7 @@ const App = () => {
     planData,
     plan: {},
     Details: {},
-    DetailsFetchedData: {},
+    DetailsFetchedData: {}, // for 401K and Cashbalance
     DefaultPlan,
     DefaultDropdown,
     //Array: array,

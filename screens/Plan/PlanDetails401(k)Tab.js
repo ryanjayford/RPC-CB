@@ -108,7 +108,7 @@ const FOI = ({ navigation }) => {
       console.log('==============401K==================FETCHED DATA', DetailsFetchedData.planName);
   
       if (DetailsFetchedData && DetailsFetchedData.planName){
-        console.log("has Data");
+        console.log("has Data"); ////edit this with dataState.DetailsFetchedData
       }
     }
 
