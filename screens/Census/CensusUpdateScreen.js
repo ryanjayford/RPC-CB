@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView,TextInput,Alert } from 'react-native';
 import{ AuthContext } from '../../components/context';
+import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
 import CheckBox from 'react-native-check-box';
@@ -464,7 +465,7 @@ const AddModal = ({ navigation,route }) => {
                         />
                       
                     <Text style={styles.columnNames}>Date of Birth {datebirth === null | datebirth === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
-                    <TouchableOpacity onPress={() => setBirthShow(BirthShow = !BirthShow)}>
+                    <View style = {{ flexDirection: 'row'}}>
                         <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
                             placeholder="date of birth"
@@ -475,6 +476,14 @@ const AddModal = ({ navigation,route }) => {
                             editable={false}
                             onChangeText={(val) => {setdatebirth(datebirth = val)}}
                         />
+                        <TouchableOpacity onPress={() => setBirthShow(BirthShow = !BirthShow)}>
+                            <Feather style={{ marginLeft: 5}}
+                                name="calendar"
+                                color="grey"
+                                size={25}
+                            />
+                        </TouchableOpacity>
+                    </View>
                         {BirthShow && (
                             <DateTimePickerModal
                             isVisible={BirthShow}
@@ -484,9 +493,8 @@ const AddModal = ({ navigation,route }) => {
                             onCancel={() => setBirthShow(BirthShow = !BirthShow)}
                             />
                         )}
-                    </TouchableOpacity>
                     <Text style={styles.columnNames}>Date of Hire {datehire === null | datehire === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
-                        <TouchableOpacity onPress={() => setHireShow(HireShow = !HireShow)}>
+                    <View style = {{ flexDirection: 'row'}}>
                             <TextInput 
                                 placeholderTextColor = 'rgba(51,51,51,0.7)'
                                 placeholder="date of hire"
@@ -497,7 +505,14 @@ const AddModal = ({ navigation,route }) => {
                                 editable={false}
                                 onChangeText={(val) => {setdatehire(datehire = val)}}
                             />
+                         <TouchableOpacity onPress={() => setHireShow(HireShow = !HireShow)}>
+                            <Feather style={{ marginLeft: 5}}
+                            name="calendar"
+                            color="grey"
+                            size={25}
+                            />
                         </TouchableOpacity>
+                    </View>
                         {HireShow && (
                             <DateTimePickerModal
                             isVisible={HireShow}
