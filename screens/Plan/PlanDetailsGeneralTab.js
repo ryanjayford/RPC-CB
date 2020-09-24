@@ -433,7 +433,7 @@ const General = ({  route, PlanToggle }) => {
         />
         )}
         <Text style={[styles.title,{marginTop: 10}]}>Normal Retirement Age</Text>
-          <View style={{ flexDirection: 'row'}}>
+          <View style={{...(Platform.OS !== 'android'? {zIndex: 5,flexDirection: 'row'} : {flexDirection: 'row'})}}>
             <Text style={[styles.subNames,{}]}>The later of Age</Text>
             <TextInput style={{alignSelf:'flex-start', flex:1}}
               placeholderTextColor = 'rgba(51,51,51,0.7)'
