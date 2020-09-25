@@ -108,7 +108,7 @@ const FOI = ({ navigation }) => {
       console.log('==============401K==================FETCHED DATA', DetailsFetchedData.planName);
   
       if (DetailsFetchedData && DetailsFetchedData.planName){
-        console.log("has Data12"); ////edit this with dataState.DetailsFetchedData
+        console.log("has Data"); ////edit this with dataState.DetailsFetchedData
 
         let User401k = DetailsFetchedData
         setTotOwnerCost(TotOwnerCost = User401k.totOwnerCost.toString());

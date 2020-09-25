@@ -148,7 +148,7 @@ const ClassesScreen = ({ navigation }) => {
 
       toggleClass = (item) => {
         //Alert.alert('info:',item.classId + " " + item.classCode);
-        console.log('info:',item.classId + " " + item.classCode);
+        navigation.navigate('Class Detail Entry',{Info: item});
       }
 
       const deleteClass = async (item) => {

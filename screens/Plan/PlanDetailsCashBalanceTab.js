@@ -48,15 +48,15 @@ const CashBalance = ({ route }) => {
   let [TAPreRetInt, setTAPreRetInt] = React.useState(DefaultPlan.taPreRetInt ? DefaultPlan.taPreRetInt.toString() : null);
   let [TAPostRetInt, setTAPostRetInt] = React.useState(DefaultPlan.taPostRetInt ? DefaultPlan.taPostRetInt.toString() : null); 
 
-  Balance.isPBGCCovered = IsPBGCCovered === undefined ? null : IsPBGCCovered;
+  Balance.isPBGCCovered = IsPBGCCovered === 1 ? true : false;
   Balance.cbInterestCredit = CBInterestCredit ? CBInterestCredit.toString() : "0";
   Balance.overrideSegRate1 = OverrideSegRate1 ? OverrideSegRate1.toString() : "0";
   Balance.overrideSegRate2 = OverrideSegRate2 ? OverrideSegRate2.toString() : "0";
   Balance.overrideSegRate3 = OverrideSegRate3 ? OverrideSegRate3.toString() : "0";
-  Balance.preRetMortality = PreRetMortality === undefined ? null : PreRetMortality;
-  Balance.mortalityTableCombined = MortalityTableCombined === undefined ? null : MortalityTableCombined;
-  Balance.fundingForLumpSum = FundingForLumpSum === undefined ? null : FundingForLumpSum;
-  Balance.imputeDisparity = ImputeDisparity === undefined ? null : ImputeDisparity;
+  Balance.preRetMortality = PreRetMortality === 1 ? true : false;
+  Balance.mortalityTableCombined = MortalityTableCombined === 1 ? true : false;
+  Balance.fundingForLumpSum = FundingForLumpSum === 1 ? true : false;
+  Balance.imputeDisparity = ImputeDisparity === 1 ? true : false;
   Balance.aePostRetMortalityTable = AEPostRetMortalityTable === undefined ? null : AEPostRetMortalityTable;
   Balance.aePreRetInt = AEPreRetInt ? AEPreRetInt.toString() : "0";
   Balance.aePostRetInt = AEPostRetInt ? AEPreRetInt.toString() : "0";
@@ -106,6 +106,7 @@ const CashBalance = ({ route }) => {
     if (DetailsFetchedData && DetailsFetchedData.planName){
       console.log("has Data");
       let UserCB = DetailsFetchedData;
+      //console.log(UserCB.isPBGCCovered,UserCB.preRetMortality,UserCB.mortalityTableCombined, UserCB.fundingForLumpSum, UserCB.imputeDisparity);
 
       setIsPBGCCovered(IsPBGCCovered = UserCB.isPBGCCovered === true ? 1 : 2); 
       setCBInterestCredit(CBInterestCredit = UserCB.cbInterestCredit.toString())
