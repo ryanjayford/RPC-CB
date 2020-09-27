@@ -108,7 +108,22 @@ const FOI = ({ navigation }) => {
       console.log('==============401K==================FETCHED DATA', DetailsFetchedData.planName);
   
       if (DetailsFetchedData && DetailsFetchedData.planName){
-        console.log("has Data");
+        console.log("has Data"); ////edit this with dataState.DetailsFetchedData
+
+        let User401k = DetailsFetchedData
+        setTotOwnerCost(TotOwnerCost = User401k.totOwnerCost.toString());
+        setTotNonOwnerCost(TotNonOwnerCost = User401k.totNonOwnerCost.toString())
+        setCatchUp(CatchUp = User401k.catchUp === '1' ? 1 : 2)
+        setIncludeMatch(IncludeMatch = User401k.includeMatch)
+        setMatchPercent1(MatchPercent1 = User401k.matchPercent1.toString())
+        setMatchLimit1(MatchLimit1 = User401k.matchLimit1.toString())
+        setMatchPercent2(MatchPercent2 = User401k.matchPercent2.toString())
+        setMatchLimit2(MatchLimit2 = User401k.matchLimit2.toString())
+        setMatchPercent3(MatchPercent3 = User401k.matchPercent3.toString())
+        setMatchLimit3(MatchLimit3 = User401k.matchLimit3.toString())
+        setIsSafeHarborContrib(IsSafeHarborContrib = User401k.isSafeHarborContrib)
+        setExclusions(Exclusions = User401k.exclusions)
+        
       }
     }
 

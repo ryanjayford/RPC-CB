@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView,TextInput,ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView,TextInput,ActivityIndicator, Alert,Platform } from 'react-native';
 import{ AuthContext } from '../../components/context';
 import { useTheme } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -195,8 +195,8 @@ const ClassUpdate = ({ navigation,route }) => {
                         />
                         
                 <Text style={styles.columnNames}>Cash Balance Amt</Text>
-
-                    <View style={{flexDirection: 'row'}}>
+               
+                    <View  style={{...(Platform.OS !== 'android'? {zIndex: 10,flexDirection: 'row'} : {flexDirection: 'row'})}}>
                         <TextInput 
                                 placeholderTextColor = 'rgba(51,51,51,0.7)'
                                 placeholder="Cash Amt"
@@ -226,7 +226,7 @@ const ClassUpdate = ({ navigation,route }) => {
                     </View>
                 <Text style={styles.columnNames}>Profit Sharing Amt</Text>
 
-                    <View style={{flexDirection: 'row'}}>
+                    <View  style={{...(Platform.OS !== 'android'? {zIndex: 9,flexDirection: 'row'} : {flexDirection: 'row'})}}>
                         <TextInput 
                                 placeholderTextColor = 'rgba(51,51,51,0.7)'
                                 placeholder="Profit Amt"

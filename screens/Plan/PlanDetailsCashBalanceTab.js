@@ -24,8 +24,6 @@ const CashBalance = ({ route }) => {
   };
   //?console.log('thisresult', thisresult)
   //
-
-
   const DefaultPlan = dataState.DefaultPlan;
   const DropdownData = dataState.DefaultDropdown;
   let Balance = dataState.Details;
@@ -50,15 +48,15 @@ const CashBalance = ({ route }) => {
   let [TAPreRetInt, setTAPreRetInt] = React.useState(DefaultPlan.taPreRetInt ? DefaultPlan.taPreRetInt.toString() : null);
   let [TAPostRetInt, setTAPostRetInt] = React.useState(DefaultPlan.taPostRetInt ? DefaultPlan.taPostRetInt.toString() : null); 
 
-  Balance.isPBGCCovered = IsPBGCCovered === undefined ? null : IsPBGCCovered;
+  Balance.isPBGCCovered = IsPBGCCovered === 1 ? true : false;
   Balance.cbInterestCredit = CBInterestCredit ? CBInterestCredit.toString() : "0";
   Balance.overrideSegRate1 = OverrideSegRate1 ? OverrideSegRate1.toString() : "0";
   Balance.overrideSegRate2 = OverrideSegRate2 ? OverrideSegRate2.toString() : "0";
   Balance.overrideSegRate3 = OverrideSegRate3 ? OverrideSegRate3.toString() : "0";
-  Balance.preRetMortality = PreRetMortality === undefined ? null : PreRetMortality;
-  Balance.mortalityTableCombined = MortalityTableCombined === undefined ? null : MortalityTableCombined;
-  Balance.fundingForLumpSum = FundingForLumpSum === undefined ? null : FundingForLumpSum;
-  Balance.imputeDisparity = ImputeDisparity === undefined ? null : ImputeDisparity;
+  Balance.preRetMortality = PreRetMortality === 1 ? true : false;
+  Balance.mortalityTableCombined = MortalityTableCombined === 1 ? true : false;
+  Balance.fundingForLumpSum = FundingForLumpSum === 1 ? true : false;
+  Balance.imputeDisparity = ImputeDisparity === 1 ? true : false;
   Balance.aePostRetMortalityTable = AEPostRetMortalityTable === undefined ? null : AEPostRetMortalityTable;
   Balance.aePreRetInt = AEPreRetInt ? AEPreRetInt.toString() : "0";
   Balance.aePostRetInt = AEPostRetInt ? AEPreRetInt.toString() : "0";
@@ -107,24 +105,25 @@ const CashBalance = ({ route }) => {
 
     if (DetailsFetchedData && DetailsFetchedData.planName){
       console.log("has Data");
-    }
-    //setIsPBGCCovered(IsPBGCCovered = 1); 
-    /*
-    setCBInterestCredit(CBInterestCredit = '120')
-    setOverrideSegRate1(OverrideSegRate1 = '154'); 
-    setOverrideSegRate2(OverrideSegRate2 = '7474'); 
-    setOverrideSegRate3(OverrideSegRate3 = '7');
-    setPreRetMortality(PreRetMortality = 1);
-    setMortalityTableCombined(MortalityTableCombined = 2);
-    setFundingForLumpSum(FundingForLumpSum = 2);
-    setImputeDisparity(ImputeDisparity = 1);
-    setAEPostRetMortalityTable(AEPostRetMortalityTable = '1960 Group Annuity Male');
-    setAEPreRetInt(AEPreRetInt = '435');
-    setAEPostRetInt(AEPostRetInt = '343'); 
-    setTAPostRetMort(TAPostRetMort = '1983 Individual Annuity Male');
-    setTAPreRetInt(TAPreRetInt = '5435');
-    setTAPostRetInt(TAPostRetInt = '7980'); 
-    */
+      let UserCB = DetailsFetchedData;
+      //console.log(UserCB.isPBGCCovered,UserCB.preRetMortality,UserCB.mortalityTableCombined, UserCB.fundingForLumpSum, UserCB.imputeDisparity);
+
+      setIsPBGCCovered(IsPBGCCovered = UserCB.isPBGCCovered === true ? 1 : 2); 
+      setCBInterestCredit(CBInterestCredit = UserCB.cbInterestCredit.toString())
+      setOverrideSegRate1(OverrideSegRate1 = UserCB.overrideSegRate1.toString()); 
+      setOverrideSegRate2(OverrideSegRate2 = UserCB.overrideSegRate2.toString()); 
+      setOverrideSegRate3(OverrideSegRate3 = UserCB.overrideSegRate3.toString());
+      setPreRetMortality(PreRetMortality = UserCB.preRetMortality === true ? 1 : 2);
+      setMortalityTableCombined(MortalityTableCombined = UserCB.mortalityTableCombined === true ? 1 : 2);
+      setFundingForLumpSum(FundingForLumpSum = UserCB.fundingForLumpSum === true ? 1 : 2);
+      setImputeDisparity(ImputeDisparity = UserCB.imputeDisparity === true ? 1 : 2);
+      setAEPostRetMortalityTable(AEPostRetMortalityTable = UserCB.aePostRetMortalityTable);
+      setAEPreRetInt(AEPreRetInt = UserCB.aePreRetInt.toString());
+      setAEPostRetInt(AEPostRetInt = UserCB.aePostRetInt.toString()); 
+      setTAPostRetMort(TAPostRetMort = UserCB.taPostRetMort);
+      setTAPreRetInt(TAPreRetInt = UserCB.taPreRetInt.toString());
+      setTAPostRetInt(TAPostRetInt = UserCB.taPostRetInt.toString()); 
+    } //edit this with dataState.DetailsFetchedData
   }
 
   //console.log("Balance", Balance)
@@ -133,11 +132,11 @@ const CashBalance = ({ route }) => {
   const RadioBtn = [
     {
       id: 1, // required
-      text: 'Yes', //required
+      label: 'Yes', //required
     },
     {
       id: 2,
-      text: 'No',
+      label: 'No',
     },
   ];
 

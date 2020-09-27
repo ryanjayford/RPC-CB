@@ -86,7 +86,7 @@ const App = () => {
     planData,
     plan: {},
     Details: {},
-    DetailsFetchedData: {},
+    DetailsFetchedData: {}, // for 401K and Cashbalance
     DefaultPlan,
     DefaultDropdown,
     //Array: array,
@@ -570,7 +570,7 @@ const App = () => {
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', userToken);
 
-    //console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers, body); //,
+    console.log("==================SAVE UPDATE QQQQQQQQQQQQQQQQQ",  url, method, headers, body); //,
    
     let req = new Request(url, {
         method,
