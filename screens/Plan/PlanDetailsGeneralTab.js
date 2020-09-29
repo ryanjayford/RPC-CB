@@ -20,7 +20,7 @@ const General = ({  route, PlanToggle }) => {
   const DropdownData = dataState.DefaultDropdown;
   const [planDetailsData, setPlanDetailsData] = React.useState(null);
   let planDetailsDataState = dataState.Details; //dataState.General for checking
-
+  
   //console.log('==PlanID==>', dataState.plan.planId);
   //console.log('==SelectedPlanID==>', dataState.selectedPlan);
 
@@ -41,7 +41,7 @@ const General = ({  route, PlanToggle }) => {
   let [VestingSchedYear3, setVestingSchedYear3] = React.useState(DefaultPlan.vestingSchedYear3 ? DefaultPlan.vestingSchedYear3.toString():null); 
   let [ExcludedYears_18, setExcludedYears_18] = React.useState(DefaultPlan.excludedYears_18); 
   let [ExcludedYears_Eff, setExcludedYears_Eff] = React.useState(DefaultPlan.excludedYears_Eff); 
-  let [AgeDefinition, setAgeDefinition] = React.useState(DefaultPlan.ageDefinition == "N"? 1: 2); 
+  let [AgeDefinition, setAgeDefinition] = React.useState(DefaultPlan.ageDefinition === "N"? 1 : 2); 
   let [HCETopPaid, setHCETopPaid] = React.useState(DefaultPlan.hceTopPaid == 1? 1: 2); 
   let [IncludeDefInEmployerCost, setIncludeDefInEmployerCost] = React.useState(DefaultPlan.includeDefInEmployerCost); 
   let [Include401k, setInclude401k] = React.useState(DefaultPlan.include401k); 
@@ -68,7 +68,7 @@ const General = ({  route, PlanToggle }) => {
   planDetailsDataState.vestingSchedYear3 = VestingSchedYear3 ? VestingSchedYear3.toString() : "0";
   planDetailsDataState.excludedYears_18 = ExcludedYears_18;
   planDetailsDataState.excludedYears_Eff = ExcludedYears_Eff
-  planDetailsDataState.ageDefinition = AgeDefinition === undefined ? null : AgeDefinition;
+  planDetailsDataState.ageDefinition = AgeDefinition === 1 ? "N" : "Y";
   planDetailsDataState.hceTopPaid = HCETopPaid === undefined ? null : HCETopPaid;
   planDetailsDataState.includeDefInEmployerCost = IncludeDefInEmployerCost;
   planDetailsDataState.include401k = Include401k;
@@ -78,7 +78,6 @@ const General = ({  route, PlanToggle }) => {
   planDetailsDataState.preparedBy = PreparedBy;
   planDetailsDataState.companyName = CompanyName;
 
-  
   const Scroll = React.useRef();
   //Dd1;
   //let Dd1 = React.useRef(); 
@@ -281,7 +280,7 @@ const General = ({  route, PlanToggle }) => {
       setPSRetAge(PSRetAge = prepareVal(responseData.psRetAge));
       setMinAge(MinAge = prepareVal(responseData.minAge));
       setMonthCk(MonthCk  = responseData.minSvcMonths != null? true: false);
-      setMinSvcMonths(MinSvcMonths = prepareVal(responseData.minSvcMonths));
+      setMinSvcMonths(MinSvcMonths = responseData.minSvcMonths);
       setHourCk(HourCk = (responseData.minSvcHours && responseData.minSvcHours > 0) ? true: false);
       setMinSvcHours(MinSvcHours = responseData.minSvcHours ? responseData.minSvcHours.toString():"0");
       setEntryDate(EntryDate = responseData.entryDate); 
@@ -290,7 +289,7 @@ const General = ({  route, PlanToggle }) => {
       setVestingSchedYear3(VestingSchedYear3 = responseData.vestingSchedYear3 ? responseData.vestingSchedYear3.toString():"0"); 
       setExcludedYears_18(ExcludedYears_18  = responseData.excludedYears_18); 
       setExcludedYears_Eff(ExcludedYears_Eff  = responseData.excludedYears_Eff); 
-      setAgeDefinition(AgeDefinition  =  responseData.ageDefinition == "N"? 1:2); //
+      setAgeDefinition(AgeDefinition  =  responseData.ageDefinition === "N"? 1 : 2); //
       setHCETopPaid(HCETopPaid  = responseData.hceTopPaid == 1? 1: 2); 
       setIncludeDefInEmployerCost(IncludeDefInEmployerCost  = responseData.includeDefInEmployerCost); 
       setInclude401k(Include401k  = responseData.include401k); 
@@ -712,7 +711,7 @@ const General = ({  route, PlanToggle }) => {
             style={{paddingRight: 5}}
             checkedCheckBoxColor = {'#333333'}
             uncheckedCheckBoxColor	= {colors.Logintext}
-            isChecked={Include401k} onClick = {()=> setInclude401k(Include401k = !Include401k)}/>
+            isChecked={Include401k} onClick = {()=> [setInclude401k(Include401k = !Include401k),dataState.Is401kChecked = Include401k]}/>
             <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Check to include 401(k)</Text>
           </View>
 
@@ -761,7 +760,7 @@ const General = ({  route, PlanToggle }) => {
           placeholder="Firm"
           style={[styles.textInput,{color: colors.Logintext}]}
           //autoCapitalize="none"
-          value={planDetailsDataState.CompanyName}
+          value={planDetailsDataState.companyName}
           keyboardType='default'
           onChangeText={(val) => setCompanyName(CompanyName = val)}
         />

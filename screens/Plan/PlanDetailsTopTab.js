@@ -57,6 +57,11 @@ const TopTabs = ({navigation, route}) => {
                 event.preventDefault();
                 Alert.alert('Error','Please enter Plan Name'); //dataState.Details.PlanName
               }
+              else if(dataState.Is401kChecked === false)
+              {
+                event.preventDefault();
+                Alert.alert('Not Editable','Please check 401(k) first');
+              }
             }
             })
           }

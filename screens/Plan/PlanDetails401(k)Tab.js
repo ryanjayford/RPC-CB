@@ -11,7 +11,7 @@ const FOI = ({ navigation }) => {
     const DefaultPlan = dataState.DefaultPlan;
     let Details = dataState.Details;
     let DetailsFetchedData = dataState.DetailsFetchedData;
-    
+    //console.log('Is401kChecked',dataState.Is401kChecked)
     let [TotOwnerCost, setTotOwnerCost] = React.useState(DefaultPlan.totOwnerCost ? DefaultPlan.totOwnerCost.toString() : null); 
     let [TotNonOwnerCost, setTotNonOwnerCost] = React.useState(DefaultPlan.totNonOwnerCost ? DefaultPlan.totNonOwnerCost.toString() : null); 
     let [CatchUp, setCatchUp] = React.useState(DefaultPlan.catchUp == "Y" ? 1:2); 
@@ -38,6 +38,8 @@ const FOI = ({ navigation }) => {
     Details.matchLimit3 = MatchLimit3 ? MatchLimit3.toString() : "0";
     Details.isSafeHarborContrib = IsSafeHarborContrib;
     Details.exclusions = Exclusions === undefined ? null : Exclusions;
+    
+
     
    //console.log('Details',Details)
    const catchRbt = [
@@ -127,6 +129,49 @@ const FOI = ({ navigation }) => {
       }
     }
 
+    const CurrentMatch = (id) => {
+      if(id === 3 && IsSafeHarborContrib === true)
+      {
+        alert('Deactivated');
+        setIncludeMatch(IncludeMatch = 1);
+      }
+      else if(id === 3 && IsSafeHarborContrib === false)
+      {
+        setIncludeMatch(IncludeMatch = id);
+        setMatchPercent1(MatchPercent1 = '100');
+        setMatchLimit1(MatchLimit1 = '3');
+        setMatchPercent2(MatchPercent2 = '50');
+        setMatchLimit2(MatchLimit2 = '2');
+        setMatchPercent3(MatchPercent3 = '0');
+        setMatchLimit3(MatchLimit3 = '0');
+
+      }
+      else
+      {
+        setIncludeMatch(IncludeMatch = id);
+        setMatchPercent1(MatchPercent1 = '0');
+        setMatchLimit1(MatchLimit1 = '0');
+        setMatchPercent2(MatchPercent2 = '0');
+        setMatchLimit2(MatchLimit2 = '0');
+        setMatchPercent3(MatchPercent3 = '0');
+        setMatchLimit3(MatchLimit3 = '0');
+      }
+    }
+    Is3Percentcheck = () => {
+      setIsSafeHarborContrib(IsSafeHarborContrib = !IsSafeHarborContrib);
+      if(IsSafeHarborContrib === true)
+      {
+        setIncludeMatch(IncludeMatch = 1);
+        setMatchPercent1(MatchPercent1 = '0')
+        setMatchLimit1(MatchLimit1 = '0')
+        setMatchPercent2(MatchPercent2 = '0')
+        setMatchLimit2(MatchLimit2 = '0')
+        setMatchPercent3(MatchPercent3 = '0')
+        setMatchLimit3(MatchLimit3 = '0')
+        alert('Safe Harbor Match is deactivated')
+      }
+    }
+
     return(
     
     <View style= {[styles.container,{backgroundColor: colors.primary}]}>
@@ -190,7 +235,7 @@ const FOI = ({ navigation }) => {
             textStyle={{paddingLeft: 10}}
             boxStyle={{width: 200}}
 					  box={false}
-            selectedBtn={(e) => setIncludeMatch(IncludeMatch = e.id)}
+            selectedBtn={(e) => CurrentMatch(e.id)}
             circleSize={13}
             activeColor={'#333333'}
             deactiveColor={'grey'}
@@ -278,7 +323,7 @@ const FOI = ({ navigation }) => {
             style={{paddingRight: 5}}
             checkedCheckBoxColor = {'#333333'}
             uncheckedCheckBoxColor	= {colors.Logintext}
-            isChecked={IsSafeHarborContrib} onClick = {()=> setIsSafeHarborContrib(IsSafeHarborContrib = !IsSafeHarborContrib)}/>
+            isChecked={IsSafeHarborContrib} onClick = {()=> Is3Percentcheck()}/>
             <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Yes</Text>
         </View>
         <Text style={[styles.title,{marginTop: 10}]}>Exclusions</Text>
