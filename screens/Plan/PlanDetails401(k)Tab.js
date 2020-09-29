@@ -134,6 +134,7 @@ const FOI = ({ navigation }) => {
       {
         alert('Deactivated');
         setIncludeMatch(IncludeMatch = 1);
+        alert(IncludeMatch);
       }
       else if(id === 3 && IsSafeHarborContrib === false)
       {

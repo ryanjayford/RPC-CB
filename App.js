@@ -645,7 +645,7 @@ const App = () => {
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', userToken);
 
-    //console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers, body); //,
+    console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers, body); //,
    
     let req = new Request(url, {
         method,

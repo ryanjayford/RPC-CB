@@ -60,7 +60,7 @@ const TopTabs = ({navigation, route}) => {
               else if(dataState.Is401kChecked === false)
               {
                 event.preventDefault();
-                Alert.alert('Not Editable','Please check 401(k) first');
+                //Alert.alert('Not Editable','Please check 401(k) first');
               }
             }
             })
