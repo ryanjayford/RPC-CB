@@ -15,15 +15,18 @@ const ClassUpdate = ({ navigation,route }) => {
     let currentClasses = dataState.classData;
     let token = dataState.userToken;
 
-    let userId = dataState.selectedPlan;
+    let planId = dataState.selectedPlan;
     //console.log('classEdited',dataState.classEdited)
     //console.log('classAdded',dataState.classAdded)
+    //console.log('currentClass',currentClasses);
     //console.log(route.params?.State, 'State for classes')
     //console.log('Info in the Classupdatescreen',route.params?.Info)
     const { colors } = useTheme();
 
     let Edited = route.params?.Info;
     let contriTypeDes = null;
+    
+    console.log('Edited', Edited);
     //let Edited = dataState.censusEdited;
     if(route.params?.State !== 'addnew')
     {
@@ -44,6 +47,7 @@ const ClassUpdate = ({ navigation,route }) => {
         
         //error
     }
+    let [classId, setclassId] = React.useState(route.params?.State === 'addnew' ? null : Edited.classId);
     let [classcode, setclasscode] = React.useState(route.params?.State === 'addnew' ? null : Edited.classCode); 
     let [classDes, setclassDes] = React.useState(route.params?.State === 'addnew' ? null : Edited.description); 
     let [contritype, setcontritype] = React.useState(route.params?.State === 'addnew' ? 1 : contriTypeDes); 
@@ -51,6 +55,7 @@ const ClassUpdate = ({ navigation,route }) => {
     let [cashAmt, setcashAmt] = React.useState( route.params?.State === 'addnew' ? "%" : Edited.cbValueType); 
     let [profitSharing, setprofitSharing] = React.useState(route.params?.State === 'addnew' ? null : Edited.psValue); 
     let [profitAmt, setprofitAmt] = React.useState(route.params?.State === 'addnew' ? "%" : Edited.psValueType);
+    
 
     const CUpdateScroll = React.useRef();
     let [ContriTypeMargin, setContriTypeMargin] = React.useState(0);
@@ -110,9 +115,8 @@ const ClassUpdate = ({ navigation,route }) => {
         
         if (!hasError) {
             let ClassesState = 'ClassEdit';
-            if (route.params?.State === 'addnew') ClassesState = 'ClassAdd';
             let StateArray = {
-                PlanId: userId,
+                PlanId: planId,
                 ClassCode: classcode,
                 Description: classDes === null? "" : classDes,
                 ContributionType: contritype,
@@ -120,6 +124,11 @@ const ClassUpdate = ({ navigation,route }) => {
                 CBValueType: cashAmt,
                 PSValue: profitSharing === null? "0" : profitSharing,
                 PSValueType: profitAmt
+            }
+            if (route.params?.State === 'addnew') {
+                ClassesState = 'ClassAdd';             
+            } else {
+                StateArray.classId = classId;
             }
             setTimeout(() => {
                 setClassload(Classload = false);
