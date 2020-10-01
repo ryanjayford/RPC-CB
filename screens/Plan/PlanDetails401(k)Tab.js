@@ -39,7 +39,7 @@ const FOI = ({ navigation }) => {
     Details.isSafeHarborContrib = IsSafeHarborContrib;
     Details.exclusions = Exclusions === undefined ? null : Exclusions;
     
-
+   
     
    //console.log('Details',Details)
    const catchRbt = [
@@ -74,6 +74,23 @@ const FOI = ({ navigation }) => {
     },
   ];
 
+  const SubmatchRbt = [
+    {
+      id: 1, 
+      label: 'No Match'
+    },
+    {
+      id: 2,
+      label: 'Regular Match'
+    },
+    {
+      id: 3,
+      label: 'Discretionary Match'
+    },
+  ];
+  
+  
+ 
   const exclusionRbt = [
     {
       id: 1,
@@ -130,13 +147,14 @@ const FOI = ({ navigation }) => {
     }
 
     const CurrentMatch = (id) => {
+      /*
       if(id === 3 && IsSafeHarborContrib === true)
       {
-        alert('Deactivated');
-        setIncludeMatch(IncludeMatch = 1);
+        //alert('Deactivated');
+        setIncludeMatch(IncludeMatch = 3);
         alert(IncludeMatch);
-      }
-      else if(id === 3 && IsSafeHarborContrib === false)
+      }*/
+      if(id === 3 && IsSafeHarborContrib === false)
       {
         setIncludeMatch(IncludeMatch = id);
         setMatchPercent1(MatchPercent1 = '100');
@@ -158,10 +176,24 @@ const FOI = ({ navigation }) => {
         setMatchLimit3(MatchLimit3 = '0');
       }
     }
-    Is3Percentcheck = () => {
+    const Is3Percentcheck = () => {
       setIsSafeHarborContrib(IsSafeHarborContrib = !IsSafeHarborContrib);
       if(IsSafeHarborContrib === true)
       {
+        setmatchChoice(matchChoice =  [
+          {
+            id: 1, 
+            label: 'No Match'
+          },
+          {
+            id: 2,
+            label: 'Regular Match'
+          },
+          {
+            id: 3,
+            label: 'Discretionary Match'
+          },
+        ])
         setIncludeMatch(IncludeMatch = 1);
         setMatchPercent1(MatchPercent1 = '0')
         setMatchLimit1(MatchLimit1 = '0')
@@ -169,9 +201,37 @@ const FOI = ({ navigation }) => {
         setMatchLimit2(MatchLimit2 = '0')
         setMatchPercent3(MatchPercent3 = '0')
         setMatchLimit3(MatchLimit3 = '0')
-        alert('Safe Harbor Match is deactivated')
+       // alert('Safe Harbor Match is deactivated')
+      }
+      else
+      {
+        setIncludeMatch(IncludeMatch = 1);
+        setmatchChoice(matchChoice =  [
+          {
+            id: 1, 
+            label: 'No Match'
+          },
+          {
+            id: 2,
+            label: 'Regular Match'
+          },
+          {
+            id: 3, 
+            label: 'Safe Harbor Match'
+          },
+          {
+            id: 4,
+            label: 'Discretionary Match'
+          },
+        ])
       }
     }
+
+    let [test, settest] = React.useState(IsSafeHarborContrib === true ?  1 : 2);
+    let [matchChoice, setmatchChoice] = React.useState(IsSafeHarborContrib === true ?  matchRbt : SubmatchRbt); 
+    console.log('IsSafeHarborContrib',IsSafeHarborContrib);
+    console.log('test',test);
+    console.log('matchChoice',matchChoice);
 
     return(
     
@@ -228,7 +288,7 @@ const FOI = ({ navigation }) => {
         <Text style={[styles.title,{marginTop: 10}]}>Match %</Text>
 
         <RadioButtonRN
-            data={matchRbt}
+            data={matchChoice}
             activeOpacity={2}
             initial={IncludeMatch}
             animationTypes={['pulse']}
