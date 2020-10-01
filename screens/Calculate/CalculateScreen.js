@@ -28,9 +28,9 @@ let CalculateRightAction = ({item,index}) =>
 
 const handleDownload = async (item) => {
   let reportLink = item.reportOutputName.replace('DownloadReport','ViewReport'); 
-  //console.log(item.reportOutputName, reportLink);
+  console.log(item.reportOutputName, reportLink);
   let result = await WebBrowser.openBrowserAsync(reportLink);
-  setresult(thisresult = result)
+  //setresult(thisresult = result)
 };
 const CalculateScreen = ({ navigation, CalculateLoading }) => {
     const { colors } = useTheme();
