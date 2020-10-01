@@ -27,7 +27,9 @@ let CalculateRightAction = ({item,index}) =>
 };
 
 const handleDownload = async (item) => {
-  let result = await WebBrowser.openBrowserAsync(item.reportOutputName);
+  let reportLink = item.reportOutputName.replace('DownloadReport','ViewReport'); 
+  //console.log(item.reportOutputName, reportLink);
+  let result = await WebBrowser.openBrowserAsync(reportLink);
   setresult(thisresult = result)
 };
 const CalculateScreen = ({ navigation, CalculateLoading }) => {
