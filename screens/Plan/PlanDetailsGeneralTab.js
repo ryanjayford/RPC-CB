@@ -179,19 +179,29 @@ const General = ({  route, PlanToggle }) => {
   React.useEffect(() => {
     //Api Data
     //console.log("useEffect ====PLAN DETAILS DATA STATE ======================ROUTE========> ", route, dataState["Plan Details"]);
-    if (dataState["Plan Details"] === null || (dataState["Plan Details"] && dataState["Plan Details"].Name === 'Plan Details')){
+    
+    if (!dataState["Plan Details"] || (dataState["Plan Details"] && dataState["Plan Details"].Name === 'Plan Details')){
+      //alert('start');
       console.log("useEffect ====PLAN DETAILS GENERAL=========> ", PlanName, PlanDescription);      
       setPlanDetailsData(planDetailsData => null);
       if (route.params && route.params.homeClick === 'Add'){
+        
           if (DefaultPlan) {
             //console.log('===========================> DEFAULT PLAN', DefaultPlan);
             setPlanDetailsData(planDetailsData => DefaultPlan);
-            //dataState.selectedPlan = null;
+            setPlanDetailsTab(DefaultPlan);
+            //alert('selectedPlan: ' + dataState.selectedPlan +  ' planId: ' +  dataState.plan.planId);
+            //alert(route.params.homeClick);
+            dataState.selectedPlan = null;
+            route.params.homeClick = "save";
+           // alert('DefaultPlan' + route.params.homeClick);
           }else{
             getPlanDetails();
+           // alert('from else'+ dataState.plan.planId);
           }
       }else {
         getPlanDetails(dataState.plan.planId);
+       // alert('from last' + dataState.plan.planId);
       }    
     }
   }, [dataState.selectedPlan, dataState["Plan Details"]]);
