@@ -73,7 +73,7 @@ const FOI = ({ navigation }) => {
       label: 'Discretionary Match'
     },
   ];
-
+  /*
   const SubmatchRbt = [
     {
       id: 1, 
@@ -88,7 +88,7 @@ const FOI = ({ navigation }) => {
       label: 'Discretionary Match'
     },
   ];
-  
+  */
   
  
   const exclusionRbt = [
@@ -111,7 +111,8 @@ const FOI = ({ navigation }) => {
   ];
     
     const { colors } = useTheme();
-    
+    //includeMatchArray
+    let [matchChoice, setmatchChoice] = React.useState(matchRbt); 
 
     React.useEffect(() => {
       //Api Data
@@ -125,7 +126,7 @@ const FOI = ({ navigation }) => {
   
     const setPlanDetailsTab = () => {
       console.log('==============401K==================FETCHED DATA', DetailsFetchedData.planName);
-  
+      
       if (DetailsFetchedData && DetailsFetchedData.planName){
         console.log("has Data"); ////edit this with dataState.DetailsFetchedData
 
@@ -142,18 +143,61 @@ const FOI = ({ navigation }) => {
         setMatchLimit3(MatchLimit3 = User401k.matchLimit3.toString());
         setIsSafeHarborContrib(IsSafeHarborContrib = User401k.isSafeHarborContrib);
         setExclusions(Exclusions = User401k.exclusions);
-        Is3Percentcheck();
+        
+        //IsSafeHarborContrib if true or false
+        SetIncludeMatchAarry();
       }
     }
 
+    const SetIncludeMatchAarry = () => {
+      if(IsSafeHarborContrib === true)
+        {
+          setmatchChoice(matchChoice =  [
+            {
+              id: 1, 
+              label: 'No Match'
+            },
+            {
+              id: 2,
+              label: 'Regular Match'
+            },
+            {
+              id: 3,
+              label: 'Discretionary Match'
+            },
+          ])
+          setMatchPercent1(MatchPercent1 = '0')
+          setMatchLimit1(MatchLimit1 = '0')
+          setMatchPercent2(MatchPercent2 = '0')
+          setMatchLimit2(MatchLimit2 = '0')
+          setMatchPercent3(MatchPercent3 = '0')
+          setMatchLimit3(MatchLimit3 = '0')
+        }
+        else
+        {
+          //IsSafeHarborContrib = false
+          setmatchChoice(matchChoice =  [
+            {
+              id: 1, 
+              label: 'No Match'
+            },
+            {
+              id: 2,
+              label: 'Regular Match'
+            },
+            {
+              id: 3, 
+              label: 'Safe Harbor Match'
+            },
+            {
+              id: 4,
+              label: 'Discretionary Match'
+            },
+          ])
+        }
+    }
+
     const CurrentMatch = (id) => {
-      /*
-      if(id === 3 && IsSafeHarborContrib === true)
-      {
-        //alert('Deactivated');
-        setIncludeMatch(IncludeMatch = 3);
-        alert(IncludeMatch);
-      }*/
       if(id === 3 && IsSafeHarborContrib === false)
       {
         setIncludeMatch(IncludeMatch = id);
@@ -226,12 +270,6 @@ const FOI = ({ navigation }) => {
         ])
       }
     }
-
-    let [test, settest] = React.useState(IsSafeHarborContrib === true ?  1 : 2);
-    let [matchChoice, setmatchChoice] = React.useState(IsSafeHarborContrib === true ?  matchRbt : SubmatchRbt); 
-    console.log('IsSafeHarborContrib',IsSafeHarborContrib);
-    console.log('test',test);
-    console.log('matchChoice',matchChoice);
 
     return(
     

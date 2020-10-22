@@ -754,14 +754,14 @@ const App = () => {
                     name="home"
                     color={color} />
             }} />
-            <Drawer.Screen name="Profile" component={ProfileScreen} options={{
+            <Drawer.Screen name="My Profile" component={ProfileScreen} options={{
                 drawerIcon: ({ color, size }) => <Icon2
                     size={size}
                     name="ios-person"
                     color={color}
                     style={{ marginRight: 2.5, marginLeft: 2.5}} />
             }} />
-            <Drawer.Screen name="Contact" component={BookmarkScreen} options={{
+            <Drawer.Screen name="My Contact" component={BookmarkScreen} options={{
                 drawerIcon: ({ color, size }) => <Icon
                     size={size}
                     name="contacts"

@@ -186,7 +186,7 @@ const General = ({  route, PlanToggle }) => {
           if (DefaultPlan) {
             //console.log('===========================> DEFAULT PLAN', DefaultPlan);
             setPlanDetailsData(planDetailsData => DefaultPlan);
-            dataState.selectedPlan = null;
+            //dataState.selectedPlan = null;
           }else{
             getPlanDetails();
           }
