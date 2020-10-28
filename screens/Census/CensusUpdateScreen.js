@@ -51,7 +51,7 @@ const AddModal = ({ navigation,route }) => {
     let [Profitsharingchoice, setProfitsharingchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode); 
     let [HCEchoice, setHCEchoice] = React.useState(1); 
     let [Overridecheck, setOverridecheck] = React.useState(parameter === 'CensusAddUser' ? false : selectedUser.OverrideParticipationDate);
-    let [percentOwnership, setPercentOwnership] = React.useState(parameter === 'CensusAddUser' ? 50 : selectedUser.percentOwnership); 
+    let [percentOwnership, setPercentOwnership] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.percentOwnership); 
     let [age, setAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.age); 
     let [highlyComp, setHighlyComp] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.highlyComp); 
     let [classId, setClassId] = React.useState(parameter === 'CensusAddUser' ? 65 : selectedUser.classId); 
