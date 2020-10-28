@@ -173,6 +173,7 @@ const ClassesScreen = ({ navigation }) => {
             
             if (responseJson.isSuccess && responseJson.obj){
               //alert(JSON.stringify(responseJson));
+              setClassData(classData => null);
               getClass(dataState.plan.planId);
             } else {
               Alert.alert("Data Error", responseJson.message);

@@ -447,7 +447,7 @@ const App = () => {
           dataState.Details.planId = planId; 
        }
       //console.log('=====CHECK DETAILS==>',userToken, dataState.Details);
-      savePlan(navigation, planId, userToken, type);
+      addEditPlan(navigation, planId, userToken, type);
       
       /*
       //planData.length = total of current number of objects in the array
@@ -504,6 +504,8 @@ const App = () => {
       */
     },
     CensusAddorEdit: (navigation,userArray,CensusState,Censustoken) => {
+      addEditCensus(navigation, userArray, CensusState, Censustoken);
+      /*
       if(CensusState === 'CensusAdduser')
       {
         let NewUserInfo = userArray;
@@ -521,7 +523,7 @@ const App = () => {
         navigation.goBack();
         //dispatch({ type: 'CensusEdit', EditUserInfo});
       }
-     
+      */
     },
     setDetails: (Data) => {
       console.log("App=== Set Details", Data.planName);
@@ -554,6 +556,44 @@ const App = () => {
 //https://rpcapi-dev.azurewebsites.net/api/CB/Participants/Participant
 //{"PlanId":43773,"FirstName":"Ramir A","LastName":"Cortezano","Principal":false,"PercentOwnership":0,"FamilyCode":" ","DateOfBirth":"02/01/1980","DateOfHire":"01/01/2016","WorkHours":"1000","Age":0,"PastService":4,"LastYearComp":10000,"W2Earnings":25000,"CatchUp":1,"HighlyComp":0,"ClassId":65,"Sex":"M","DeferralOverrideType":"%","DeferralOverrideValue":" ","CBOverrideValue":" ","CBOverrideType":"%","PSOverrideValue":" ","PSOverrideType":"%","IsOwner":false,"RetAge":0,"ParticipationDate":"01/01/2020","ParticipationDateOverride":false,"HCEOverride":false}
 
+  const addEditCensus = async (navigation, data, type, userToken) => {
+    console.log('census type ====', type);
+    let url = baseURL + '/Participants/Participant';
+    let method = 'POST';
+    let headers = new Headers();
+    let body = JSON.stringify(data);
+    if (type === 'CensusEdituser' ) method = 'PUT'
+    
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', userToken);
+
+    console.log("<==ADD EDIT Census==>",  url, method, headers, body); //,
+  
+    let req = new Request(url, {
+        method,
+        headers,
+        body
+    });
+
+    await fetch(req)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+        
+        if (responseJson.isSuccess && responseJson.obj){
+          //alert(JSON.stringify(responseJson));
+          dispatch({ type: 'SCREENCensus', Data: {Name: 'Census', Method: 'Reload'}});
+          navigation.goBack();
+        } else {
+          Alert.alert("Data Error", responseJson.message);
+        }
+        
+    })
+    .catch((error) => {
+        Alert.alert("Connection Error", error.message);
+        return false;
+    });
+  }
 
 
   //https://rpcapi-dev.azurewebsites.net/api/CB/Classes/Class
@@ -599,41 +639,9 @@ const App = () => {
     });
   }
 
-  const updatePlan = async (navigation, planId, userToken) => {
-    let url = baseURL + '/Plans/Plan';
-    let method = 'POST';
-    let headers = new Headers();
-    let body = JSON.stringify(dataState.Details);
-    if (planId) method = 'PUT'
-    
-    console.log("==================SAVE PLAN====TOKEN===>", userToken);
-    
-    headers.append('Content-Type', 'application/json');
-    headers.append('Authorization', userToken);
-   
-    let req = new Request(url, {
-        method,
-        headers,
-        body
-    });
+  
 
-    await fetch(req)
-    .then((response) => response.json())
-    .then((responseJson) => {
-        if (responseJson.isSuccess && responseJson.obj){
-          navigation.navigate('Plan Directory', {screen: 'Plan List'})
-          //console.log(responseJson);
-        } else {
-          Alert.alert("Data Error", responseJson.message);
-        }
-    })
-    .catch((error) => {
-        Alert.alert("Connection Error", error.message);
-        return false;
-    });
-  }
-
-  const savePlan = async (navigation, planId, userToken, type) => {
+  const addEditPlan = async (navigation, planId, userToken, type) => {
     let url = baseURL + '/Plans/Plan';
     let method = 'POST';
     let headers = new Headers();

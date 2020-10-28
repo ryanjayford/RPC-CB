@@ -193,7 +193,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     .then((responseJson) => {
      //console.log('CHECKING ERROR================>');
       if (responseJson.isSuccess && responseJson.obj){
-          console.log("FROM UseEffect =====Api Called CENSUS========> " );
+          console.log("FROM UseEffect =====Api Called CENSUS========> ");
           TransfromCensusData(responseJson.obj);
         } else {
           Alert.alert("Data Error", responseJson.message);
@@ -213,6 +213,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
       data.forEach(function(item, idx) {
         let tags = [];
         let censusD = {};
+        censusD.participantID = item.participantID;
         censusD.id = item.id;
         censusD.dateOfBirth = moment(item["dateOfBirth"]).format('MM/DD/YYYY');
         censusD.dateOfHire = moment(item["dateOfHire"]).format('MM/DD/YYYY');
@@ -238,6 +239,12 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
         censusD.DeferralPercent = item.deferralPercent;
         censusD.OverrideParticipationDate = item.overrideParticipationDate;
         censusD.lastYearComp = item.lastYearComp;
+        censusD.percentOwnership = item.percentOwnership;
+        censusD.age = item.age;
+        censusD.highlyComp = item.highlyComp;
+        censusD.classId = item.classId;
+        censusD.retAge = item.retAge;
+        censusD.participationDate = item.participationDate;
         if (item["percentOwnership"]) censusD.own = parseInt(item["percentOwnership"]);
         
         if (item.principal && item.principal == "Y" || item.principal == "Yes") tags.push("Is PR? Yes");
@@ -256,6 +263,35 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     setCensusData(censusData => censusTransformData);
     setOldCensusData(oldCensusData => censusTransformData);
   }
+
+  const deleteParticipant = async (id) => {
+    let url = baseURL + '/Participants/Participant?id=' +  id; 
+    let method = 'DELETE';
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', dataState.userToken);
+    console.log('Delete Participant ======>', url, method, headers);
+    let req = new Request(url, {
+        method,
+        headers
+    });
+
+    await fetch(req)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      if (responseJson.isSuccess && responseJson.obj){
+          setCensusData(censusData => null);
+          getCensus(dataState.plan.planId);
+        } else {
+          Alert.alert("Data Error", responseJson.message);
+        }
+    })
+    .catch((error) => {
+        Alert.alert("Connection Error", error.message);
+        return false;
+    });
+  }
+
      
   cardClickEventListener = (item) => {
     console.log(item.name);
@@ -266,7 +302,11 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
   }
 
   CensusDeleteClickEventListener = (item) => {
-    Alert.alert('delete ' + item.name);
+    console.log(item);
+    Alert.alert("Delete", "Are you sure you want to delete " + item.name + " ?", 
+    [{ text: "Yes", onPress: () => deleteParticipant(item.participantID) }, //CalculatePlan(dataState, setScreen)
+    { text: "No", onPress: () => {}, style: "cancel" }],
+    { cancelable: false }); 
   }
 
   tagClickEventListener = (tagName) => {
