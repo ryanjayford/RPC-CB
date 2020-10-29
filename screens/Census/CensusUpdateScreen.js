@@ -23,40 +23,43 @@ const AddModal = ({ navigation,route }) => {
     let CensusPlanId = dataState.selectedPlan;
     let parameter = route.params?.State;
     let selectedUser = route.params?.CensusInfo; //'CensusAddUser'
+    let currentYear = new Date().getFullYear()
 
     let [BirthShow, setBirthShow] = React.useState(false);
     let [HireShow, setHireShow] = React.useState(false);
+    let [OverrideShow, setOverrideShow] = React.useState(false);
+    
     console.log('selectected user ===>', selectedUser);
 
-    let [paxId, setPaxId] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.participantID); 
-    let [fname, setfname] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.Firstname); 
-    let [lname, setlname] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.Lastname); 
+    let [paxId, setPaxId] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.participantID); 
+    let [fname, setfname] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.Firstname); 
+    let [lname, setlname] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.Lastname); 
     let [sex, setsex] = React.useState(parameter === 'CensusAddUser' ? 'M' : selectedUser.Sex); 
     let [pricipal, setpricipal] = React.useState(parameter === 'CensusAddUser' ? 1 : selectedUser.Principal); 
-    let [owner, setowner] = React.useState(parameter === 'CensusAddUser' ? 1 : selectedUser.IsOwner); 
+    let [owner, setowner] = React.useState(parameter === 'CensusAddUser' ? 2 : selectedUser.IsOwner); 
     let [familycode, setfamilycode] = React.useState(parameter === 'CensusAddUser' ? " " : selectedUser.FamilyCode); 
-    let [datebirth, setdatebirth] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.dateOfBirth);
-    let [datehire, setdatehire] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.dateOfHire);
+    let [datebirth, setdatebirth] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.dateOfBirth);
+    let [datehire, setdatehire] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.dateOfHire);
     let [hourswork, sethourswork] = React.useState(parameter === 'CensusAddUser' ? '1000' : selectedUser.workHours.toString());
     let [pastservice, setpastservice] = React.useState(parameter === 'CensusAddUser' ? '0' : selectedUser.PastService.toString()); 
     let [LYcompensation, setLYcompensation] = React.useState(parameter === 'CensusAddUser' ? '0' : selectedUser.lastYearComp.toString()); 
-    let [w2earnings, setw2earnings] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.W2Earnings.toString()); 
+    let [w2earnings, setw2earnings] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.W2Earnings.toString()); 
     let [catchup, setcatchup] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.HasCatchUp); //checking
     let [classtype, setclasstype] = React.useState('A - Owner HCEs'); 
-    let [deferral, setdeferral] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.DeferralPercent); 
+    let [deferral, setdeferral] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.DeferralPercent); 
     let [deferralchoice, setdeferralchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.DeferCode); 
-    let [CashbalanceInput, setCashbalanceInput] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.CbPercent); 
+    let [CashbalanceInput, setCashbalanceInput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.CbPercent); 
     let [Cashbalancechoice, setCashbalancechoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.CbCode); 
-    let [Profitsharinginput, setProfitsharinginput] = React.useState(parameter === 'CensusAddUser' ? null : selectedUser.PsPercent); 
+    let [Profitsharinginput, setProfitsharinginput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent); 
     let [Profitsharingchoice, setProfitsharingchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode); 
     let [HCEchoice, setHCEchoice] = React.useState(1); 
     let [Overridecheck, setOverridecheck] = React.useState(parameter === 'CensusAddUser' ? false : selectedUser.OverrideParticipationDate);
-    let [percentOwnership, setPercentOwnership] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.percentOwnership); 
+    let [percentOwnership, setPercentOwnership] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.percentOwnership.toString()); 
     let [age, setAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.age); 
     let [highlyComp, setHighlyComp] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.highlyComp); 
     let [classId, setClassId] = React.useState(parameter === 'CensusAddUser' ? 65 : selectedUser.classId); 
     let [retAge, setRetAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.retAge); 
-    let [participationDate, setParticipationDate] = React.useState(parameter === 'CensusAddUser' ? '2020-01-01T00:00:00' : selectedUser.participationDate); 
+    let [participationDate, setParticipationDate] = React.useState(parameter === 'CensusAddUser' ? '1/1/' + currentYear : moment(selectedUser.participationDate).format('MM/DD/YYYY')); 
     
     const CensusUpdateScroll = React.useRef();
     let [FamilyCodeMargin, setFamilyCodeMargin] = React.useState(0); 
@@ -125,6 +128,24 @@ const AddModal = ({ navigation,route }) => {
             CensushasError = true;
             Alert.alert("Error:", "W-2 Earnings cannot be blank.");
         }
+
+        if (pastservice === null | pastservice === "") {
+            //setClassload(Classload = false);
+            CensushasError = true;
+            Alert.alert("Error:", "Past Service cannot be blank.");
+        }
+
+        if (LYcompensation === null | LYcompensation === "") {
+            //setClassload(Classload = false);
+            CensushasError = true;
+            Alert.alert("Error:", "LY Compensation cannot be blank.");
+        }
+
+        if ((percentOwnership === null & owner === 1) | (percentOwnership === "" & owner === 1)) {
+            //setClassload(Classload = false);
+            CensushasError = true;
+            Alert.alert("Error:", "Percent Ownership cannot be blank.");
+        }
     
         
         if (!CensushasError) {
@@ -159,7 +180,7 @@ const AddModal = ({ navigation,route }) => {
                 //ParticipationDate?
                 ParticipationDateOverride: Overridecheck,
                 HCEOverride: HCEchoice === 1? true: false,
-                PercentOwnership: percentOwnership,
+                PercentOwnership: percentOwnership === "" ? 0: percentOwnership,
                 Age: age,
                 HighlyComp: highlyComp,
                 ClassId: classId,
@@ -171,104 +192,30 @@ const AddModal = ({ navigation,route }) => {
         }
         
     }  
-    /*
-    if(route.params?.State === 'CensusAddUser') // for add
-    {
-        //alert(route.params?.State);
-        SaveUserArray = (navigation) => {
-           
-            if(required) 
-            {
-                alert('Please, Fill Up All Required Inputs')
-            }
-            else
-            {
-                let CensusState = 'CensusAdduser';
-                let userArray = { 
-                    Firstname: fname,
-                    Lastname: lname,
-                    Sex: sex,
-                    Pricipal: pricipal,
-                    Owner: owner,
-                    Familycode: familycode,
-                    DateOfBirth: datebirth,
-                    DateOfHire: datehire,
-                    Hourswork: hourswork,
-                    Pastservice: pastservice,
-                    LY_Compensation: LYcompensation,
-                    W2_Earnings: w2earnings,
-                    Catchup: catchup,
-                    Classtype: classtype,
-                    DeferralText: deferral,
-                    Deferralchoice: deferralchoice,
-                    Cashbalanceinput: CashbalanceInput,
-                    CashBalanceChoice: Cashbalancechoice,
-                    ProfitsharingInput: Profitsharinginput,
-                    ProfitSharingChoice: Profitsharingchoice,
-                    HCE_choice: HCEchoice,
-                    OverrideParticipationDate: Overridecheck
-                }
-                CensusAddorEdit(navigation,userArray,CensusState);
-               
-            }
-           
-        }
-    }
-    else// for edit
-    {
-        //alert('edit now'); 
-        SaveUserArray = (navigation) => {
-
-            if(required) 
-            {
-                alert('Please, Fill Up All Required Inputs')
-            }
-            else
-            {
-                let CensusState = 'CensusEdituser';
-                let userArray = { 
-                    Firstname: fname,
-                    Lastname: lname,
-                    Sex: sex, 
-                    Pricipal: pricipal,
-                    Owner: owner,
-                    Familycode: familycode,
-                    DateOfBirth: datebirth,
-                    DateOfHire: datehire,
-                    Hourswork: hourswork,
-                    Pastservice: pastservice,
-                    LY_Compensation: LYcompensation,
-                    W2_Earnings: w2earnings,
-                    Catchup: catchup,
-                    Classtype: classtype,
-                    DeferralText: deferral,
-                    Deferralchoice: deferralchoice,
-                    Cashbalanceinput: CashbalanceInput,
-                    CashBalanceChoice: Cashbalancechoice,
-                    ProfitsharingInput: Profitsharinginput,
-                    ProfitSharingChoice: Profitsharingchoice,
-                    HCE_choice: HCEchoice,
-                    OverrideParticipationDate: Overridecheck
-                }
-                CensusAddorEdit(navigation,userArray,CensusState);
-            }
-        }
-    }
-    */
+    
    const CensusBirthhandleConfirm = (BselectedDate) => {
         let BirthcurrentDate = BselectedDate;
-        BirthcurrentDate = moment(BirthcurrentDate).format('MM/DD/YYYY')
+        BirthcurrentDate = moment(BirthcurrentDate).format('MM/DD/YYYY');
         //alert(currentDate)
         setBirthShow(BirthShow = !BirthShow);
-        setdatebirth(datebirth = BirthcurrentDate)
+        setdatebirth(datebirth = BirthcurrentDate);
     };
    const CensusHirehandleConfirm = (HselectedDate) => {
         let HirecurrentDate = HselectedDate;
-        HirecurrentDate = moment(HirecurrentDate).format('MM/DD/YYYY')
+        HirecurrentDate = moment(HirecurrentDate).format('MM/DD/YYYY');
         //alert(currentDate)
         setHireShow(HireShow = !HireShow);
-        setdatehire(datehire = HirecurrentDate)
+        setdatehire(datehire = HirecurrentDate);
     };
+
+    const CensusOverridehandleConfirm = (OselectedDate) => {
+        let OverridecurrentDate = OselectedDate;
+        OverridecurrentDate = moment(OverridecurrentDate).format('MM/DD/YYYY');
+        //alert(currentDate)
+        setOverrideShow(OverrideShow = !OverrideShow);
+        setParticipationDate(participationDate = OverridecurrentDate);
+    };
+
     
     var Sex = [ //not tested
         {
@@ -337,7 +284,7 @@ const AddModal = ({ navigation,route }) => {
                
 
                 <View style={styles.ItemsSpace}>
-                    <Text style={styles.columnNames}>First Name {fname === null | fname === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
+                    <Text style={styles.columnNames}>First Name {fname === null | fname === "" ?  <Text style={{color:'red'}}>*</Text> : null}</Text>
 
                         <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
@@ -349,7 +296,7 @@ const AddModal = ({ navigation,route }) => {
                             onChangeText={(val) => {setfname(fname = val)}}
                         />
 
-                    <Text style={styles.columnNames}>Last Name  {lname === null | lname === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
+                    <Text style={styles.columnNames}>Last Name  {lname === null | lname === "" ?  <Text style={{color:'red'}}>*</Text> : null}</Text>
 
                         <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
@@ -390,7 +337,7 @@ const AddModal = ({ navigation,route }) => {
                         />*/}
 
                     <Text style={styles.columnNames}>Principal?</Text>
-
+                        
                         <RadioButtonRN
                             data={choice}
                             activeOpacity={2}
@@ -406,6 +353,8 @@ const AddModal = ({ navigation,route }) => {
                             deactiveColor={'grey'}
                             textColor={'#333333'}
                         />
+                        
+    
                         {/*
                         <RadioButton
                             data={choice} //required
@@ -418,22 +367,35 @@ const AddModal = ({ navigation,route }) => {
                             onValueChange={(value) => {setpricipal(pricipal = value.id)}} //required
                         />*/}
                     <Text style={styles.columnNames}>Owner?</Text>
-
-                        <RadioButtonRN
-                            data={choice}
-                            activeOpacity={2}
-                            initial={owner}
-                            animationTypes={['pulse']}
-                            style={{paddingLeft: 10,flexDirection: 'row'}}
-                            textStyle={{paddingLeft: 10}}
-                            boxStyle={{width: 70}}
-                            box={false}
-                            selectedBtn={(e) => setowner(owner = e.id)}
-                            circleSize={13}
-                            activeColor={'#333333'}
-                            deactiveColor={'grey'}
-                            textColor={'#333333'}
-                        />
+                        <View style = {{ flexDirection: 'row'}}>
+                            <RadioButtonRN
+                                data={choice}
+                                activeOpacity={2}
+                                initial={owner}
+                                animationTypes={['pulse']}
+                                style={{paddingLeft: 10,flexDirection: 'row'}}
+                                textStyle={{paddingLeft: 10}}
+                                boxStyle={{width: 70}}
+                                box={false}
+                                selectedBtn={(e) => setowner(owner = e.id)}
+                                circleSize={13}
+                                activeColor={'#333333'}
+                                deactiveColor={'grey'}
+                                textColor={'#333333'}
+                            />
+                        {owner === 1 && (
+                            <TextInput 
+                                        placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                        placeholder="% owned"
+                                        style={[styles.textInput,{color: colors.Logintext}]}
+                                        //autoCapitalize="none"
+                                        value={percentOwnership}
+                                        keyboardType='default'
+                                        onChangeText={(val) => {setPercentOwnership(percentOwnership = val)}}
+                            />
+                        )}
+                        </View>    
+                        
                         {/*
                         <RadioButton
                             data={choice} //required
@@ -478,7 +440,7 @@ const AddModal = ({ navigation,route }) => {
                             onChangeItem={item => {setfamilycode(familycode = item.value)}} //item.value
                         />
                       
-                    <Text style={styles.columnNames}>Date of Birth {datebirth === null | datebirth === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
+                    <Text style={styles.columnNames}>Date of Birth {datebirth === null | datebirth === "" ?  <Text style={{color:'red'}}>*</Text> : null}</Text>
                     <View style = {{ flexDirection: 'row'}}>
                         <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
@@ -507,7 +469,7 @@ const AddModal = ({ navigation,route }) => {
                             onCancel={() => setBirthShow(BirthShow = !BirthShow)}
                             />
                         )}
-                    <Text style={styles.columnNames}>Date of Hire {datehire === null | datehire === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
+                    <Text style={styles.columnNames}>Date of Hire {datehire === null | datehire === "" ?  <Text style={{color:'red'}}>*</Text> : null}</Text>
                     <View style = {{ flexDirection: 'row'}}>
                             <TextInput 
                                 placeholderTextColor = 'rgba(51,51,51,0.7)'
@@ -566,7 +528,7 @@ const AddModal = ({ navigation,route }) => {
                             keyboardType='default'
                             onChangeText={(val) => {setLYcompensation(LYcompensation = val)}}
                         />
-                    <Text style={styles.columnNames}>W-2 Earnings {w2earnings === null | w2earnings === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
+                    <Text style={styles.columnNames}>W-2 Earnings {w2earnings === null | w2earnings === "" ?  <Text style={{color:'red'}}>*</Text> : null}</Text>
                         <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
                             placeholder="Earnings"
@@ -775,6 +737,36 @@ const AddModal = ({ navigation,route }) => {
                             onValueChange={(value) => {setHCEchoice(HCEchoice = value.id)}} //required
                         />*/}
                     <Text style={styles.columnNames}>Date of Participation</Text>
+                    <View style = {{ flexDirection: 'row'}}>
+                        <TextInput 
+                            placeholderTextColor = 'rgba(51,51,51,0.7)'
+                            placeholder="date of birth"
+                            style={[styles.textInput,{color: colors.Logintext}]}
+                            //autoCapitalize="none"
+                            value={participationDate}
+                            keyboardType='default'
+                            editable={false}
+                            onChangeText={(val) => {setParticipationDate(participationDate = val)}}
+                        /> 
+                        {Overridecheck && (
+                        <TouchableOpacity onPress={() => setOverrideShow(OverrideShow = !OverrideShow)}>
+                            <Feather style={{ marginLeft: 5}}
+                                name="calendar"
+                                color="grey"
+                                size={25}
+                            />
+                        </TouchableOpacity>
+                        )}
+                    </View>
+                        {OverrideShow && (
+                            <DateTimePickerModal
+                            isVisible={OverrideShow}
+                            mode="date"
+                            date={(participationDate) ? new Date(participationDate): new Date()}
+                            onConfirm={(val) => CensusOverridehandleConfirm(val)}
+                            onCancel={() => setOverrideShow(OverrideShow = !OverrideShow)}
+                            />
+                        )}
                     <View style={{flexDirection: 'row', marginBottom: 5}}>
                         <CheckBox 
                         style={{paddingRight: 5}}

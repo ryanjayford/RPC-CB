@@ -159,7 +159,7 @@ const ClassUpdate = ({ navigation,route }) => {
           :
             <ScrollView ref={CUpdateScroll} style ={styles.scroll}>
                 {/*<Text style={styles.header}>CLASS DETAIL ENTRY</Text>*/}
-                <Text style={styles.columnNames}>Class Code {classcode === null | classcode === "" ?  <Text style={{color:'red'}}>*Required</Text> : null}</Text>
+                <Text style={styles.columnNames}>Class Code {classcode === null | classcode === "" ?  <Text style={{color:'red'}}>*</Text> : null}</Text>
                     <TextInput 
                             placeholderTextColor = 'rgba(51,51,51,0.7)'
                             placeholder="Code"
