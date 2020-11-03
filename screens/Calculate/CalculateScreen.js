@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,SafeAreaView, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,SafeAreaView, Alert, ActivityIndicator, Button } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import{ AuthContext } from '../../components/context';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -35,7 +35,8 @@ const handleDownload = async (item) => {
 const CalculateScreen = ({ navigation, CalculateLoading }) => {
     const { colors } = useTheme();
     const [{ },dataState] = React.useContext(AuthContext);
-    
+
+    let [CalculateIndex, setCalculateIndex] = React.useState(null);//default 1
     const CalculateDATA = [
         {
             id: '1',
@@ -145,9 +146,10 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
         });
       }
 
-      toggleCalculate = (item) => {
+      toggleCalculate = (item,index) => {
         //Alert.alert('info:',item.id + " " + item.Class);
         console.log('info:',item.id + " " + item.Status + " " + item.Date);
+        setCalculateIndex(CalculateIndex = index)
       }
 
     return (
@@ -180,6 +182,7 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
         }
         </LinearGradient>
     );
+
     function Item({ index,item }) {
         let requestDate = moment(item.requestDate).format('MM/DD/YYYY HH:MM:ss');
         let requestCompleted = 'Running';
@@ -192,7 +195,7 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
               overshootRight={false}
             >
 
-            <TouchableHighlight underlayColor={'transparent'} key={index} onPress={() => toggleCalculate(item)}>  
+            <TouchableHighlight underlayColor={'transparent'} key={index} onPress={() => toggleCalculate(item,index)}>  
               <View style={[styles.item,{borderTopColor: colors.icon, borderBottomColor: colors.icon}]}>
               
                 <View style={[styles.TextContainer, {backgroundColor: colors.iconDes}]}>
@@ -214,8 +217,43 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
                             <Text style={[styles.subtitle,{color: colors.textLight}]}>{requestCompleted}</Text>
                         </View>
                     </View>
+                  {CalculateIndex === index && 
+                    <View style={{ paddingLeft: 10, marginTop: 10}}>
+                     
+                      <Text style={[styles.infotext,{color: colors.textLight, fontWeight: "bold"}]}>Mininum Participation(401(a)(26))</Text>
+                      <View style={{flexDirection: 'row',alignItems: 'center', marginTop: 5, marginBottom: 5}}>
+                          <Text style={[styles.infotext,{color: colors.textLight}]}>Pass</Text>
+                            <TouchableOpacity /*onPress={}*/>
+                                <View style={[styles.gradient,{marginLeft: 5}]}>
+                                    <Text style={[styles.infotext,{color: colors.textLight}]}>View Details</Text>
+                                </View>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity /*onPress={}*/>
+                                <View style={[styles.gradient,{backgroundColor: "purple", marginLeft: 2.5}]}>
+                                    <Text style={[styles.infotext,{color: colors.textLight}]}>Worksheets</Text>
+                                </View>
+                            </TouchableOpacity>
+                      </View>
+                      
+                      <Text style={[styles.infotext,{color: colors.textLight, fontWeight: "bold"}]}>Combined Plan Limit ((404)(a)(7))</Text>
+                      <View style={{flexDirection: 'row',alignItems: 'center', marginTop: 5, marginBottom: 5}}>
+                          <Text style={[styles.infotext,{color: colors.textLight}]}>Failed</Text>
+                            <TouchableOpacity /*onPress={}*/>
+                                <View style={[styles.gradient,{marginLeft: 5}]}>
+                                    <Text style={[styles.infotext,{color: colors.textLight}]}>View Details</Text>
+                                </View>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity /*onPress={}*/>
+                                <View style={[styles.gradient,{backgroundColor: "purple", marginLeft: 2.5}]}>
+                                    <Text style={[styles.infotext,{color: colors.textLight}]}>Worksheets</Text>
+                                </View>
+                            </TouchableOpacity>
+                      </View>
+
+                    </View>}
                 </View>
-              
               </View>
             </TouchableHighlight>
             </Swipeable>
@@ -244,8 +282,14 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 10,
     //borderBottomRightRadius: 10,
-    justifyContent: 'center',
-    alignContent: 'center',
+    //justifyContent: 'center',
+    //alignContent: 'center',
+  },
+  infotext: {
+    textAlign: 'left',
+    //fontWeight: 'bold',   
+    fontSize: 11,
+    padding: 2,
   },
   title: {
     textAlign: 'center',
@@ -277,5 +321,13 @@ const styles = StyleSheet.create({
   actionText: {
     padding: 15,
     //color: 'white'
-  }
+  },
+  gradient: {
+    padding: 5,
+    justifyContent: 'center',
+    borderRadius: 5,
+    backgroundColor: "green"
+    //overflow: 'hidden'   
+    
+},
 });
