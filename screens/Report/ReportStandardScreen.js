@@ -54,7 +54,7 @@ const ReportStandardScreen = ({ navigation }) => {
               <View  style={{backgroundColor: 'white', padding: 10}}>
 
                 <View style={{flexDirection: 'row',flexWrap: 'wrap',flexShrink: 1,justifyContent: 'space-between',marginBottom: 10}}>
-                  <TouchableOpacity style={[styles.buttoncontainer,{backgroundColor: colors.icon}]} >
+                  <TouchableOpacity style={[styles.buttoncontainer,{backgroundColor: colors.icon}] } onPress={() => navigation.navigate("Report list")}>
                     <Text style={styles.buttons}>Generate Reports</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={[styles.buttoncontainer,{backgroundColor: colors.icon}]} >

@@ -184,27 +184,27 @@ const General = ({  route, PlanToggle }) => {
       //alert('start');
       console.log("useEffect ====PLAN DETAILS GENERAL=========> ", PlanName, PlanDescription);      
       setPlanDetailsData(planDetailsData => null);
-      if (route.params && route.params.homeClick === 'Add'){
+      if (route.params && route.params?.homeClick === 'Add'){
         
           if (DefaultPlan) {
             //console.log('===========================> DEFAULT PLAN', DefaultPlan);
             setPlanDetailsData(planDetailsData => DefaultPlan);
             setPlanDetailsTab(DefaultPlan);
             //alert('selectedPlan: ' + dataState.selectedPlan +  ' planId: ' +  dataState.plan.planId);
-            //alert(route.params.homeClick);
+            //alert(route.params?.homeClick);
             dataState.selectedPlan = null;
-            route.params.homeClick = "save";
+            //route.params.homeClick = "save";
            // alert('DefaultPlan' + route.params.homeClick);
           }else{
             getPlanDetails();
-           // alert('from else'+ dataState.plan.planId);
+            //alert('from else'+ dataState.plan.planId);
           }
       }else {
         getPlanDetails(dataState.plan.planId);
-       // alert('from last' + dataState.plan.planId);
+        //alert('from last' + dataState.plan.planId);
       }    
     }
-  }, [dataState.selectedPlan, dataState["Plan Details"]]);
+  }, [dataState.selectedPlan, dataState["Plan Details"], route.params?.homeClick === 'cancel']);
 
   var Age = [
     {

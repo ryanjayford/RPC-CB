@@ -146,10 +146,47 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
         });
       }
 
-      toggleCalculate = (item,index) => {
+      const toggleCalculate = (item,index) => {
         //Alert.alert('info:',item.id + " " + item.Class);
         console.log('info:',item.id + " " + item.Status + " " + item.Date);
         setCalculateIndex(CalculateIndex = index)
+
+        //console.log('All info----------------->:',item)
+      }
+
+      const data = (datas) => {
+        //console.log('datas----------------->', datas)
+        const keys = Object.entries(datas); // data info
+        /*
+        return keys.forEach(([key, value]) => {
+          console.log('key----------------->', key)
+          console.log('value----------------->', value)
+          return (
+            <Text key={key} style={[styles.infotext,{color: colors.textLight}]}>{[key, value]}</Text>
+          )
+        })*/
+
+        //console.log('keys----------------->', keys)
+        //console.log(datas[keys[0]]);
+        /*keys.forEach(element => {
+          console.log(element, datas[element])
+        });*/
+        return keys.map(([key, value]) => {
+          if(value === true)
+          {
+            value = <Icon name="check" size={20} color="green"/>
+          }
+          else if(value === false)
+          {
+            value = <Icon name="window-close" size={20} color="red"/>
+          }
+          return (
+            [<View key={1} style={{flex:1,flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                <Text key={key} style={[styles.infotext,{color: colors.textLight}]}>{key}</Text>
+                <Text key={value} style={[styles.infotext,{color: colors.textLight}]}>{value}</Text>
+            </View>]
+          )
+        })
       }
 
     return (
@@ -217,42 +254,13 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
                             <Text style={[styles.subtitle,{color: colors.textLight}]}>{requestCompleted}</Text>
                         </View>
                     </View>
-                  {CalculateIndex === index && 
-                    <View style={{ paddingLeft: 10, marginTop: 10}}>
-                     
-                      <Text style={[styles.infotext,{color: colors.textLight, fontWeight: "bold"}]}>Mininum Participation(401(a)(26))</Text>
-                      <View style={{flexDirection: 'row',alignItems: 'center', marginTop: 5, marginBottom: 5}}>
-                          <Text style={[styles.infotext,{color: colors.textLight}]}>Pass</Text>
-                            <TouchableOpacity /*onPress={}*/>
-                                <View style={[styles.gradient,{marginLeft: 5}]}>
-                                    <Text style={[styles.infotext,{color: colors.textLight}]}>View Details</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity /*onPress={}*/>
-                                <View style={[styles.gradient,{backgroundColor: "purple", marginLeft: 2.5}]}>
-                                    <Text style={[styles.infotext,{color: colors.textLight}]}>Worksheets</Text>
-                                </View>
-                            </TouchableOpacity>
+                  
+                    {item.ndtResult !== null && CalculateIndex === index && 
+                      <View style={{ paddingLeft: 10, marginTop: 10}}>
+                        {data(item.ndtResult)}
                       </View>
-                      
-                      <Text style={[styles.infotext,{color: colors.textLight, fontWeight: "bold"}]}>Combined Plan Limit ((404)(a)(7))</Text>
-                      <View style={{flexDirection: 'row',alignItems: 'center', marginTop: 5, marginBottom: 5}}>
-                          <Text style={[styles.infotext,{color: colors.textLight}]}>Failed</Text>
-                            <TouchableOpacity /*onPress={}*/>
-                                <View style={[styles.gradient,{marginLeft: 5}]}>
-                                    <Text style={[styles.infotext,{color: colors.textLight}]}>View Details</Text>
-                                </View>
-                            </TouchableOpacity>
+                    }
 
-                            <TouchableOpacity /*onPress={}*/>
-                                <View style={[styles.gradient,{backgroundColor: "purple", marginLeft: 2.5}]}>
-                                    <Text style={[styles.infotext,{color: colors.textLight}]}>Worksheets</Text>
-                                </View>
-                            </TouchableOpacity>
-                      </View>
-
-                    </View>}
                 </View>
               </View>
             </TouchableHighlight>
@@ -260,6 +268,8 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
           </View>
         );
       }
+
+     
 };
 
 export default CalculateScreen;
@@ -322,12 +332,5 @@ const styles = StyleSheet.create({
     padding: 15,
     //color: 'white'
   },
-  gradient: {
-    padding: 5,
-    justifyContent: 'center',
-    borderRadius: 5,
-    backgroundColor: "green"
-    //overflow: 'hidden'   
-    
-},
+ 
 });

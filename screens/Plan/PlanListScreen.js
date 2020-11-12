@@ -188,12 +188,20 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
   }
 
   toggleshow = (item) => {
-    if(indexChecked === item.planId)
+    if(route.params?.AddCancel === 'cancel' && indexChecked === item.planId)
+    {
+      //alert(1);
+      dataState.selectedPlan = item.planId;
+      route.params.AddCancel = null
+      navigation.navigate('Plan Details',{ params: {homeClick: 'cancel'}});
+    }
+    else if(indexChecked === item.planId)
     {
       //let PlanId = item.planId;
       //setPlanID(PlanId);
-      navigation.navigate('Plan Details');
-      //Alert.alert('Info' + " " + dataState.plan.planId + " " + dataState.plan.userNameOnly);
+      //alert(2)
+      dataState.selectedPlan = item.planId;
+      navigation.navigate('Plan Details',{ params: {homeClick: null}});
       console.log('Info' + " " + dataState.plan.planId + " " + dataState.plan.userNameOnly);
     }
     else{
