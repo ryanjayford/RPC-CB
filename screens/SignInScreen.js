@@ -25,11 +25,13 @@ import { useTheme } from 'react-native-paper';
 import { AuthContext } from '../components/context';
 
 import Users from '../model/users';
+import moment from 'moment';
 
 const {width,height} = Dimensions.get('window')
 const logoUri = './assets/save.png'
 const baseURL = Settings.site;
-const baseURL2 = Settings.domain
+const baseURL1 = Settings.auth;
+const baseURL2 = Settings.domain;
 const ver = Settings.version;
 
 const slideUp = {
@@ -120,14 +122,6 @@ const SignInScreen = ({navigation}) => {
 
     const loginHandle = async (userName, password) => {
        
-        //const foundUser = Users.filter( item => {
-        //    return userName == item.username && password == item.password;
-        //});
-
-        //let foundUser = await signInAsync(userName, password, 'ABC123');
-
-        //console.log(foundUser);
-
         if ( data.username.length == 0 || data.password.length == 0 ) {
             Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
                 {text: 'Okay'}
@@ -135,20 +129,20 @@ const SignInScreen = ({navigation}) => {
             return;
         }
 
-        //setData({...data, isLoading: true});
+        setData({...data, isLoading: true});
 
-        let url = "https://ebgsecapi-dev.azurewebsites.net/auth/v1/Token/Bearer?grant_type=authentication_code";
+        let url = baseURL1 + "/Token/Bearer?grant_type=authentication_code";
         let method = 'POST';
         let headers = new Headers();
         let auth = 'Basic ' + base64.encode(userName + ":" + password)
-        let t = base64.encode(userName + password);
-        console.log("pass", t, base64.decode(t));
-
+        
+        
        
         headers.append('Content-Type', 'application/json');
         headers.append('src', 'CB');
         headers.append('udid', Math.random().toString());
         headers.append('Authorization', auth);
+        
         
         console.log('==============> Login', url, method, headers, auth);
         let req = new Request(url, {
@@ -159,10 +153,33 @@ const SignInScreen = ({navigation}) => {
         await fetch(req)
         .then((response) => response.json())
         .then((responseJson) => {
-            
             console.log(responseJson);
-            let info = responseJson.identityToken;
-            console.log("info ===>", JSON.parse(base64.decode(info)));
+            if(responseJson && responseJson.identityToken){
+                let expireAt = moment().add(1, 'days'); //moment.unix(responseJson.accessToken_expires_in).format('MM/DD/YYYY HH:MM:ss');
+                let info = JSON.parse(base64.decode(responseJson.identityToken));
+                
+                let details = {
+                    "_id": info._id,
+                    "email": info.email,
+                    "firstName": info.firstName,
+                    "lastName": info.lastName,
+                    "userNumber": info.userNumber,
+                    "userSponsorId": info.userSponsorId,
+                    "apiToken": "bearer eyd1c2VyTnVtYmVyJzoxNzE0LCd1c2VySWQnOidycmF5bXVuZG9AZWJnc3lzdGVtcy5jb20nLCd1c2VyVHlwZSc6J1AnLCd1c2VyU3RhdHVzJzonQScsJ3VzZXJTcG9uc29ySWQnOjEwMDB9", //"bearer " + responseJson.accessToken,
+                    "changePassword": info.changePassword ? info.changePassword: false,
+                    "passwordExpiry": info.passwordExpiry ? info.passwordExpiry: moment().add(4, 'days'),
+                    "isGenerated": info.isGenerated ? info.isGenerated: false,
+                    "expireAt": expireAt
+                }
+                console.log("info ===>", expireAt, moment().add(1, 'days').format('MM/DD/YYYY HH:MM:ss'), info, details);
+                getDefaultPlanDetails(details);
+            } else {
+                setData({...data, isLoading: false});
+                Alert.alert('Invalid User!', 'Username or password is incorrect.', [
+                    {text: 'Okay'}
+                ]);
+                return;
+            }
         })
         .catch((error) => {
             setData({...data, isLoading: false});
@@ -179,7 +196,7 @@ const SignInScreen = ({navigation}) => {
         //let foundUser = await signInAsync(userName, password, 'ABC123');
 
         //console.log(foundUser);
-
+        
         if ( data.username.length == 0 || data.password.length == 0 ) {
             Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
                 {text: 'Okay'}
@@ -234,7 +251,7 @@ const SignInScreen = ({navigation}) => {
         
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', userDetails.apiToken);
-       
+        console.log(url,method,headers);
         let req = new Request(url, {
             method,
             headers
@@ -247,6 +264,7 @@ const SignInScreen = ({navigation}) => {
                 getDefaultDropdown(userDetails, responseJson.obj);
             } else {
                 setData({...data, isLoading: false});
+                console.log(responseJson.message);
                 Alert.alert("Data Error", responseJson.message);
                 return null;
             }
@@ -411,7 +429,7 @@ const SignInScreen = ({navigation}) => {
                     
                     
                     <TouchableOpacity style = {styles.buttoncontainer} disabled = {data.isLoading}
-                        onPress={() => {loginHandle( data.username, data.password )}}
+                        onPress={() => {loginHandle1( data.username, data.password )}}
                     >
                         <LinearGradient 
                         colors={['#72be03','#397e05']}

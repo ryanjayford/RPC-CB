@@ -11,6 +11,7 @@ import { color } from 'react-native-reanimated';
 import * as WebBrowser from 'expo-web-browser';
 const {width,height} = Dimensions.get('window');
 const baseURL = Settings.domain;
+const baseURL1 = Settings.calc;
 //CalculateDownloadActionClickEventListener(item,index)
 let CalculateRightAction = ({item,index}) =>
 {
@@ -81,7 +82,7 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
 
 
       const calculatePlan = async (planId) => {
-        let url = 'https://cbcalc-dev.azurewebsites.net/api/CBCalc/GetCalculationResult?planId=' + planId;
+        let url = baseURL1 + '/GetCalculationResult?planId=' + planId;
         let method = 'GET';
         let headers = new Headers();
         //console.log(url);

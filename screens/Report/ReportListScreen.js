@@ -24,32 +24,81 @@ let ReportRightAction = ({item,index}) =>
 const ReportListScreen = ({ navigation, CalculateLoading }) => {
     const { colors } = useTheme();
     const [{ },dataState] = React.useContext(AuthContext);
+    const [reportData, setReportData] = React.useState(null);
+    React.useEffect(() => {
+        getReportData(dataState.plan.planId);           
+    }, []);
     
-    const CalculateDATA = [
+    const ReportDATA = [
         {
             id: '1',
             Status: 'Complete',
             Date: '7/20/2020', 
+            Num: 2
         },
         {
             id: '2',
             Status: 'Pending',
             Date: '7/22/2020',    
+            Num: 1
         },
         {
             id: '3',
             Status: 'Pending',
             Date: '7/24/2020',
+            Num: 1
         },
       ];
-      //const [calculateData, setCalculateData] = React.useState(null);
+      
+      const getReportData = async (planId) => {
+        let url = baseURL + '/Calculation/ReportRequestList?planId=' +  planId;
+        let method = 'GET';
+        let headers = new Headers();
+        //console.log(url);
+        
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', dataState.userToken);
+        console.log('GET CALC PLAN =====>', url, method, headers);
+        let req = new Request(url, {
+            method,
+            headers
+        });
+    
+        await fetch(req)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          if (responseJson.isSuccess && responseJson.obj){
+            //console.log("FROM UseEffect =====Api Called GET Report========> ", responseJson.obj);
+            let data = [];
+            responseJson.obj.forEach(function(item, idx) {        
+              let rptData = {};
+              rptData.id = item["id"];
+              rptData.Status = item["requestStatusDesc"];
+              rptData.Date = moment(item.requestDate).format('MM/DD/YYYY');
+              rptData.Num = item["reportName"].split(',').length;
+              data.push(rptData);
+            });
+
+            setReportData(reportData => data);            
+          } else {
+            //console.log(responseJson)
+            setReportData(reportData => []);
+          }
+        })
+        .catch((error) => {
+            Alert.alert("Connection Error", error.message);
+            return false;
+        });
+      }
+
+
   
 
       ReportDownload = async (item,index) => {
-        let result = await WebBrowser.openBrowserAsync('http://africau.edu/images/default/sample.pdf');
+        console.log(item,index)
+        //'http://africau.edu/images/default/sample.pdf'
+        let result = await WebBrowser.openBrowserAsync('https://rpcapi-dev.azurewebsites.net/api/CB/Calculation/ViewReport?id=' + item.id);
         console.log(result);
-        //console.log(item,index)
-        //http://africau.edu/images/default/sample.pdf - test
       }
 
       Reporttoggle = (item) => {
@@ -62,20 +111,20 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
         colors={[colors.linearlight,colors.linearDark]}
         style = {styles.container}
         >  
-        {!CalculateDATA ?
+        {!reportData ?
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
             <ActivityIndicator size="large" color={colors.primary}/>
           </View>
           :
           <View style = {styles.container}>
-            {CalculateDATA.length === 0 ?   
+            {reportData.length === 0 ?   
             <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                 <Text style={[{fontSize:16, color: color.secondary}]}>No Records Found</Text>
             </View>
             :
             <SafeAreaView style={{marginTop: 5}}>
             <FlatList
-              data={CalculateDATA}
+              data={reportData}
               //extraData={}
               renderItem={({ item,index }) => <Item index={index} item={item} /> }
               keyExtractor={item => item.id.toString()}
@@ -88,9 +137,6 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
         </LinearGradient>
     );
     function Item({ index,item }) {
-        //let requestDate = moment(item.requestDate).format('MM/DD/YYYY HH:MM:ss');
-        //let requestCompleted = 'Running';
-        //if (item.requestStatus === "C") requestCompleted = moment(item.requestCompleted).format('MM/DD/YYYY HH:MM:ss');
         return (
           
           <View style={styles.listContainer}>
@@ -117,8 +163,8 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
                             <Text style={[styles.subtitle,{color: colors.textLight}]}>{item.Date}</Text>
                         </View>
                         <View style={{flexDirection: 'column'}}>
-                            <Text style={[styles.title,{color: colors.textLight}]}>Complete Date</Text>
-                            <Text style={[styles.subtitle,{color: colors.textLight}]}>{item.Date}</Text>
+                            <Text style={[styles.title,{color: colors.textLight}]}>No. of Reports</Text>
+                            <Text style={[styles.subtitle,{color: colors.textLight}]}>{item.Num}</Text>
                         </View>
                     </View>
                 </View>

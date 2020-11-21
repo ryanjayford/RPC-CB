@@ -1,12 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity,Button,ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity,Button,ScrollView, Alert, ActivityIndicator, } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { useTheme } from '@react-navigation/native';
 import CheckBox from 'react-native-check-box';
+import{ AuthContext } from '../../components/context';
+import Settings from '../../settings.json';
+const baseURL1 = Settings.calc;
 
 const ReportStandardScreen = ({ navigation }) => {
     const { colors } = useTheme();
+    const [{ },dataState] = React.useContext(AuthContext);
 
+    let [isLoading, setIsLoading] = React.useState(false); 
     let [selectAll, setselectAll] = React.useState(false); 
     let [cover, setcover] = React.useState(false); 
     let [standing, setstanding] = React.useState(false); 
@@ -44,6 +49,67 @@ const ReportStandardScreen = ({ navigation }) => {
       setmaxCash(maxCash = selectAll)
       settestRes(testRes = selectAll)
     }
+
+    const setParams = () => {
+      let params = "";
+      if (cover) params += "'CoverPage.rdlc',";
+      if (standing) params += "'UnderstandingCB.rdlc',";
+      if (provision) params += "'PlanProvision.rdlc',";
+      if (employee) params += "'EmployeeCensusListingReport.rdlc',";
+      if (contriReport) params += "'ContributionListingReport.rdlc',";
+      if (chartReport) params += "'ContributionChartReport.rdlc',";
+      if (taxReport) params += "'CBTaxSummaryReport.rdlc',";
+      if (costReport) params += "'TargetNormalCost.rdlc',";
+      if (testReport) params += "'MinimumParticipationTest.rdlc',";
+      if (percentReport) params += "'AverageBenefitTest.rdlc',";
+      if (gateway) params += "'MinimumAllocationGateway.rdlc',";
+      if (grouptestReport) params += "'NormalAccrualRateForRateGroup.rdlc',";
+      if (mostValue) params += "'MostValuableEBAR.rdlc',";
+      if (detailReport) params += "'RateGroupTestingDetailReport.rdlc',";
+      if (maxCash) params += "'MaximumCashBalanceContributionReport.rdlc',";
+
+      params += "'NonDiscriminationTest.rdlc'";
+      return params;
+    }
+
+    const setReport = async() => {
+      
+      let params = "planId=" + dataState.selectedPlan + "&fundingYears=0&participantId=0";
+      params += "&reportNameList=" + setParams();
+      setIsLoading(true);
+      //console.log(params);
+      let url = baseURL1 + '/MultipleReports?' + params;
+      let method = 'GET';
+      let headers = new Headers();
+
+      //console.log(url);
+      headers.append('Content-Type', 'application/json');
+      headers.append('Authorization', dataState.userToken);
+      //console.log('Report =====>', url, method, headers);
+      let req = new Request(url, {
+          method,
+          headers
+      });
+  
+      await fetch(req)
+      .then((response) => response.json())
+      .then((responseJson) => {
+          if (responseJson.isSuccess){
+            console.log("FROM Report =====Api Called Generate report========> ", responseJson);
+            navigation.navigate("Report list")
+          } else {
+            Alert.alert("Data Error", responseJson.message);              
+          }
+          setIsLoading(false);
+      })
+      .catch((error) => {
+          Alert.alert("Connection Error", error.message);
+          setIsLoading(false);
+          return false;
+      });
+    }
+
+  
     return(
         <ScrollView>
           <View style={styles.listcontainer}>
@@ -54,15 +120,20 @@ const ReportStandardScreen = ({ navigation }) => {
               <View  style={{backgroundColor: 'white', padding: 10}}>
 
                 <View style={{flexDirection: 'row',flexWrap: 'wrap',flexShrink: 1,justifyContent: 'space-between',marginBottom: 10}}>
-                  <TouchableOpacity style={[styles.buttoncontainer,{backgroundColor: colors.icon}] } onPress={() => navigation.navigate("Report list")}>
+                  <TouchableOpacity disabled = {isLoading} style={[styles.buttoncontainer,{backgroundColor: colors.icon}] } onPress={() => setReport()}>
+                  { isLoading ?
+                    <ActivityIndicator size="large" color="white"/>
+                    :
                     <Text style={styles.buttons}>Generate Reports</Text>
+                  } 
+                    
                   </TouchableOpacity>
-                  <TouchableOpacity style={[styles.buttoncontainer,{backgroundColor: colors.icon}]} >
+                  {/*<TouchableOpacity style={[styles.buttoncontainer,{backgroundColor: colors.icon}]} >
                     <Text style={styles.buttons}>Generate PDF Reports</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={[styles.buttoncontainer,{backgroundColor: colors.icon}]} >
                     <Text style={styles.buttons}>Generate Excel Reports</Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity>*/}
                 </View>
                 <View style={{flexDirection: 'row',borderColor: 'grey',borderBottomWidth: 1.5,marginTop: 10}}>
                   <View style={{flexDirection: 'row'}}>

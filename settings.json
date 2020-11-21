@@ -1,6 +1,8 @@
 {
     "site":   "https://restsandbox.azurewebsites.net/services/rest", 
-    "domain":   "http://rpcapi-dev.azurewebsites.net/api/CB",
+    "auth":   "https://ebgsecapi-dev.azurewebsites.net/auth/v1", 
+    "domain":  "http://rpcapi-dev.azurewebsites.net/api/CB",
+    "calc": "https://cbcalc-dev.azurewebsites.net/api/CBCalc",
     "apiKey": "Key",
     "token": "token",
     "clientId": "Mobile",
