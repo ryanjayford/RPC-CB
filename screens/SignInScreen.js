@@ -17,6 +17,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import { Feather as Icon } from '@expo/vector-icons';
 import CheckBox from 'react-native-check-box';
 import Settings from '../settings.json';
+import base64 from 'base-64'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { useTheme } from 'react-native-paper';
@@ -118,6 +119,59 @@ const SignInScreen = ({navigation}) => {
     }
 
     const loginHandle = async (userName, password) => {
+       
+        //const foundUser = Users.filter( item => {
+        //    return userName == item.username && password == item.password;
+        //});
+
+        //let foundUser = await signInAsync(userName, password, 'ABC123');
+
+        //console.log(foundUser);
+
+        if ( data.username.length == 0 || data.password.length == 0 ) {
+            Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
+                {text: 'Okay'}
+            ]);
+            return;
+        }
+
+        //setData({...data, isLoading: true});
+
+        let url = "https://ebgsecapi-dev.azurewebsites.net/auth/v1/Token/Bearer?grant_type=authentication_code";
+        let method = 'POST';
+        let headers = new Headers();
+        let auth = 'Basic ' + base64.encode(userName + ":" + password)
+        let t = base64.encode(userName + password);
+        console.log("pass", t, base64.decode(t));
+
+       
+        headers.append('Content-Type', 'application/json');
+        headers.append('src', 'CB');
+        headers.append('udid', Math.random().toString());
+        headers.append('Authorization', auth);
+        
+        console.log('==============> Login', url, method, headers, auth);
+        let req = new Request(url, {
+            method,
+            headers
+        });
+
+        await fetch(req)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            
+            console.log(responseJson);
+            let info = responseJson.identityToken;
+            console.log("info ===>", JSON.parse(base64.decode(info)));
+        })
+        .catch((error) => {
+            setData({...data, isLoading: false});
+            Alert.alert("Connection Error", error.message);
+            return false;
+        });
+    }
+
+    const loginHandle1 = async (userName, password) => {
         //const foundUser = Users.filter( item => {
         //    return userName == item.username && password == item.password;
         //});
