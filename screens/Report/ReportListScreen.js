@@ -51,7 +51,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
       ];
       
       const getReportData = async (planId) => {
-        let url = baseURL + '/Calculation/ReportRequestList?planId=' +  planId;
+        let url = baseURL + '/Calculation/ReportRequestList?queStatus=&sortBy=RequestDate&sortOrder=D&maxRows=10&planId=' +  planId;
         let method = 'GET';
         let headers = new Headers();
         //console.log(url);
@@ -97,7 +97,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
       ReportDownload = async (item,index) => {
         console.log(item,index)
         //'http://africau.edu/images/default/sample.pdf'
-        let result = await WebBrowser.openBrowserAsync('https://rpcapi-dev.azurewebsites.net/api/CB/Calculation/ViewReport?id=' + item.id);
+        let result = await WebBrowser.openBrowserAsync(baseURL + '/Calculation/ViewReport?id=' + item.id);
         console.log(result);
       }
 
