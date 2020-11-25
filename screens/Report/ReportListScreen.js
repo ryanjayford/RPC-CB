@@ -74,7 +74,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
               let rptData = {};
               rptData.id = item["id"];
               rptData.Status = item["requestStatusDesc"];
-              rptData.Date = moment(item.requestDate).format('MM/DD/YYYY');
+              rptData.Date = moment(item.requestDate).format('MM/DD/YYYY HH:MM:ss');
               rptData.Num = item["reportName"].split(',').length;
               data.push(rptData);
             });
@@ -163,7 +163,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
                             <Text style={[styles.subtitle,{color: colors.textLight}]}>{item.Date}</Text>
                         </View>
                         <View style={{flexDirection: 'column'}}>
-                            <Text style={[styles.title,{color: colors.textLight}]}>No. of Reports</Text>
+                            <Text style={[styles.title,{color: colors.textLight}]}>Reports</Text>
                             <Text style={[styles.subtitle,{color: colors.textLight}]}>{item.Num}</Text>
                         </View>
                     </View>

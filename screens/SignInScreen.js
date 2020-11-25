@@ -165,7 +165,7 @@ const SignInScreen = ({navigation}) => {
                     "lastName": info.lastName,
                     "userNumber": info.userNumber,
                     "userSponsorId": info.userSponsorId,
-                    "apiToken": "bearer eyd1c2VyTnVtYmVyJzoxNzE0LCd1c2VySWQnOidycmF5bXVuZG9AZWJnc3lzdGVtcy5jb20nLCd1c2VyVHlwZSc6J1AnLCd1c2VyU3RhdHVzJzonQScsJ3VzZXJTcG9uc29ySWQnOjEwMDB9", //"bearer " + responseJson.accessToken,
+                    "apiToken": "bearer " + responseJson.accessToken, //"bearer eyd1c2VyTnVtYmVyJzoxNzE0LCd1c2VySWQnOidycmF5bXVuZG9AZWJnc3lzdGVtcy5jb20nLCd1c2VyVHlwZSc6J1AnLCd1c2VyU3RhdHVzJzonQScsJ3VzZXJTcG9uc29ySWQnOjEwMDB9", //
                     "changePassword": info.changePassword ? info.changePassword: false,
                     "passwordExpiry": info.passwordExpiry ? info.passwordExpiry: moment().add(4, 'days'),
                     "isGenerated": info.isGenerated ? info.isGenerated: false,
@@ -429,7 +429,7 @@ const SignInScreen = ({navigation}) => {
                     
                     
                     <TouchableOpacity style = {styles.buttoncontainer} disabled = {data.isLoading}
-                        onPress={() => {loginHandle1( data.username, data.password )}}
+                        onPress={() => {loginHandle( data.username, data.password )}}
                     >
                         <LinearGradient 
                         colors={['#72be03','#397e05']}

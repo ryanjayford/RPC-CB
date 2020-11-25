@@ -156,36 +156,25 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
       }
 
       const data = (datas) => {
-        //console.log('datas----------------->', datas)
-        const keys = Object.entries(datas); // data info
-        /*
-        return keys.forEach(([key, value]) => {
-          console.log('key----------------->', key)
-          console.log('value----------------->', value)
-          return (
-            <Text key={key} style={[styles.infotext,{color: colors.textLight}]}>{[key, value]}</Text>
-          )
-        })*/
-
-        //console.log('keys----------------->', keys)
-        //console.log(datas[keys[0]]);
-        /*keys.forEach(element => {
-          console.log(element, datas[element])
-        });*/
-        return keys.map(([key, value]) => {
-          if(value === true)
-          {
+        //const keys = Object.entries(datas); // data info
+      
+        return datas.map((item) => {
+          //console.log('===================================>', element.ndtFieldVal);
+          let id = item.ndtFieldId;
+          let text = item.ndtFieldName.replace("\\n", "\n");
+          let value = item.ndtFieldVal;
+          if (value === "True"){
             value = <Icon name="check" size={20} color="green"/>
-          }
-          else if(value === false)
-          {
+          } else if (value === "False"){
             value = <Icon name="window-close" size={20} color="red"/>
           }
-          return (
-            [<View key={1} style={{flex:1,flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                <Text key={key} style={[styles.infotext,{color: colors.textLight}]}>{key}</Text>
-                <Text key={value} style={[styles.infotext,{color: colors.textLight}]}>{value}</Text>
-            </View>]
+        return (
+          [<View key={1} style={{flex:1,flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+              <Text key={id} style={[styles.infotext,{color: colors.textLight}]}>{text}</Text>
+                {value !== "*" &&
+                  <Text style={[styles.infotext,{color: colors.textLight}]}>{value}</Text>
+                }
+          </View>]
           )
         })
       }
