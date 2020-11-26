@@ -198,7 +198,7 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
     case 'Plan List': 
       return [<Icon.Button key={0} name="ios-search" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [setPlan(Plan = !Plan)]}></Icon.Button>,//, Alert.alert('Function ' + Plan)
               <Icon.Button key={1} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [dataState.selectedPlan=null,navigation.navigate("Plan Directory", {screen: 'Plan Details', params: {screen: 'General', params: {homeClick: 'Add'}}}), setScreen({Name: "Plan Details", Method: "ADD"})]}></Icon.Button>,
-              <Icon.Button key={2} name="md-more" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
+              <Icon4.Button key={2} name="filter" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon4.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
     case 'Plan Details':
   if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId)}></Icon.Button>, // Alert.alert('Save')
         <Icon.Button key={1} name="ios-close-circle" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Plan Directory', {screen: 'Plan List', params: {AddCancel: 'cancel'}})}></Icon.Button>]
@@ -468,16 +468,15 @@ const PlanTabScreen = ({navigation, route}) => {
       >
          {props => <CensusScreen {...props} DocumentType={documentType} />}
       </PlanTab.Screen>
-         
 
       <PlanTab.Screen
-        name="Report"
-        component={Standard}
+        name="Calculate"
+        component={CalculateScreen}
         options={{
-          tabBarLabel: 'Report',
+          tabBarLabel: 'Calculate',
           tabBarColor: colors.primary,
           tabBarIcon: ({ color }) => (
-            <Icon2 name="file-chart" color={color} size={24} />
+            <Icon2 name="calculator-variant" color={color} size={24} />
           ),
         }}
         listeners={({ }) => ({
@@ -492,13 +491,13 @@ const PlanTabScreen = ({navigation, route}) => {
       />
 
       <PlanTab.Screen
-        name="Calculate"
-        component={CalculateScreen}
+        name="Report"
+        component={Standard}
         options={{
-          tabBarLabel: 'Calculate',
+          tabBarLabel: 'Report',
           tabBarColor: colors.primary,
           tabBarIcon: ({ color }) => (
-            <Icon2 name="calculator-variant" color={color} size={24} />
+            <Icon2 name="file-chart" color={color} size={24} />
           ),
         }}
         listeners={({ }) => ({

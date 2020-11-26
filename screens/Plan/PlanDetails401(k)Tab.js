@@ -29,7 +29,16 @@ const FOI = ({ navigation }) => {
     Details.totOwnerCost = TotOwnerCost ? TotOwnerCost.toString() : "0";
     Details.totNonOwnerCost = TotNonOwnerCost ? TotNonOwnerCost.toString() : "0";
     Details.catchUp = CatchUp === undefined ? null : CatchUp;
-    Details.includeMatch = IncludeMatch === undefined ? null : IncludeMatch;
+
+    if(IsSafeHarborContrib === true && IncludeMatch === 3)//checking includematch when changing value of loginstate details
+    {
+      Details.includeMatch = 4;
+    }
+    else 
+    {
+      Details.includeMatch = IncludeMatch === undefined ? null : IncludeMatch;
+    }
+
     Details.matchPercent1 = MatchPercent1 ? MatchPercent1.toString() : "0";
     Details.matchLimit1 = MatchLimit1 ? MatchLimit1.toString() : "0";
     Details.matchPercent2 = MatchPercent2 ? MatchPercent2.toString() : "0";
@@ -134,7 +143,16 @@ const FOI = ({ navigation }) => {
         setTotOwnerCost(TotOwnerCost = User401k.totOwnerCost.toString());
         setTotNonOwnerCost(TotNonOwnerCost = User401k.totNonOwnerCost.toString());
         setCatchUp(CatchUp = User401k.catchUp === '1' ? 1 : 2);
-        setIncludeMatch(IncludeMatch = User401k.includeMatch);
+
+        if(User401k.isSafeHarborContrib === true && User401k.includeMatch === 4)// checking User401k.includeMatch
+        {
+          setIncludeMatch(IncludeMatch = 3);
+        }
+        else{
+          setIncludeMatch(IncludeMatch = User401k.includeMatch);
+        }
+
+
         setMatchPercent1(MatchPercent1 = User401k.matchPercent1.toString());
         setMatchLimit1(MatchLimit1 = User401k.matchLimit1.toString());
         setMatchPercent2(MatchPercent2 = User401k.matchPercent2.toString());
@@ -220,9 +238,10 @@ const FOI = ({ navigation }) => {
         setMatchLimit3(MatchLimit3 = '0');
       }
     }
+
     const Is3Percentcheck = () => {
       setIsSafeHarborContrib(IsSafeHarborContrib = !IsSafeHarborContrib);
-      if(IsSafeHarborContrib === true)
+      if(IsSafeHarborContrib === true && IncludeMatch === 3) //when 3% is check and match is 3
       {
         setmatchChoice(matchChoice =  [
           {
@@ -247,9 +266,87 @@ const FOI = ({ navigation }) => {
         setMatchLimit3(MatchLimit3 = '0')
        // alert('Safe Harbor Match is deactivated')
       }
-      else
+      else if(IsSafeHarborContrib === true && IncludeMatch === 4)// 3% is check and match is 4
       {
-        setIncludeMatch(IncludeMatch = 1);
+        setmatchChoice(matchChoice =  [
+          {
+            id: 1, 
+            label: 'No Match'
+          },
+          {
+            id: 2,
+            label: 'Regular Match'
+          },
+          {
+            id: 3,
+            label: 'Discretionary Match'
+          },
+        ])
+        setIncludeMatch(IncludeMatch = 3);
+        setMatchPercent1(MatchPercent1 = '0')
+        setMatchLimit1(MatchLimit1 = '0')
+        setMatchPercent2(MatchPercent2 = '0')
+        setMatchLimit2(MatchLimit2 = '0')
+        setMatchPercent3(MatchPercent3 = '0')
+        setMatchLimit3(MatchLimit3 = '0')
+       // alert('Safe Harbor Match is deactivated')
+      }
+      else if(IsSafeHarborContrib === false && IncludeMatch === 3)// 3% is not check and match is 3
+      {
+        setmatchChoice(matchChoice =   [
+          {
+            id: 1, 
+            label: 'No Match'
+          },
+          {
+            id: 2,
+            label: 'Regular Match'
+          },
+          {
+            id: 3, 
+            label: 'Safe Harbor Match'
+          },
+          {
+            id: 4,
+            label: 'Discretionary Match'
+          },
+        ])
+        setIncludeMatch(IncludeMatch = 4);
+        setMatchPercent1(MatchPercent1 = '0')
+        setMatchLimit1(MatchLimit1 = '0')
+        setMatchPercent2(MatchPercent2 = '0')
+        setMatchLimit2(MatchLimit2 = '0')
+        setMatchPercent3(MatchPercent3 = '0')
+        setMatchLimit3(MatchLimit3 = '0')
+       // alert('Safe Harbor Match is deactivated')
+      }
+      else if(IsSafeHarborContrib === true) // when match is not 3 or 4 ... array will only change
+      {
+        setmatchChoice(matchChoice =  [
+          {
+            id: 1, 
+            label: 'No Match'
+          },
+          {
+            id: 2,
+            label: 'Regular Match'
+          },
+          {
+            id: 3,
+            label: 'Discretionary Match'
+          },
+        ])
+        //setIncludeMatch(IncludeMatch = 3);
+        setMatchPercent1(MatchPercent1 = '0')
+        setMatchLimit1(MatchLimit1 = '0')
+        setMatchPercent2(MatchPercent2 = '0')
+        setMatchLimit2(MatchLimit2 = '0')
+        setMatchPercent3(MatchPercent3 = '0')
+        setMatchLimit3(MatchLimit3 = '0')
+       // alert('Safe Harbor Match is deactivated')
+      }
+      else // default
+      {
         setmatchChoice(matchChoice =  [
           {
             id: 1, 
@@ -268,6 +365,10 @@ const FOI = ({ navigation }) => {
             label: 'Discretionary Match'
           },
         ])
+        if(IncludeMatch === 3)
+        {
+          setIncludeMatch(IncludeMatch = 1);
+        }
       }
     }
 
