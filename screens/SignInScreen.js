@@ -136,7 +136,7 @@ const SignInScreen = ({navigation}) => {
         let headers = new Headers();
         let auth = 'Basic ' + base64.encode(userName + ":" + password)
         
-        
+        console.log(auth);
        
         headers.append('Content-Type', 'application/json');
         headers.append('src', 'CB');
