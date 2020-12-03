@@ -45,6 +45,7 @@ export function DrawerContent(props) {
     if (userData && userData.length) {
         //Base64
         portrait = `data:image/jpeg;base64, ${userData[0].avatar}`;
+        dataState.portrait = portrait;
     } 
 
     return(

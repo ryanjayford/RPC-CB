@@ -106,7 +106,8 @@ const App = () => {
     classData: null,
     censusEdited: null,
     censusAdded: null,
-    censusData 
+    censusData,
+    portrait: null 
   };
 
   const CustomDefaultTheme = {
