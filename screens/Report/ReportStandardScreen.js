@@ -1,15 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity,Button,ScrollView, Alert, ActivityIndicator, } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity,Button,ScrollView, Alert, ActivityIndicator, Modal,TextInput,Dimensions,TouchableHighlight } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { useTheme } from '@react-navigation/native';
 import CheckBox from 'react-native-check-box';
 import{ AuthContext } from '../../components/context';
 import Settings from '../../settings.json';
 const baseURL1 = Settings.calc;
+const {width,height} = Dimensions.get('window');
 
 const ReportStandardScreen = ({ navigation }) => {
     const { colors } = useTheme();
     const [{ },dataState] = React.useContext(AuthContext);
+    let [ReportsName, setReportsName] = React.useState(null);
+    let [ReportModal, setReportModal] = React.useState(false);
 
     let [isLoading, setIsLoading] = React.useState(false); 
     let [selectAll, setselectAll] = React.useState(false); 
@@ -112,6 +115,49 @@ const ReportStandardScreen = ({ navigation }) => {
   
     return(
         <ScrollView>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={ReportModal}
+            onRequestClose={() => {
+              console.log("Modal has been closed.");
+            }}
+          >
+            <TouchableHighlight underlayColor={'rgba(51,51,51,0.7)'} style={styles.centeredView} onPress={() => {setReportModal(!ReportModal);}}>
+              <View style={styles.modalView}>
+                <View style={{flexDirection: 'column'}}>
+                  <Text style={{...styles.modalText, fontWeight: 'bold', fontSize: 18}}>Reports</Text>
+                  <Text style={{...styles.modalText}}>Report Name</Text>
+                  <TextInput 
+                    placeholderTextColor = 'rgba(51,51,51,0.7)'
+                    placeholder="Name..."
+                    style={[styles.SubtextInput,{color: colors.Logintext}]}
+                    //autoCapitalize="none"
+                    value={ReportsName}
+                    //keyboardType='numeric'
+                    onChangeText={(val) => setReportsName(ReportsName = val)}
+                  />
+                  <Text style={{...styles.modalText}}>Are you sure you want to Report Plan?</Text>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'flex-end' , justifyContent: 'flex-end'}}>
+                  <TouchableHighlight underlayColor={"#2196F3"}
+                    style={{ ...styles.openButton, backgroundColor: "#2196F3", marginRight: 5 }}onPress={() => {setReportModal(!ReportModal);}}
+                  >
+                    <Text style={styles.textStyle}>Yes</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight underlayColor={"#2196F3"}
+                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}onPress={() => {setReportModal(!ReportModal);}}
+                  >
+                    <Text style={styles.textStyle}>No</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </TouchableHighlight>
+          </Modal>
+
+
+
+
           <View style={styles.listcontainer}>
             <View style={{ flexDirection: 'column'}}>
               <View style={{backgroundColor: colors.plan, padding: 10, borderTopWidth: 5, borderColor: 'green'}}>
@@ -120,7 +166,7 @@ const ReportStandardScreen = ({ navigation }) => {
               <View  style={{backgroundColor: 'white', padding: 10}}>
 
                 <View style={{flexDirection: 'row',flexWrap: 'wrap',flexShrink: 1,justifyContent: 'space-between',marginBottom: 10}}>
-                  <TouchableOpacity disabled = {isLoading} style={[styles.buttoncontainer,{backgroundColor: colors.icon}] } onPress={() => setReport()}>
+                  <TouchableOpacity disabled = {isLoading} style={[styles.buttoncontainer,{backgroundColor: colors.icon}] } onPress={() => setReportModal(!ReportModal)/*setReport()*/}>
                   { isLoading ?
                     <ActivityIndicator size="large" color="white"/>
                     :
@@ -367,4 +413,50 @@ const styles = StyleSheet.create({
       padding: 5,
       borderRadius: 10
     },
+
+    
+  centeredView: {
+    flex: 1,
+    backgroundColor: 'rgba(52, 52, 52, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    //marginTop: 22
+  },
+  modalView: {
+    //margin: 20,
+    width: width - 80,
+    backgroundColor: "white",
+    borderRadius: 5,
+    padding: 20,
+    //alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 5,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 10,
+    textAlign: "left"
+  },
+  SubtextInput: {
+    //flex: 1,  
+    marginBottom: 5,
+    borderBottomWidth: 2,
+    borderBottomColor: '#989c9d',
+  },
   });

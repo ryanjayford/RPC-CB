@@ -147,7 +147,7 @@ function getPlanHeaderTitle(route, setScreen, dataState) {
   }
 }
 
-function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType) {
+function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType,CalculateToggle, setCalculateToggle) {
 
   const hideMenuXls = () =>
   {
@@ -224,7 +224,7 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
         return <Icon.Button key={0} name="md-more" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate("Report list")}></Icon.Button>;
       case 'Calculate':
   return [<Icon4.Button key={0} name="refresh" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setScreen({Name: 'Calculate', Method: 'Refresh'})}></Icon4.Button>,
-          <Icon.Button key={1} name="ios-calculator" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmCalculate(dataState,setScreen)}></Icon.Button>]; 
+          <Icon.Button key={1} name="ios-calculator" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setCalculateToggle(CalculateToggle = true)/*ConfirmCalculate(dataState,setScreen)*/}></Icon.Button>]; 
   }
 }
 
@@ -311,13 +311,15 @@ const PlanTabScreen = ({navigation, route}) => {
   //console.log('Allroute', route.params)
   let [Plan, setPlan] = React.useState(false);
   let [Census, setCensus] = React.useState(false);
+  let [CalculateToggle, setCalculateToggle] = React.useState(false);
+  //console.log('from main tab: ' + CalculateToggle)
   let [documentType, setdocumentType] = React.useState('*/*');
   const menu = useRef();
   React.useLayoutEffect(() => {
     navigation.setOptions({ headerTitle: getPlanHeaderTitle(route, setScreen, dataState),  
       headerRight: () => (
         <View style={{flexDirection:"row"}}>
-          {getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType)}
+          {getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType,CalculateToggle, setCalculateToggle)}
         </View>
       ),
 
@@ -471,7 +473,7 @@ const PlanTabScreen = ({navigation, route}) => {
 
       <PlanTab.Screen
         name="Calculate"
-        component={CalculateScreen}
+        //component={CalculateScreen}
         options={{
           tabBarLabel: 'Calculate',
           tabBarColor: colors.primary,
@@ -488,7 +490,9 @@ const PlanTabScreen = ({navigation, route}) => {
           }
           })
         }
-      />
+      >
+        {props => <CalculateScreen {...props} CalculateModal={CalculateToggle} SetCalculateModal={setCalculateToggle} />}
+      </PlanTab.Screen>
 
       <PlanTab.Screen
         name="Report"

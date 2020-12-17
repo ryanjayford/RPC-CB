@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,SafeAreaView, Alert, ActivityIndicator, Button } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,SafeAreaView, Alert, ActivityIndicator, Button, Modal,TextInput } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import{ AuthContext } from '../../components/context';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -33,11 +33,12 @@ const handleDownload = async (item) => {
   let result = await WebBrowser.openBrowserAsync(reportLink);
   //setresult(thisresult = result)
 };
-const CalculateScreen = ({ navigation, CalculateLoading }) => {
+const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalculateModal }) => {
     const { colors } = useTheme();
     const [{ },dataState] = React.useContext(AuthContext);
-
+    console.log(CalculateModal);
     let [CalculateIndex, setCalculateIndex] = React.useState(null);//default 1
+    let [CalReportName, setCalReportName] = React.useState(null);
     const CalculateDATA = [
         {
             id: '1',
@@ -184,6 +185,46 @@ const CalculateScreen = ({ navigation, CalculateLoading }) => {
         colors={[colors.linearlight,colors.linearDark]}
         style = {styles.container}
         >  
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={CalculateModal}
+          onRequestClose={() => {
+            console.log("Modal has been closed.");
+          }}
+        >
+          <TouchableHighlight underlayColor={'rgba(51,51,51,0.7)'} style={styles.centeredView} onPress={() => {SetCalculateModal(!CalculateModal);}}>
+            <View style={styles.modalView}>
+              <View style={{flexDirection: 'column'}}>
+                <Text style={{...styles.modalText, fontWeight: 'bold', fontSize: 18}}>Calculate</Text>
+                <Text style={{...styles.modalText}}>Report Name</Text>
+                <TextInput 
+                  placeholderTextColor = 'rgba(51,51,51,0.7)'
+                  placeholder="Name..."
+                  style={[styles.SubtextInput,{color: colors.Logintext}]}
+                  //autoCapitalize="none"
+                  value={CalReportName}
+                  //keyboardType='numeric'
+                  onChangeText={(val) => setCalReportName(CalReportName = val)}
+                />
+                <Text style={{...styles.modalText}}>Are you sure you want to Calculate Plan?</Text>
+              </View>
+              <View style={{flexDirection: 'row', alignItems: 'flex-end' , justifyContent: 'flex-end'}}>
+                <TouchableHighlight underlayColor={"#2196F3"}
+                  style={{ ...styles.openButton, backgroundColor: "#2196F3", marginRight: 5 }}onPress={() => {SetCalculateModal(!CalculateModal);}}
+                >
+                  <Text style={styles.textStyle}>Yes</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor={"#2196F3"}
+                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}onPress={() => {SetCalculateModal(!CalculateModal);}}
+                >
+                  <Text style={styles.textStyle}>No</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </TouchableHighlight>
+        </Modal>
+
         {!calculateData ?
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
             <ActivityIndicator size="large" color={colors.primary}/>
@@ -321,6 +362,51 @@ const styles = StyleSheet.create({
   actionText: {
     padding: 15,
     //color: 'white'
+  },
+
+  centeredView: {
+    flex: 1,
+    backgroundColor: 'rgba(52, 52, 52, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    //marginTop: 22
+  },
+  modalView: {
+    //margin: 20,
+    width: width - 80,
+    backgroundColor: "white",
+    borderRadius: 5,
+    padding: 20,
+    //alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 5,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 10,
+    textAlign: "left"
+  },
+  SubtextInput: {
+    //flex: 1,  
+    marginBottom: 5,
+    borderBottomWidth: 2,
+    borderBottomColor: '#989c9d',
   },
  
 });
