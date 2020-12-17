@@ -97,6 +97,7 @@ const App = () => {
     //Balance: {},
     //General: {},
     selectedPlan: null,
+    selectedPlanName: null, 
     censusUpload: false,
     Selected: 0,
     MenuCurrent: null,
@@ -303,6 +304,7 @@ const App = () => {
         return {
           ...prevState,
           selectedPlan: action.PlanId,
+          selectedPlanName: action.PlanName,
           //SavePlanId: action.newId
         };  
       case 'Menu': 
@@ -470,8 +472,8 @@ const App = () => {
     setCensusData: (Data) => {
       dispatch({ type: 'CENSUS', Data});
     },
-    setPlanID: (PlanId) => {
-      dispatch({ type: 'PLANID', PlanId});
+    setPlanID: (PlanId, PlanName) => {
+      dispatch({ type: 'PLANID', PlanId, PlanName});
     },
     IsSelected: (item,index,navigation) => {
       //console.log('from memo',item.Time);

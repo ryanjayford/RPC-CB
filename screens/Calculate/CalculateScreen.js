@@ -64,13 +64,15 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
       React.useEffect(() => {
         if (dataState.Calculate === null || (dataState.Calculate && dataState.Calculate.Name === 'Calculate')){
           setCalculateData(calculateData => null);
-          console.log("useEffect =====CALCULATE SCREEN========> ", dataState.plan.planId);
+          console.log("useEffect =====CALCULATE SCREEN========> ", dataState.plan);
           if (dataState.Calculate && dataState.Calculate.Method === 'Calculate') {
+            
             calculatePlan(dataState.plan.planId);
           } else {
             getCalculatedPlan(dataState.plan.planId);
           }
         }
+        
       }, [dataState.Calculate]);
       
 
@@ -81,12 +83,18 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
         { cancelable: false }); 
       }
 
+      const YesClicked = () => {
+        SetCalculateModal(!CalculateModal);
+        calculatePlan(dataState.plan.planId);
+      }
+
 
       const calculatePlan = async (planId) => {
-        let url = baseURL1 + '/GetCalculationResult?planId=' + planId;
+        let name = CalReportName === null ? 'ReportFromCalculation' : CalReportName;
+        let url = baseURL1 + '/GetCalculationResult?planId=' + planId + '&reportAlias=' + name;
         let method = 'GET';
         let headers = new Headers();
-        //console.log(url);
+        console.log(url);
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', dataState.userToken);
         console.log('CALC PLAN =====>', url, method, headers);
@@ -211,12 +219,12 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
               </View>
               <View style={{flexDirection: 'row', alignItems: 'flex-end' , justifyContent: 'flex-end'}}>
                 <TouchableHighlight underlayColor={"#2196F3"}
-                  style={{ ...styles.openButton, backgroundColor: "#2196F3", marginRight: 5 }}onPress={() => {SetCalculateModal(!CalculateModal);}}
+                  style={{ ...styles.openButton, backgroundColor: "#2196F3", marginRight: 5 }}onPress={() => {YesClicked()}}
                 >
                   <Text style={styles.textStyle}>Yes</Text>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor={"#2196F3"}
-                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}onPress={() => {SetCalculateModal(!CalculateModal);}}
+                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}onPress={() => {SetCalculateModal(!CalculateModal)}}
                 >
                   <Text style={styles.textStyle}>No</Text>
                 </TouchableHighlight>
@@ -237,6 +245,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
             </View>
             :
             <SafeAreaView style={{marginTop: 5}}>
+            <Text style={[styles.title,{fontSize:17, color: color.secondary, paddingBottom: 3}]}>{dataState.plan.planName}</Text>
             <FlatList
               data={calculateData}
               //extraData={}
@@ -256,7 +265,6 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
         let requestCompleted = 'Running';
         if (item.requestStatus === "C") requestCompleted = moment(item.requestCompleted).format('MM/DD/YYYY HH:MM:ss');
         return (
-          
           <View style={styles.listContainer}>
             <Swipeable 
               renderRightActions={() => <CalculateRightAction item={item} index={index + 1}/>}
@@ -265,8 +273,10 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
 
             <TouchableHighlight underlayColor={'transparent'} key={index} onPress={() => toggleCalculate(item,index)}>  
               <View style={[styles.item,{borderTopColor: colors.icon, borderBottomColor: colors.icon}]}>
-              
                 <View style={[styles.TextContainer, {backgroundColor: colors.iconDes}]}>
+                    <View style={{justifyContent: 'flex-start',  flexDirection: 'row', paddingLeft: 3, paddingBottom: 3}}>
+                      <Text style={[styles.title,{fontSize: 14, color: colors.textLight, fontStyle: 'italic'}]}>{item.reportName}</Text>
+                    </View>
                     <View style={{justifyContent: 'space-around',  flexDirection: 'row',}}>
                         <View style={{flexDirection: 'column'}}>
                             <Text style={[styles.title,{color: colors.textLight}]}>No</Text>
@@ -285,6 +295,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
                             <Text style={[styles.subtitle,{color: colors.textLight}]}>{requestCompleted}</Text>
                         </View>
                     </View>
+                    
                   
                     {item.ndtResult !== null && CalculateIndex === index && 
                       <View style={{ paddingLeft: 10, marginTop: 10}}>

@@ -75,10 +75,16 @@ const ReportStandardScreen = ({ navigation }) => {
       return params;
     }
 
+    const YesClicked = () => {
+      setReportModal(!ReportModal);
+      setReport();
+    }
+
     const setReport = async() => {
-      
+      let name = ReportsName === null ? 'MultipleReports' : ReportsName;
       let params = "planId=" + dataState.selectedPlan + "&fundingYears=0&participantId=0";
       params += "&reportNameList=" + setParams();
+      params += "&reportAlias=" + name;
       setIsLoading(true);
       //console.log(params);
       let url = baseURL1 + '/MultipleReports?' + params;
@@ -141,7 +147,7 @@ const ReportStandardScreen = ({ navigation }) => {
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'flex-end' , justifyContent: 'flex-end'}}>
                   <TouchableHighlight underlayColor={"#2196F3"}
-                    style={{ ...styles.openButton, backgroundColor: "#2196F3", marginRight: 5 }}onPress={() => {setReportModal(!ReportModal);}}
+                    style={{ ...styles.openButton, backgroundColor: "#2196F3", marginRight: 5 }}onPress={() => {YesClicked();}}
                   >
                     <Text style={styles.textStyle}>Yes</Text>
                   </TouchableHighlight>

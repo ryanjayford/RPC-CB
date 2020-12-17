@@ -206,7 +206,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     }
     else{
       let PlanId = item.planId;
-      setPlanID(PlanId);
+      setPlanID(PlanId, item.planName);
       setindexChecked(indexChecked = item.planId);
       planStorage.planId = item.planId
       planStorage.userNameOnly = item.userNameOnly
@@ -292,9 +292,10 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     //console.log('=========================> indexChecked', indexChecked, item.planId);
     if(indexChecked === item.planId )//indexChecked === 1 && 
     {
-      dataState.selectedPlan = item.planId
-      planStorage.planId = item.planId
-      planStorage.userNameOnly = item.userNameOnly
+      dataState.selectedPlan = item.planId;
+      planStorage.planId = item.planId;
+      planStorage.userNameOnly = item.userNameOnly;
+      planStorage.planName = item.planName;
       
       //?console.log('plan',planStorage);
       //?console.log('PlanID',dataState.selectedPlan)

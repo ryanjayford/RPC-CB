@@ -68,7 +68,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
         .then((response) => response.json())
         .then((responseJson) => {
           if (responseJson.isSuccess && responseJson.obj){
-            //console.log("FROM UseEffect =====Api Called GET Report========> ", responseJson.obj);
+            console.log("FROM UseEffect =====Api Called GET Report========> ", responseJson.obj);
             let data = [];
             responseJson.obj.forEach(function(item, idx) {        
               let rptData = {};
@@ -76,6 +76,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
               rptData.Status = item["requestStatusDesc"];
               rptData.Date = moment(item.requestDate).format('MM/DD/YYYY HH:MM:ss');
               rptData.Num = item["reportName"].split(',').length;
+              rptData.ReportName = item["reportOutputName"];
               data.push(rptData);
             });
 
@@ -123,6 +124,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
             </View>
             :
             <SafeAreaView style={{marginTop: 5}}>
+              <Text style={[styles.title,{fontSize:17, color: color.secondary, paddingBottom: 3}]}>{dataState.plan.planName}</Text>
             <FlatList
               data={reportData}
               //extraData={}
@@ -149,6 +151,9 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
               <View style={[styles.item,{borderTopColor: colors.icon, borderBottomColor: colors.icon}]}>
               
                 <View style={[styles.TextContainer, {backgroundColor: colors.iconDes}]}>
+                <View style={{justifyContent: 'flex-start',  flexDirection: 'row', paddingLeft: 3, paddingBottom: 3}}>
+                      <Text style={[styles.title,{fontSize: 14, color: colors.textLight, fontStyle: 'italic'}]}>{item.ReportName}</Text>
+                    </View>
                     <View style={{justifyContent: 'space-around',  flexDirection: 'row',}}>
                         <View style={{flexDirection: 'column'}}>
                             <Text style={[styles.title,{color: colors.textLight}]}>No</Text>
