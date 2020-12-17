@@ -30,15 +30,42 @@ const FOI = ({ navigation }) => {
     Details.totNonOwnerCost = TotNonOwnerCost ? TotNonOwnerCost.toString() : "0";
     Details.catchUp = CatchUp === undefined ? null : CatchUp;
 
-    if(IsSafeHarborContrib === true && IncludeMatch === 3)//checking includematch when changing value of loginstate details
+    if(IsSafeHarborContrib === true && IncludeMatch === 3)//IsSafeHarborContrib is true and Discretionary Match is selected
     {
-      Details.includeMatch = 4;
+      Details.includeMatch = 3;//Discretionary Match
     }
-    else 
+    else if(IsSafeHarborContrib === true && IncludeMatch === 2)//IsSafeHarborContrib is true and Regular Match is selected
     {
-      Details.includeMatch = IncludeMatch === undefined ? null : IncludeMatch;
+      Details.includeMatch = 1;//Regular Match
     }
-
+    else if(IsSafeHarborContrib === true && IncludeMatch === 1)//IsSafeHarborContrib is true and no match is selected
+    {
+      Details.includeMatch = 0;//No Match
+    }
+    else if(IsSafeHarborContrib === false)//IsSafeHarborContrib is false
+    {
+      switch(IncludeMatch) {
+        case 1://No Match
+          Details.includeMatch = 0;
+          break;
+        
+        case 2://Regular Match 
+          Details.includeMatch = 1;
+          break;
+   
+        case 3://Safe Harbor Match
+          Details.includeMatch = 2;
+          break;
+   
+        case 4://Discretionary Match
+          Details.includeMatch = 3;
+          break;
+   
+        default:
+          Details.includeMatch = null;
+          //Details.includeMatch = IncludeMatch === undefined ? null : IncludeMatch;
+        }
+    }
     Details.matchPercent1 = MatchPercent1 ? MatchPercent1.toString() : "0";
     Details.matchLimit1 = MatchLimit1 ? MatchLimit1.toString() : "0";
     Details.matchPercent2 = MatchPercent2 ? MatchPercent2.toString() : "0";
@@ -46,7 +73,27 @@ const FOI = ({ navigation }) => {
     Details.matchPercent3 = MatchPercent3 ? MatchPercent3.toString() : "0";
     Details.matchLimit3 = MatchLimit3 ? MatchLimit3.toString() : "0";
     Details.isSafeHarborContrib = IsSafeHarborContrib;
-    Details.exclusions = Exclusions === undefined ? null : Exclusions;
+
+    switch(Exclusions) {
+      case 1://Owner in mobile
+      Details.exclusions = 3;
+        break;
+      
+      case 2://HCE in mobile
+      Details.exclusions = 2;
+        break;
+
+      case 3://Non-owner HCE in mobile
+      Details.exclusions = 1;
+        break;
+
+      case 4://None in mobile
+      Details.exclusions = 0;
+        break;
+
+      default:
+        Details.includeMatch = null;
+    }
     
    
     
@@ -143,13 +190,49 @@ const FOI = ({ navigation }) => {
         setTotOwnerCost(TotOwnerCost = User401k.totOwnerCost.toString());
         setTotNonOwnerCost(TotNonOwnerCost = User401k.totNonOwnerCost.toString());
         setCatchUp(CatchUp = User401k.catchUp === '1' ? 1 : 2);
-
+        /*
         if(User401k.isSafeHarborContrib === true && User401k.includeMatch === 4)// checking User401k.includeMatch
         {
           setIncludeMatch(IncludeMatch = 3);
         }
         else{
           setIncludeMatch(IncludeMatch = User401k.includeMatch);
+        }*/
+
+        if(User401k.isSafeHarborContrib === true && User401k.includeMatch === 3)//IsSafeHarborContrib is true and Discretionary Match is selected
+        {
+          setIncludeMatch(IncludeMatch = 3);
+        }
+        else if(User401k.isSafeHarborContrib === true && User401k.includeMatch === 1)//IsSafeHarborContrib is true and Regular Match is selected
+        {
+          setIncludeMatch(IncludeMatch = 2);
+        }
+        else if(User401k.isSafeHarborContrib === true && User401k.includeMatch === 0)//IsSafeHarborContrib is true and no match is selected
+        {
+          setIncludeMatch(IncludeMatch = 1);
+        }
+        else if(IsSafeHarborContrib === false)//IsSafeHarborContrib is false
+        {
+          switch(User401k.includeMatch) {
+            case 0://No Match in website
+            setIncludeMatch(IncludeMatch = 1);
+              break;
+            
+            case 1://Regular Match in website
+            setIncludeMatch(IncludeMatch = 2);
+              break;
+      
+            case 2://Safe Harbor Match in website
+            setIncludeMatch(IncludeMatch = 3);
+              break;
+      
+            case 3://Discretionary Match in website
+            setIncludeMatch(IncludeMatch = 4);
+              break;
+      
+            default:
+              Details.includeMatch = null;
+          }
         }
 
 
@@ -160,7 +243,29 @@ const FOI = ({ navigation }) => {
         setMatchPercent3(MatchPercent3 = User401k.matchPercent3.toString());
         setMatchLimit3(MatchLimit3 = User401k.matchLimit3.toString());
         setIsSafeHarborContrib(IsSafeHarborContrib = User401k.isSafeHarborContrib);
-        setExclusions(Exclusions = User401k.exclusions);
+
+
+        switch(User401k.exclusions) {
+          case 3://Owner in website
+            setExclusions(Exclusions = 1);
+            break;
+          
+          case 2://HCE in website
+            setExclusions(Exclusions = 2);
+            break;
+    
+          case 1://Non-owner HCE in website
+            setExclusions(Exclusions = 3);
+            break;
+    
+          case 0://None in website
+            setExclusions(Exclusions = 4);
+            break;
+    
+          default:
+            //Details.includeMatch = null;
+        }
+        //setExclusions(Exclusions = User401k.exclusions);
         
         //IsSafeHarborContrib if true or false
         SetIncludeMatchAarry();
