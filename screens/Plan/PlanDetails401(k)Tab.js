@@ -28,7 +28,7 @@ const FOI = ({ navigation }) => {
     //changing value of loginstate details
     Details.totOwnerCost = TotOwnerCost ? TotOwnerCost.toString() : "0";
     Details.totNonOwnerCost = TotNonOwnerCost ? TotNonOwnerCost.toString() : "0";
-    Details.catchUp = CatchUp === undefined ? null : CatchUp;
+    Details.catchUp = CatchUp === undefined ? 'Y': CatchUp === 1? 'Y': 'N';
 
     if(IsSafeHarborContrib === true && IncludeMatch === 3)//IsSafeHarborContrib is true and Discretionary Match is selected
     {
