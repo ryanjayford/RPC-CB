@@ -11,6 +11,9 @@ const FOI = ({ navigation }) => {
     const DefaultPlan = dataState.DefaultPlan;
     let Details = dataState.Details;
     let DetailsFetchedData = dataState.DetailsFetchedData;
+
+    
+    console.log('My Catchup ========>', dataState.DetailsFetchedData.catchUp)    
     //console.log('Is401kChecked',dataState.Is401kChecked)
     let [TotOwnerCost, setTotOwnerCost] = React.useState(DefaultPlan.totOwnerCost ? DefaultPlan.totOwnerCost.toString() : null); 
     let [TotNonOwnerCost, setTotNonOwnerCost] = React.useState(DefaultPlan.totNonOwnerCost ? DefaultPlan.totNonOwnerCost.toString() : null); 
@@ -189,7 +192,7 @@ const FOI = ({ navigation }) => {
         let User401k = DetailsFetchedData
         setTotOwnerCost(TotOwnerCost = User401k.totOwnerCost.toString());
         setTotNonOwnerCost(TotNonOwnerCost = User401k.totNonOwnerCost.toString());
-        setCatchUp(CatchUp = User401k.catchUp === '1' ? 1 : 2);
+        setCatchUp(CatchUp = User401k.catchUp === 'Y' ? 1 : 2);
         /*
         if(User401k.isSafeHarborContrib === true && User401k.includeMatch === 4)// checking User401k.includeMatch
         {
