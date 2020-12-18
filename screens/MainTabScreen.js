@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon3 from 'react-native-vector-icons/Octicons';
 import Icon4 from 'react-native-vector-icons/FontAwesome';
+import Icon5 from 'react-native-vector-icons/AntDesign';
 import { Entypo } from '@expo/vector-icons'; 
 import HomeScreen from './HomeScreen';
 import DetailsScreen from './Menu/BookmarkScreen';
@@ -198,7 +199,7 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
     case 'Plan List': 
       return [<Icon.Button key={0} name="ios-search" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [setPlan(Plan = !Plan)]}></Icon.Button>,//, Alert.alert('Function ' + Plan)
               <Icon.Button key={1} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [dataState.selectedPlan=null,navigation.navigate("Plan Directory", {screen: 'Plan Details', params: {screen: 'General', params: {homeClick: 'Add'}}}), setScreen({Name: "Plan Details", Method: "ADD"})]}></Icon.Button>,
-              <Icon4.Button key={2} name="filter" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon4.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
+              <Icon5.Button key={2} name="filter" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon5.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
     case 'Plan Details':
   if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId)}></Icon.Button>, // Alert.alert('Save')
         <Icon.Button key={1} name="ios-close-circle" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Plan Directory', {screen: 'Plan List', params: {AddCancel: 'cancel'}})}></Icon.Button>]
@@ -221,7 +222,7 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
         </View>,
         <Icon.Button key={2} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Add',{State: 'CensusAddUser'})}></Icon.Button>]; //Alert.alert('Add')
       case 'Report':
-        return <Icon.Button key={0} name="md-more" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate("Report list")}></Icon.Button>;
+        return <Icon2.Button key={0} name="format-list-bulleted" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate("Report list")}></Icon2.Button>;
       case 'Calculate':
   return [<Icon4.Button key={0} name="refresh" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setScreen({Name: 'Calculate', Method: 'Refresh'})}></Icon4.Button>,
           <Icon.Button key={1} name="ios-calculator" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setCalculateToggle(CalculateToggle = true)/*ConfirmCalculate(dataState,setScreen)*/}></Icon.Button>]; 
