@@ -76,7 +76,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
               rptData.Status = item["requestStatusDesc"];
               rptData.Date = moment(item.requestDate).format('MM/DD/YYYY HH:MM:ss');
               rptData.Num = item["reportName"].split(',').length;
-              rptData.ReportName = item["reportOutputName"];
+              rptData.ReportName = item["reportAliasName"];
               data.push(rptData);
             });
 
