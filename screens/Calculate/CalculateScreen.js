@@ -13,27 +13,23 @@ const {width,height} = Dimensions.get('window');
 const baseURL = Settings.domain;
 const baseURL1 = Settings.calc;
 //CalculateDownloadActionClickEventListener(item,index)
-let CalculateRightAction = ({item,index}) =>
-{
-  return(
-    <View style={{flexDirection: 'row'}}>
-      {(item.requestStatus === 'C')?
-      <TouchableOpacity  style={styles.DownloadAction} onPress={() => handleDownload(item)}>
-          <Icon style={styles.actionText} name="download" size={25} color="white" />
-      </TouchableOpacity>
-      : null
-      }
-    </View>
-  )
-};
 
-const handleDownload = async (item) => {
-  let reportLink = item.reportOutputName.replace('DownloadReport','ViewReport'); 
-  console.log(item.reportOutputName, reportLink);
-  let result = await WebBrowser.openBrowserAsync(reportLink);
-  //setresult(thisresult = result)
-};
+
+
 const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalculateModal }) => {
+  let CalculateRightAction = ({item,index}) =>
+  {
+    return(
+      <View style={{flexDirection: 'row'}}>
+        {(item.requestStatus === 'C')?
+        <TouchableOpacity  style={styles.DownloadAction} onPress={() => handleDownload(item)}>
+            <Icon style={styles.actionText} name="download" size={25} color="white" />
+        </TouchableOpacity>
+        : null
+        }
+      </View>
+    )
+  };
     const { colors } = useTheme();
     const [{ },dataState] = React.useContext(AuthContext);
     console.log(CalculateModal);
@@ -59,7 +55,13 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
       const [calculateData, setCalculateData] = React.useState(null);
   
       
-      
+      const handleDownload = async (item) => {
+        let reportLink = item.reportOutputName.replace('DownloadReport','ViewReport');
+        reportLink += '&Authorization=' + dataState.userToken;
+        console.log(item.reportOutputName, reportLink);
+        let result = await WebBrowser.openBrowserAsync(reportLink);
+        //setresult(thisresult = result)
+      };      
       
       React.useEffect(() => {
         if (dataState.Calculate === null || (dataState.Calculate && dataState.Calculate.Name === 'Calculate')){
@@ -108,7 +110,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
         .then((responseJson) => {
             if (responseJson.isSuccess){
               console.log("FROM UseEffect =====Api Called CALCULATE========> ", responseJson);
-              
+              setCalReportName(CalReportName = "");
             } else {
               Alert.alert("Data Error", responseJson.message);              
             }
@@ -224,7 +226,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
                   <Text style={styles.textStyle}>Yes</Text>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor={"#2196F3"}
-                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}onPress={() => {SetCalculateModal(!CalculateModal)}}
+                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}onPress={() => {[SetCalculateModal(!CalculateModal),setCalReportName(CalReportName = "")]}}
                 >
                   <Text style={styles.textStyle}>No</Text>
                 </TouchableHighlight>

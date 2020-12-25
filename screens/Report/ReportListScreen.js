@@ -93,12 +93,42 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
       }
 
 
+      const viewReportById = async (item) => {
+        let url = baseURL + '/Calculation/ViewReport?id=' + item.id;
+        let method = 'GET';
+        let headers = new Headers();
+        //console.log(url);
+        
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', dataState.userToken);
+        console.log('GET REPORT PLAN =====>', url, method, headers);
+        let req = new Request(url, {
+            method,
+            headers
+        });
+    
+        await fetch(req)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          console.log("FROM UseEffect =====Api Called GET Report========> ", responseJson.obj);
+          
+        })
+        .catch((error) => {
+            Alert.alert("Connection Error", error.message);
+            return false;
+        });
+      }
+
   
 
       ReportDownload = async (item,index) => {
-        console.log(item,index)
+        console.log('item ===REPORT DOWNLOAD=====>',item,index)
         //'http://africau.edu/images/default/sample.pdf'
-        let result = await WebBrowser.openBrowserAsync(baseURL + '/Calculation/ViewReport?id=' + item.id);
+        
+        //let result = viewReportById(item);
+        let url = baseURL + '/Calculation/ViewReport?id=' + item.id + '&Authorization=' + dataState.userToken;
+        console.log('URL==>', url);
+        let result = await WebBrowser.openBrowserAsync(url);
         console.log(result);
       }
 

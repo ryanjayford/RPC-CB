@@ -105,6 +105,7 @@ const ReportStandardScreen = ({ navigation }) => {
       .then((responseJson) => {
           if (responseJson.isSuccess){
             console.log("FROM Report =====Api Called Generate report========> ", responseJson);
+            setReportsName(ReportsName = "");
             navigation.navigate("Report list")
           } else {
             Alert.alert("Data Error", responseJson.message);              
@@ -143,7 +144,7 @@ const ReportStandardScreen = ({ navigation }) => {
                     //keyboardType='numeric'
                     onChangeText={(val) => setReportsName(ReportsName = val)}
                   />
-                  <Text style={{...styles.modalText}}>Are you sure you want to Report Plan?</Text>
+                  <Text style={{...styles.modalText}}>Are you sure you want to create a new Report?</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'flex-end' , justifyContent: 'flex-end'}}>
                   <TouchableHighlight underlayColor={"#2196F3"}
@@ -152,7 +153,7 @@ const ReportStandardScreen = ({ navigation }) => {
                     <Text style={styles.textStyle}>Yes</Text>
                   </TouchableHighlight>
                   <TouchableHighlight underlayColor={"#2196F3"}
-                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}onPress={() => {setReportModal(!ReportModal);}}
+                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}onPress={() => {[setReportModal(!ReportModal),setReportsName(ReportsName = "")]}}
                   >
                     <Text style={styles.textStyle}>No</Text>
                   </TouchableHighlight>
