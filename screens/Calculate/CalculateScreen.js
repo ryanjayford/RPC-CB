@@ -57,7 +57,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
       
       const handleDownload = async (item) => {
         let reportLink = item.reportOutputName.replace('DownloadReport','ViewReport');
-        reportLink += '&Authorization=' + dataState.userToken;
+        reportLink = reportLink.replace('?id', '?repid') + '.pdf&Authorization=' + dataState.userToken.replace('bearer', '').trim();
         console.log(item.reportOutputName, reportLink);
         let result = await WebBrowser.openBrowserAsync(reportLink);
         //setresult(thisresult = result)

@@ -126,7 +126,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
         //'http://africau.edu/images/default/sample.pdf'
         
         //let result = viewReportById(item);
-        let url = baseURL + '/Calculation/ViewReport?id=' + item.id + '&Authorization=' + dataState.userToken;
+        let url = baseURL + '/Calculation/ViewReport?repid=' + item.id + '.pdf&Authorization=' + dataState.userToken.replace('bearer', '').trim();
         console.log('URL==>', url);
         let result = await WebBrowser.openBrowserAsync(url);
         console.log(result);
