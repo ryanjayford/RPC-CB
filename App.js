@@ -12,7 +12,7 @@ import {
   DefaultTheme as PaperDefaultTheme,
   DarkTheme as PaperDarkTheme 
 } from 'react-native-paper';
-
+import moment from 'moment';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon2 from 'react-native-vector-icons/Ionicons';
 import Settings from './settings.json';
@@ -691,6 +691,8 @@ const App = () => {
   }
 
   const getAsyncStorage = async() => {
+    let expired = false;
+    let minutes = 0;
     let userProfile = null;
         let userProfileObj = null;
         let appDefaults = null;
@@ -704,6 +706,8 @@ const App = () => {
         let userNumber = null;
         let userSponsorId = null;
       console.log("START++>");
+      
+      
       try {
           //getting theme from Storage
           var isDarkThemeStorage = await AsyncStorage.getItem('isDarkTheme');
@@ -711,6 +715,9 @@ const App = () => {
           userProfile = await AsyncStorage.getItem('userProfile');
           userProfileObj = JSON.parse(userProfile);
           console.log('User Profile=>', userProfile);
+          if (userProfileObj.expireAt) minutes = moment(userProfileObj.expireAt).diff(new Date(), 'minutes');
+          console.log("Minutes======>", minutes, userProfileObj.expireAt);
+          if (minutes <= 0) expired = true;
         if (userProfileObj && userProfileObj.apiToken){
             token = userProfileObj.apiToken;
             userName = userProfileObj.email;
@@ -730,11 +737,22 @@ const App = () => {
           console.log(e);
       }
 
-      dispatch({ type: 'RETRIEVE_TOKEN', token, id: userName, firstName, lastName, userNumber, userSponsorId });
-      console.log('RETRIEVE_TOKEN=========================>', userNumber, userSponsorId, token);
-      if (defaultPlanDetails && defaultDropdown) {
-        dispatch({ type: 'APPDEFAULTS', defaultPlanDetails, defaultDropdown });
+      if (userProfileObj.hasNewUpdate){
+        Alert.alert( 'New Update Available',
+        'You will now be redirected to Login screen.');
+        dispatch({ type: 'LOGOUT' });
+      } else if (expired) {
+        Alert.alert( 'Session Expired',
+        'You will now be redirected to Login screen.');
+        dispatch({ type: 'LOGOUT' });
+      } else {
+        dispatch({ type: 'RETRIEVE_TOKEN', token, id: userName, firstName, lastName, userNumber, userSponsorId });
+        console.log('RETRIEVE_TOKEN=========================>', userNumber, userSponsorId, token);
+        if (defaultPlanDetails && defaultDropdown) {
+          dispatch({ type: 'APPDEFAULTS', defaultPlanDetails, defaultDropdown });
+        }
       }
+      
       
   };
 

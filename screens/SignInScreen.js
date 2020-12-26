@@ -54,9 +54,10 @@ const SignInScreen = ({navigation}) => {
         secureTextEntry: true,
         isValidUser: true,
         isValidPassword: true,
-        isChecked: false,
         isLoading: false
     });
+
+    let [isChecked, setIsChecked] = React.useState(false);
 
     const { colors } = useTheme();
 
@@ -157,6 +158,10 @@ const SignInScreen = ({navigation}) => {
             if(responseJson && responseJson.identityToken){
                 let expireAt = moment().add(1, 'days'); //moment.unix(responseJson.accessToken_expires_in).format('MM/DD/YYYY HH:MM:ss');
                 let info = JSON.parse(base64.decode(responseJson.identityToken));
+                let hasNewUpdate = false;
+                if (isChecked) expireAt = moment().add(5, 'days');
+                //console.log('EXPIREAT ========', expireAt.format('MM/DD/YYYY HH:MM:ss'));
+                if (info.hasNewUpdate) hasNewUpdate = info.hasNewUpdate;
                 
                 let details = {
                     "_id": info._id,
@@ -169,7 +174,8 @@ const SignInScreen = ({navigation}) => {
                     "changePassword": info.changePassword ? info.changePassword: false,
                     "passwordExpiry": info.passwordExpiry ? info.passwordExpiry: moment().add(4, 'days'),
                     "isGenerated": info.isGenerated ? info.isGenerated: false,
-                    "expireAt": expireAt
+                    "expireAt": expireAt,
+                    hasNewUpdate
                 }
                 console.log("info ===>", expireAt, moment().add(1, 'days').format('MM/DD/YYYY HH:MM:ss'), info, details);
                 getDefaultPlanDetails(details);
@@ -311,13 +317,9 @@ const SignInScreen = ({navigation}) => {
 
 
 
-    const checkBoxTest = () =>
+    const chkKeepMeSignedIn = () =>
     {       
-        setData({
-            ...data,
-            isChecked: !data.isChecked
-        });
-        alert("value is " + data.isChecked);
+        setIsChecked(isChecked = !isChecked);
     }
 
     return (
@@ -418,13 +420,15 @@ const SignInScreen = ({navigation}) => {
                         </Animatable.View>
                     }
                     <View style={styles.checkBox}>
+                    <TouchableOpacity style={styles.checkBox} onPress={() => {chkKeepMeSignedIn()}}>
                         <CheckBox 
                         style={styles.checkStyle}
                         checkedCheckBoxColor ={'#72be03'}
                         uncheckedCheckBoxColor	= {colors.Logintext}
-                        isChecked={data.isChecked} onClick = {()=> checkBoxTest}/>
+                        isChecked={isChecked} onClick = {()=> chkKeepMeSignedIn()}/>
 
-                        <Text style = {[styles.checkInput,{color: colors.Logintext}]}>Keep me signed in</Text>
+                        <Text style = {[styles.checkInput,{color: colors.Logintext}]}> Keep me signed in</Text>
+                        </TouchableOpacity>
                     </View>
                     
                     
