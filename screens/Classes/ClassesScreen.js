@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,Alert, ActivityIndicator,SafeAreaView } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import{ AuthContext } from '../../components/context';
 import {LinearGradient} from 'expo-linear-gradient';
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
+import { color } from 'react-native-reanimated';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Settings from '../../settings.json';
 const {width,height} = Dimensions.get('window');
@@ -197,6 +198,8 @@ const ClassesScreen = ({ navigation }) => {
             <ActivityIndicator size="large" color={colors.primary}/>
           </View>
           : 
+          <SafeAreaView style={{marginTop: 5}}>
+            <Text style={[styles.title,{fontSize:17, color: color.secondary, paddingBottom: 3, textAlign: 'center'}]}>{dataState.plan.planName}</Text>
             <FlatList
               data={classData}
               //extraData={}
@@ -204,6 +207,7 @@ const ClassesScreen = ({ navigation }) => {
               keyExtractor={item => item.classId.toString()}
               //onEndReached={() => {}}
             />
+          </SafeAreaView>
           }
         </LinearGradient>
     )

@@ -37,7 +37,7 @@ const ClassUpdate = ({ navigation,route }) => {
         }
         else if(contriTypeTrim === 'Entire class gets the same percent as the 415 max for youngest')
         {
-            contriTypeDes = 2;
+            contriTypeDes = 4;
         }
         else if(contriTypeTrim === 'Maximize Class to 415 Limit')
         {
@@ -55,21 +55,36 @@ const ClassUpdate = ({ navigation,route }) => {
     let [cashAmt, setcashAmt] = React.useState( route.params?.State === 'addnew' ? "%" : Edited.cbValueType); 
     let [profitSharing, setprofitSharing] = React.useState(route.params?.State === 'addnew' ? null : Edited.psValue); 
     let [profitAmt, setprofitAmt] = React.useState(route.params?.State === 'addnew' ? "%" : Edited.psValueType);
-    
+
 
     const CUpdateScroll = React.useRef();
+    let [CB_Disable, setCB_Disable] = React.useState(contritype === 3 || contritype === 4 ? true : false);
+    let [CB_DisableTxt, setCB_DisableTxt] = React.useState(contritype === 3 || contritype === 4 ? false : true);
     let [ContriTypeMargin, setContriTypeMargin] = React.useState(0);
     let [ContriTypeMarginhideDrop, setContriTypeMarginhideDrop] = React.useState(false); 
 
     let ContriTypeSelected = null;
     const DropContriTypeController = (ContriTypeSelected) => {
 
-    if(ContriTypeSelected === 1)//ContriType
+        if(ContriTypeSelected === 1)//ContriType
         {
             setContriTypeMargin(ContriTypeMargin = 150);
             setContriTypeMarginhideDrop(ContriTypeMarginhideDrop = true);
         }
     };
+
+    const Disable_CB = (id) => {
+        if(id === 3 || id === 4)
+        {
+            setCB_Disable(CB_Disable = true);
+            setCB_DisableTxt(CB_DisableTxt = false);
+        }
+        else
+        {
+            setCB_Disable(CB_Disable = false);
+            setCB_DisableTxt(CB_DisableTxt = true);
+        }
+    }
 
 
     const SaveArray = (navigation,Classload, setClassload, currentClasses, token) => {
@@ -114,17 +129,20 @@ const ClassUpdate = ({ navigation,route }) => {
         }
         
         if (!hasError) {
+
             let ClassesState = 'ClassEdit';
             let StateArray = {
                 PlanId: planId,
                 ClassCode: classcode,
-                Description: classDes === null? "" : classDes,
+                Description: classDes === null ? "" : classDes.trim(),
                 ContributionType: contritype,
-                CBValue: cashBalance === null? "0" : cashBalance,
+                CBValue: cashBalance === null || cashBalance === "" ? "0" : cashBalance,
                 CBValueType: cashAmt,
-                PSValue: profitSharing === null? "0" : profitSharing,
+                PSValue: profitSharing === null || profitSharing === "" ? "0" : profitSharing,
                 PSValueType: profitAmt
             }
+            //console.log('check ',cashBalance);
+            //console.log('check2 ',StateArray);
             if (route.params?.State === 'addnew') {
                 ClassesState = 'ClassAdd';             
             } else {
@@ -140,7 +158,7 @@ const ClassUpdate = ({ navigation,route }) => {
 
     var contribution = [
         {label: 'Fixed Contribution per Individual', value: 1},
-        {label: 'Entire class gets the same percent as the 415 max for youngest', value: 2},
+        {label: 'Entire class gets the same percent as the 415 max for youngest', value: 4},
         {label: 'Maximize Class to 415 Limit', value: 3},
     ]
     var Amt = [
@@ -200,16 +218,17 @@ const ClassUpdate = ({ navigation,route }) => {
                             arrowColor='rgba(51,51,51,0.5)'
                             onOpen={() => [ContriTypeSelected = 1,DropContriTypeController(ContriTypeSelected)/*,CUpdateScroll.current.scrollTo({ x: 0, y: 100, animated: true })*/]}
                             onClose={() => {[setContriTypeMarginhideDrop(ContriTypeMarginhideDrop = false),setContriTypeMargin(ContriTypeMargin = 0)]}}
-                            onChangeItem={item => {setcontritype(contritype = item.value)}} //item.value
+                            onChangeItem={item => {[setcontritype(contritype = item.value), Disable_CB(item.value)]}} //item.value
                         />
                         
                 <Text style={styles.columnNames}>Cash Balance Amt</Text>
                
                     <View  style={{...(Platform.OS !== 'android'? {zIndex: 10,flexDirection: 'row'} : {flexDirection: 'row'})}}>
                         <TextInput 
-                                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                placeholderTextColor = {CB_DisableTxt === false ? 'lightgrey' :'rgba(51,51,51,0.7)'}
                                 placeholder="Cash Amt"
-                                style={[styles.textInput,{color: colors.Logintext}]}
+                                editable={CB_DisableTxt}
+                                style={[styles.textInput,{color: CB_DisableTxt === false ? 'lightgrey' : colors.Logintext, borderBottomColor: CB_DisableTxt === false ? 'lightgrey' : '#989c9d'}]}
                                 //autoCapitalize="none"
                                 value={cashBalance !== null ? cashBalance.toString() : null}
                                 keyboardType='default'
@@ -221,6 +240,7 @@ const ClassUpdate = ({ navigation,route }) => {
                                 defaultIndex={0}
                                 defaultValue={cashAmt}
                                 zIndex={2}
+                                disabled={CB_Disable}
                                 //placeholder="Select number of years"
                                 placeholderStyle={{color: colors.Logintext}}
                                 activeLabelStyle={{color: 'green'}}
@@ -325,7 +345,7 @@ const styles = StyleSheet.create({
         flex: 1,  
         height: 40,
         borderBottomWidth: 1.5,
-        borderBottomColor: '#989c9d',
+        //borderBottomColor: '#989c9d',
     },
    
     button: {

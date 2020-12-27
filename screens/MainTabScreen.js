@@ -544,9 +544,9 @@ const HomeStackScreen = ({navigation}) => {
           }
       }}>
           <HomeStack.Screen name="Home" component={MainTabScreen} options={{
-          headerLeft: () => (
-              <Icon.Button name="ios-menu" size={25} backgroundColor= {colors.primary} onPress={() => navigation.openDrawer()}></Icon.Button>
-          )
+            headerLeft: () => (
+                <Icon.Button name="ios-menu" size={25} backgroundColor= {colors.primary} onPress={() => navigation.openDrawer()}></Icon.Button>
+            )
           }} />
           <HomeStack.Screen name="Plan Directory" component={PlanTabScreen} options={{
             headerStyle: {
@@ -598,6 +598,9 @@ const HomeStackScreen = ({navigation}) => {
         <HomeStack.Screen name="Report list" component={reportList} options={{
               headerBackTitleVisible: false,
               headerPressColorAndroid: 'white',
+              headerRight: () => (
+                <Icon4.Button name="refresh" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} onPress={() => {alert('refresh')}}></Icon4.Button>
+              )
           }}/>
 
   </HomeStack.Navigator>

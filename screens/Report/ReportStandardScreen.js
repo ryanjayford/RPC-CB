@@ -4,6 +4,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import { useTheme } from '@react-navigation/native';
 import CheckBox from 'react-native-check-box';
 import{ AuthContext } from '../../components/context';
+import { color } from 'react-native-reanimated';
 import Settings from '../../settings.json';
 const baseURL1 = Settings.calc;
 const {width,height} = Dimensions.get('window');
@@ -163,10 +164,12 @@ const ReportStandardScreen = ({ navigation }) => {
           </Modal>
 
 
-
-
-          <View style={styles.listcontainer}>
-            <View style={{ flexDirection: 'column'}}>
+          <LinearGradient 
+            colors={[colors.linearlight,colors.linearDark]}
+            style = {styles.listcontainer}
+          >  
+            <View style={{ flexDirection: 'column', marginTop: 5}}>
+            <Text style={{fontSize:17, color: color.secondary, paddingBottom: 5, textAlign: 'center', fontWeight: 'bold'}}>{dataState.plan.planName}</Text>
               <View style={{backgroundColor: colors.plan, padding: 10, borderTopWidth: 5, borderColor: 'green'}}>
                 <Text style={styles.header}>Standard Reports</Text>
               </View>
@@ -379,7 +382,7 @@ const ReportStandardScreen = ({ navigation }) => {
                 </View>
               </View>
             </View>
-          </View>
+          </LinearGradient>
           </ScrollView>
     )
 }

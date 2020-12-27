@@ -10,7 +10,8 @@ import {
   ScrollView,
   TextInput,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
+  SafeAreaView
 } from 'react-native';
 import { Button, Paragraph, Menu, Divider, Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -374,103 +375,107 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
               <Text style={[{fontSize:16, color: color.secondary}]}>No Records Found</Text>
           </View>
-          :     
-        <FlatList 
-          style={styles.notificationList}
-          data={censusData} //CensusInfo
-          //extraData={CensusInfo,data}
-          keyExtractor= {(item) => {
-            return item.id.toString();
-          }}
-          renderItem={({item}) => {
-            let color = "#95a5a6"; //Purple: #6A5ACD Red: #FF4500 Pink: #FF69B4 //item.color
-            let own = null;
-            let avatar = require("../../assets/user.jpg");
-            if (item.sex){
-                if (item.sex.toUpperCase() == 'M'){
-                    color = "#4682B4";
-                    if (item.age && item.age >= 10 && item.age <= 39){
-                        avatar = require("../../assets/men1.jpg");    
-                    } else if (item.age && item.age >= 40 && item.age <= 51){
-                        avatar = require("../../assets/men2.jpg");
-                    } else{
-                        avatar = require("../../assets/men3.jpg");
+          :   
+          <SafeAreaView style={{marginTop: 5}}>
+            <Text style={{fontSize:17, color: color.secondary, textAlign: 'center', fontWeight: 'bold'}}>{dataState.plan.planName}</Text>  
+            <FlatList 
+              style={styles.notificationList}
+              data={censusData} //CensusInfo
+              //extraData={CensusInfo,data}
+              keyExtractor= {(item) => {
+                return item.id.toString();
+              }}
+              renderItem={({item}) => {
+                let color = "#95a5a6"; //Purple: #6A5ACD Red: #FF4500 Pink: #FF69B4 //item.color
+                let own = null;
+                let avatar = require("../../assets/user.jpg");
+                if (item.sex){
+                    if (item.sex.toUpperCase() == 'M'){
+                        color = "#4682B4";
+                        if (item.age && item.age >= 10 && item.age <= 39){
+                            avatar = require("../../assets/men1.jpg");    
+                        } else if (item.age && item.age >= 40 && item.age <= 51){
+                            avatar = require("../../assets/men2.jpg");
+                        } else{
+                            avatar = require("../../assets/men3.jpg");
+                        }
+                    }else{
+                        color = "#FF69B4";
+                        if (item.age && item.age >= 10 && item.age <= 39){
+                            avatar = require("../../assets/women1.jpg");    
+                        } else if (item.age && item.age >= 40 && item.age <= 51){
+                            avatar = require("../../assets/women2.jpg");
+                        } else{
+                            avatar = require("../../assets/women3.jpg");
+                            color = "#FF4500";
+                        }
+                        
                     }
-                }else{
-                    color = "#FF69B4";
-                    if (item.age && item.age >= 10 && item.age <= 39){
-                        avatar = require("../../assets/women1.jpg");    
-                    } else if (item.age && item.age >= 40 && item.age <= 51){
-                        avatar = require("../../assets/women2.jpg");
-                    } else{
-                        avatar = require("../../assets/women3.jpg");
-                        color = "#FF4500";
-                    }
-                    
                 }
-            }
-            if (item.own)avatar = require("../../assets/Owner.jpg");
-            if (item.own) own =item.own.toString() +'%';
+                if (item.own)avatar = require("../../assets/Owner.jpg");
+                if (item.own) own =item.own.toString() +'%';
 
-            color=colors.icon;
-            //{cardClickEventListener(item)}
-            return (
-            <Swipeable 
-              renderRightActions={() => <RightAction item={item}/>}
-              overshootRight={false}
-            >
-            <TouchableHighlight underlayColor={'transparent'} key={item.id} onPress={()=> CensusToggleshow(item)}>
-              <View style={[styles.card,  {borderColor:color, backgroundColor: colors.iconDes}]}>
-                <View style={styles.cardContent}>                
-                  <Image style={[styles.image, styles.imageContent]} source={avatar}/>
-                  <View style={styles.navbar}>
-                    <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => CensusToggleshow(item)}>                 
-                        <Text style={[styles.name, {color: '#ffffff'}]}>{item.name}</Text>
-                    </TouchableOpacity>
-                    {/*CensusIndexChecked === item.id &&
-                    <View style={{flexDirection: 'row'}}>
-                        <TouchableOpacity onPress={() => {CensusEditClickEventListener(item)}}>
-                            <Icon style={{paddingRight:15}} name="account-edit" size={25} color="#ffffff" />
+                color=colors.icon;
+                //{cardClickEventListener(item)}
+                return (
+                <Swipeable 
+                  renderRightActions={() => <RightAction item={item}/>}
+                  overshootRight={false}
+                >
+                <TouchableHighlight underlayColor={'transparent'} key={item.id} onPress={()=> CensusToggleshow(item)}>
+                  <View style={[styles.card,  {borderColor:color, backgroundColor: colors.iconDes}]}>
+                    <View style={styles.cardContent}>                
+                      <Image style={[styles.image, styles.imageContent]} source={avatar}/>
+                      <View style={styles.navbar}>
+                        <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => CensusToggleshow(item)}>                 
+                            <Text style={[styles.name, {color: '#ffffff'}]}>{item.name}</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => {CensusDeleteClickEventListener(item)}}>
-                            <Icon style={{paddingRight:8}} name="account-remove" size={25} color="#ffffff" />
-                        </TouchableOpacity>
-                    </View>*/}  
-                  </View>
-                          
-                </View>
-                <TouchableOpacity onPress={() => CensusToggleshow(item)}>
-                <View style={styles.dateHeader}>
-                    <Text style={[styles.date, {color: colors.planDes}]}>Birth Date</Text>
-                    <Text style={[styles.date, {color: colors.planDes}]}>Hire Date</Text> 
-                    <Text style={[styles.date, {color: colors.planDes}]}>Hours Worked</Text> 
-                </View> 
-                <View style={styles.dateValue}>
-                    <Text style={[styles.date, {color: colors.planDes}]}>{item.dateOfBirth}</Text>
-                    <Text style={[styles.date, {marginLeft:-50, color: colors.planDes}]}>{item.dateOfHire}</Text> 
-                    <Text style={[styles.date, {marginTop:0,color: colors.planDes}]}>{item.workHours}</Text> 
-                </View>  
-                <View style={{flexDirection: 'row'}}>
-                    {own ?
-                    <View>
-                    <Icon style={[styles.crown, {}]} name="crown" size={35} color="#f1c40f" />
-                    <Text style={[styles.own, {}]}>{own}</Text>  
+                        {/*CensusIndexChecked === item.id &&
+                        <View style={{flexDirection: 'row'}}>
+                            <TouchableOpacity onPress={() => {CensusEditClickEventListener(item)}}>
+                                <Icon style={{paddingRight:15}} name="account-edit" size={25} color="#ffffff" />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => {CensusDeleteClickEventListener(item)}}>
+                                <Icon style={{paddingRight:8}} name="account-remove" size={25} color="#ffffff" />
+                            </TouchableOpacity>
+                        </View>*/}  
+                      </View>
+                              
                     </View>
-                    : null}
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={[styles.age, {}]}>Age: {item.age}</Text>    
-                </View>
-                {CensusIndexChecked === item.id &&
-                <View style={[styles.cardContent, styles.tagsContent]}>
-                  {renderTags(item)}
-                </View>}
-                </TouchableOpacity>
-              </View>
-            </TouchableHighlight>
-            </Swipeable>
-            )
-          }}/>}
+                    <TouchableOpacity onPress={() => CensusToggleshow(item)}>
+                    <View style={styles.dateHeader}>
+                        <Text style={[styles.date, {color: colors.planDes}]}>Birth Date</Text>
+                        <Text style={[styles.date, {color: colors.planDes}]}>Hire Date</Text> 
+                        <Text style={[styles.date, {color: colors.planDes}]}>Hours Worked</Text> 
+                    </View> 
+                    <View style={styles.dateValue}>
+                        <Text style={[styles.date, {color: colors.planDes}]}>{item.dateOfBirth}</Text>
+                        <Text style={[styles.date, {marginLeft:-50, color: colors.planDes}]}>{item.dateOfHire}</Text> 
+                        <Text style={[styles.date, {marginTop:0,color: colors.planDes}]}>{item.workHours}</Text> 
+                    </View>  
+                    <View style={{flexDirection: 'row'}}>
+                        {own ?
+                        <View>
+                        <Icon style={[styles.crown, {}]} name="crown" size={35} color="#f1c40f" />
+                        <Text style={[styles.own, {}]}>{own}</Text>  
+                        </View>
+                        : null}
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={[styles.age, {}]}>Age: {item.age}</Text>    
+                    </View>
+                    {CensusIndexChecked === item.id &&
+                    <View style={[styles.cardContent, styles.tagsContent]}>
+                      {renderTags(item)}
+                    </View>}
+                    </TouchableOpacity>
+                  </View>
+                </TouchableHighlight>
+                </Swipeable>
+                )
+              }}/>
+          </SafeAreaView>
+          }
           </View> 
         }
       </View>
@@ -528,7 +533,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   notificationList:{
-    marginTop: 12,
+    marginTop: 5,
     //padding:10,
     //paddingTop: 5,
     paddingLeft: 10,
