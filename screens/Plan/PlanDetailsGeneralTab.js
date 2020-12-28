@@ -343,22 +343,36 @@ const General = ({  route, Error, SetError }) => {
       //setDate(value = currentDate);
       //setInputDate(date = currentDate)
     };
+    const Test_Age = async(value) => {
+      if(value < RetAge)
+      {
+        //console.log('test 2',DropdownData.psRetAge);
+        //alert(value + " " + RetAge)
+        setPSRetAge(PSRetAge = parseInt(RetAge, 10))
+        alert("Normal Retirement Age (NRA) should be less than or equal to Testing Age (TA). The program will automatically update Testing Age equal to NRA.");
+        //alert(PSRetAge)
+        //SetError(Error = false); parseInt(itemValue, 10)
+      }
+      else{
+        setPSRetAge(PSRetAge = value)
+      }
+    }
     const NRA_Error = (val) => {
       if((val < 62 || val > 65))
       {
         //dataState.planNRA_Error = true;
-        SetError(Error = true);
+        SetError(Error = false);
       }
       else if(PSRetAge < val)
       {
-        console.log('test 2',val);
-        alert("Normal Retirement Age (NRA) should be less than or equal to Testing Age (TA). The program will automatically update Testing Age equal to NRA.");
-        //setPSRetAge(PSRetAge = val);
+        //console.log('test 2',val);
+        setPSRetAge(PSRetAge = parseInt(val, 10));
         SetError(Error = false);
+        alert("Normal Retirement Age (NRA) should be less than or equal to Testing Age (TA). The program will automatically update Testing Age equal to NRA.");
       }
       else
       {
-        console.log('test 3');
+        //console.log('test 3');
         //dataState.planNRA_Error = false;
         SetError(Error = false);
       }
@@ -479,9 +493,7 @@ const General = ({  route, Error, SetError }) => {
             
               <DropDownPicker
                 items={DropdownData.yearOfParticipationForNRA}
-                defaultIndex={0}
-                defaultValue={YearOfParticipationForNRA}
-              
+                defaultValue={YearOfParticipationForNRA}             
                 zIndex={5}
                 placeholder=""
                 placeholderStyle={{color: colors.Logintext}}
@@ -503,7 +515,6 @@ const General = ({  route, Error, SetError }) => {
             //controller={Dd1}
             isVisible={TesthideDrop}
             items={DropdownData.psRetAge}
-            defaultIndex={0}
             defaultValue={PSRetAge}
             zIndex={4}
             placeholder="Select an testing age"
@@ -517,7 +528,7 @@ const General = ({  route, Error, SetError }) => {
             arrowColor='rgba(51,51,51,0.5)'
             onOpen={() => {[DropSelected = 1, DropdownController(DropSelected),Scroll.current.scrollTo({ x: 0, y: 150, animated: true })]}}
             onClose={() => {[setTesthideDrop(TesthideDrop = false),setTestAgemargin(TestAgemargin = 0)]}}
-            onChangeItem={item => setPSRetAge(PSRetAge = item.value)}
+            onChangeItem={(item) => [Test_Age(item.value)/*,setPSRetAge(PSRetAge = item.value)*/]}
         />
         
         {/*<Button onPress={() => {console.log(JSON.stringify(Dd1, null, 2))}} title='test1'></Button>*/}
@@ -542,7 +553,7 @@ const General = ({  route, Error, SetError }) => {
               arrowColor='rgba(51,51,51,0.5)'
               onOpen={() => {[DropSelected = 2, DropdownController(DropSelected),Scroll.current.scrollTo({ x: 0, y: 250, animated: true })]}}
               onClose={() => {[setMinAgehideDrop(MinAgehideDrop = false),setMinAgemargin(MinAgemargin = 0)]}}
-              onChangeItem={item => setMinAge(MinAge = item.value)}
+              onChangeItem={(item) => setMinAge(MinAge = item.value)}
           />
           
           {/*<Button onPress={() => [sethideDrop(hideDrop = false),setMinAgemargin(MinAgemargin = 0)]} title='test'></Button>
