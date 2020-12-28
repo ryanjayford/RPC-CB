@@ -155,7 +155,7 @@ function getPlanHeaderTitle(route, setScreen, dataState) {
   }
 }
 
-function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType,CalculateToggle, setCalculateToggle,error,seterror) {
+function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType,CalculateToggle, setCalculateToggle,error) {
 
   const hideMenuXls = () =>
   {
@@ -328,7 +328,7 @@ const PlanTabScreen = ({navigation, route}) => {
     navigation.setOptions({ headerTitle: getPlanHeaderTitle(route, setScreen, dataState),  
       headerRight: () => (
         <View style={{flexDirection:"row"}}>
-          {getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType,CalculateToggle, setCalculateToggle,error,seterror)}
+          {getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType,CalculateToggle, setCalculateToggle,error)}
         </View>
       ),
 

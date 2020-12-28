@@ -14,7 +14,7 @@ import { set } from 'react-native-reanimated';
 import RadioButtonRN from 'radio-buttons-react-native';
 const baseURL = Settings.domain;
 
-const General = ({  route, Error, Seterror }) => {
+const General = ({  route, Error, SetError }) => {
   const [{setDetails},dataState] = React.useContext(AuthContext);
   const DefaultPlan = dataState.DefaultPlan;
   const DropdownData = dataState.DefaultDropdown;
@@ -347,12 +347,20 @@ const General = ({  route, Error, Seterror }) => {
       if((val < 62 || val > 65))
       {
         //dataState.planNRA_Error = true;
-        Seterror(Error = true);
+        SetError(Error = true);
+      }
+      else if(PSRetAge < val)
+      {
+        console.log('test 2',val);
+        alert("Normal Retirement Age (NRA) should be less than or equal to Testing Age (TA). The program will automatically update Testing Age equal to NRA.");
+        //setPSRetAge(PSRetAge = val);
+        SetError(Error = false);
       }
       else
       {
+        console.log('test 3');
         //dataState.planNRA_Error = false;
-        Seterror(Error = false);
+        SetError(Error = false);
       }
     }
     //console.log(date, "date")
