@@ -79,6 +79,7 @@ const General = ({  route, Error, SetError }) => {
   planDetailsDataState.companyName = CompanyName;
 
   const Scroll = React.useRef();
+  let controller;
   //Dd1;
   //let Dd1 = React.useRef(); 
   const Dd2 = React.useRef();
@@ -347,12 +348,9 @@ const General = ({  route, Error, SetError }) => {
     const Test_Age = async(value) => {
       if(value < RetAge)
       {
-        //console.log('test 2',DropdownData.psRetAge);
-        //alert(value + " " + RetAge)
         alert("Normal Retirement Age (NRA) should be less than or equal to Testing Age (TA). The program will automatically update Testing Age equal to NRA.");
         setPSRetAge(PSRetAge = parseInt(RetAge, 10))
-        //alert(PSRetAge)
-        //SetError(Error = false); parseInt(itemValue, 10)
+        controller.selectItem(parseInt(RetAge, 10));
       }
       else{
         setPSRetAge(PSRetAge = value)
@@ -362,20 +360,17 @@ const General = ({  route, Error, SetError }) => {
     const NRA_Error = (val) => {
       if((val < 62 || val > 65))
       {
-        //dataState.planNRA_Error = true;
         SetError(Error = true);
       }
       else if(PSRetAge < val)
       {
-        //console.log('test 2',val);
+        alert("Normal Retirement Age (NRA) should be less than or equal to Testing Age (TA). The program will automatically update Testing Age equal to NRA.");
         setPSRetAge(PSRetAge = parseInt(val, 10));
         SetError(Error = false);
-        alert("Normal Retirement Age (NRA) should be less than or equal to Testing Age (TA). The program will automatically update Testing Age equal to NRA.");
+        controller.selectItem(parseInt(val, 10));
       }
       else
       {
-        //console.log('test 3');
-        //dataState.planNRA_Error = false;
         SetError(Error = false);
       }
     }
@@ -514,8 +509,9 @@ const General = ({  route, Error, SetError }) => {
         <Text style={[styles.title,{marginTop: 10}]}>Testing Age</Text>
         
         <DropDownPicker
-            //controller={Dd1}
+            //controller={controller}
             isVisible={TesthideDrop}
+            controller={(instance) => controller = instance}
             items={DropdownData.psRetAge}
             defaultValue={PSRetAge}
             zIndex={4}
