@@ -14,7 +14,7 @@ import { set } from 'react-native-reanimated';
 import RadioButtonRN from 'radio-buttons-react-native';
 const baseURL = Settings.domain;
 
-const General = ({  route, PlanToggle }) => {
+const General = ({  route, Error, Seterror }) => {
   const [{setDetails},dataState] = React.useContext(AuthContext);
   const DefaultPlan = dataState.DefaultPlan;
   const DropdownData = dataState.DefaultDropdown;
@@ -343,7 +343,18 @@ const General = ({  route, PlanToggle }) => {
       //setDate(value = currentDate);
       //setInputDate(date = currentDate)
     };
-
+    const NRA_Error = (val) => {
+      if((val < 62 || val > 65))
+      {
+        //dataState.planNRA_Error = true;
+        Seterror(Error = true);
+      }
+      else
+      {
+        //dataState.planNRA_Error = false;
+        Seterror(Error = false);
+      }
+    }
     //console.log(date, "date")
     /*
     if(today != null)
@@ -442,6 +453,9 @@ const General = ({  route, PlanToggle }) => {
         />
         )}
         <Text style={[styles.title,{marginTop: 10}]}>Normal Retirement Age</Text>
+          {Error === true  &&
+            <Text style={{color: 'red', marginLeft: 2.5, marginRight: 2.5, marginTop: 5, marginBottom: 10, fontSize: 11}}>Valid values are from 62-65. NRA less than 62 generally not allowed per Notice 2007-69.</Text>
+          }
           <View style={{...(Platform.OS !== 'android'? {zIndex: 5,flexDirection: 'row'} : {flexDirection: 'row'})}}>
             <Text style={[styles.subNames,{}]}>The later of Age</Text>
             <TextInput style={{alignSelf:'flex-start', flex:1}}
@@ -451,7 +465,7 @@ const General = ({  route, PlanToggle }) => {
               //autoCapitalize="none"
               value={RetAge}
               keyboardType='numeric'
-              onChangeText={(val) => setRetAge(RetAge = val)}
+              onChangeText={(val) => [setRetAge(RetAge = val), NRA_Error(val)]}
             />
             <Text style={styles.subNames}>years of participation</Text>
             

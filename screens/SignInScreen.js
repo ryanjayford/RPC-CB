@@ -19,7 +19,7 @@ import CheckBox from 'react-native-check-box';
 import Settings from '../settings.json';
 import base64 from 'base-64'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
+import * as WebBrowser from 'expo-web-browser';
 import { useTheme } from 'react-native-paper';
 
 import { AuthContext } from '../components/context';
@@ -314,7 +314,11 @@ const SignInScreen = ({navigation}) => {
     }
 
 
-
+    const register = async () => {
+        let reportLink = 'http://therpc.com/register';
+        let result = await WebBrowser.openBrowserAsync(reportLink);
+        //setresult(thisresult = result)
+    };    
 
 
     const chkKeepMeSignedIn = () =>
@@ -457,7 +461,7 @@ const SignInScreen = ({navigation}) => {
                         <Text style = {[styles.lastText,{color: colors.Logintext}]}>|</Text>
 
                         <TouchableOpacity
-                            onPress={() => navigation.navigate('SignUpScreen')}
+                            onPress={() => register()/*navigation.navigate('SignUpScreen')*/}
                         >
                             <Text style = {[styles.lastText,{color: colors.Logintext}]}>Register Today</Text>
                         </TouchableOpacity>

@@ -714,9 +714,9 @@ const App = () => {
           if (isDarkThemeStorage && isDarkThemeStorage != null) setIsDarkTheme( isDarkTheme = (isDarkThemeStorage == '1' ? true : false) );
           userProfile = await AsyncStorage.getItem('userProfile');
           userProfileObj = JSON.parse(userProfile);
-          console.log('User Profile=>', userProfile);
-          if (userProfileObj.expireAt) minutes = moment(userProfileObj.expireAt).diff(new Date(), 'minutes');
-          console.log("Minutes======>", minutes, userProfileObj.expireAt);
+          console.log('User Profile=>', userProfileObj);
+          if (userProfileObj && userProfileObj.expireAt) minutes = moment(userProfileObj.expireAt).diff(new Date(), 'minutes');
+          
           if (minutes <= 0) expired = true;
         if (userProfileObj && userProfileObj.apiToken){
             token = userProfileObj.apiToken;
@@ -737,7 +737,7 @@ const App = () => {
           console.log(e);
       }
 
-      if (userProfileObj.hasNewUpdate){
+      if (userProfileObj && userProfileObj.hasNewUpdate){
         Alert.alert( 'New Update Available',
         'You will now be redirected to Login screen.');
         dispatch({ type: 'LOGOUT' });

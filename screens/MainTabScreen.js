@@ -47,18 +47,25 @@ const Tab = createMaterialBottomTabNavigator();
 const PlanTab = createMaterialBottomTabNavigator();
 
 
-const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNumber, userSponsorId) => {
-  console.log('CONFIRM ====>', planName, userToken);
-  
-  let msg = "Are you sure you want to Add New Plan?"
-  if (planId) msg = "Are you sure you want to save changes to " + planName + " Plan?"
-  if (planName){
-    Alert.alert("Save Plan", msg, 
-    [{ text: "Yes", onPress: () => save(navigation, type, planId, userToken, userNumber, userSponsorId) }, //CalculatePlan(dataState, setScreen)
-    { text: "No", onPress: () => {}, style: "cancel" }],
-    { cancelable: false }); 
-  } else {
-    alert('Plan Name field is required.');
+const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNumber, userSponsorId, error) => {
+  //console.log('checkiinnnnn' , planNRA_Error);
+  if(error === true)
+  {
+    alert('Valid values are from 62-65. NRA less than 62 generally not allowed per Notice 2007-69.');
+  }
+  else
+  {
+    console.log('CONFIRM ====>', planName, userToken);
+    let msg = "Are you sure you want to Add New Plan?"
+    if (planId) msg = "Are you sure you want to save changes to " + planName + " Plan?"
+    if (planName){
+      Alert.alert("Save Plan", msg, 
+      [{ text: "Yes", onPress: () => save(navigation, type, planId, userToken, userNumber, userSponsorId) }, //CalculatePlan(dataState, setScreen)
+      { text: "No", onPress: () => {}, style: "cancel" }],
+      { cancelable: false }); 
+    } else {
+      alert('Plan Name field is required.');
+    }
   }
   
 }
@@ -148,7 +155,7 @@ function getPlanHeaderTitle(route, setScreen, dataState) {
   }
 }
 
-function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType,CalculateToggle, setCalculateToggle) {
+function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType,CalculateToggle, setCalculateToggle,error,seterror) {
 
   const hideMenuXls = () =>
   {
@@ -201,9 +208,9 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
               <Icon.Button key={1} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [dataState.selectedPlan=null,navigation.navigate("Plan Directory", {screen: 'Plan Details', params: {screen: 'General', params: {homeClick: 'Add'}}}), setScreen({Name: "Plan Details", Method: "ADD"})]}></Icon.Button>,
               <Icon5.Button key={2} name="filter" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon5.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
     case 'Plan Details':
-  if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId)}></Icon.Button>, // Alert.alert('Save')
+  if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId,error)}></Icon.Button>, // Alert.alert('Save')
         <Icon.Button key={1} name="ios-close-circle" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Plan Directory', {screen: 'Plan List', params: {AddCancel: 'cancel'}})}></Icon.Button>]
-        return <Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() =>  ConfirmSave(save, navigation,'Edit', dataState.selectedPlan, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId)}></Icon.Button>;  //Alert.alert('No function yet')
+        return <Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() =>  ConfirmSave(save, navigation,'Edit', dataState.selectedPlan, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId, error)}></Icon.Button>;  //Alert.alert('No function yet')
     case 'Classes':
       return <Icon.Button key={0} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Class Detail Entry',{State: 'addnew'})}></Icon.Button>; 
       case 'Census':
@@ -313,6 +320,7 @@ const PlanTabScreen = ({navigation, route}) => {
   let [Plan, setPlan] = React.useState(false);
   let [Census, setCensus] = React.useState(false);
   let [CalculateToggle, setCalculateToggle] = React.useState(false);
+  let [error, set_Error] = React.useState(false);
   //console.log('from main tab: ' + CalculateToggle)
   let [documentType, setdocumentType] = React.useState('*/*');
   const menu = useRef();
@@ -320,7 +328,7 @@ const PlanTabScreen = ({navigation, route}) => {
     navigation.setOptions({ headerTitle: getPlanHeaderTitle(route, setScreen, dataState),  
       headerRight: () => (
         <View style={{flexDirection:"row"}}>
-          {getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType,CalculateToggle, setCalculateToggle)}
+          {getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,dataState,Census, setCensus,Plan, setPlan, setScreen,menu,documentType, setdocumentType,CalculateToggle, setCalculateToggle,error,seterror)}
         </View>
       ),
 
@@ -343,7 +351,7 @@ const PlanTabScreen = ({navigation, route}) => {
       ),
 
     });
-  }, [navigation, route]);
+  }, [navigation, route, error]);
 
   useEffect(() => {
 
@@ -407,7 +415,7 @@ const PlanTabScreen = ({navigation, route}) => {
 
       <PlanTab.Screen
         name="Plan Details"
-        component={PlanDetailsTopTab}
+        //component={PlanDetailsTopTab}
         options={{
           tabBarLabel: <Text style={{ fontSize: 10.5 }}>Plan Details</Text>,
           tabBarColor: colors.primary,
@@ -427,7 +435,10 @@ const PlanTabScreen = ({navigation, route}) => {
           }
           })
         }
-        />
+        >
+            {props => <PlanDetailsTopTab {...props} error={error} set_Error={set_Error} />}
+      </PlanTab.Screen>
+
       <PlanTab.Screen
         name="Classes"
         component={Classes}

@@ -9,7 +9,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 const TopTab = createMaterialTopTabNavigator();
 
-const TopTabs = ({navigation, route}) => {
+const TopTabs = ({navigation, route,error,set_Error}) => {
     //let [check1, setcheck] = React.useState(false); 
     //console.log(route,'nested details ------------------->')
     const [{},dataState] = React.useContext(AuthContext);
@@ -27,7 +27,7 @@ const TopTabs = ({navigation, route}) => {
           style: { backgroundColor: colors.secondary },
       }}>
 
-        <TopTab.Screen name="General" component={PDGeneralScreen} 
+        <TopTab.Screen name="General" //component={PDGeneralScreen} 
           listeners={({ navigation }) => ({
           tabPress: event => {
             console.log('Gen Tab Click');
@@ -35,7 +35,9 @@ const TopTabs = ({navigation, route}) => {
           }
           })
         }
-        />
+        >
+               {props => <PDGeneralScreen {...props} Error={error} SetError={set_Error} />}
+        </TopTab.Screen>
         <TopTab.Screen name="Cash Balance" component={PDCashbalanceScreen} 
            listeners={({ }) => ({
             tabPress: event => {
