@@ -343,13 +343,14 @@ const General = ({  route, Error, SetError }) => {
       //setDate(value = currentDate);
       //setInputDate(date = currentDate)
     };
+
     const Test_Age = async(value) => {
       if(value < RetAge)
       {
         //console.log('test 2',DropdownData.psRetAge);
         //alert(value + " " + RetAge)
-        setPSRetAge(PSRetAge = parseInt(RetAge, 10))
         alert("Normal Retirement Age (NRA) should be less than or equal to Testing Age (TA). The program will automatically update Testing Age equal to NRA.");
+        setPSRetAge(PSRetAge = parseInt(RetAge, 10))
         //alert(PSRetAge)
         //SetError(Error = false); parseInt(itemValue, 10)
       }
@@ -357,11 +358,12 @@ const General = ({  route, Error, SetError }) => {
         setPSRetAge(PSRetAge = value)
       }
     }
+
     const NRA_Error = (val) => {
       if((val < 62 || val > 65))
       {
         //dataState.planNRA_Error = true;
-        SetError(Error = false);
+        SetError(Error = true);
       }
       else if(PSRetAge < val)
       {
