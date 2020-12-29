@@ -345,7 +345,7 @@ const General = ({  route, Error, SetError }) => {
       //setInputDate(date = currentDate)
     };
 
-    const Test_Age = async(value) => {
+    const Test_Age = (value) => {
       if(value < RetAge)
       {
         alert("Normal Retirement Age (NRA) should be less than or equal to Testing Age (TA). The program will automatically update Testing Age equal to NRA.");

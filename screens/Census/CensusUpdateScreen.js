@@ -141,6 +141,14 @@ const AddModal = ({ navigation,route }) => {
             Alert.alert("Error:", "LY Compensation cannot be blank.");
         }
 
+         //check if its only numbers
+         if(!/^\d+$/.test(LYcompensation))
+         {
+             Alert.alert("Data Error:", "LY Compensation only accepts numbers.");
+             CensushasError = true;
+         }
+ 
+
         if ((percentOwnership === null & owner === 1) | (percentOwnership === "" & owner === 1)) {
             //setClassload(Classload = false);
             CensushasError = true;
@@ -767,7 +775,7 @@ const AddModal = ({ navigation,route }) => {
                             onCancel={() => setOverrideShow(OverrideShow = !OverrideShow)}
                             />
                         )}
-                    <View style={{flexDirection: 'row', marginBottom: 5}}>
+                    <View style={{flexDirection: 'row', marginTop: 5}}>
                         <CheckBox 
                         style={{paddingRight: 5}}
                         checkedCheckBoxColor = {'#333333'}
@@ -836,7 +844,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        marginTop: 25
+        marginTop: 20
         
     },
     signIn: {
