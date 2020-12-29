@@ -35,8 +35,8 @@ const AddModal = ({ navigation,route }) => {
     let [fname, setfname] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.Firstname); 
     let [lname, setlname] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.Lastname); 
     let [sex, setsex] = React.useState(parameter === 'CensusAddUser' ? 'M' : selectedUser.Sex); 
-    let [pricipal, setpricipal] = React.useState(parameter === 'CensusAddUser' ? 1 : selectedUser.Principal); 
-    let [owner, setowner] = React.useState(parameter === 'CensusAddUser' ? 2 : selectedUser.IsOwner); 
+    let [pricipal, setpricipal] = React.useState(parameter === 'CensusAddUser' ? 1 : (selectedUser.Principal === 0 ? 2 : 1)); 
+    let [owner, setowner] = React.useState(parameter === 'CensusAddUser' ? 2 : (selectedUser.IsOwner === 0 ? 2 : 1)); 
     let [familycode, setfamilycode] = React.useState(parameter === 'CensusAddUser' ? " " : selectedUser.FamilyCode); 
     let [datebirth, setdatebirth] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.dateOfBirth);
     let [datehire, setdatehire] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.dateOfHire);
@@ -44,7 +44,7 @@ const AddModal = ({ navigation,route }) => {
     let [pastservice, setpastservice] = React.useState(parameter === 'CensusAddUser' ? '0' : selectedUser.PastService.toString()); 
     let [LYcompensation, setLYcompensation] = React.useState(parameter === 'CensusAddUser' ? '0' : selectedUser.lastYearComp.toString()); 
     let [w2earnings, setw2earnings] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.W2Earnings.toString()); 
-    let [catchup, setcatchup] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.HasCatchUp); //checking
+    let [catchup, setcatchup] = React.useState(parameter === 'CensusAddUser' ? 0 : (selectedUser.HasCatchUp === 0 ? 2 : 1)); //checking
     let [classtype, setclasstype] = React.useState('A - Owner HCEs'); 
     let [deferral, setdeferral] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.DeferralPercent); 
     let [deferralchoice, setdeferralchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.DeferCode); 
@@ -129,6 +129,13 @@ const AddModal = ({ navigation,route }) => {
             Alert.alert("Error:", "W-2 Earnings cannot be blank.");
         }
 
+        //check if W-2 Earnings only has numbers
+        if(!/^\d+$/.test(w2earnings))
+        {
+            Alert.alert("Data Error:", "You must enter a valid W-2 Earnings.");
+            CensushasError = true;
+        }
+
         if (pastservice === null | pastservice === "") {
             //setClassload(Classload = false);
             CensushasError = true;
@@ -141,7 +148,7 @@ const AddModal = ({ navigation,route }) => {
             Alert.alert("Error:", "LY Compensation cannot be blank.");
         }
 
-         //check if its only numbers
+         //check if LYcompensation only has numbers
          if(!/^\d+$/.test(LYcompensation))
          {
              Alert.alert("Data Error:", "LY Compensation only accepts numbers.");
@@ -163,9 +170,9 @@ const AddModal = ({ navigation,route }) => {
                 PlanId: CensusPlanId, 
                 FirstName: fname,
                 LastName: lname,
-                Principal: pricipal === 0 ? false: true,
+                Principal: (pricipal === 2 ? 0 : 1), //pricipal === 0 ? false: true,
                 Sex: sex,
-                IsOwner: owner, 
+                IsOwner: (owner === 2 ? 0 : 1), 
                 FamilyCode: familycode,
                 DateOfBirth: datebirth,
                 DateOfHire: datehire,
@@ -174,7 +181,7 @@ const AddModal = ({ navigation,route }) => {
                 PastService: pastservice,//??
                 LastYearComp: LYcompensation,
                 W2Earnings: w2earnings,
-                CatchUp: catchup,
+                CatchUp: (catchup === 2 ? 0 : 1),
                 //HighlyComp?
                 //ClassId?
                 //RetAge
@@ -244,17 +251,17 @@ const AddModal = ({ navigation,route }) => {
         },
         {
             id: 2,
-            text: 'No',
+            //text: 'No',
             label: 'No'
         },
     ];
     var choiceCatchup = [ //not tested
         {
-            id: 0, // required
+            id: 1, // required
             label: 'Yes'
         },
         {
-            id: 1,
+            id: 2,
             label: 'No'
         },
     ];
@@ -551,7 +558,7 @@ const AddModal = ({ navigation,route }) => {
                         <RadioButtonRN
                             data={choiceCatchup}
                             activeOpacity={2}
-                            initial={catchup === 0 ? 1 : 2}//error changing to 2
+                            initial={catchup}//error changing to 2
                             animationTypes={['pulse']}
                             style={{paddingLeft: 10,flexDirection: 'row'}}
                             textStyle={{paddingLeft: 10}}
