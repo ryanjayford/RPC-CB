@@ -314,14 +314,14 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
             <View style={[styles.GreenContainer,{backgroundColor: indexChecked === item.planId ? colors.icon : colors.linearlight}]}>
               <View style={styles.subContainer}>
                 <View style={{flexDirection:"row", paddingTop: 6, justifyContent: "flex-start"}}>
-                <Icon name="account-badge" size={25} color={indexChecked === item.planId ? colors.iconLight : colors.textGreen} />
+                <Icon name="account-badge" size={height > 800 ? 30 :25} color={indexChecked === item.planId ? colors.iconLight : colors.textGreen} />
                 <View style={[styles.tagColor,{marginTop: -2, marginLeft:-2,borderColor:  indexChecked === item.planId ? colors.textGreen : colors.iconLight, backgroundColor: indexChecked === item.planId ? colors.iconLight: colors.textGreen}]}>
                 <Text style={[styles.tag,{color:  indexChecked === item.planId ? colors.textGreen : colors.iconLight}]}>{N0s}</Text>
                 </View>
                 
                 </View>
                 <View style={{flexDirection:"row", paddingTop: 8}}>
-                <Icon name="human-handsup" size={25} color={indexChecked === item.planId ? colors.iconLight : colors.textGreen} />
+                <Icon name="human-handsup" size={height > 800 ? 30 : 25} color={indexChecked === item.planId ? colors.iconLight : colors.textGreen} />
                 <Text style={[styles.age,{marginLeft:-2, color: indexChecked === item.planId ? colors.iconLight : colors.textGreen}]}>{number}</Text>
                 </View>
                 
@@ -339,7 +339,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
                 
                 {portrait? 
                 <Avatar 
-                  size={60}
+                  size={height > 800 ? 70 : 60}
                   overlayContainerStyle={{borderWidth:2, borderColor: colors.imgBorder, backgroundColor: colors.imgBackground}}
                   rounded
                   title={initials}                 
@@ -349,7 +349,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
                 />
                 :
                 <Avatar 
-                  size={60}
+                  size={height > 800 ? 70 : 60}
                   overlayContainerStyle={{borderWidth:2, borderColor: colors.imgBorder, backgroundColor: colors.imgBackground}}
                   rounded
                   title={initials}                 
@@ -456,41 +456,41 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   company: {
-    fontSize: 15,
+    fontSize: height > 800 ? 18 : 15,
     fontWeight: 'bold',
     marginTop:4,
     color: "#225216"
 
   },
   prepared: {
-    fontSize: 11,
+    fontSize: height > 800 ? 14 : 11,
     fontWeight: 'bold',
     marginTop:2,
     color:"#636e72"
   },
   name: {
-    fontSize: 15,
+    fontSize: height > 800 ? 18 : 15,
     fontWeight: 'bold',
     paddingLeft:8,
     marginTop:15,
     color:"#636e72"
   },
   email: {
-    fontSize: 12,
+    fontSize: height > 800 ? 16 : 12,
     //fontWeight: 'bold',
     paddingLeft:8,
     marginTop:8,
     color: "#225216"
   },
   dateLabel: {
-    fontSize: 11,
+    fontSize: height > 800 ? 14 : 11,
     fontWeight: 'bold',
     paddingLeft:8,
     marginTop:12,
     color: "#225216"
   },
   dateValue: {
-    fontSize: 15,
+    fontSize: height > 800 ? 18 :15,
     fontWeight: 'bold',
     paddingLeft:8,
     color:"#636e72",
@@ -504,7 +504,7 @@ const styles = StyleSheet.create({
     color: '#ffffff'
   },
   age:{
-    fontSize:16,
+    fontSize: height > 800 ? 18 :16,
     fontWeight:"bold",
     paddingLeft: 1,
     color: '#ffffff'
@@ -536,7 +536,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   tag:{
-    fontSize:14,
+    fontSize: height > 800 ? 16 :14,
     fontWeight:'bold',
     alignSelf: 'center'
   },
@@ -544,7 +544,7 @@ const styles = StyleSheet.create({
     padding:5,
     borderRadius:40,
     marginHorizontal:3,
-    marginTop:0,
+    marginTop: 0,
     borderWidth:2
   },
  tagsContent:{

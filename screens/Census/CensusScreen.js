@@ -11,7 +11,8 @@ import {
   TextInput,
   FlatList,
   ActivityIndicator,
-  SafeAreaView
+  SafeAreaView,
+  Dimensions
 } from 'react-native';
 import { Button, Paragraph, Menu, Divider, Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -25,6 +26,7 @@ import * as FileSystem from 'expo-file-system';
 import XLSX from 'xlsx';
 import Settings from '../../settings.json';
 const baseURL = Settings.domain;
+const {width,height} = Dimensions.get('window');
 let RightAction = ({item}) =>
 {
   return(
@@ -565,7 +567,7 @@ const styles = StyleSheet.create({
     borderRadius:30,
   },
   name:{
-    fontSize:17,
+    fontSize: height > 800 ? 20 : 17,
     fontWeight: 'bold',
     marginLeft:10,
     alignSelf: 'center'
@@ -584,19 +586,19 @@ const styles = StyleSheet.create({
     color: '#ffffff'
   },
   age:{
-    fontSize:9,
+    fontSize: 9,
     fontWeight:"bold",
     marginLeft:24,
     alignSelf: 'center',
-    marginTop:-35,
+    marginTop: height > 800 ? -55 : -35,
     color: '#ffffff'
   },
   date:{
-    fontSize:12,
+    fontSize: height > 800 ? 15 : 12,
     alignSelf: 'center'
   },
   tag:{
-    fontSize:11,
+    fontSize: height > 800 ? 13 : 11,
     alignSelf: 'center'
   },
   btnColor: {

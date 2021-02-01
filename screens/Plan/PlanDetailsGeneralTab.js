@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,Button,ScrollView,TextInput, Alert, ActivityIndicator,Platform } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Button,ScrollView,TextInput, Alert, ActivityIndicator,Platform,Dimensions } from 'react-native';
 import{ AuthContext } from '../../components/context';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from '@react-navigation/native';
@@ -13,6 +13,7 @@ import Settings from '../../settings.json';
 import { set } from 'react-native-reanimated';
 import RadioButtonRN from 'radio-buttons-react-native';
 const baseURL = Settings.domain;
+const {width,height} = Dimensions.get('window');
 
 const General = ({  route, Error, SetError }) => {
   const [{setDetails},dataState] = React.useContext(AuthContext);
@@ -429,7 +430,7 @@ const General = ({  route, Error, SetError }) => {
 
         <TextInput 
           multiline={true}
-          numberOfLines={4}
+          numberOfLines={height > 800 ? 8 : 4}
           placeholderTextColor = 'rgba(51,51,51,0.7)'
           placeholder="Description"
           style={[styles.textArea,{color: colors.Logintext}]}
@@ -499,7 +500,7 @@ const General = ({  route, Error, SetError }) => {
                 itemStyle={{justifyContent: 'flex-start'}}
                 style={{borderWidth: 1}}
                 dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-                containerStyle={{ height: 38, flex: 1,marginLeft: 0, marginTop:-12}}
+                containerStyle={{ height: 38, flex: height > 800 ? 0.2 : 1,marginLeft: 0, marginTop:-12}}
                 arrowColor='rgba(51,51,51,0.5)'
                 onChangeItem={item => setYearOfParticipationForNRA(YearOfParticipationForNRA = item.value)}
               />
@@ -860,7 +861,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   title: {
-    fontSize: 14,
+    fontSize: height > 800 ? 18 : 14,
     fontWeight: 'bold',
     marginBottom: 7
   },
@@ -868,7 +869,7 @@ const styles = StyleSheet.create({
     paddingRight: 3,
     marginTop: 7,
     paddingLeft: 3,
-    fontSize: 12
+    fontSize: height > 800 ? 15 : 12
   },
   textArea: {
     flex: 1,  

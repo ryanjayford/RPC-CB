@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,ScrollView,TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,ScrollView,TextInput,Dimensions } from 'react-native';
 import{ AuthContext } from '../../components/context';
 import { useTheme } from '@react-navigation/native';
 import CheckBox from 'react-native-check-box';
 import RadioButtonRN from 'radio-buttons-react-native';
-
+const {width,height} = Dimensions.get('window');
 
 const FOI = ({ navigation }) => {
     const [{},dataState] = React.useContext(AuthContext);
@@ -486,7 +486,7 @@ const FOI = ({ navigation }) => {
     <View style= {styles.inputContainer}>
       <ScrollView style= {styles.ScrollContainer}>
 
-      <View style={{marginBottom: 20}}>
+      <View style={{marginBottom: 20, marginTop: height > 800 ? 20 : 0}}>
         <Text style={styles.title}>Deferral %</Text>
           
           <View style={{flexDirection: 'row'}}>
@@ -672,13 +672,14 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
+      height: height,
     },
     ScrollContainer: {
       marginTop: 20,
-      paddingHorizontal: 16,
+      paddingHorizontal: height > 800 ? 20 : 16,
     },
     title: {
-      fontSize: 14,
+      fontSize: height > 800 ? 18 : 14,
       fontWeight: 'bold',
       marginBottom: 7
     },
@@ -686,7 +687,7 @@ const styles = StyleSheet.create({
       paddingRight: 10,
       marginTop: 7,
       paddingLeft: 5,
-      fontSize:12
+      fontSize: height > 800 ? 15 : 12
     },
     textInput: {
       flex: 1,  
@@ -703,5 +704,6 @@ const styles = StyleSheet.create({
       paddingRight: 10,
       marginTop: 7,
       paddingLeft: 10,
+      fontSize: height > 800 ? 18 : 15
     }
   });

@@ -182,7 +182,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
               
                 <View style={[styles.TextContainer, {backgroundColor: colors.iconDes}]}>
                 <View style={{justifyContent: 'flex-start',  flexDirection: 'row', paddingLeft: 3, paddingBottom: 3}}>
-                      <Text style={[styles.title,{fontSize: 14, color: colors.textLight, fontStyle: 'italic'}]}>{item.ReportName}</Text>
+                      <Text style={[styles.title,{fontSize: height > 800 ? 16 : 14, color: colors.textLight, fontStyle: 'italic'}]}>{item.ReportName}</Text>
                     </View>
                     <View style={{justifyContent: 'space-around',  flexDirection: 'row',}}>
                         <View style={{flexDirection: 'column'}}>
@@ -238,12 +238,12 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontWeight: 'bold',   
-    fontSize: 13,
+    fontSize: height > 800 ? 15 : 13,
     //color: 'white'
   },
   subtitle: {
     textAlign: 'center',
-    fontSize: 11,
+    fontSize: height > 800 ? 13 : 11,
     //color: 'white'
   },
   DownloadAction: {

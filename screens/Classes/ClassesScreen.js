@@ -199,7 +199,7 @@ const ClassesScreen = ({ navigation }) => {
           </View>
           : 
           <SafeAreaView style={{marginTop: 5}}>
-            <Text style={[styles.title,{fontSize:17, color: color.secondary, paddingBottom: 3, textAlign: 'center'}]}>{dataState.plan.planName}</Text>
+            <Text style={[styles.title,{fontSize: 17, color: color.secondary, paddingBottom: 3, textAlign: 'center'}]}>{dataState.plan.planName}</Text>
             <FlatList
               data={classData}
               //extraData={}
@@ -237,11 +237,11 @@ const ClassesScreen = ({ navigation }) => {
                   <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                     <View style={{flexDirection: 'column',marginTop: 5}}>
                         <Text style={[styles.Description,{ color: colors.icontitle}]}>Cash Balance</Text>
-        <Text style={[styles.Description,{ color: colors.text}]}>{item.cbValue}{item.cbValueType}</Text>
+                        <Text style={[styles.Description,{ color: colors.text}]}>{item.cbValue}{item.cbValueType}</Text>
                     </View>
                     <View style={{flexDirection: 'column',marginTop: 5}}>
                         <Text style={[styles.Description,{ color: colors.icontitle}]}>Profit Shares</Text>
-        <Text style={[styles.Description,{ color: colors.text}]}>{item.psValue}{item.psValueType}</Text>
+                        <Text style={[styles.Description,{ color: colors.text}]}>{item.psValue}{item.psValueType}</Text>
                     </View>
                     </View>
                 </View>
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
         //textAlign: 'center',
         textAlign: 'left',
         fontWeight: 'bold',   
-        fontSize: 20,
+        fontSize: height > 800 ? 25 :20,
     },
 
     Class: {
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
 
     Description: {
         textAlign: 'left',
-        fontSize: 12
+        fontSize: height > 800 ? 17 :12
     },
     DeleteAction: {
       backgroundColor: '#dd2c00',

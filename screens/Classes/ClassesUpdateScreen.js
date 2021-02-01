@@ -190,7 +190,7 @@ const ClassUpdate = ({ navigation,route }) => {
                 <Text style={styles.columnNames}>Class Description</Text>
                     <TextInput 
                         multiline={true}
-                        numberOfLines={4}
+                        numberOfLines={height > 800 ? 8 : 4}
                         placeholderTextColor = 'rgba(51,51,51,0.7)'
                         placeholder="Description"
                         style={[styles.textArea,{color: colors.Logintext}]}
@@ -329,8 +329,9 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     columnNames: {
-        marginTop: 5,
-        marginBottom: 5,
+        fontSize: height > 800 ? 18 : 15,
+        marginTop: height > 800 ? 15 : 5,
+        marginBottom: height > 800 ? 15 : 5,
         fontWeight: 'bold'
     },
     textArea: {
@@ -350,11 +351,11 @@ const styles = StyleSheet.create({
    
     button: {
         alignItems: 'center',
-        marginTop: 10
-        
+        marginTop: height > 800 ? 30 : 10
     },
     signIn: {
         width: '100%',
+        marginTop: height > 800 ? 10 : 0,
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',

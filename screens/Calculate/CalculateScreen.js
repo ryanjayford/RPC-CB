@@ -277,7 +277,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
               <View style={[styles.item,{borderTopColor: colors.icon, borderBottomColor: colors.icon}]}>
                 <View style={[styles.TextContainer, {backgroundColor: colors.iconDes}]}>
                     <View style={{justifyContent: 'flex-start',  flexDirection: 'row', paddingLeft: 3, paddingBottom: 3}}>
-                      <Text style={[styles.title,{fontSize: 14, color: colors.textLight, fontStyle: 'italic'}]}>{item.reportName}</Text>
+                      <Text style={[styles.title,{fontSize: height > 800 ? 18 : 14, color: colors.textLight, fontStyle: 'italic'}]}>{item.reportName}</Text>
                     </View>
                     <View style={{justifyContent: 'space-around',  flexDirection: 'row',}}>
                         <View style={{flexDirection: 'column'}}>
@@ -348,12 +348,12 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontWeight: 'bold',   
-    fontSize: 13,
+    fontSize: height > 800 ? 16 : 13,
     //color: 'white'
   },
   subtitle: {
     textAlign: 'center',
-    fontSize: 11,
+    fontSize: height > 800 ? 14 : 11,
     //color: 'white'
   },
   DownloadAction: {

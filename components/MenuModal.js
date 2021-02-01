@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
       position:'absolute',
       top: Platform.OS === 'ios' ? 16 : 10,
       right:5,
-      width: 120,
+      width: height > 800 ? 150 : 120,
     },
     icon: {
       //backgroundColor:'black',

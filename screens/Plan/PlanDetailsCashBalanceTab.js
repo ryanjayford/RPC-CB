@@ -9,6 +9,7 @@ import Interest from '../../components/InterestModal'
 import * as WebBrowser from 'expo-web-browser';
 import RadioButtonRN from 'radio-buttons-react-native';
 const {width,height} = Dimensions.get('window');
+
 const CashBalance = ({ route }) => {
   const [{},dataState] = React.useContext(AuthContext);
   //Open modal
@@ -458,14 +459,14 @@ const styles = StyleSheet.create({
       paddingHorizontal: 16,
     },
     title: {
-      fontSize: 14,
+      fontSize: height > 800 ? 18 : 14,
       fontWeight: 'bold',
       marginBottom: 7
     },
     subNames: {
       paddingRight: 10,
       marginTop: 7,
-      fontSize: 12
+      fontSize: height > 800 ? 15 : 12
     },
     icon: {
       padding: 2,

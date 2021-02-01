@@ -370,8 +370,8 @@ updatePassword = async (oldPassword, newPassword) => {
               <View style={styles.profileBtn}>
                 <View style={{ padding: 20}}>
                   { ProfileImage !== null ?
-                    <Image source={{ uri: ProfileImage }} style={{ width: 250, height: 250, borderRadius: 125 }}/> :
-                    <Image source={require("../../assets/user.jpg")} style={{ width: 250, height: 250, borderRadius: 125 }} />
+                    <Image source={{ uri: ProfileImage }} style={{ width: height > 800 ? 500 : 250, height: height > 800 ? 500 : 250, borderRadius: height > 800 ? 250 : 125 }}/> :
+                    <Image source={require("../../assets/user.jpg")} style={{ width: height > 800 ? 500 : 250, height: height > 800 ? 500 : 250, borderRadius: height > 800 ? 250 : 125 }} />
                   }
                 </View>
                 <TouchableOpacity onPress={() => _captureImage()} style={[styles.bubble, styles.button, {width: '100%'}]}>

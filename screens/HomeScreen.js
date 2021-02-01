@@ -180,18 +180,18 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: height > 800 ? 28 : 20,
   },
 
   Description: {
     textAlign: 'left',
-    fontSize: 12
+    fontSize: height > 800 ? 18 : 12
   },
 
   Icon: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: height > 800 ? 120 : 80,
+    height: height > 800 ? 120 : 80,
+    borderRadius: height > 800 ? 60 : 40,
     borderWidth: 3,
     borderColor: 'white',
     alignSelf: 'center'

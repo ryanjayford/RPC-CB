@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
       flex: 1,
     },
     header: {
-      fontSize: 15,
+      fontSize: height > 800 ? 18 : 15,
       color: 'white',
       fontWeight: 'bold'
     },
@@ -408,19 +408,19 @@ const styles = StyleSheet.create({
     },
     CheckBox: {
       margin: 7,
-      //padding: 2.5,
+      padding: height > 800 ? 2.5 : 0,
       justifyContent: 'center',
       //backgroundColor: 'grey'
     },
     buttons: {
-      fontSize: 13,
+      fontSize: height > 800 ? 16 : 13,
       textAlign: 'center',
       color: 'white',
       fontWeight: 'bold'
     },
     buttoncontainer: {
       width: '30%',
-      padding: 5,
+      padding: height > 800 ? 7 :5,
       borderRadius: 10
     },
 

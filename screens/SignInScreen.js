@@ -46,7 +46,7 @@ const slideUp = {
 };
 
 const SignInScreen = ({navigation}) => {
-
+    //alert('width ' + width + " " + 'height'  + height)
     const [data, setData] = React.useState({
         username: '',
         password: '',
@@ -498,13 +498,14 @@ const styles = StyleSheet.create({
     logo: {
         //marginTop: Platform.OS === 'ios' ? 10 : 0,
         width: width/2,
-        height: height/6.5,
+        height: height > 800 ? height/4.5 : height/6.5,
         alignItems: 'center',
+        
 
     },
     title: {
         color: 'white',
-        fontSize: 25,
+        fontSize: height > 800 ? 35 : 25,
         fontWeight: 'bold',
         textAlign: 'center',
         //zIndex: 3,
@@ -522,7 +523,7 @@ const styles = StyleSheet.create({
         elevation: 10,
         zIndex: 2,
         //padding: '30%',
-        borderRadius: 190,
+        borderRadius: height > 800 ? 300 : 190,
         //borderBottomLeftRadius: 200,
         //borderBottomRightRadius: 200,
         
