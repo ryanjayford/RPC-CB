@@ -15,7 +15,7 @@ const MenuModal = ({ navigation }) => {
         {id: '0',Time: 'In 24 hours'},
         {id: '1',Time: 'In 48 hours'},
         {id: '2',Time: 'This Week'},
-        {id: '3',Time: 'This Month'},
+        {id: '3',Time: 'All Plans'},
       ];
     /*
     doNow = (item,index,navigation) => {
