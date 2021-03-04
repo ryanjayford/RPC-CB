@@ -245,8 +245,8 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
             </View>
           </View> }
     <LinearGradient 
-    colors={[colors.linearlight,colors.linearDark]}
-    style = {styles.container}
+      colors={[colors.linearlight,colors.linearDark]}
+      style = {styles.container}
     >     
      
      {!planData || isLoading ?
@@ -304,8 +304,8 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     return (
       <View style={styles.listcontainer}>
       <Swipeable 
-      renderRightActions={() => <RightAction item={item} index={index} />}
-      overshootRight={false}
+        renderRightActions={() => <RightAction item={item} index={index} />}
+        overshootRight={false}
       >
       <TouchableHighlight underlayColor={'transparent'} key={index} onPress={()=> toggleshow(item)}>  
           

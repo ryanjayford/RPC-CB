@@ -7,7 +7,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -22,11 +22,14 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "rpc.cb",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "description": "",
     "android": {
-      "package": "rpc.cb"
+      "package": "rpc.cb",
+      "versionCode": 2
     }
   }
 }

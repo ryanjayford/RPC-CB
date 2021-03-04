@@ -29,6 +29,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon2 from 'react-native-vector-icons/Ionicons';
 import Avatars from '../model/avatars';
 import{ AuthContext } from '../components/context';
+import * as WebBrowser from 'expo-web-browser';
 
 export function DrawerContent(props) {
     const paperTheme = useTheme();
@@ -47,6 +48,12 @@ export function DrawerContent(props) {
         portrait = `data:image/jpeg;base64, ${userData[0].avatar}`;
         dataState.portrait = portrait;
     } 
+
+    const help = async () => {
+        let HelpLink = 'https://oldcb-premiere.ebgsystems.net/CashBalance/help/index.htm';
+        let result = await WebBrowser.openBrowserAsync(HelpLink);
+        //setresult(thisresult = result)
+    };  
 
     return(
         <View style={{flex:1}}>
@@ -78,6 +85,10 @@ export function DrawerContent(props) {
                     </LinearGradient >
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItemList {...props} />
+                        <DrawerItem icon ={({ focused, color, size }) => <Icon color={color} size={size} name='help' />}
+                            label="Help"
+                            onPress={() => {help()}}
+                        />
                     </Drawer.Section>
                     { /*<Drawer.Section style={styles.drawerSection}>
                         <DrawerItem 

@@ -802,12 +802,13 @@ const App = () => {
                     name="settings"
                     color={color} />
             }} />
+            {/*
             <Drawer.Screen name="Help" component={SupportScreen} options={{
                 drawerIcon: ({ color, size }) => <Icon
                     size={size}
                     name="help"
                     color={color} />
-            }} />
+            }} />*/}
             
             {/* 
             <Drawer.Screen name="HomeScreen"  component={MainTabScreen} />
