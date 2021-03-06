@@ -14,9 +14,11 @@ const BookmarkScreen = () => {
       <LinearGradient 
         colors={['#eeecc5','#fcfdf8']}
         style = {styles.container}
-      >     
-        <View>
+      >
+        <View style={styles.header}>
           <Text style = {styles.Title}>Office</Text>
+        </View>
+        <View style={{padding: 20}}>
           <Text style = {styles.SubTitle}>EBG Systems, Inc.</Text>
           <Text style = {styles.info}>5320 N Sheridan Rd{"\n"}
                 Unit 1610{"\n"}
@@ -30,8 +32,10 @@ const BookmarkScreen = () => {
             <Text style={styles.link}>www.ebgsystems.com</Text>
           </TouchableOpacity>
         </View>
-        <View style={{marginTop: 25}}>
+        <View style={styles.header}>
           <Text style = {styles.Title}>Support</Text>
+        </View>
+        <View style={{padding: 20}}>
           <Text style = {styles.SubTitle}>Support Team</Text>
           <Text style = {styles.info}>P: (773) 866-2087</Text>
           <Text style = {styles.info}>F: (773) 866-2012</Text>
@@ -50,12 +54,15 @@ const styles = StyleSheet.create({
         flex: 1, 
         //alignItems: 'center', 
         //justifyContent: 'center',
-        padding: 20
+    },
+    header: {
+      backgroundColor: '#008000',
+      padding: 10
     },
     Title: {
       fontSize: 32,
       fontWeight: 'bold',
-      color: '#008000'
+      color: 'white'
     },
     SubTitle: {
       fontSize: 28,
