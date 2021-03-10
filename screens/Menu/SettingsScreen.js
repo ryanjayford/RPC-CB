@@ -51,8 +51,8 @@ const SettingsScreen = ({navigation}) => {
         <View style={styles.header}>
           <Text style={styles.title}>Setup Report Logo</Text>
         </View>
-        <ScrollView style={{padding: 20}}>
-          <Text style={styles.subtitle}>Select Logo Category:</Text>
+        <ScrollView style={{paddingLeft: 20, paddingRight: 20}}>
+          <Text style={[styles.subtitle, {marginTop: 20}]}>Select Logo Category:</Text>
           <RadioButtonRN
               data={catchRbt}
               activeOpacity={2}
@@ -97,7 +97,7 @@ const SettingsScreen = ({navigation}) => {
                     <Text style={[styles.textSign, {color:'#fff'}]}>{'Upload Logo'}</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.signIn, {marginTop: 15,marginBottom: 20}]}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.signIn, {marginTop: 15 }]}>
                     <LinearGradient
                         colors={['#72be03','#397e05']} //'#72be03','#397e05'
                         style={styles.signIn}
@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
       height: 50,
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: 10
-      
+      borderRadius: 10,
+      marginBottom: 15
   },
   textSign: {
       fontSize: 18,

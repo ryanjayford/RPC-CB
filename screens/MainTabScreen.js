@@ -37,6 +37,8 @@ import moment from 'moment';
 import MenuModal from '../components/MenuModal';
 import Settings from '../settings.json';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
+import * as WebBrowser from 'expo-web-browser';
+
 const baseURL = Settings.domain;
 //import PlanTopTab from './PlandetailsTopTab'
 
@@ -84,6 +86,12 @@ const ConfirmUpload = (setScreen) => { //dataState,setCensusData,CensusIsloading
   { text: "No", onPress: () => {}, style: "cancel" }],
   { cancelable: false }); 
 }
+
+const EbgLink = async () => {
+  let webLink = 'https://www.ebgsystems.com/';
+  let result = await WebBrowser.openBrowserAsync(webLink);
+  //setresult(thisresult = result) 
+}; 
 
 
 
@@ -306,6 +314,13 @@ const MainTabScreen = ({navigation, route}) => {
             <Icon2 name="help" color={color} size={26} />
           ),
         }}
+        listeners={({ }) => ({
+          tabPress: event => {
+              event.preventDefault();
+              EbgLink();
+          }
+          })
+        }
       />
       
     </Tab.Navigator>

@@ -18,6 +18,9 @@ import Icon2 from 'react-native-vector-icons/Ionicons';
 import Settings from './settings.json';
 import { DrawerContent } from './screens/DrawerContent';
 import HomeStackScreen from './screens/MainTabScreen';
+import SetupStackScreen from './screens/Menu/SetupStackScreen';
+import ContactStackScreen from './screens/Menu/ContactStackScreen';
+import ProfileStackScreen from './screens/Menu/ProfileStatckScreen';
 import SupportScreen from './screens/Menu/SupportScreen';
 import SettingsScreen from './screens/Menu/SettingsScreen';
 import BookmarkScreen from './screens/Menu/BookmarkScreen';
@@ -783,20 +786,20 @@ const App = () => {
                     name="home"
                     color={color} />
             }} />
-            <Drawer.Screen name="My Profile" component={ProfileScreen} options={{
+            <Drawer.Screen name="My Profile" component={ProfileStackScreen} options={{
                 drawerIcon: ({ color, size }) => <Icon2
                     size={size}
                     name="ios-person"
                     color={color}
                     style={{ marginRight: 2.5, marginLeft: 2.5}} />
             }} />
-            <Drawer.Screen name="My Contact" component={BookmarkScreen} options={{
+            <Drawer.Screen name="My Contact" component={ContactStackScreen} options={{
                 drawerIcon: ({ color, size }) => <Icon
                     size={size}
                     name="contacts"
                     color={color} />
             }} />
-            <Drawer.Screen name="Setup" component={SettingsScreen} options={{
+            <Drawer.Screen name="Setup" component={SetupStackScreen} options={{
                 drawerIcon: ({ color, size }) => <Icon
                     size={size}
                     name="settings"
