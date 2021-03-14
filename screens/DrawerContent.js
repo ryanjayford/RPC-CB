@@ -63,8 +63,8 @@ export function DrawerContent(props) {
                         
                         <View style ={{flexDirection: 'row', justifyContent: 'space-between'}}>
                             <TouchableOpacity>
-                                { portrait !== null ?
-                                    <Image source={{ uri: portrait }} style={styles.profile}/> :
+                                { dataState.portrait !== null ?
+                                    <Image source={{ uri: dataState.portrait }} style={styles.profile}/> :
                                     <Image source={require("../assets/user.jpg")} style={styles.profile} />
                                 }
                             </TouchableOpacity>

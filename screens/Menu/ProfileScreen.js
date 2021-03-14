@@ -122,6 +122,9 @@ const ProfileScreen = ({ navigation }) => {
 
   const onSubmit = (values) => {
 
+    dataState.portrait = values;
+    navigation.navigate('Home')
+    /*
     if (isVisible === true) {
       
         if (values.old.toString().trim().length == 0){
@@ -146,7 +149,7 @@ const ProfileScreen = ({ navigation }) => {
             //this.setState({hasError: true});
             Alert.alert('User Account','No Changes Made.');
         }
-    }
+    }*/
   }
 
   const saveChanges = async (values) => {
