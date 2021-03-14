@@ -29,7 +29,7 @@
     "description": "",
     "android": {
       "package": "rpc.cb",
-      "versionCode": 2
+      "versionCode": 3
     }
   }
 }

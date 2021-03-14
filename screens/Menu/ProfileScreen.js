@@ -391,9 +391,11 @@ updatePassword = async (oldPassword, newPassword) => {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => setIsVisible(true)} style={[styles.bubble, styles.button, {width: '100%'}]}>
+                {/*
+                  <TouchableOpacity onPress={() => setIsVisible(true)} style={[styles.bubble, styles.button, {width: '100%'}]}>
                     <Text allowFontScaling={false} style={{color:'white', fontWeight: 'bold'}}>CHANGE PASSWORD</Text>
                 </TouchableOpacity>
+                */}
 
                   {/*showHidePassword ?
                     <View style={{paddingTop:20}}>
