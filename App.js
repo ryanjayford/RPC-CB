@@ -799,13 +799,14 @@ const App = () => {
                     name="contacts"
                     color={color} />
             }} />
+             {/*
             <Drawer.Screen name="Setup" component={SetupStackScreen} options={{
                 drawerIcon: ({ color, size }) => <Icon
                     size={size}
                     name="settings"
                     color={color} />
             }} />
-            {/*
+           
             <Drawer.Screen name="Help" component={SupportScreen} options={{
                 drawerIcon: ({ color, size }) => <Icon
                     size={size}

@@ -85,10 +85,10 @@ export function DrawerContent(props) {
                     </LinearGradient >
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItemList {...props} />
-                        <DrawerItem icon ={({ focused, color, size }) => <Icon color={color} size={size} name='help' />}
+                        {/*<DrawerItem icon ={({ focused, color, size }) => <Icon color={color} size={size} name='help' />}
                             label="Help"
                             onPress={() => {help()}}
-                        />
+                        />*/}
                     </Drawer.Section>
                     { /*<Drawer.Section style={styles.drawerSection}>
                         <DrawerItem 

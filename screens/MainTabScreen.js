@@ -291,7 +291,7 @@ const MainTabScreen = ({navigation, route}) => {
           ),
         }}
       />
-      
+      {/*
       <Tab.Screen
         name="Setup"
         component={ExploreScreen}
@@ -321,7 +321,7 @@ const MainTabScreen = ({navigation, route}) => {
           }
           })
         }
-      />
+      />*/}
       
     </Tab.Navigator>
   )
