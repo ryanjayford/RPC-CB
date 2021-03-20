@@ -210,7 +210,7 @@ const ProfileScreen = ({ navigation }) => {
             Alert.alert("DAS Connection Error", "Unable to connect to server. Please try again later.");
             return false;
         } else {
-            Alert.alert("Error Location", error.message);
+            Alert.alert("Error", error.message);
             return false;
         }
     });
@@ -255,7 +255,7 @@ updatePassword = async (oldPassword, newPassword) => {
           Alert.alert("DAS Connection Error", "Unable to connect to server. Please try again later.");
           return false;
       } else {
-          Alert.alert("Error Location", error.message);
+          Alert.alert("Error", error.message);
           return false;
       }
   });
