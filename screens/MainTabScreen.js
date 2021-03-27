@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Text,View,Alert, BackHandler} from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator,HeaderBackButton } from '@react-navigation/stack';
-import { useTheme } from '@react-navigation/native';
+import { useTheme, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import{ AuthContext } from '../components/context';
 //import { Button, Paragraph, Menu, Divider, Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -96,13 +96,8 @@ const EbgLink = async () => {
 
 
 function getHeaderTitle(route) {
-  // Access the tab navigator's state using `route.state`
-  const routeName = route.state
-    ? // Get the currently active route name in the tab navigator
-      route.state.routes[route.state.index].name
-    : // If state doesn't exist, we need to default to `screen` param if available, or the initial screen
-      // In our case, it's "Home" as that's the first screen inside the navigator
-      route.params?.screen || 'Home';
+
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
       //console.log(routeName)
 
   switch (routeName) {
@@ -123,19 +118,9 @@ function getHeaderTitle(route) {
 
 
 function getPlanHeaderTitle(route, setScreen, dataState) {
-  // Access the tab navigator's state using `route.state`
-  const routeName = route.state
-    ? // Get the currently active route name in the tab navigator
-      route.state.routes[route.state.index].name
-    : // If state doesn't exist, we need to default to `screen` param if available, or the initial screen
-      // In our case, it's "Plan List" as that's the first screen inside the navigator
-    route.params?.screen || 'Plan List';
-      
-    if(route.state !== undefined){
-      //console.log('checker =====BOTOM TAB NAV CLICKED ======>', route.state.routes[route.state.index].name);
-    }
 
-    //console.log('screen',route.params?.screen)
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Plan List';
+
     let Method = 'Load';
     if (routeName === 'Plan Details' && route.params?.screen === 'Plan Details'){
       Method = 'New Plan';
@@ -202,13 +187,8 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
 
   //setScreen({Name: "Plan Details", Method: "ADD""})
   const showMenu = () => menu.current.show();
-  // Access the tab navigator's state using `route.state`
-  const routeName = route.state
-    ? // Get the currently active route name in the tab navigator
-      route.state.routes[route.state.index].name
-    : // If state doesn't exist, we need to default to `screen` param if available, or the initial screen
-      // In our case, it's "Plan List" as that's the first screen inside the navigator
-      route.params?.screen || 'Plan List';
+
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Plan List';
       //console.log('checker',routeName,route.params?.screen );
   switch (routeName) {
     case 'Plan List': 
@@ -216,7 +196,7 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
               <Icon.Button key={1} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [dataState.selectedPlan=null,navigation.navigate("Plan Directory", {screen: 'Plan Details', params: {screen: 'General', params: {homeClick: 'Add'}}}), setScreen({Name: "Plan Details", Method: "ADD"})]}></Icon.Button>,
               <Icon5.Button key={2} name="filter" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon5.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
     case 'Plan Details':
-  if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId,error)}></Icon.Button>, // Alert.alert('Save')
+        if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId,error)}></Icon.Button>, // Alert.alert('Save')
         <Icon.Button key={1} name="ios-close-circle" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Plan Directory', {screen: 'Plan List', params: {AddCancel: 'cancel'}})}></Icon.Button>]
         return <Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() =>  ConfirmSave(save, navigation,'Edit', dataState.selectedPlan, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId, error)}></Icon.Button>;  //Alert.alert('No function yet')
     case 'Classes':
