@@ -9,7 +9,8 @@ import {
     StatusBar,
     Alert,
     Dimensions,
-    ActivityIndicator
+    ActivityIndicator,
+    KeyboardAvoidingView
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -36,12 +37,14 @@ const ver = Settings.version;
 
 const slideUp = {
   from: {
-    width: width,
-    height: height*1.85,
-  },
-  to: {
+    transform: [{ scaleY: 1.5 }],
     width: width,
     height: height/1.80,
+  },
+  to: {
+     transform: [{ scaleY: 1 }],
+    width: width,
+    height: height*1.85,
   },
 };
 
@@ -327,7 +330,8 @@ const SignInScreen = ({navigation}) => {
     }
 
     return (
-        <View style={[styles.container,{backgroundColor: colors.accent}]}>
+        <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"} style={[styles.container,{backgroundColor: colors.accent}]}>
             <StatusBar barStyle="light-content"/>
             <View style = {styles.logocontainer}>
                 {/* RPC LOGO and bounce animation*/}
@@ -335,14 +339,14 @@ const SignInScreen = ({navigation}) => {
                     <Animatable.Image 
                         animation='bounceIn'
                         duration= {2000}
-                    style = {styles.logo} source = {require('../assets/logo.png')} />
+                        style = {styles.logo} source = {require('../assets/logo.png')} />
                 
 
-                {/* text and bounce animation*/}
-                <Animatable.Text 
-                    animation='bounceIn'
-                    duration= {2000}
-                    style = {styles.title}>Client Login</Animatable.Text>
+                    {/* text and bounce animation*/}
+                    <Animatable.Text 
+                        animation='bounceIn'
+                        duration= {2000}
+                        style = {styles.title}>Client Login</Animatable.Text>
                 </View>
                 {/*
                 <View style = {styles.Header}>
@@ -358,7 +362,7 @@ const SignInScreen = ({navigation}) => {
                 <Animatable.View
                     animation= {slideUp}
                     duration= {1000}
-                    direction="reverse"
+                    //direction="reverse"
                     delay= {500}
                     style = {{ position: 'absolute' }}                   
                 >            
@@ -372,10 +376,9 @@ const SignInScreen = ({navigation}) => {
             </View>
             
             {/* login design and function */}
-                <Animatable.View 
+            <Animatable.View 
                 animation="fadeInUpBig"
                 delay= {1000}
-                
                 style={styles.formContainer}>
 
                     <View style={[styles.InputStyle,{borderBottomColor: colors.Logintext}]}>
@@ -424,14 +427,14 @@ const SignInScreen = ({navigation}) => {
                         </Animatable.View>
                     }
                     <View style={styles.checkBox}>
-                    <TouchableOpacity style={styles.checkBox} onPress={() => {chkKeepMeSignedIn()}}>
-                        <CheckBox 
-                        style={styles.checkStyle}
-                        checkedCheckBoxColor ={'#72be03'}
-                        uncheckedCheckBoxColor	= {colors.Logintext}
-                        isChecked={isChecked} onClick = {()=> chkKeepMeSignedIn()}/>
+                        <TouchableOpacity style={styles.checkBox} onPress={() => {chkKeepMeSignedIn()}}>
+                            <CheckBox 
+                            style={styles.checkStyle}
+                            checkedCheckBoxColor ={'#72be03'}
+                            uncheckedCheckBoxColor	= {colors.Logintext}
+                            isChecked={isChecked} onClick = {()=> chkKeepMeSignedIn()}/>
 
-                        <Text style = {[styles.checkInput,{color: colors.Logintext}]}> Keep me signed in</Text>
+                            <Text style = {[styles.checkInput,{color: colors.Logintext}]}> Keep me signed in</Text>
                         </TouchableOpacity>
                     </View>
                     
@@ -468,11 +471,11 @@ const SignInScreen = ({navigation}) => {
                     </View>
 
                     <View>
-                    <Text style = {[{textAlign: 'center', marginTop:40, color: colors.Logintext, fontSize:11}]}>{ver}</Text>
+                        <Text style = {[{textAlign: 'center', marginTop:40, color: colors.Logintext, fontSize:11}]}>{ver}</Text>
                     </View>
-                </Animatable.View>
+            </Animatable.View>
 
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -485,6 +488,7 @@ const styles = StyleSheet.create({
         //overflow: 'hidden'
     },
     logocontainer: {
+        position: 'relative',
         alignItems: 'center',
         flexGrow: 1,
         justifyContent: 'center',
@@ -493,15 +497,15 @@ const styles = StyleSheet.create({
     },
     height: {
         zIndex: 3,
-        elevation: 10
+        elevation: 10,
+        height: height/6.5,
     },
     logo: {
         //marginTop: Platform.OS === 'ios' ? 10 : 0,
-        width: width/2,
-        height: height > 800 ? height/4.5 : height/6.5,
+        resizeMode: 'contain',
+        height: height > 800 ? height/7.5 : height/6.5,
+        //height: height/.5,
         alignItems: 'center',
-        
-
     },
     title: {
         color: 'white',
@@ -512,6 +516,7 @@ const styles = StyleSheet.create({
         //elevation: 9
     },        
     header: {
+        resizeMode: 'contain',
         width: width,
         height: height+100,
         transform: [{ scaleX: 1.6 }],
@@ -523,7 +528,8 @@ const styles = StyleSheet.create({
         elevation: 10,
         zIndex: 2,
         //padding: '30%',
-        borderRadius: height > 800 ? 300 : 190,
+        borderRadius: width/2,
+        //borderRadius: height > 800 ? 300 : 190,
         //borderBottomLeftRadius: 200,
         //borderBottomRightRadius: 200,
         
@@ -534,7 +540,6 @@ const styles = StyleSheet.create({
     formContainer: {
         flex: 2,
         padding: 30,
-        height: height/2,
         marginTop: 35,
         //zIndex: 1,
         //overflow: 'visible',
@@ -561,7 +566,7 @@ const styles = StyleSheet.create({
     checkBox: {
         flexDirection:'row',
         marginBottom: 10,
-        marginTop: 10,
+        marginTop: 5,
         //color: "#989c9d",
         //borderColor: "#989c9d",
     },
