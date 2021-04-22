@@ -2,9 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity,Modal,Dimensions,FlatList, SafeAreaView, Button } from 'react-native';
 import{ AuthContext } from '../components/context';
 //import PlanTopTab from './PlandetailsTopTab'
-import { useTheme } from '@react-navigation/native';
 import { WebView } from 'react-native-webview';
 const {width,height} = Dimensions.get('window');
+import {LinearGradient} from 'expo-linear-gradient';
+import { useTheme } from '@react-navigation/native';
 
 const InterestModal = ({ navigation,Open,setOpen }) => {
 
@@ -15,67 +16,67 @@ const InterestModal = ({ navigation,Open,setOpen }) => {
     //const [{},dataState] = React.useContext(AuthContext);
     //console.log('dataState',dataState.plan)
     const dummy = [
-        {id: '1',RateMonth: '2020 HATFA',Transitional: 'No',Rate1: '3.64',Rate2: '5.21',Rate3: '5.94'},
+        {id: '1',rateYear: '2020 HATFA',transitionalFlag: 'No',segment1Rate: '3.64',segment2Rate: '5.21',segment3Rate: '5.94'},
     ]
     const interest = [
-        {id: '1',RateMonth: '2020 HATFA',Transitional: 'No',Rate1: '3.64',Rate2: '5.21',Rate3: '5.94'},
-        {id: '2',RateMonth: '2019 HATFA',Transitional: 'No',Rate1: '3.74',Rate2: '5.35',Rate3: '6.11'},
-        {id: '3',RateMonth: '2018 HATFA',Transitional: 'No',Rate1: '3.92',Rate2: '5.52',Rate3: '6.29'},
-        {id: '4',RateMonth: '2017 HATFA',Transitional: 'No',Rate1: '4.16',Rate2: '5.72',Rate3: '6.48'},
-        {id: '5',RateMonth: '2016 HATFA',Transitional: 'No',Rate1: '4.43',Rate2: '5.91',Rate3: '6.65'},
-        {id: '6',RateMonth: '2015 HATFA',Transitional: 'No',Rate1: '4.72',Rate2: '6.11',Rate3: '6.81'},
-        {id: '7',RateMonth: '2014 HATFA',Transitional: 'No',Rate1: '4.43',Rate2: '5.62',Rate3: '6.22'},
-        {id: '8',RateMonth: '2013 MAP',Transitional: 'No',Rate1: '4.94',Rate2: '6.15',Rate3: '6.76'},
-        {id: '9',RateMonth: '2012 MAP',Transitional: 'No',Rate1: '5.54',Rate2: '6.85',Rate3: '7.52'},
-        {id: '10',RateMonth: 'Nov 11',Transitional: 'No',Rate1: '2.01',Rate2: '5.16',Rate3: '6.28'},
-        {id: '11',RateMonth: 'Oct 11',Transitional: 'No',Rate1: '2.03',Rate2: '5.20',Rate3: '6.30'},
-        {id: '12',RateMonth: 'Sep 11',Transitional: 'No',Rate1: '2.06',Rate2: '5.25',Rate3: '6.32'},
-        {id: '13',RateMonth: 'Aug 11',Transitional: 'No',Rate1: '2.11',Rate2: '5.31',Rate3: '6.32'},
-        {id: '14',RateMonth: 'Jul 11',Transitional: 'No',Rate1: '2.18',Rate2: '5.36',Rate3: '6.33'},
-        {id: '15',RateMonth: 'Jun 11',Transitional: 'No',Rate1: '2.27',Rate2: '5.43',Rate3: '6.34'},
-        {id: '16',RateMonth: 'May 11',Transitional: 'No',Rate1: '2.38',Rate2: '5.51',Rate3: '6.36'},
-        {id: '17',RateMonth: 'Apr 11',Transitional: 'No',Rate1: '2.51',Rate2: '5.59',Rate3: '6.38'},
-        {id: '18',RateMonth: 'Mar 11',Transitional: 'No',Rate1: '2.67',Rate2: '5.69',Rate3: '6.44'},
-        {id: '19',RateMonth: 'Feb 11',Transitional: 'No',Rate1: '2.81',Rate2: '5.76',Rate3: '6.46'},
-        {id: '20',RateMonth: 'Jan 11',Transitional: 'No',Rate1: '2.94',Rate2: '5.82',Rate3: '6.46'},
-        {id: '21',RateMonth: 'Dec 10',Transitional: 'No',Rate1: '3.14',Rate2: '5.90',Rate3: '6.45'},
-        {id: '22',RateMonth: 'Nov 10',Transitional: 'No',Rate1: '3.37',Rate2: '6.04',Rate3: '6.49'},
-        {id: '23',RateMonth: 'Oct 10',Transitional: 'No',Rate1: '3.61',Rate2: '6.20',Rate3: '6.53'},
-        {id: '24',RateMonth: 'Sep 10',Transitional: 'No',Rate1: '3.78',Rate2: '6.31',Rate3: '6.57'},
-        {id: '25',RateMonth: 'Aug 10',Transitional: 'No',Rate1: '3.92',Rate2: '6.40',Rate3: '6.61'},
-        {id: '26',RateMonth: 'jul 10',Transitional: 'No',Rate1: '4.05',Rate2: '6.47',Rate3: '6.65'},
-        {id: '27',RateMonth: 'Jun 10',Transitional: 'No',Rate1: '4.16',Rate2: '6.52',Rate3: '6.68'},
-        {id: '28',RateMonth: 'May 10',Transitional: 'No',Rate1: '4.26',Rate2: '6.56',Rate3: '6.70'},
-        {id: '29',RateMonth: 'Apr 10',Transitional: 'No',Rate1: '4.35',Rate2: '6.59',Rate3: '6.72'},
-        {id: '30',RateMonth: 'Mar 10',Transitional: 'No',Rate1: '4.44',Rate2: '6.62',Rate3: '6.74'},
-        {id: '31',RateMonth: 'Feb 10',Transitional: 'No',Rate1: '4.51',Rate2: '6.64',Rate3: '6.75'},
-        {id: '32',RateMonth: 'Jan 10',Transitional: 'No',Rate1: '4.60',Rate2: '6.65',Rate3: '6.76'},
-        {id: '33',RateMonth: 'Dec 09',Transitional: 'No',Rate1: '4.71',Rate2: '6.67',Rate3: '6.77'},
-        {id: '34',RateMonth: 'Nov 09',Transitional: 'No',Rate1: '4.81',Rate2: '6.69',Rate3: '6.78'},
-        {id: '35',RateMonth: 'Oct 09',Transitional: 'No',Rate1: '4.92',Rate2: '6.71',Rate3: '6.80'},
-        {id: '36',RateMonth: 'Sep 09',Transitional: 'No',Rate1: '5.03',Rate2: '6.73',Rate3: '6.82'},
-        {id: '37',RateMonth: 'Aug 09',Transitional: 'No',Rate1: '5.12',Rate2: '6.74',Rate3: '6.83'},
-        {id: '38',RateMonth: 'Jul 09',Transitional: 'No',Rate1: '5.21',Rate2: '6.74',Rate3: '6.84'},
-        {id: '39',RateMonth: 'Jun 09',Transitional: 'No',Rate1: '5.28',Rate2: '6.72',Rate3: '6.84'},
-        {id: '40',RateMonth: 'May 09',Transitional: 'No',Rate1: '5.33',Rate2: '6.68',Rate3: '6.82'},
-        {id: '41',RateMonth: 'Apr 09',Transitional: 'No',Rate1: '5.33',Rate2: '6.62',Rate3: '6.80'},
-        {id: '42',RateMonth: 'Mar 09',Transitional: 'No',Rate1: '5.31',Rate2: '6.54',Rate3: '6.73'},
-        {id: '43',RateMonth: 'Feb 09',Transitional: 'No',Rate1: '5.31',Rate2: '6.49',Rate3: '6.69'},
-        {id: '44',RateMonth: 'Jan 09',Transitional: 'No',Rate1: '5.32',Rate2: '6.45',Rate3: '6.69'},
-        {id: '45',RateMonth: 'Dec 08',Transitional: 'No',Rate1: '5.25',Rate2: '6.38',Rate3: '6.68'},
-        {id: '46',RateMonth: 'Nov 08',Transitional: 'No',Rate1: '5.17',Rate2: '6.28',Rate3: '6.62'},
-        {id: '47',RateMonth: 'Oct 08',Transitional: 'No',Rate1: '5.09',Rate2: '6.16',Rate3: '6.58'},
-        {id: '48',RateMonth: 'Sep 08',Transitional: 'No',Rate1: '5.07',Rate2: '6.09',Rate3: '6.56'},
-        {id: '49',RateMonth: 'Aug 08',Transitional: 'No',Rate1: '5.08',Rate2: '6.06',Rate3: '6.55'},
-        {id: '50',RateMonth: 'Jul 08',Transitional: 'No',Rate1: '5.10',Rate2: '6.03',Rate3: '6.54'},
-        {id: '51',RateMonth: 'Jun 08',Transitional: 'No',Rate1: '5.13',Rate2: '6.01',Rate3: '6.53'},
-        {id: '52',RateMonth: 'May 08',Transitional: 'No',Rate1: '5.16',Rate2: '6.00',Rate3: '6.53'},
-        {id: '53',RateMonth: 'Apr 08',Transitional: 'No',Rate1: '5.20',Rate2: '5.99',Rate3: '6.52'},
-        {id: '54',RateMonth: 'Mar 08',Transitional: 'No',Rate1: '5.24',Rate2: '5.97',Rate3: '6.49'},
-        {id: '55',RateMonth: 'Feb 08',Transitional: 'No',Rate1: '5.28',Rate2: '5.95',Rate3: '6.45'},
-        {id: '56',RateMonth: 'Jan 08',Transitional: 'No',Rate1: '5.31',Rate2: '5.92',Rate3: '6.43'},
-        {id: '57',RateMonth: 'Dec 07',Transitional: 'No',Rate1: '5.31',Rate2: '5.90',Rate3: '6.41'},
-        {id: '58',RateMonth: 'Nov 07',Transitional: 'No',Rate1: '5.31',Rate2: '5.88',Rate3: '6.40'},
+        {id: '1',rateYear: '2020 HATFA',transitionalFlag: 'No',segment1Rate: '3.64',segment2Rate: '5.21',segment3Rate: '5.94'},
+        {id: '2',rateYear: '2019 HATFA',transitionalFlag: 'No',segment1Rate: '3.74',segment2Rate: '5.35',segment3Rate: '6.11'},
+        {id: '3',rateYear: '2018 HATFA',transitionalFlag: 'No',segment1Rate: '3.92',segment2Rate: '5.52',segment3Rate: '6.29'},
+        {id: '4',rateYear: '2017 HATFA',transitionalFlag: 'No',segment1Rate: '4.16',segment2Rate: '5.72',segment3Rate: '6.48'},
+        {id: '5',rateYear: '2016 HATFA',transitionalFlag: 'No',segment1Rate: '4.43',segment2Rate: '5.91',segment3Rate: '6.65'},
+        {id: '6',rateYear: '2015 HATFA',transitionalFlag: 'No',segment1Rate: '4.72',segment2Rate: '6.11',segment3Rate: '6.81'},
+        {id: '7',rateYear: '2014 HATFA',transitionalFlag: 'No',segment1Rate: '4.43',segment2Rate: '5.62',segment3Rate: '6.22'},
+        {id: '8',rateYear: '2013 MAP',transitionalFlag: 'No',segment1Rate: '4.94',segment2Rate: '6.15',segment3Rate: '6.76'},
+        {id: '9',rateYear: '2012 MAP',transitionalFlag: 'No',segment1Rate: '5.54',segment2Rate: '6.85',segment3Rate: '7.52'},
+        {id: '10',rateYear: 'Nov 11',transitionalFlag: 'No',segment1Rate: '2.01',segment2Rate: '5.16',segment3Rate: '6.28'},
+        {id: '11',rateYear: 'Oct 11',transitionalFlag: 'No',segment1Rate: '2.03',segment2Rate: '5.20',segment3Rate: '6.30'},
+        {id: '12',rateYear: 'Sep 11',transitionalFlag: 'No',segment1Rate: '2.06',segment2Rate: '5.25',segment3Rate: '6.32'},
+        {id: '13',rateYear: 'Aug 11',transitionalFlag: 'No',segment1Rate: '2.11',segment2Rate: '5.31',segment3Rate: '6.32'},
+        {id: '14',rateYear: 'Jul 11',transitionalFlag: 'No',segment1Rate: '2.18',segment2Rate: '5.36',segment3Rate: '6.33'},
+        {id: '15',rateYear: 'Jun 11',transitionalFlag: 'No',segment1Rate: '2.27',segment2Rate: '5.43',segment3Rate: '6.34'},
+        {id: '16',rateYear: 'May 11',transitionalFlag: 'No',segment1Rate: '2.38',segment2Rate: '5.51',segment3Rate: '6.36'},
+        {id: '17',rateYear: 'Apr 11',transitionalFlag: 'No',segment1Rate: '2.51',segment2Rate: '5.59',segment3Rate: '6.38'},
+        {id: '18',rateYear: 'Mar 11',transitionalFlag: 'No',segment1Rate: '2.67',segment2Rate: '5.69',segment3Rate: '6.44'},
+        {id: '19',rateYear: 'Feb 11',transitionalFlag: 'No',segment1Rate: '2.81',segment2Rate: '5.76',segment3Rate: '6.46'},
+        {id: '20',rateYear: 'Jan 11',transitionalFlag: 'No',segment1Rate: '2.94',segment2Rate: '5.82',segment3Rate: '6.46'},
+        {id: '21',rateYear: 'Dec 10',transitionalFlag: 'No',segment1Rate: '3.14',segment2Rate: '5.90',segment3Rate: '6.45'},
+        {id: '22',rateYear: 'Nov 10',transitionalFlag: 'No',segment1Rate: '3.37',segment2Rate: '6.04',segment3Rate: '6.49'},
+        {id: '23',rateYear: 'Oct 10',transitionalFlag: 'No',segment1Rate: '3.61',segment2Rate: '6.20',segment3Rate: '6.53'},
+        {id: '24',rateYear: 'Sep 10',transitionalFlag: 'No',segment1Rate: '3.78',segment2Rate: '6.31',segment3Rate: '6.57'},
+        {id: '25',rateYear: 'Aug 10',transitionalFlag: 'No',segment1Rate: '3.92',segment2Rate: '6.40',segment3Rate: '6.61'},
+        {id: '26',rateYear: 'jul 10',transitionalFlag: 'No',segment1Rate: '4.05',segment2Rate: '6.47',segment3Rate: '6.65'},
+        {id: '27',rateYear: 'Jun 10',transitionalFlag: 'No',segment1Rate: '4.16',segment2Rate: '6.52',segment3Rate: '6.68'},
+        {id: '28',rateYear: 'May 10',transitionalFlag: 'No',segment1Rate: '4.26',segment2Rate: '6.56',segment3Rate: '6.70'},
+        {id: '29',rateYear: 'Apr 10',transitionalFlag: 'No',segment1Rate: '4.35',segment2Rate: '6.59',segment3Rate: '6.72'},
+        {id: '30',rateYear: 'Mar 10',transitionalFlag: 'No',segment1Rate: '4.44',segment2Rate: '6.62',segment3Rate: '6.74'},
+        {id: '31',rateYear: 'Feb 10',transitionalFlag: 'No',segment1Rate: '4.51',segment2Rate: '6.64',segment3Rate: '6.75'},
+        {id: '32',rateYear: 'Jan 10',transitionalFlag: 'No',segment1Rate: '4.60',segment2Rate: '6.65',segment3Rate: '6.76'},
+        {id: '33',rateYear: 'Dec 09',transitionalFlag: 'No',segment1Rate: '4.71',segment2Rate: '6.67',segment3Rate: '6.77'},
+        {id: '34',rateYear: 'Nov 09',transitionalFlag: 'No',segment1Rate: '4.81',segment2Rate: '6.69',segment3Rate: '6.78'},
+        {id: '35',rateYear: 'Oct 09',transitionalFlag: 'No',segment1Rate: '4.92',segment2Rate: '6.71',segment3Rate: '6.80'},
+        {id: '36',rateYear: 'Sep 09',transitionalFlag: 'No',segment1Rate: '5.03',segment2Rate: '6.73',segment3Rate: '6.82'},
+        {id: '37',rateYear: 'Aug 09',transitionalFlag: 'No',segment1Rate: '5.12',segment2Rate: '6.74',segment3Rate: '6.83'},
+        {id: '38',rateYear: 'Jul 09',transitionalFlag: 'No',segment1Rate: '5.21',segment2Rate: '6.74',segment3Rate: '6.84'},
+        {id: '39',rateYear: 'Jun 09',transitionalFlag: 'No',segment1Rate: '5.28',segment2Rate: '6.72',segment3Rate: '6.84'},
+        {id: '40',rateYear: 'May 09',transitionalFlag: 'No',segment1Rate: '5.33',segment2Rate: '6.68',segment3Rate: '6.82'},
+        {id: '41',rateYear: 'Apr 09',transitionalFlag: 'No',segment1Rate: '5.33',segment2Rate: '6.62',segment3Rate: '6.80'},
+        {id: '42',rateYear: 'Mar 09',transitionalFlag: 'No',segment1Rate: '5.31',segment2Rate: '6.54',segment3Rate: '6.73'},
+        {id: '43',rateYear: 'Feb 09',transitionalFlag: 'No',segment1Rate: '5.31',segment2Rate: '6.49',segment3Rate: '6.69'},
+        {id: '44',rateYear: 'Jan 09',transitionalFlag: 'No',segment1Rate: '5.32',segment2Rate: '6.45',segment3Rate: '6.69'},
+        {id: '45',rateYear: 'Dec 08',transitionalFlag: 'No',segment1Rate: '5.25',segment2Rate: '6.38',segment3Rate: '6.68'},
+        {id: '46',rateYear: 'Nov 08',transitionalFlag: 'No',segment1Rate: '5.17',segment2Rate: '6.28',segment3Rate: '6.62'},
+        {id: '47',rateYear: 'Oct 08',transitionalFlag: 'No',segment1Rate: '5.09',segment2Rate: '6.16',segment3Rate: '6.58'},
+        {id: '48',rateYear: 'Sep 08',transitionalFlag: 'No',segment1Rate: '5.07',segment2Rate: '6.09',segment3Rate: '6.56'},
+        {id: '49',rateYear: 'Aug 08',transitionalFlag: 'No',segment1Rate: '5.08',segment2Rate: '6.06',segment3Rate: '6.55'},
+        {id: '50',rateYear: 'Jul 08',transitionalFlag: 'No',segment1Rate: '5.10',segment2Rate: '6.03',segment3Rate: '6.54'},
+        {id: '51',rateYear: 'Jun 08',transitionalFlag: 'No',segment1Rate: '5.13',segment2Rate: '6.01',segment3Rate: '6.53'},
+        {id: '52',rateYear: 'May 08',transitionalFlag: 'No',segment1Rate: '5.16',segment2Rate: '6.00',segment3Rate: '6.53'},
+        {id: '53',rateYear: 'Apr 08',transitionalFlag: 'No',segment1Rate: '5.20',segment2Rate: '5.99',segment3Rate: '6.52'},
+        {id: '54',rateYear: 'Mar 08',transitionalFlag: 'No',segment1Rate: '5.24',segment2Rate: '5.97',segment3Rate: '6.49'},
+        {id: '55',rateYear: 'Feb 08',transitionalFlag: 'No',segment1Rate: '5.28',segment2Rate: '5.95',segment3Rate: '6.45'},
+        {id: '56',rateYear: 'Jan 08',transitionalFlag: 'No',segment1Rate: '5.31',segment2Rate: '5.92',segment3Rate: '6.43'},
+        {id: '57',rateYear: 'Dec 07',transitionalFlag: 'No',segment1Rate: '5.31',segment2Rate: '5.90',segment3Rate: '6.41'},
+        {id: '58',rateYear: 'Nov 07',transitionalFlag: 'No',segment1Rate: '5.31',segment2Rate: '5.88',segment3Rate: '6.40'},
 
       ];
     const InterestShow = (item) => {
@@ -100,9 +101,10 @@ const InterestModal = ({ navigation,Open,setOpen }) => {
         >
        
         <View style ={styles.ModalBackground}>
-            <View style ={styles.Modalcontainer}>
+            <LinearGradient colors={[colors.linearlight,colors.linearDark]} 
+            style ={styles.Modalcontainer}>
 
-            <View style={styles.greencontainer}>
+            <View style={[styles.greencontainer, {backgroundColor: colors.icon }]}>
                 <View style={styles.headercontainer}>
                     <Text style={[styles.header,{padding: 5}]}>Interest Rates</Text>
                     <TouchableOpacity style={{ padding: 5, borderRadius: 10}} onPress={() => setOpen(Open = !Open)}>
@@ -119,30 +121,30 @@ const InterestModal = ({ navigation,Open,setOpen }) => {
                 //horizontal={true}
                 data={interest}
                 //extraData={indexChecked}
-                renderItem={({ item,index }) => <Item RateMonth={item.RateMonth} Transitional={item.Transitional} Rate1={item.Rate1}
-                Rate2={item.Rate2} Rate3={item.Rate3} item={item} /> }
+                renderItem={({ item,index }) => <Item rateYear={item.rateYear} transitionalFlag={item.transitionalFlag} segment1Rate={item.segment1Rate}
+                segment2Rate={item.segment2Rate} segment3Rate={item.segment3Rate} item={item} /> }
                 keyExtractor={item => item.id}
                 //onEndReached={() => {console.log('list ended');}}
             />
             
-            </View>
+            </LinearGradient>
         </View>
     
         </Modal>
        
     )
     
-    function Item({ RateMonth,Transitional,Rate1,Rate2,Rate3,item }) {
+    function Item({ rateYear,transitionalFlag,segment1Rate,segment2Rate,segment3Rate,item }) {
         return (
-        <View style={styles.Info_container}>
+        <View style={[styles.Info_container, {backgroundColor: colors.iconDes}]}>
             <TouchableOpacity style={styles.item} onPress={() => {InterestShow(item)}}>
                 <View style={styles.Spacer}>
-                    <Text style={styles.itemText}>{'Rate Month'}</Text>
+                    <Text style={{color: colors.text}}>{'Rate Month'}</Text>
                     <View style={styles.align}>
-                        <Text style={[styles.itemText,{marginRight: 5,}]}>{RateMonth}</Text>
+                        <Text style={{marginRight: 5, color: colors.text}}>{rateYear}  </Text>
                         {Interest_index === item.id && 
                         <Button
-                            onPress={() => alert(item.RateMonth)}
+                            onPress={() => alert(item.rateYear)}
                             title="Apply"
                             color="#72bf04"
                         />}
@@ -151,23 +153,23 @@ const InterestModal = ({ navigation,Open,setOpen }) => {
                 {Interest_index === item.id && 
                 <View>
                     <View style={styles.Spacer}>
-                        <Text style={styles.itemText}>{'Transitional'}</Text>
-                        <Text style={styles.itemText}>{Transitional}</Text>
+                        <Text style={{color: colors.text}}>{'transitionalFlag'}</Text>
+                        <Text style={{color: colors.text}}>{transitionalFlag}</Text>
                     </View>
 
                     <View style={styles.Spacer}>
-                        <Text style={styles.itemText}>{'Rate1(Years 0-5)'}</Text>
-                        <Text style={styles.itemText}>{Rate1}</Text>
+                        <Text style={{color: colors.text}}>{'segment1Rate(Years 0-5)'}</Text>
+                        <Text style={{color: colors.text}}>{segment1Rate}</Text>
                     </View>
 
                     <View style={styles.Spacer}>
-                        <Text style={styles.itemText}>{'Rate2 (Years 6-20)'}</Text>
-                        <Text style={styles.itemText}>{Rate2}</Text>
+                        <Text style={{color: colors.text}}>{'segment2Rate (Years 6-20)'}</Text>
+                        <Text style={{color: colors.text}}>{segment2Rate}</Text>
                     </View>
 
                     <View style={styles.Spacer}>
-                        <Text style={styles.itemText}>{'Rate3 (Years > 20)'}</Text>
-                        <Text style={styles.itemText}>{Rate3}</Text>
+                        <Text style={{color: colors.text}}>{'segment3Rate (Years > 20)'}</Text>
+                        <Text style={{color: colors.text}}>{segment3Rate}</Text>
                     </View>
                 </View>}
             </TouchableOpacity>
@@ -199,7 +201,7 @@ const styles = StyleSheet.create({
         top: '12.5%',
         //padding: 20,
         //backgroundColor: 'rgba(51,51,51,1)',
-        backgroundColor: 'white',
+        //backgroundColor: 'white',
        //justifyContent: 'center'
     },
 
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
    
     greencontainer: {
         padding: 10,
-        backgroundColor: '#00BFFF',
+        //backgroundColor: '#00BFFF',
         //justifyContent: 'center'
         textAlign: 'center'
         
@@ -229,7 +231,7 @@ const styles = StyleSheet.create({
         
     },
     Info_container: {
-        backgroundColor: 'rgba(51,51,51, 0.8)',
+        //backgroundColor: 'rgba(51,51,51, 0.8)',
         borderRadius: 5,
         margin: 5,
         padding: 10,

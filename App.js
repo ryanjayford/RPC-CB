@@ -745,8 +745,8 @@ const App = () => {
         'You will now be redirected to Login screen.');
         dispatch({ type: 'LOGOUT' });
       } else if (expired) {
-        Alert.alert( 'Session Expired',
-        'You will now be redirected to Login screen.');
+        //Alert.alert( 'Session Expired',
+        //'You will now be redirected to Login screen.');
         dispatch({ type: 'LOGOUT' });
       } else {
         dispatch({ type: 'RETRIEVE_TOKEN', token, id: userName, firstName, lastName, userNumber, userSponsorId });
