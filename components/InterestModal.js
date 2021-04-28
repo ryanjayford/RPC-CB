@@ -8,7 +8,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import { useTheme } from '@react-navigation/native';
 import Settings from '../settings.json';
 const baseURL = Settings.domain;
-const InterestModal = ({ navigation,Open,setOpen }) => {
+const InterestModal = ({ navigation,Open,setOpen, setModalData, ModalData }) => {
 
     //console.log('Open', Open)
   //const [layoutheight, setlayoutheight] = React.useState(0);
@@ -141,7 +141,7 @@ const InterestModal = ({ navigation,Open,setOpen }) => {
                         <Text style={{marginRight: 5, color: colors.text}}>{rateMonthName}  </Text>
                         {Interest_index === item.id && 
                         <Button
-                            onPress={() => alert(item.rateMonthName)}
+                            onPress={() => /*alert(item.rateMonthName)*/{setModalData(ModalData = item),setOpen(Open = !Open)}}
                             title="Apply"
                             color="#72bf04"
                         />}

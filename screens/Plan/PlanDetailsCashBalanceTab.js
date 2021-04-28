@@ -14,6 +14,13 @@ const CashBalance = ({ route }) => {
   const [{},dataState] = React.useContext(AuthContext);
   //Open modal
   let [Open, setOpen] = React.useState(false); 
+  //get modal data
+  let [ModalData, setModalData] = React.useState(null); 
+  if(ModalData)
+  {
+    console.log('from cash balance modal', ModalData);
+  }
+
   //
   //result for browser
   let [thisresult, setresult] = React.useState(null); 
@@ -210,7 +217,7 @@ const CashBalance = ({ route }) => {
           </View>
 
           {/*modal*/}
-            <Interest Open={Open} setOpen={setOpen}/>
+            <Interest Open={Open} setOpen={setOpen} setModalData={setModalData} ModalData={ModalData}/>
           {/*end*/}
 
           <View style={{paddingLeft: 10,}}>
