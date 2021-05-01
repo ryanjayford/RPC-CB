@@ -16,11 +16,7 @@ const CashBalance = ({ route }) => {
   let [Open, setOpen] = React.useState(false); 
   //get modal data
   let [ModalData, setModalData] = React.useState(null); 
-  if(ModalData)
-  {
-    console.log('from cash balance modal', ModalData);
-  }
-
+  
   //
   //result for browser
   let [thisresult, setresult] = React.useState(null); 
@@ -71,6 +67,13 @@ const CashBalance = ({ route }) => {
   Balance.taPostRetMort = TAPostRetMort === undefined ? null : TAPostRetMort;
   Balance.taPreRetInt = TAPreRetInt ? TAPreRetInt.toString() : "0";
   Balance.taPostRetInt = TAPostRetInt ? TAPostRetInt.toString() : "0";
+
+  
+  if(ModalData) {
+    OverrideSegRate1 = ModalData.segment1Rate.toString(); 
+    OverrideSegRate2 = ModalData.segment2Rate.toString(); 
+    OverrideSegRate3 = ModalData.segment3Rate.toString();
+  }
 
   const CBScroll = React.useRef();
   let [ACTUARIALMargin, setACTUARIALMargin] = React.useState(0); 
@@ -133,6 +136,8 @@ const CashBalance = ({ route }) => {
       setTAPostRetInt(TAPostRetInt = UserCB.taPostRetInt.toString()); 
     } //edit this with dataState.DetailsFetchedData
   }
+
+  
 
   //console.log("Balance", Balance)
   const { colors } = useTheme();
