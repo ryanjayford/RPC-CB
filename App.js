@@ -111,7 +111,7 @@ const App = () => {
     censusEdited: null,
     censusAdded: null,
     censusData,
-    portrait: null 
+    profilePic: null
   };
 
   const CustomDefaultTheme = {
@@ -198,6 +198,7 @@ const App = () => {
           userToken: action.token,
           userNumber: action.userNumber,
           userSponsorId: action.userSponsorId,
+          profilePic: action.profilePic,
           isLoading: false,
         };
       case 'LOGIN': 
@@ -209,6 +210,7 @@ const App = () => {
           userToken: action.token,
           userNumber: action.userNumber,
           userSponsorId: action.userSponsorId,
+          profilePic: action.profilePic,
           isLoading: false,
         };
       case 'LOGOUT': 
@@ -217,6 +219,7 @@ const App = () => {
           userName: null,
           firstName: null,
           lastName: null,
+          portrait: null,
           userToken: null,
           isLoading: false,
         };
@@ -366,6 +369,7 @@ const App = () => {
       const id = foundUser.email; 
       const firstName = foundUser.firstName;
       const lastName = foundUser.lastName;
+      const profilePic = foundUser.profilePic;
       const userNumber = foundUser.userNumber;
       const userSponsorId = foundUser.userSponsorId;
       let appDefaults = { defaultPlanDetails, defaultDropdown }
@@ -377,8 +381,7 @@ const App = () => {
       } catch(e) {
         console.log(e);
       }
-      //console.log(foundUser);
-      dispatch({ type: 'LOGIN', id, token, firstName, lastName, userNumber, userSponsorId });
+      dispatch({ type: 'LOGIN', id, token, firstName, lastName, userNumber, userSponsorId, profilePic });
       if (defaultPlanDetails && defaultDropdown){
         dispatch({ type: 'APPDEFAULTS', defaultPlanDetails, defaultDropdown });
       }
@@ -706,6 +709,7 @@ const App = () => {
         let userName = null;
         let firstName = null;
         let lastName = null;
+        let profilePic = null;
         let userNumber = null;
         let userSponsorId = null;
       console.log("START++>");
@@ -721,11 +725,13 @@ const App = () => {
           if (userProfileObj && userProfileObj.expireAt) minutes = moment(userProfileObj.expireAt).diff(new Date(), 'minutes');
           
           if (minutes <= 0) expired = true;
+
         if (userProfileObj && userProfileObj.apiToken){
             token = userProfileObj.apiToken;
             userName = userProfileObj.email;
             firstName =userProfileObj.firstName;
             lastName = userProfileObj.lastName;
+            profilePic = userProfileObj.profilePic;
             userNumber = userProfileObj.userNumber;
             userSponsorId = userProfileObj.userSponsorId;
         }
@@ -749,7 +755,8 @@ const App = () => {
         //'You will now be redirected to Login screen.');
         dispatch({ type: 'LOGOUT' });
       } else {
-        dispatch({ type: 'RETRIEVE_TOKEN', token, id: userName, firstName, lastName, userNumber, userSponsorId });
+        
+        dispatch({ type: 'RETRIEVE_TOKEN', token, id: userName, firstName, lastName, profilePic, userNumber, userSponsorId });
         console.log('RETRIEVE_TOKEN=========================>', userNumber, userSponsorId, token);
         if (defaultPlanDetails && defaultDropdown) {
           dispatch({ type: 'APPDEFAULTS', defaultPlanDetails, defaultDropdown });

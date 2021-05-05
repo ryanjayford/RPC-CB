@@ -140,8 +140,6 @@ const SignInScreen = ({navigation}) => {
         let headers = new Headers();
         let auth = 'Basic ' + base64.encode(userName + ":" + password)
         
-        console.log(auth);
-       
         headers.append('Content-Type', 'application/json');
         headers.append('src', 'CB');
         headers.append('udid', Math.random().toString());
@@ -157,7 +155,7 @@ const SignInScreen = ({navigation}) => {
         await fetch(req)
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson);
+            //console.log(responseJson);
             if(responseJson && responseJson.identityToken){
                 let expireAt = moment().add(1, 'days'); //moment.unix(responseJson.accessToken_expires_in).format('MM/DD/YYYY HH:MM:ss');
                 let info = JSON.parse(base64.decode(responseJson.identityToken));
@@ -165,6 +163,7 @@ const SignInScreen = ({navigation}) => {
                 if (isChecked) expireAt = moment().add(5, 'days');
                 //console.log('EXPIREAT ========', expireAt.format('MM/DD/YYYY HH:MM:ss'));
                 if (info.hasNewUpdate) hasNewUpdate = info.hasNewUpdate;
+                //console.log('this is info', info);
                 
                 let details = {
                     "_id": info._id,
@@ -181,7 +180,7 @@ const SignInScreen = ({navigation}) => {
                     hasNewUpdate
                 }
                 console.log("info ===>", expireAt, moment().add(1, 'days').format('MM/DD/YYYY HH:MM:ss'), info, details);
-                getDefaultPlanDetails(details);
+                getProfile(details);
             } else {
                 setData({...data, isLoading: false});
                 Alert.alert('Invalid User!', 'Username or password is incorrect.', [
@@ -236,7 +235,7 @@ const SignInScreen = ({navigation}) => {
         .then((response) => response.json())
         .then((responseJson) => {
             if (responseJson && responseJson.success){
-                console.log("LOGIN==>", responseJson.details.apiToken);
+                //console.log("LOGIN==>", responseJson.details.apiToken);
                 getDefaultPlanDetails(responseJson.details)
             } else{
                 setData({...data, isLoading: false});
@@ -253,6 +252,40 @@ const SignInScreen = ({navigation}) => {
         });
     }
 
+    const getProfile = async (userDetails) => {
+        let url = baseURL1 + '/Profile?info=profilepic';
+        let method = 'GET';
+        let headers = new Headers();
+        
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', userDetails.apiToken);
+        headers.append('src', 'CB');
+        headers.append('udid', Math.random().toString());
+        //console.log('getProfile >>>>>>>>>>> ',url,method,headers);
+        let req = new Request(url, {
+            method,
+            headers
+        });
+        
+        await fetch(req)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            if (responseJson){
+                console.log('Profile Found');
+            } else {
+                console.log('Profile Not Found.');
+            }
+            
+            userDetails.profilePic = responseJson.profilePic
+            getDefaultPlanDetails(userDetails);
+        })
+        .catch((error) => {
+            userDetails.profilePic = "";
+            console.log("Connection Error", error.message);
+            getDefaultPlanDetails(userDetails);
+        });
+    }
+
     const getDefaultPlanDetails = async (userDetails) => {
         let url = baseURL2 + '/Plans/PlanInit';
         let method = 'GET';
@@ -260,7 +293,7 @@ const SignInScreen = ({navigation}) => {
         
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', userDetails.apiToken);
-        console.log(url,method,headers);
+        //console.log(url,method,headers,userDetails);
         let req = new Request(url, {
             method,
             headers
@@ -273,7 +306,7 @@ const SignInScreen = ({navigation}) => {
                 getDefaultDropdown(userDetails, responseJson.obj);
             } else {
                 setData({...data, isLoading: false});
-                console.log(responseJson.message);
+                //console.log(responseJson.message);
                 Alert.alert("Data Error", responseJson.message);
                 return null;
             }

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text,Keyboard, Button, StyleSheet,TouchableOpacity, Image, Alert, Dimensions, TextInput } from 'react-native';
+import { View, Text,Keyboard, Button, StyleSheet,TouchableOpacity, Image, Alert, Dimensions, TextInput, AsyncStorage } from 'react-native';
 import { useTheme} from 'react-native-paper';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as ImagePicker from 'expo-image-picker'
@@ -17,6 +17,7 @@ import{ AuthContext } from '../../components/context';
 import moment from 'moment';
 const window = Dimensions.get('screen');
 const { width, height }  = window;
+const baseURL1 = Settings.auth;
 const ProfileScreen = ({ navigation }) => {
   const paperTheme = useTheme();
   const [{ toggleTheme }, dataState] = React.useContext(AuthContext);
@@ -26,8 +27,8 @@ const ProfileScreen = ({ navigation }) => {
     confirm: '',
     image: ''
   }
-
-  let [ProfileImage, setProfileImage] = React.useState(dataState.portrait);
+  
+  let [ProfileImage, setProfileImage] = React.useState(dataState.profilePic ? dataState.profilePic.indexOf('file') === -1 ? `data:image/jpeg;base64, ` + dataState.profilePic: dataState.profilePic: null);
   let [hasImageUri, sethasImageUri] = React.useState(false);
   let [showHidePassword, setshowHidePassword] = React.useState(false);
   let [newPassword, setnewPassword] = React.useState('');
@@ -48,7 +49,7 @@ const ProfileScreen = ({ navigation }) => {
   useEffect(() => {
     //dataState.portrait = NewProfileImage
     //profileImage = dataState.portrait
-    console.log('===========PROFILE IMAGE', dataState.portrait)
+    //console.log('===========PROFILE IMAGE', dataState.portrait)
    // alert('refresh')
    // _makeRemoteRequest();
   }, []);
@@ -120,9 +121,61 @@ const ProfileScreen = ({ navigation }) => {
     }
   }
 
-  const onSubmit = (values) => {
 
-    dataState.portrait = values;
+  const saveImage = async (values) => {
+    let url = baseURL1 + '/Profile';
+    let method = 'PUT';
+    let headers = new Headers();
+    let body = JSON.stringify({"profilePic":values});
+    
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', dataState.userToken);
+    headers.append('src', 'CB');
+    headers.append('udid', Math.random().toString());
+    //console.log('getProfile >>>>>>>>>>> ',url,method,headers, values);
+    let req = new Request(url, {
+      method,
+      headers,
+      body
+    });
+    
+    await fetch(req)
+    .then((response) => response.json())
+    .then((responseJson) => {
+        if (responseJson && responseJson.status === "Success"){
+            console.log('Saved', responseJson);
+            dataState.profilePic = values;
+            SaveToStorage(values);
+            Alert.alert(
+              'Profile',
+              'New profile picture saved.',
+              [
+                  {text: 'OK', onPress: () => { navigation.navigate('Home')}}
+              ]
+            );
+            
+        } else {
+            console.log('Error Save');
+            Alert.alert("Save Error", "Unable to save image. Please try again later.");
+        }
+    })
+    .catch((error) => {
+      Alert.alert("Error", error.message);       
+    });
+  }
+
+  const SaveToStorage = async(values) => {
+    let userProfile = await AsyncStorage.getItem('userProfile');
+    let userProfileObj = JSON.parse(userProfile);
+
+    userProfileObj.profilePic =  values;
+    await AsyncStorage.setItem('userProfile', JSON.stringify(userProfileObj));
+  }
+
+
+  const onSubmit1 = (values) => {
+
+    dataState.profilePic = values;
     navigation.navigate('Home')
     /*
     if (isVisible === true) {
@@ -152,18 +205,18 @@ const ProfileScreen = ({ navigation }) => {
     }*/
   }
 
-  const saveChanges = async (values) => {
+  const onSubmit = async (values) => {
     //this.setState({disabled: true});
     if (values.trim().length > 0) {
-      let h = 200;
-      let w = 200;
+      let h = 250;
+      let w = 250;
       let manipResult = await ImageManipulator.manipulateAsync(
         values.trim(),
         [{ resize: {width: w, height: h} }], 
         {compress: 1, format: ImageManipulator.SaveFormat.JPEG, base64: true }
       );
       
-      //updatePortrait(manipResult.base64);
+      saveImage(manipResult.base64);
       
       
     } else {
@@ -297,7 +350,7 @@ updatePassword = async (oldPassword, newPassword) => {
 
   if (hasImageUri === true && isVisible === false) {
     submitText = 'white';
-    submitBackcolor = '#16a085';
+    submitBackcolor = '#72be03';
   }
 
 
@@ -470,7 +523,7 @@ const styles = StyleSheet.create({
     color: 'grey'
   },
   bubble: {
-      backgroundColor: '#16a085',
+      backgroundColor: '#72be03',
       //paddingHorizontal: 18,
       paddingVertical: 12,
       borderRadius: 5,

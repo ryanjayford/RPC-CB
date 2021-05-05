@@ -37,8 +37,10 @@ export function DrawerContent(props) {
     const userProfile = dataState;
     
     let portrait = null;
-    
+    dataState.portrait = null;
 
+    
+    /*
     const userData = Avatars.filter( item => {
         return userProfile.userName == item.email;
     });
@@ -46,9 +48,21 @@ export function DrawerContent(props) {
     if (userData && userData.length) {
         //Base64
         portrait = `data:image/jpeg;base64, ${userData[0].avatar}`;
+
+        console.log('this is portrait', portrait);
         dataState.portrait = portrait;
     } 
+    */
+    
+    if (userProfile && userProfile.profilePic) {
+        portrait = userProfile.profilePic;  
+        if (portrait.indexOf('file:') === -1) {
+            portrait = `data:image/jpeg;base64, ` + userProfile.profilePic;
+        }
+        dataState.portrait = portrait;
+    }
 
+    
     const help = async () => {
         let HelpLink = 'https://oldcb-premiere.ebgsystems.net/CashBalance/help/index.htm';
         let result = await WebBrowser.openBrowserAsync(HelpLink);
