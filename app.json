@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "RPC-CB-DEV",
-    "slug": "rpc-cb-dev",
+    "name": "RPC-CB-Dev-0-1-8",
+    "slug": "rpc-cb-dev-0-1-8",
     "platforms": [
       "ios",
       "android",
@@ -22,13 +22,13 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "rpc.cb",
+      "bundleIdentifier": "rpc.cb.dev",
       "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "description": "",
     "android": {
-      "package": "rpc.cb",
+      "package": "rpc.cb.dev",
       "versionCode": 5,
       "permissions": [
         "CAMERA"
