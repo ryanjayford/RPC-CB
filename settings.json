@@ -1,10 +1,10 @@
 {
     "site":   "https://restsandbox.azurewebsites.net/services/rest", 
     "auth":   "https://ebgsecapi-dev.azurewebsites.net/auth/v1", 
-    "domain":  "http://rpcapi-dev.azurewebsites.net/api/CB",
-    "calc": "https://cbcalc-dev.azurewebsites.net/api/CBCalc",
+    "domain":  "http://rpcapi-test.azurewebsites.net/api/CB",
+    "calc": "https://cbcalc-test.azurewebsites.net/api/CBCalc",
     "apiKey": "Key",
     "token": "token",
     "clientId": "Mobile",
-    "version": "Ver 0.1.6 SDK38"  
+    "version": "Dev Ver 0.1.7 SDK39"  
 }

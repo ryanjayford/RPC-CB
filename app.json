@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "RPC-CB",
-    "slug": "RPC-CB",
+    "name": "RPC-CB-DEV",
+    "slug": "rpc-cb-dev",
     "platforms": [
       "ios",
       "android",
