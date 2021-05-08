@@ -293,7 +293,10 @@ const SignInScreen = ({navigation}) => {
         
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', userDetails.apiToken);
-        //console.log(url,method,headers,userDetails);
+        //headers.append('Host', 'rpc-api-test.azurewebsites.net');
+        //console.log('EndPoint: ', url);
+        //console.log('Method:', method);
+        //console.log('Headers: ', headers);//,userDetails
         let req = new Request(url, {
             method,
             headers
@@ -302,12 +305,13 @@ const SignInScreen = ({navigation}) => {
         await fetch(req)
         .then((response) => response.json())
         .then((responseJson) => {
+            //console.log('Response: ',responseJson);
             if (responseJson.isSuccess && responseJson.obj){
                 getDefaultDropdown(userDetails, responseJson.obj);
             } else {
                 setData({...data, isLoading: false});
                 //console.log(responseJson.message);
-                Alert.alert("Data Error", responseJson.message);
+                Alert.alert("Auth Error", responseJson.message);
                 return null;
             }
         })
