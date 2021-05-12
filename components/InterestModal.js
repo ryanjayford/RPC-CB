@@ -53,14 +53,12 @@ const InterestModal = ({ navigation,Open,setOpen, setModalData, ModalData }) => 
 
 
     const GetInterestRate = async () => {
-        let Host = 'rpcapi-dev.azurewebsites.net';
         let url = baseURL + '/CBLookUp/GetInterestRates?calcType=3&isProposal=true';
         let method = 'GET';
         let headers = new Headers();
         console.log(url);
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', dataState.userToken);
-        headers.append('Host', Host);
         console.log('GetInterest Rate =====>', url, method, headers);
         
         let req = new Request(url, {

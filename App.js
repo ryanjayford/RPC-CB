@@ -455,6 +455,9 @@ const App = () => {
       if (planId && type != 'Add New'){
           dataState.Details.planId = planId; 
        }
+       // reformat plan effectivity date and value of hceTopPaid
+       dataState.Details.planEffDate = moment(dataState.Details.planEffDate).format('YYYY-MM-DDT00:00:00');
+       dataState.Details.hceTopPaid = dataState.Details.hceTopPaid == 1 ? true : false;
       //console.log('=====CHECK DETAILS==>',userToken, dataState.Details);
       addEditPlan(navigation, planId, userToken, type);
       

@@ -119,6 +119,8 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
       case 'This Month':
         filter = '3';
         break;  
+      default:  
+        filter = '-1';
     }
     let url = baseURL + '/Plans/PlanListQuery?lastModified=' + filter + '&filteredUserId=' + dataState.userName + '&maxRows=50'; //+ '&filteredCompanyName=EBG&filteredUserId=01247@noemail.com&maxRows=10';
     
