@@ -148,22 +148,22 @@ const InterestModal = ({ navigation,Open,setOpen, setModalData, ModalData }) => 
                 {Interest_index === item.id && 
                 <View>
                     <View style={styles.Spacer}>
-                        <Text style={{color: colors.text}}>{'transitionalFlag'}</Text>
+                        <Text style={{color: colors.text}}>{'Transitional'}</Text>
                         <Text style={{color: colors.text}}>{transitionalFlag}</Text>
                     </View>
 
                     <View style={styles.Spacer}>
-                        <Text style={{color: colors.text}}>{'segment1Rate(Years 0-5)'}</Text>
+                        <Text style={{color: colors.text}}>{'Rate1 (Years 0-5)'}</Text>
                         <Text style={{color: colors.text}}>{segment1Rate}</Text>
                     </View>
 
                     <View style={styles.Spacer}>
-                        <Text style={{color: colors.text}}>{'segment2Rate (Years 6-20)'}</Text>
+                        <Text style={{color: colors.text}}>{'Rate2 (Years 6-20)'}</Text>
                         <Text style={{color: colors.text}}>{segment2Rate}</Text>
                     </View>
 
                     <View style={styles.Spacer}>
-                        <Text style={{color: colors.text}}>{'segment3Rate (Years > 20)'}</Text>
+                        <Text style={{color: colors.text}}>{'Rate3 (Years > 20)'}</Text>
                         <Text style={{color: colors.text}}>{segment3Rate}</Text>
                     </View>
                 </View>}
