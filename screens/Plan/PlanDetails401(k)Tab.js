@@ -486,173 +486,173 @@ const FOI = ({ navigation }) => {
     <View style= {styles.inputContainer}>
       <ScrollView style= {styles.ScrollContainer}>
 
-      <View style={{marginBottom: 20, marginTop: height > 800 ? 20 : 0}}>
-        <Text style={styles.title}>Deferral %</Text>
-          
+        <View style={{marginBottom: 20, marginTop: height > 800 ? 20 : 0}}>
+          <Text style={styles.title}>Deferral %</Text>
+            
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.subNames}>Owner</Text>
+              <TextInput 
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0.00"
+                style={[styles.textInput,{color: colors.Logintext}]}
+                value={TotOwnerCost}
+                //autoCapitalize="none"
+                keyboardType='numeric'
+                onChangeText={(val) => setTotOwnerCost(TotOwnerCost = val)}
+              />
+              <Text style={styles.subNames}>Non-Owner</Text>
+
+              <TextInput 
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0.00"
+                style={[styles.textInput2,{color: colors.Logintext}]}
+                //autoCapitalize="none"
+                value={TotNonOwnerCost}
+                keyboardType='numeric'
+                onChangeText={(val) => setTotNonOwnerCost(TotNonOwnerCost = val)}
+              />
+            </View>
+
+          <Text style={[styles.title,{marginTop: 10}]}>Catch-Up</Text>
+
+          <RadioButtonRN
+              data={catchRbt}
+              activeOpacity={2}
+              initial={CatchUp}
+              animationTypes={['pulse']}
+              style={{paddingLeft: 10,flexDirection: 'row'}}
+              textStyle={{paddingLeft: 10}}
+              boxStyle={{width: 70}}
+              box={false}
+              selectedBtn={(e) => setCatchUp(CatchUp = e.id)}
+              circleSize={13}
+              activeColor={'#333333'}
+              deactiveColor={'grey'}
+              textColor={'#333333'}
+            />
+
+
+          <Text style={[styles.title,{marginTop: 10}]}>Match %</Text>
+
+          <RadioButtonRN
+              data={matchChoice}
+              activeOpacity={2}
+              initial={IncludeMatch}
+              animationTypes={['pulse']}
+              style={{paddingLeft: 0}}
+              textStyle={{paddingLeft: 10}}
+              boxStyle={{width: 200}}
+              box={false}
+              selectedBtn={(e) => CurrentMatch(e.id)}
+              circleSize={13}
+              activeColor={'#333333'}
+              deactiveColor={'grey'}
+              textColor={'#333333'}
+            />
+
+            <View style={{flexDirection: 'row', marginTop: 5}}>
+
+              <TextInput 
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0"
+                style={[styles.textInput,{color: colors.Logintext}]}
+                value={MatchPercent1}
+                //autoCapitalize="none"
+                keyboardType='numeric'
+                onChangeText={(val) => setMatchPercent1(MatchPercent1 = val)}
+              />
+              <Text style={styles.MatchNum}>% of first</Text>
+
+              <TextInput 
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0"
+                style={[styles.textInput2,{color: colors.Logintext}]}
+                //autoCapitalize="none"
+                value={MatchLimit1}
+                keyboardType='numeric'
+                onChangeText={(val) => setMatchLimit1(MatchLimit1 = val)}
+              />
+              <Text style={styles.MatchNum}>%</Text>
+
+            </View>
+
+            <View style={{flexDirection: 'row'}}>
+              <TextInput 
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0"
+                style={[styles.textInput,{color: colors.Logintext}]}
+                //autoCapitalize="none"
+                value={MatchPercent2}
+                keyboardType='numeric'
+                onChangeText={(val) => setMatchPercent2(MatchPercent2 = val)}
+              />
+              <Text style={styles.MatchNum}>% of first</Text>
+
+              <TextInput 
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0"
+                style={[styles.textInput2,{color: colors.Logintext}]}
+                //autoCapitalize="none"
+                value={MatchLimit2}
+                keyboardType='numeric'
+                onChangeText={(val) => setMatchLimit2(MatchLimit2 = val)}
+              />
+              <Text style={styles.MatchNum}>%</Text>
+            </View>
+
+            <View style={{flexDirection: 'row'}}>
+              <TextInput 
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0"
+                style={[styles.textInput,{color: colors.Logintext}]}
+                //autoCapitalize="none"
+                value={MatchPercent3}
+                keyboardType='numeric'
+                onChangeText={(val) => setMatchPercent3(MatchPercent3 = val)}
+              />
+              <Text style={styles.MatchNum}>% of first</Text>
+
+              <TextInput 
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0"
+                style={[styles.textInput2,{color: colors.Logintext}]}
+                //autoCapitalize="none"
+                value={MatchLimit3}
+                keyboardType='numeric'
+                onChangeText={(val) => setMatchLimit3(MatchLimit3 = val)}
+              />
+              <Text style={styles.MatchNum}>%</Text>
+            </View>
+
+          <Text style={[styles.title,{marginTop: 10}]}>3% Safe Harbor Contribution </Text>
+
           <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subNames}>Owner</Text>
-            <TextInput 
-              placeholderTextColor = 'rgba(51,51,51,0.7)'
-              placeholder="0.00"
-              style={[styles.textInput,{color: colors.Logintext}]}
-              value={TotOwnerCost}
-              //autoCapitalize="none"
-              keyboardType='numeric'
-              onChangeText={(val) => setTotOwnerCost(TotOwnerCost = val)}
-            />
-            <Text style={styles.subNames}>Non-Owner</Text>
-
-            <TextInput 
-              placeholderTextColor = 'rgba(51,51,51,0.7)'
-              placeholder="0.00"
-              style={[styles.textInput2,{color: colors.Logintext}]}
-              //autoCapitalize="none"
-              value={TotNonOwnerCost}
-              keyboardType='numeric'
-              onChangeText={(val) => setTotNonOwnerCost(TotNonOwnerCost = val)}
-            />
+              <CheckBox 
+              style={{paddingRight: 5}}
+              checkedCheckBoxColor = {'#333333'}
+              uncheckedCheckBoxColor	= {colors.Logintext}
+              isChecked={IsSafeHarborContrib} onClick = {()=> Is3Percentcheck()}/>
+              <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Yes</Text>
           </View>
+          <Text style={[styles.title,{marginTop: 10}]}>Exclusions</Text>
 
-        <Text style={[styles.title,{marginTop: 10}]}>Catch-Up</Text>
-
-        <RadioButtonRN
-            data={catchRbt}
-            activeOpacity={2}
-            initial={CatchUp}
-            animationTypes={['pulse']}
-            style={{paddingLeft: 10,flexDirection: 'row'}}
-            textStyle={{paddingLeft: 10}}
-            boxStyle={{width: 70}}
-					  box={false}
-            selectedBtn={(e) => setCatchUp(CatchUp = e.id)}
-            circleSize={13}
-            activeColor={'#333333'}
-            deactiveColor={'grey'}
-            textColor={'#333333'}
-          />
-
-
-        <Text style={[styles.title,{marginTop: 10}]}>Match %</Text>
-
-        <RadioButtonRN
-            data={matchChoice}
-            activeOpacity={2}
-            initial={IncludeMatch}
-            animationTypes={['pulse']}
-            style={{paddingLeft: 0}}
-            textStyle={{paddingLeft: 10}}
-            boxStyle={{width: 200}}
-					  box={false}
-            selectedBtn={(e) => CurrentMatch(e.id)}
-            circleSize={13}
-            activeColor={'#333333'}
-            deactiveColor={'grey'}
-            textColor={'#333333'}
-          />
-
-          <View style={{flexDirection: 'row', marginTop: 5}}>
-
-            <TextInput 
-              placeholderTextColor = 'rgba(51,51,51,0.7)'
-              placeholder="0"
-              style={[styles.textInput,{color: colors.Logintext}]}
-              value={MatchPercent1}
-              //autoCapitalize="none"
-              keyboardType='numeric'
-              onChangeText={(val) => setMatchPercent1(MatchPercent1 = val)}
+          <RadioButtonRN
+              data={exclusionRbt}
+              activeOpacity={2}
+              initial={Exclusions}
+              animationTypes={['pulse']}
+              style={{paddingLeft: 0}}
+              textStyle={{paddingLeft: 10}}
+              boxStyle={{width: 200}}
+              box={false}
+              selectedBtn={(e) => setExclusions(Exclusions = e.id)}
+              circleSize={13}
+              activeColor={'#333333'}
+              deactiveColor={'grey'}
+              textColor={'#333333'}
             />
-            <Text style={styles.MatchNum}>% of first</Text>
-
-            <TextInput 
-              placeholderTextColor = 'rgba(51,51,51,0.7)'
-              placeholder="0"
-              style={[styles.textInput2,{color: colors.Logintext}]}
-              //autoCapitalize="none"
-              value={MatchLimit1}
-              keyboardType='numeric'
-              onChangeText={(val) => setMatchLimit1(MatchLimit1 = val)}
-            />
-            <Text style={styles.MatchNum}>%</Text>
 
           </View>
-
-          <View style={{flexDirection: 'row'}}>
-            <TextInput 
-              placeholderTextColor = 'rgba(51,51,51,0.7)'
-              placeholder="0"
-              style={[styles.textInput,{color: colors.Logintext}]}
-              //autoCapitalize="none"
-              value={MatchPercent2}
-              keyboardType='numeric'
-              onChangeText={(val) => setMatchPercent2(MatchPercent2 = val)}
-            />
-            <Text style={styles.MatchNum}>% of first</Text>
-
-            <TextInput 
-              placeholderTextColor = 'rgba(51,51,51,0.7)'
-              placeholder="0"
-              style={[styles.textInput2,{color: colors.Logintext}]}
-              //autoCapitalize="none"
-              value={MatchLimit2}
-              keyboardType='numeric'
-              onChangeText={(val) => setMatchLimit2(MatchLimit2 = val)}
-            />
-            <Text style={styles.MatchNum}>%</Text>
-          </View>
-
-          <View style={{flexDirection: 'row'}}>
-            <TextInput 
-              placeholderTextColor = 'rgba(51,51,51,0.7)'
-              placeholder="0"
-              style={[styles.textInput,{color: colors.Logintext}]}
-              //autoCapitalize="none"
-              value={MatchPercent3}
-              keyboardType='numeric'
-              onChangeText={(val) => setMatchPercent3(MatchPercent3 = val)}
-            />
-            <Text style={styles.MatchNum}>% of first</Text>
-
-            <TextInput 
-              placeholderTextColor = 'rgba(51,51,51,0.7)'
-              placeholder="0"
-              style={[styles.textInput2,{color: colors.Logintext}]}
-              //autoCapitalize="none"
-              value={MatchLimit3}
-              keyboardType='numeric'
-              onChangeText={(val) => setMatchLimit3(MatchLimit3 = val)}
-            />
-            <Text style={styles.MatchNum}>%</Text>
-          </View>
-
-        <Text style={[styles.title,{marginTop: 10}]}>3% Safe Harbor Contribution </Text>
-
-        <View style={{flexDirection: 'row'}}>
-            <CheckBox 
-            style={{paddingRight: 5}}
-            checkedCheckBoxColor = {'#333333'}
-            uncheckedCheckBoxColor	= {colors.Logintext}
-            isChecked={IsSafeHarborContrib} onClick = {()=> Is3Percentcheck()}/>
-            <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Yes</Text>
-        </View>
-        <Text style={[styles.title,{marginTop: 10}]}>Exclusions</Text>
-
-        <RadioButtonRN
-            data={exclusionRbt}
-            activeOpacity={2}
-            initial={Exclusions}
-            animationTypes={['pulse']}
-            style={{paddingLeft: 0}}
-            textStyle={{paddingLeft: 10}}
-            boxStyle={{width: 200}}
-					  box={false}
-            selectedBtn={(e) => setExclusions(Exclusions = e.id)}
-            circleSize={13}
-            activeColor={'#333333'}
-            deactiveColor={'grey'}
-            textColor={'#333333'}
-          />
-
-        </View>
       </ScrollView>
       </View>
     </View>
@@ -672,7 +672,6 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
-      height: height,
     },
     ScrollContainer: {
       marginTop: 20,
