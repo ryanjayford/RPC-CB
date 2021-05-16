@@ -129,14 +129,14 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
             censusD.ClassCode = item["Class Code"];
             censusD.DateOfBirth = item["Date of Birth"];
             censusD.DateOfHire = item["Date of Hire"];
-            censusD.Deferral = item.Deferral;
+            censusD.Deferral = item.Deferral == null ? null : item.Deferral.toString();
             censusD.W2Earnings = item.Earnings;
             censusD.FamCode = item["Family Code"];
             censusD.Firstname = item["First Name"];
             censusD.Sex = item.Gender;
             censusD.WorkHours = item.Hours;
             censusD.LastName = item["Last Name"];
-            censusD.LastYearComp = item["Last Year Earnings"];
+            censusD.LastYearComp = item["Last Year Earnings"] == null ? 0 : item["Last Year Earnings"];
             censusD.PercentOwnership = item["Ownership Percentage"];
             censusD.Principal = item.Principal;
             censusD.ProfitSharing = item["Profit Sharing"];
