@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView,TextInput,ActivityIndicator, Alert,Platform } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView, KeyboardAvoidingView, TextInput,ActivityIndicator, Alert,Platform } from 'react-native';
 import{ AuthContext } from '../../components/context';
 import { useTheme } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -169,7 +169,7 @@ const ClassUpdate = ({ navigation,route }) => {
        
     return(
         
-        <View style ={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style ={styles.container}>
         {Classload === true ?
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
             <ActivityIndicator size="large" color={colors.primary}/>
@@ -302,7 +302,7 @@ const ClassUpdate = ({ navigation,route }) => {
                 </View>
             </ScrollView>
             }
-        </View>
+        </KeyboardAvoidingView>
             
     )
 }
