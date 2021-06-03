@@ -181,9 +181,9 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
           }
         return (
           [<View key={1} style={{flex:1,flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-              <Text key={id} style={[styles.infotext,{color: colors.textLight}]}>{text}</Text>
+              <Text allowFontScaling={false} key={id} style={[styles.infotext,{color: colors.textLight}]}>{text}</Text>
                 {value !== "*" &&
-                  <Text style={[styles.infotext,{color: colors.textLight}]}>{value}</Text>
+                  <Text allowFontScaling={false} style={[styles.infotext,{color: colors.textLight}]}>{value}</Text>
                 }
           </View>]
           )
@@ -206,8 +206,8 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
           <TouchableHighlight underlayColor={'rgba(51,51,51,0.7)'} style={styles.centeredView} onPress={() => {SetCalculateModal(!CalculateModal);}}>
             <View style={styles.modalView}>
               <View style={{flexDirection: 'column'}}>
-                <Text style={{...styles.modalText, fontWeight: 'bold', fontSize: 18}}>Calculate</Text>
-                <Text style={{...styles.modalText}}>Report Name</Text>
+                <Text allowFontScaling={false} style={{...styles.modalText, fontWeight: 'bold', fontSize: 18}}>Calculate</Text>
+                <Text allowFontScaling={false} style={{...styles.modalText}}>Report Name</Text>
                 <TextInput 
                   placeholderTextColor = 'rgba(51,51,51,0.7)'
                   placeholder="Name..."
@@ -217,18 +217,18 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
                   //keyboardType='numeric'
                   onChangeText={(val) => setCalReportName(CalReportName = val)}
                 />
-                <Text style={{...styles.modalText}}>Are you sure you want to Calculate Plan?</Text>
+                <Text allowFontScaling={false} style={{...styles.modalText}}>Are you sure you want to Calculate Plan?</Text>
               </View>
               <View style={{flexDirection: 'row', alignItems: 'flex-end' , justifyContent: 'flex-end'}}>
                 <TouchableHighlight underlayColor={"#2196F3"}
                   style={{ ...styles.openButton, backgroundColor: "#2196F3", marginRight: 5 }}onPress={() => {YesClicked()}}
                 >
-                  <Text style={styles.textStyle}>Yes</Text>
+                  <Text allowFontScaling={false} style={styles.textStyle}>Yes</Text>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor={"#2196F3"}
                   style={{ ...styles.openButton, backgroundColor: "#2196F3" }}onPress={() => {[SetCalculateModal(!CalculateModal),setCalReportName(CalReportName = "")]}}
                 >
-                  <Text style={styles.textStyle}>No</Text>
+                  <Text allowFontScaling={false} style={styles.textStyle}>No</Text>
                 </TouchableHighlight>
               </View>
             </View>
@@ -243,11 +243,11 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
           <View style = {styles.container}>
             {calculateData.length === 0 ?   
             <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                <Text style={[{fontSize:16, color: color.secondary}]}>No Records Found</Text>
+                <Text allowFontScaling={false} style={[{fontSize:16, color: color.secondary}]}>No Records Found</Text>
             </View>
             :
-            <SafeAreaView style={{marginTop: 5}}>
-            <Text style={[styles.title,{fontSize:17, color: color.secondary, paddingBottom: 3}]}>{dataState.plan.planName}</Text>
+            <SafeAreaView style={{marginTop: 5, marginBottom: 25}}>
+            <Text allowFontScaling={false} style={[styles.title,{fontSize:17, color: color.secondary, paddingBottom: 3}]}>{dataState.plan.planName}</Text>
             <FlatList
               data={calculateData}
               //extraData={}
@@ -265,6 +265,8 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
     function Item({ index,item }) {
         let requestDate = moment(item.requestDate).format('MM/DD/YYYY HH:MM:ss');
         let requestCompleted = 'Running';
+        let reportName = item.reportName;
+        console.log(item);
         if (item.requestStatus === "C") requestCompleted = moment(item.requestCompleted).format('MM/DD/YYYY HH:MM:ss');
         return (
           <View style={styles.listContainer}>
@@ -273,28 +275,35 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
               overshootRight={false}
             >
 
-            <TouchableHighlight underlayColor={'transparent'} key={index} onPress={() => toggleCalculate(item,index)}>  
+            <TouchableHighlight underlayColor={'transparent'} disabled = {item.requestStatus != "C"} key={index} onPress={() => toggleCalculate(item,index)}>  
               <View style={[styles.item,{borderTopColor: colors.icon, borderBottomColor: colors.icon}]}>
                 <View style={[styles.TextContainer, {backgroundColor: colors.iconDes}]}>
-                    <View style={{justifyContent: 'flex-start',  flexDirection: 'row', paddingLeft: 3, paddingBottom: 3}}>
-                      <Text style={[styles.title,{fontSize: height > 800 ? 18 : 14, color: colors.textLight, fontStyle: 'italic'}]}>{item.reportName}</Text>
+                    {reportName !== null &&                
+                    <View style={{justifyContent: 'flex-start',  flexDirection: 'row', paddingLeft: 3, paddingBottom: 3}}> 
+                      <Text allowFontScaling={false} style={[styles.title,{fontSize: height > 800 ? 18 : 14, color: colors.textLight, fontStyle: 'italic'}]}>{item.reportName}</Text>
                     </View>
+                    }
+                    {reportName === null && item.requestStatus !== "F" && 
+                    <View>
+                      <ActivityIndicator size="small" color={colors.icon}/>
+                    </View>
+                    }
                     <View style={{justifyContent: 'space-around',  flexDirection: 'row',}}>
                         <View style={{flexDirection: 'column'}}>
-                            <Text style={[styles.title,{color: colors.textLight}]}>No</Text>
-                            <Text style={[styles.subtitle,{color: colors.textLight}]}>{index + 1}</Text>
+                            <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>No</Text>
+                            <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{index + 1}</Text>
                         </View>
                         <View style={{flexDirection: 'column'}}>
-                            <Text style={[styles.title,{color: colors.textLight}]}>Status</Text>
-                            <Text style={[styles.subtitle,{color: colors.textLight}]}>{item.requestStatusDesc}</Text>
+                            <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>Status</Text>
+                            <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{item.requestStatusDesc}</Text>
                         </View>
                         <View style={{flexDirection: 'column'}}>
-                            <Text style={[styles.title,{color: colors.textLight}]}>Run Date</Text>
-                            <Text style={[styles.subtitle,{color: colors.textLight}]}>{requestDate}</Text>
+                            <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>Run Date</Text>
+                            <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{requestDate}</Text>
                         </View>
                         <View style={{flexDirection: 'column'}}>
-                            <Text style={[styles.title,{color: colors.textLight}]}>Complete Date</Text>
-                            <Text style={[styles.subtitle,{color: colors.textLight}]}>{requestCompleted}</Text>
+                            <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>Complete Date</Text>
+                            <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{requestCompleted}</Text>
                         </View>
                     </View>
                     

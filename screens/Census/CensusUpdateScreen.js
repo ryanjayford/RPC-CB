@@ -129,8 +129,9 @@ const AddModal = ({ navigation,route }) => {
             Alert.alert("Error:", "W-2 Earnings cannot be blank.");
         }
 
+        //console.log(w2earnings, '>>>', /^\d+\.\d+$|^\d+$/.test(w2earnings));
         //check if W-2 Earnings only has numbers
-        if(!/^\d+$/.test(w2earnings))
+        if(!/^\d+\.\d+$|^\d+$/.test(w2earnings))
         {
             Alert.alert("Data Error:", "You must enter a valid W-2 Earnings.");
             CensushasError = true;
@@ -148,10 +149,11 @@ const AddModal = ({ navigation,route }) => {
             Alert.alert("Error:", "LY Compensation cannot be blank.");
         }
 
+        //console.log(LYcompensation, '>>>', /^\d+\.\d+$|^\d+$/.test(LYcompensation));
          //check if LYcompensation only has numbers
-         if(!/^\d+$/.test(LYcompensation))
+         if(!/^\d+\.\d+$|^\d+$/.test(LYcompensation))
          {
-             Alert.alert("Data Error:", "LY Compensation only accepts numbers.");
+             Alert.alert("Data Error:", "You must enter a valid LY Compensation.");
              CensushasError = true;
          }
  

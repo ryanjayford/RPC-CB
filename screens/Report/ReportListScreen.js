@@ -15,7 +15,7 @@ let ReportRightAction = ({item,index}) =>
 {
   return(
     <View style={{flexDirection: 'row'}}>
-      <TouchableOpacity  style={styles.DownloadAction} onPress={() => ReportDownload(item,index)}>
+      <TouchableOpacity  style={styles.DownloadAction} disabled = {item.Status != "Completed"} onPress={() => ReportDownload(item,index)}>
           <Icon style={styles.actionText} name="download" size={25} color="white" />
       </TouchableOpacity>
     </View>
@@ -25,9 +25,11 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
     const { colors } = useTheme();
     const [{ },dataState] = React.useContext(AuthContext);
     const [reportData, setReportData] = React.useState(null);
-    React.useEffect(() => {
+    
+    React.useEffect(() => { 
+        setReportData(reportData => null)
         getReportData(dataState.plan.planId);           
-    }, []);
+    }, [dataState.Report]);
     
     const ReportDATA = [
         {
@@ -150,11 +152,11 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
           <View style = {styles.container}>
             {reportData.length === 0 ?   
             <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                <Text style={[{fontSize:16, color: color.secondary}]}>No Records Found</Text>
+                <Text allowFontScaling={false} style={[{fontSize:16, color: color.secondary}]}>No Records Found</Text>
             </View>
             :
-            <SafeAreaView style={{marginTop: 5}}>
-              <Text style={[styles.title,{fontSize:17, color: color.secondary, paddingBottom: 3}]}>{dataState.plan.planName}</Text>
+            <SafeAreaView style={{marginTop: 5, marginBottom: 25}}>
+              <Text allowFontScaling={false} style={[styles.title,{fontSize:17, color: color.secondary, paddingBottom: 3}]}>{dataState.plan.planName}</Text>
             <FlatList
               data={reportData}
               //extraData={}
@@ -169,37 +171,47 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
         </LinearGradient>
     );
     function Item({ index,item }) {
+        let reportName = item.ReportName;
+        console.log(">>>",reportName,">>>");
         return (
           
           <View style={styles.listContainer}>
             <Swipeable 
+              disabled = {item.requestStatus != "C"}
               renderRightActions={() => <ReportRightAction item={item} index={index + 1}/>}
               overshootRight={false}
             >
 
-            <TouchableHighlight underlayColor={'transparent'} key={index} onPress={() => Reporttoggle(item)}>  
+            <TouchableHighlight underlayColor={'transparent'} key={index} disabled = {item.requestStatus != "C"} onPress={() => Reporttoggle(item)}>  
               <View style={[styles.item,{borderTopColor: colors.icon, borderBottomColor: colors.icon}]}>
               
                 <View style={[styles.TextContainer, {backgroundColor: colors.iconDes}]}>
-                <View style={{justifyContent: 'flex-start',  flexDirection: 'row', paddingLeft: 3, paddingBottom: 3}}>
-                      <Text style={[styles.title,{fontSize: height > 800 ? 16 : 14, color: colors.textLight, fontStyle: 'italic'}]}>{item.ReportName}</Text>
-                    </View>
+                    {reportName === ""  && item.Status !== "Failed" && 
+                    <View>
+                      <ActivityIndicator size="small" color={colors.icon}/>
+                    </View>}
+
+                    {reportName !== null &&  
+                    <View style={{justifyContent: 'flex-start',  flexDirection: 'row', paddingLeft: 3, paddingBottom: 3}}>
+                      <Text allowFontScaling={false} style={[styles.title,{fontSize: height > 800 ? 16 : 14, color: colors.textLight, fontStyle: 'italic'}]}>{item.Status !== "Failed"? item.ReportName: "Report Failed"}</Text>
+                    </View>}
+
                     <View style={{justifyContent: 'space-around',  flexDirection: 'row',}}>
                         <View style={{flexDirection: 'column'}}>
-                            <Text style={[styles.title,{color: colors.textLight}]}>No</Text>
-                            <Text style={[styles.subtitle,{color: colors.textLight}]}>{index + 1}</Text>
+                            <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>No</Text>
+                            <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{index + 1}</Text>
                         </View>
                         <View style={{flexDirection: 'column'}}>
-                            <Text style={[styles.title,{color: colors.textLight}]}>Status</Text>
-                            <Text style={[styles.subtitle,{color: colors.textLight}]}>{item.Status}</Text>
+                            <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>Status</Text>
+                            <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{item.Status}</Text>
                         </View>
                         <View style={{flexDirection: 'column'}}>
-                            <Text style={[styles.title,{color: colors.textLight}]}>Run Date</Text>
-                            <Text style={[styles.subtitle,{color: colors.textLight}]}>{item.Date}</Text>
+                            <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>Run Date</Text>
+                            <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{item.Date}</Text>
                         </View>
                         <View style={{flexDirection: 'column'}}>
-                            <Text style={[styles.title,{color: colors.textLight}]}>Reports</Text>
-                            <Text style={[styles.subtitle,{color: colors.textLight}]}>{item.Num}</Text>
+                            <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>Reports</Text>
+                            <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{item.Num}</Text>
                         </View>
                     </View>
                 </View>

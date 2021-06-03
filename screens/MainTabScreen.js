@@ -529,7 +529,7 @@ const PlanTabScreen = ({navigation, route}) => {
 
 
 const HomeStackScreen = ({navigation}) => {
-  
+  const [{setScreen}] = React.useContext(AuthContext);
   const { colors } = useTheme();
   return (
   <HomeStack.Navigator headerMode='screen' screenOptions={{
@@ -605,7 +605,7 @@ const HomeStackScreen = ({navigation}) => {
               headerBackTitleVisible: false,
               headerPressColorAndroid: 'white',
               headerRight: () => (
-                <Icon4.Button name="refresh" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} onPress={() => {alert('refresh')}}></Icon4.Button>
+                <Icon4.Button name="refresh" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} onPress={() => setScreen({Name: 'Report', Method: 'Refresh'})}></Icon4.Button> //alert('refresh')
               )
           }}/>
 
