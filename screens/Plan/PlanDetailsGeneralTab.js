@@ -339,16 +339,35 @@ const General = ({  route, Error, SetError }) => {
     //DateTimePickerModal
     const handleConfirm = (selectedDate) => {
       let currentDate = selectedDate || date;
+      let year = null;
       //console.log("A date has been picked: ", selectedDate);
       currentDate = moment(currentDate).format('MM/DD/YYYY')
       console.log("A date has been picked: ", currentDate);
       setShow(show = !show);
-      setPlanEffDate(PlanEffDate=currentDate)
-      if (route.params && route.params?.homeClick === 'Add') GetInterestRate(moment(currentDate).format('YYYY'));
+      setPlanEffDate(PlanEffDate=currentDate);
+      year = moment(currentDate).format('YYYY');
+
+      //Change interest rate on New Plan when date changed 
+      if (route.params && route.params?.homeClick === 'Add') {
+        if (dataState.interestRatesData) {
+          //Get from existing state
+          let iRates = dataState.interestRatesData;
+          let overrideSegRatesNew =  iRates.filter(iRate => iRate.rateYear == year);
+          if (overrideSegRatesNew.length){
+            dataState.DetailsFetchedData.overrideSegRatesNew = {
+              "overrideSegRate1": overrideSegRatesNew[0].segment1Rate.toString(),
+              "overrideSegRate2": overrideSegRatesNew[0].segment2Rate.toString(), 
+              "overrideSegRate3": overrideSegRatesNew[0].segment3Rate.toString()
+            }
+          }
+          console.log(overrideSegRatesNew, dataState.DetailsFetchedData.overrideSegRatesNew);
+        } else {
+          //Get from Api
+          GetInterestRate(year);
+        }
+      }
       //setDate(value = currentDate);
       //setInputDate(date = currentDate)
-
-
     };
 
     const GetInterestRate = async (year) => {
@@ -377,9 +396,6 @@ const General = ({  route, Error, SetError }) => {
               "overrideSegRate2": responseJson.obj.segment2Rate.toString(), 
               "overrideSegRate3": responseJson.obj.segment3Rate.toString()
             }
-
-             
-
             console.log(dataState.DetailsFetchedData.overrideSegRatesNew);
           } else {
             Alert.alert("Data Error", responseJson.message);              
