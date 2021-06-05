@@ -172,7 +172,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
     );
     function Item({ index,item }) {
         let reportName = item.ReportName;
-        console.log(">>>",reportName,">>>");
+        //console.log(">>>",item,">>>");
         return (
           
           <View style={styles.listContainer}>

@@ -70,7 +70,7 @@ const InterestModal = ({ navigation,Open,setOpen, setModalData, ModalData }) => 
         .then((response) => response.json())
         .then((responseJson) => {
             if (responseJson.isSuccess){
-              console.log("FROM UseEffect =====Api Get Interest rate========> ", responseJson.obj);
+              console.log("FROM UseEffect =====Api Get Interest rate========> ");// responseJson.obj
               setInterestData(responseJson.obj);
             } else {
               Alert.alert("Data Error", responseJson.message);              
@@ -82,7 +82,7 @@ const InterestModal = ({ navigation,Open,setOpen, setModalData, ModalData }) => 
             
             return false;
         });
-      }
+    }
 
     return(
        

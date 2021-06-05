@@ -108,7 +108,14 @@ const CashBalance = ({ route }) => {
     if (dataState["Plan Details"] === null || (dataState["Plan Details"] && dataState["Plan Details"].Name === 'Plan Details')){
       setPlanDetailsTab();     
     }
-  }, [dataState.DetailsFetchedData]);
+    console.log('overrideSegRatesNew>>>>>>>>>>', dataState.DetailsFetchedData.overrideSegRatesNew);
+
+    if (dataState.DetailsFetchedData.overrideSegRatesNew){
+      setOverrideSegRate1(OverrideSegRate1 = dataState.DetailsFetchedData.overrideSegRatesNew.overrideSegRate1); 
+      setOverrideSegRate2(OverrideSegRate2 = dataState.DetailsFetchedData.overrideSegRatesNew.overrideSegRate2); 
+      setOverrideSegRate3(OverrideSegRate3 = dataState.DetailsFetchedData.overrideSegRatesNew.overrideSegRate3);
+    }
+  }, [dataState.DetailsFetchedData, dataState.DetailsFetchedData.overrideSegRatesNew]);
 
 
   const setPlanDetailsTab = () => {
@@ -134,6 +141,8 @@ const CashBalance = ({ route }) => {
       setTAPostRetMort(TAPostRetMort = UserCB.taPostRetMort);
       setTAPreRetInt(TAPreRetInt = UserCB.taPreRetInt.toString());
       setTAPostRetInt(TAPostRetInt = UserCB.taPostRetInt.toString()); 
+
+      
     } //edit this with dataState.DetailsFetchedData
   }
 

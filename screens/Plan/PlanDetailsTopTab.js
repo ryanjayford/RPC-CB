@@ -31,6 +31,7 @@ const TopTabs = ({navigation, route,error,set_Error}) => {
           listeners={({ navigation }) => ({
           tabPress: event => {
             console.log('Gen Tab Click');
+            //dataState.Details.tabClicked = "General";
             //navigation.popToTop()
           }
           })
@@ -41,7 +42,7 @@ const TopTabs = ({navigation, route,error,set_Error}) => {
         <TopTab.Screen name="Cash Balance" component={PDCashbalanceScreen} 
            listeners={({ }) => ({
             tabPress: event => {
-              
+              //dataState.Details.tabClicked = "Cash Balance";  
               if(dataState.Details.planName === undefined || dataState.Details.planName === "")
               {
                 event.preventDefault();
@@ -54,6 +55,7 @@ const TopTabs = ({navigation, route,error,set_Error}) => {
         <TopTab.Screen name="401(k)" component={PD401kScreen} 
            listeners={({ }) => ({
             tabPress: event => {
+              //dataState.Details.tabClicked = "401(k)";
               if(dataState.Details.planName === undefined || dataState.Details.planName === "")
               {
                 event.preventDefault();

@@ -187,9 +187,10 @@ const General = ({  route, Error, SetError }) => {
       console.log("useEffect ====PLAN DETAILS GENERAL=========> ", PlanName, PlanDescription);      
       setPlanDetailsData(planDetailsData => null);
       if (route.params && route.params?.homeClick === 'Add'){
-        
+          dataState.DetailsFetchedData.overrideSegRatesNew = null;
           if (DefaultPlan) {
             //console.log('===========================> DEFAULT PLAN', DefaultPlan);
+
             setPlanDetailsData(planDetailsData => DefaultPlan);
             setPlanDetailsTab(DefaultPlan);
             //alert('selectedPlan: ' + dataState.selectedPlan +  ' planId: ' +  dataState.plan.planId);
@@ -338,13 +339,59 @@ const General = ({  route, Error, SetError }) => {
     //DateTimePickerModal
     const handleConfirm = (selectedDate) => {
       let currentDate = selectedDate || date;
-      //console.log("A date has been picked: ", date);
+      //console.log("A date has been picked: ", selectedDate);
       currentDate = moment(currentDate).format('MM/DD/YYYY')
+      console.log("A date has been picked: ", currentDate);
       setShow(show = !show);
       setPlanEffDate(PlanEffDate=currentDate)
+      if (route.params && route.params?.homeClick === 'Add') GetInterestRate(moment(currentDate).format('YYYY'));
       //setDate(value = currentDate);
       //setInputDate(date = currentDate)
+
+
     };
+
+    const GetInterestRate = async (year) => {
+      console.log("interest rate: ", year);
+      let url = baseURL + '/CBLookUp/GetPlanYearInterestRates?planYear=' + year;
+      let method = 'GET';
+      let headers = new Headers();
+      console.log(url);
+      headers.append('Content-Type', 'application/json');
+      headers.append('Authorization', dataState.userToken);
+      console.log('GetInterest Rate =====>', url, method, headers);
+      
+      let req = new Request(url, {
+          method,
+          headers
+      });
+  
+      await fetch(req)
+      .then((response) => response.json())
+      .then((responseJson) => {
+          if (responseJson.isSuccess){
+            console.log(" =====Api Get Interest rate year ========> ", responseJson.obj);
+            //setInterestData(responseJson.obj);
+            dataState.DetailsFetchedData.overrideSegRatesNew = {
+              "overrideSegRate1": responseJson.obj.segment1Rate.toString(),
+              "overrideSegRate2": responseJson.obj.segment2Rate.toString(), 
+              "overrideSegRate3": responseJson.obj.segment3Rate.toString()
+            }
+
+             
+
+            console.log(dataState.DetailsFetchedData.overrideSegRatesNew);
+          } else {
+            Alert.alert("Data Error", responseJson.message);              
+          }
+          
+      })
+      .catch((error) => {
+          Alert.alert("Connection Error", error.message);
+          
+          return false;
+      });
+    }
 
     const Test_Age = (value) => {
       if(value < RetAge)
