@@ -16,7 +16,7 @@ const baseURL = Settings.domain;
 const {width,height} = Dimensions.get('window');
 
 const General = ({  route, Error, SetError }) => {
-  const [{setDetails},dataState] = React.useContext(AuthContext);
+  const [{setDetails, updateOverrideSegRatesNew},dataState] = React.useContext(AuthContext);
   const DefaultPlan = dataState.DefaultPlan;
   const DropdownData = dataState.DefaultDropdown;
   const [planDetailsData, setPlanDetailsData] = React.useState(null);
@@ -354,13 +354,20 @@ const General = ({  route, Error, SetError }) => {
           let iRates = dataState.interestRatesData;
           let overrideSegRatesNew =  iRates.filter(iRate => iRate.rateYear == year);
           if (overrideSegRatesNew.length){
-            dataState.DetailsFetchedData.overrideSegRatesNew = {
+            /*dataState.DetailsFetchedData.overrideSegRatesNew = {
+              "overrideSegRate1": overrideSegRatesNew[0].segment1Rate.toString(),
+              "overrideSegRate2": overrideSegRatesNew[0].segment2Rate.toString(), 
+              "overrideSegRate3": overrideSegRatesNew[0].segment3Rate.toString()
+            }*/
+            let info = {
               "overrideSegRate1": overrideSegRatesNew[0].segment1Rate.toString(),
               "overrideSegRate2": overrideSegRatesNew[0].segment2Rate.toString(), 
               "overrideSegRate3": overrideSegRatesNew[0].segment3Rate.toString()
             }
+            
+            updateOverrideSegRatesNew(info);
           }
-          console.log(overrideSegRatesNew, dataState.DetailsFetchedData.overrideSegRatesNew);
+          //console.log("check---------->",overrideSegRatesNew, dataState.NewOverrideSegRatesNew/*dataState.DetailsFetchedData.overrideSegRatesNew*/);
         } else {
           //Get from Api
           GetInterestRate(year);

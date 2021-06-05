@@ -90,6 +90,7 @@ const App = () => {
     plan: {},
     Details: {},
     DetailsFetchedData: {}, // for 401K and Cashbalance
+    NewOverrideSegRatesNew: null,
     DefaultPlan,
     DefaultDropdown,
     //Array: array,
@@ -346,6 +347,11 @@ const App = () => {
           ...prevState,
           DetailsFetchedData: action.Data
         };  
+      case 'NewOverrideSegRatesNew': 
+        return {
+          ...prevState,
+          NewOverrideSegRatesNew: action.RatesNew
+        };  
         /*
       case 'OPEN': 
         return {
@@ -546,7 +552,11 @@ const App = () => {
     setDetails: (Data) => {
       console.log("App=== Set Details", Data.planName);
       dispatch({ type: 'SetDetails', Data});
-    }
+    },
+    updateOverrideSegRatesNew: (RatesNew) => {
+      //console.log("DATA---------------------------->" + RatesNew)
+      dispatch({ type: 'NewOverrideSegRatesNew', RatesNew});
+    },
     /*
     search: () => {
       setopen(open = !open)
