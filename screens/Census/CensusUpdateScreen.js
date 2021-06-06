@@ -52,6 +52,10 @@ const AddModal = ({ navigation,route }) => {
     let [Cashbalancechoice, setCashbalancechoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.CbCode); 
     let [Profitsharinginput, setProfitsharinginput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent); 
     let [Profitsharingchoice, setProfitsharingchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode); 
+    let [MatchContributioninput, setMatchContributioninput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent);//new
+    let [MatchContributionchoice, setMatchContributionchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
+    let [SafeHarborContribinput, setSafeHarborContribinput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent);//new
+    let [SafeHarborContribchoice, setSafeHarborContribchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
     let [HCEchoice, setHCEchoice] = React.useState(1); 
     let [Overridecheck, setOverridecheck] = React.useState(parameter === 'CensusAddUser' ? false : selectedUser.OverrideParticipationDate);
     let [percentOwnership, setPercentOwnership] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.percentOwnership.toString()); 
@@ -162,6 +166,27 @@ const AddModal = ({ navigation,route }) => {
             //setClassload(Classload = false);
             CensushasError = true;
             Alert.alert("Error:", "Percent Ownership cannot be blank.");
+        }
+
+        if(deferralchoice === "%"  && (deferral < 0 || deferral > 100)){
+            CensushasError = true;
+            Alert.alert("Error:", "Deferral, between 0 and 100 percent is a valid value.");
+        }
+        if(Cashbalancechoice === "%"  && (CashbalanceInput < 0 || CashbalanceInput > 100)){
+            CensushasError = true;
+            Alert.alert("Error:", "Cash Balance, between 0 and 100 percent is a valid value.");
+        }
+        if(Profitsharingchoice === "%"  && (Profitsharinginput < 0 || Profitsharinginput > 100)){
+            CensushasError = true;
+            Alert.alert("Error:", "Profit Sharing, between 0 and 100 percent is a valid value.");
+        }
+        if(MatchContributionchoice === "%"  && (MatchContributioninput < 0 || MatchContributioninput > 100)){
+            CensushasError = true;
+            Alert.alert("Error:", "Match Contribution, between 0 and 100 percent is a valid value.");
+        }
+        if(SafeHarborContribchoice === "%"  && (SafeHarborContribinput < 0 || SafeHarborContribinput > 100)){
+            CensushasError = true;
+            Alert.alert("Error:", "Safe Harbor Contrib, between 0 and 100 percent is a valid value.");
         }
     
         
@@ -650,6 +675,9 @@ const AddModal = ({ navigation,route }) => {
                                 onValueChange={(value) => {setdeferralchoice(deferralchoice = value.id)}} //required
                             />*/}
                         </View>
+                        {deferralchoice === "%"  && (deferral < 0 || deferral > 100) &&
+                            <Text style={{color: 'red', marginLeft: 2.5, marginRight: 2.5, marginTop: 5, marginBottom: 10, fontSize: 11}}>*Between 0 and 100 percent is a valid value.</Text>
+                        }
                     <Text style={styles.columnNames}>Cash Balance</Text>
                          <View style={{flexDirection: 'row'}}>
                             <TextInput 
@@ -688,6 +716,9 @@ const AddModal = ({ navigation,route }) => {
                             onValueChange={(value) => {setCashbalancechoice(Cashbalancechoice = value.id)}} //required
                             /> */}
                         </View>
+                        {Cashbalancechoice === "%"  && (CashbalanceInput < 0 || CashbalanceInput > 100) &&
+                            <Text style={{color: 'red', marginLeft: 2.5, marginRight: 2.5, marginTop: 5, marginBottom: 10, fontSize: 11}}>*Between 0 and 100 percent is a valid value.</Text>
+                        }
                     <Text style={styles.columnNames}>Profit Sharing</Text>
                         <View style={{flexDirection: 'row'}}>
                             <TextInput 
@@ -714,18 +745,70 @@ const AddModal = ({ navigation,route }) => {
                                 deactiveColor={'grey'}
                                 textColor={'#333333'}
                             />
-                            {/* 
-                            <RadioButton
-                                data={Money} //required
-                                defaultOption={Profitsharingchoice}
-                                formStyle = {{flexDirection: 'row'}} 
-                                containerStyle={{marginBottom: 0, marginLeft: 10}}
-                                labelStyle={{paddingRight: 10}}
-                                circleContainerStyle={{ }} // add your styles to each outer circle
-                                innerCircleStyle={{ /*backgroundColor: 'green' }} // add your styles to each inner circle
-                                onValueChange={(value) => {setProfitsharingchoice(Profitsharingchoice = value.id)}} //required
-                            />*/}
                         </View>
+                        {Profitsharingchoice === "%"  && (Profitsharinginput < 0 || Profitsharinginput > 100) &&
+                            <Text style={{color: 'red', marginLeft: 2.5, marginRight: 2.5, marginTop: 5, marginBottom: 10, fontSize: 11}}>*Between 0 and 100 percent is a valid value.</Text>
+                        }
+                    <Text style={styles.columnNames}>Match Contribution</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <TextInput 
+                                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                placeholder="match contribution"
+                                style={[styles.textInput,{color: colors.Logintext}]}
+                                //autoCapitalize="none"
+                                value={MatchContributioninput}
+                                keyboardType='default'
+                                onChangeText={(val) => {setMatchContributioninput(MatchContributioninput = val)}}
+                            />
+                            <RadioButtonRN
+                                data={Money}
+                                activeOpacity={2}
+                                initial={MatchContributionchoice === '%' ? 1 : 2}
+                                animationTypes={['pulse']}
+                                style={{paddingLeft: 10,flexDirection: 'row'}}
+                                textStyle={{paddingLeft: 10}}
+                                boxStyle={{width: 70}}
+                                box={false}
+                                selectedBtn={(e) => setMatchContributionchoice(MatchContributionchoice = e.id)}
+                                circleSize={13}
+                                activeColor={'#333333'}
+                                deactiveColor={'grey'}
+                                textColor={'#333333'}
+                            />
+                        </View>
+                        {MatchContributionchoice === "%"  && (MatchContributioninput < 0 || MatchContributioninput > 100) &&
+                            <Text style={{color: 'red', marginLeft: 2.5, marginRight: 2.5, marginTop: 5, marginBottom: 10, fontSize: 11}}>*Between 0 and 100 percent is a valid value.</Text>
+                        }
+                    <Text style={styles.columnNames}>Safe Harbor Contrib</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <TextInput 
+                                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                placeholder="safe harbor contrib"
+                                style={[styles.textInput,{color: colors.Logintext}]}
+                                //autoCapitalize="none"
+                                value={SafeHarborContribinput}
+                                keyboardType='default'
+                                onChangeText={(val) => {setSafeHarborContribinput(SafeHarborContribinput = val)}}
+                            />
+                            <RadioButtonRN
+                                data={Money}
+                                activeOpacity={2}
+                                initial={SafeHarborContribchoice === '%' ? 1 : 2}
+                                animationTypes={['pulse']}
+                                style={{paddingLeft: 10,flexDirection: 'row'}}
+                                textStyle={{paddingLeft: 10}}
+                                boxStyle={{width: 70}}
+                                box={false}
+                                selectedBtn={(e) => setSafeHarborContribchoice(SafeHarborContribchoice = e.id)}
+                                circleSize={13}
+                                activeColor={'#333333'}
+                                deactiveColor={'grey'}
+                                textColor={'#333333'}
+                            />
+                        </View>
+                        {SafeHarborContribchoice === "%"  && (SafeHarborContribinput < 0 || SafeHarborContribinput > 100) &&
+                            <Text style={{color: 'red', marginLeft: 2.5, marginRight: 2.5, marginTop: 5, marginBottom: 10, fontSize: 11}}>*Between 0 and 100 percent is a valid value.</Text>
+                        }
                     <Text style={styles.columnNames}>HCE Override?</Text>
                         <RadioButtonRN
                             data={HCE}
@@ -839,7 +922,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     columnNames: {
-        marginTop: 5,
+        marginTop: 10,
         marginBottom: 5,
     },
     textInput: {

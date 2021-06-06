@@ -417,8 +417,9 @@ const General = ({  route, Error, SetError }) => {
     }
 
     const Test_Age = (value) => {
-      if(value < RetAge)
+      if(value < RetAge && value != -99) //-99 = NRA
       {
+        //alert(value);
         alert("Normal Retirement Age (NRA) should be less than or equal to Testing Age (TA). The program will automatically update Testing Age equal to NRA.");
         setPSRetAge(PSRetAge = parseInt(RetAge, 10))
         controller.selectItem(parseInt(RetAge, 10));
@@ -433,7 +434,7 @@ const General = ({  route, Error, SetError }) => {
       {
         SetError(Error = true);
       }
-      else if(PSRetAge < val)
+      else if(PSRetAge < val  && PSRetAge != -99)//-99 = NRA
       {
         alert("Normal Retirement Age (NRA) should be less than or equal to Testing Age (TA). The program will automatically update Testing Age equal to NRA.");
         setPSRetAge(PSRetAge = parseInt(val, 10));
