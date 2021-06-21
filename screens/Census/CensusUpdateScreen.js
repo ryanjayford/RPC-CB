@@ -52,7 +52,7 @@ const AddModal = ({ navigation,route }) => {
     let [Cashbalancechoice, setCashbalancechoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.CbCode); 
     let [Profitsharinginput, setProfitsharinginput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent); 
     let [Profitsharingchoice, setProfitsharingchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode); 
-    let [MatchContributioninput, setMatchContributioninput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent);//new
+    let [MatchContributioninput, setMatchContributioninput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent);//new "MatchOverrideValue":"","MatchOverrideType":"%","SHOverrideValue":"","SHOverrideType":"%"
     let [MatchContributionchoice, setMatchContributionchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
     let [SafeHarborContribinput, setSafeHarborContribinput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent);//new
     let [SafeHarborContribchoice, setSafeHarborContribchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
