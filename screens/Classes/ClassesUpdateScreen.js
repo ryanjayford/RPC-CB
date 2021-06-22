@@ -12,6 +12,7 @@ const {width,height} = Dimensions.get('window');
 const ClassUpdate = ({ navigation,route }) => {
     const [{ClassAddorEdit },dataState] = React.useContext(AuthContext);
     let [Classload, setClassload] = React.useState(false); 
+    let [isLoading, setIsLoading] = React.useState(false);
     let currentClasses = dataState.classData;
     let token = dataState.userToken;
 
@@ -92,7 +93,8 @@ const ClassUpdate = ({ navigation,route }) => {
         
         //check if Class Code is blank
         if (classcode === null | classcode === "") {
-            setClassload(Classload = false);
+            //setClassload(Classload = false);
+            setIsLoading(isLoading = false)
             hasError = true;
             Alert.alert("Error:", "Class code cannot be blank.");
         }
@@ -111,17 +113,19 @@ const ClassUpdate = ({ navigation,route }) => {
 
         //invalid CB
         if (cashBalance && isNaN(cashBalance)) {
-            setClassload(Classload = false);
+            //setClassload(Classload = false);
+            setIsLoading(isLoading = false)
             hasError = true;
             let err = "Invalid Cash balance value."; //"Cash balance percent (%) must be from 0 to 200.";
             //if (cashAmt === '$') err = "Invalid Cash balance amount.";
-            Alert.alert("Error:", err );    
+            Alert.alert("Error:", err );
         } //else if (cashBalance && cashBalance)
 
 
         //invalid PS
         if (profitSharing && isNaN(profitSharing)) {
-            setClassload(Classload = false);
+            //setClassload(Classload = false);
+            setIsLoading(isLoading = false)
             hasError = true;
             let err = "Invalid Profit sharing amount."; //"Profit sharing percent (%) must be from 0 to 100.";
             //if (profitAmt === 'S') err = "Invalid Profit sharing amount.";
@@ -129,7 +133,6 @@ const ClassUpdate = ({ navigation,route }) => {
         }
         
         if (!hasError) {
-
             let ClassesState = 'ClassEdit';
             let StateArray = {
                 PlanId: planId,
@@ -149,7 +152,8 @@ const ClassUpdate = ({ navigation,route }) => {
                 StateArray.classId = classId;
             }
             setTimeout(() => {
-                setClassload(Classload = false);
+                //setClassload(Classload = false);
+                //setIsLoading(isLoading = false)
                 ClassAddorEdit(navigation,StateArray,ClassesState, token);
             }, 500);
         }
@@ -286,13 +290,17 @@ const ClassUpdate = ({ navigation,route }) => {
                 
                 <View style={styles.button}>
                 <Text style={{color: 'grey',fontSize: 12, marginBottom: 10}}>*Note: You can only maximize one class to the 415 Limit. The design will not calculate if you attempt to maximize multiple classes.</Text>
-                    <TouchableOpacity style={styles.signIn} onPress={() => {[setClassload(Classload = true), SaveArray(navigation,Classload, setClassload, currentClasses, token)]}}>
+                    <TouchableOpacity style={styles.signIn} disabled={isLoading} onPress={() => {[/*setClassload(Classload = true),*/setIsLoading(isLoading = true), SaveArray(navigation,Classload, setClassload, currentClasses, token)]}}>
                         <LinearGradient
                             colors={['#72be03','#397e05']} //'#72be03','#397e05'
                             style={styles.signIn}
                             start={[0, 1]} end={[1, 0]}
                         >
-                            <Text style={[styles.textSign, {color:'#fff'}]}>{route.params?.State === 'addnew' ? 'Save New' : 'Update'}</Text>
+                            {isLoading ?
+                                <ActivityIndicator size="large" color={colors.icontitle}/>
+                                :
+                                <Text style={[styles.textSign, {color:'#fff'}]}>{route.params?.State === 'addnew' ? 'Save New' : 'Update'}</Text>
+                            }   
                         </LinearGradient>
                     </TouchableOpacity>
 

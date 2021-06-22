@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text,Keyboard, Button, StyleSheet,TouchableOpacity, Image, Alert, Dimensions, TextInput, AsyncStorage } from 'react-native';
-import { useTheme} from 'react-native-paper';
+import { View, Text,Keyboard, Button, StyleSheet,TouchableOpacity, Image, Alert, Dimensions, TextInput, AsyncStorage,ActivityIndicator } from 'react-native';
+//import { useTheme} from 'react-native-paper';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as ImagePicker from 'expo-image-picker'
 import * as Permissions from 'expo-permissions'
@@ -13,13 +13,14 @@ import Settings from '../../settings.json';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import user from '../../model/users.js';
 import { Formik } from 'formik';
+import { useTheme } from '@react-navigation/native';
 import{ AuthContext } from '../../components/context';
 import moment from 'moment';
 const window = Dimensions.get('screen');
 const { width, height }  = window;
 const baseURL1 = Settings.auth;
 const ProfileScreen = ({ navigation }) => {
-  const paperTheme = useTheme();
+  //const paperTheme = useTheme();
   const [{ toggleTheme }, dataState] = React.useContext(AuthContext);
   const initialValues = {
     old: '',
@@ -32,6 +33,7 @@ const ProfileScreen = ({ navigation }) => {
   let [hasImageUri, sethasImageUri] = React.useState(false);
   let [showHidePassword, setshowHidePassword] = React.useState(false);
   let [newPassword, setnewPassword] = React.useState('');
+  let [isLoading, setIsLoading] = React.useState(false);
   let [isVisible, setIsVisible] = React.useState(false);
   const [data, setData] = React.useState({
       hasError: false,
@@ -42,6 +44,8 @@ const ProfileScreen = ({ navigation }) => {
       changePW: false, 
       uri: '../../../assets/images/profile.png',
   });
+
+  const { colors } = useTheme();
 
   const newPasswordInput = useRef();
   const confirmPasswordInput = useRef();
@@ -150,13 +154,18 @@ const ProfileScreen = ({ navigation }) => {
               'Profile',
               'New profile picture saved.',
               [
-                  {text: 'OK', onPress: () => { navigation.navigate('Home')}}
+                  {text: 'OK', onPress: () => {[setIsLoading(isLoading = false),
+                                                sethasImageUri(hasImageUri = false),
+                                                setIsVisible(isVisible = false), 
+                                                navigation.navigate('Home')]}}
               ]
             );
-            
         } else {
             console.log('Error Save');
             Alert.alert("Save Error", "Unable to save image. Please try again later.");
+            sethasImageUri(hasImageUri = false);
+            setIsVisible(isVisible = false)
+            setIsLoading(isLoading = false);
         }
     })
     .catch((error) => {
@@ -485,8 +494,12 @@ updatePassword = async (oldPassword, newPassword) => {
                     </View>
                   : null*/}
 
-                <TouchableOpacity disabled={hasImageUri === false && isVisible === false} onPress={() => onSubmit(ProfileImage)} style={[styles.bubble, styles.button, {backgroundColor: submitBackcolor, width: '100%'}]}>
-                    <Text allowFontScaling={false} style={{color: submitText, fontWeight: 'bold'}}>SUBMIT</Text>
+                <TouchableOpacity disabled={hasImageUri === false && isVisible === false || isLoading === true } onPress={() => {[setIsLoading(isLoading = true), onSubmit(ProfileImage)]}} style={[styles.bubble, styles.button, {backgroundColor: submitBackcolor, width: '100%'}]}>
+                    {isLoading ?
+                        <ActivityIndicator size="large" color={'#0c5100'}/>
+                        :
+                        <Text allowFontScaling={false} style={{color: submitText, fontWeight: 'bold'}}>SUBMIT</Text>
+                    }   
                 </TouchableOpacity>
                 </View>
               </View>
@@ -531,6 +544,8 @@ const styles = StyleSheet.create({
   },
   button: {
       marginTop: 10,
+      height: 45,
+      justifyContent: 'center',
       //paddingHorizontal: 12,
       alignItems: 'center',
       //marginHorizontal: 10,

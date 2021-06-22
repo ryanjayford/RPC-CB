@@ -28,6 +28,7 @@ const AddModal = ({ navigation,route }) => {
     let [BirthShow, setBirthShow] = React.useState(false);
     let [HireShow, setHireShow] = React.useState(false);
     let [OverrideShow, setOverrideShow] = React.useState(false);
+    let [isLoading, setIsLoading] = React.useState(false);
     
     console.log('selectected user ===>', selectedUser);
 
@@ -101,6 +102,7 @@ const AddModal = ({ navigation,route }) => {
         //check if First Name is blank
         if (fname === null | fname === "") {
             //setClassload(Classload = false);
+            setIsLoading(isLoading = false)
             CensushasError = true;
             Alert.alert("Error:", "First Name cannot be blank.");
         }
@@ -108,6 +110,7 @@ const AddModal = ({ navigation,route }) => {
         //check if Last Name is blank
         if (lname === null | lname === "") {
             //setClassload(Classload = false);
+            setIsLoading(isLoading = false)
             CensushasError = true;
             Alert.alert("Error:", "Last Name cannot be blank.");
         }
@@ -115,6 +118,7 @@ const AddModal = ({ navigation,route }) => {
         //check if Date of Birth is blank
         if (datebirth === null | datebirth === "") {
             //setClassload(Classload = false);
+            setIsLoading(isLoading = false)
             CensushasError = true;
             Alert.alert("Error:", "Date of Birth cannot be blank.");
         }
@@ -122,6 +126,7 @@ const AddModal = ({ navigation,route }) => {
         //check if Date of Hire is blank
         if (datehire === null | datehire === "") {
             //setClassload(Classload = false);
+            setIsLoading(isLoading = false)
             CensushasError = true;
             Alert.alert("Error:", "Date of Hire cannot be blank.");
         }
@@ -129,6 +134,7 @@ const AddModal = ({ navigation,route }) => {
         //check if W-2 Earnings is blank
         if (w2earnings === null | w2earnings === "") {
             //setClassload(Classload = false);
+            setIsLoading(isLoading = false)
             CensushasError = true;
             Alert.alert("Error:", "W-2 Earnings cannot be blank.");
         }
@@ -137,18 +143,21 @@ const AddModal = ({ navigation,route }) => {
         //check if W-2 Earnings only has numbers
         if(!/^\d+\.\d+$|^\d+$/.test(w2earnings))
         {
+            setIsLoading(isLoading = false)
             Alert.alert("Data Error:", "You must enter a valid W-2 Earnings.");
             CensushasError = true;
         }
 
         if (pastservice === null | pastservice === "") {
             //setClassload(Classload = false);
+            setIsLoading(isLoading = false)
             CensushasError = true;
             Alert.alert("Error:", "Past Service cannot be blank.");
         }
 
         if (LYcompensation === null | LYcompensation === "") {
             //setClassload(Classload = false);
+            setIsLoading(isLoading = false)
             CensushasError = true;
             Alert.alert("Error:", "LY Compensation cannot be blank.");
         }
@@ -157,6 +166,7 @@ const AddModal = ({ navigation,route }) => {
          //check if LYcompensation only has numbers
          if(!/^\d+\.\d+$|^\d+$/.test(LYcompensation))
          {
+            setIsLoading(isLoading = false)
              Alert.alert("Data Error:", "You must enter a valid LY Compensation.");
              CensushasError = true;
          }
@@ -164,27 +174,33 @@ const AddModal = ({ navigation,route }) => {
 
         if ((percentOwnership === null & owner === 1) | (percentOwnership === "" & owner === 1)) {
             //setClassload(Classload = false);
+            setIsLoading(isLoading = false)
             CensushasError = true;
             Alert.alert("Error:", "Percent Ownership cannot be blank.");
         }
 
         if(deferralchoice === "%"  && (deferral < 0 || deferral > 100)){
+            setIsLoading(isLoading = false)
             CensushasError = true;
             Alert.alert("Error:", "Deferral, between 0 and 100 percent is a valid value.");
         }
         if(Cashbalancechoice === "%"  && (CashbalanceInput < 0 || CashbalanceInput > 100)){
+            setIsLoading(isLoading = false)
             CensushasError = true;
             Alert.alert("Error:", "Cash Balance, between 0 and 100 percent is a valid value.");
         }
         if(Profitsharingchoice === "%"  && (Profitsharinginput < 0 || Profitsharinginput > 100)){
+            setIsLoading(isLoading = false)
             CensushasError = true;
             Alert.alert("Error:", "Profit Sharing, between 0 and 100 percent is a valid value.");
         }
         if(MatchContributionchoice === "%"  && (MatchContributioninput < 0 || MatchContributioninput > 100)){
+            setIsLoading(isLoading = false)
             CensushasError = true;
             Alert.alert("Error:", "Match Contribution, between 0 and 100 percent is a valid value.");
         }
         if(SafeHarborContribchoice === "%"  && (SafeHarborContribinput < 0 || SafeHarborContribinput > 100)){
+            setIsLoading(isLoading = false)
             CensushasError = true;
             Alert.alert("Error:", "Safe Harbor Contrib, between 0 and 100 percent is a valid value.");
         }
@@ -878,13 +894,17 @@ const AddModal = ({ navigation,route }) => {
                 </View>
 
                 <View style={styles.button}>
-                    <TouchableOpacity style={styles.signIn} onPress={() => {SaveUserArray(navigation,Censustoken)}}>
+                    <TouchableOpacity style={styles.signIn} disabled={isLoading} onPress={() => {[setIsLoading(isLoading = true), SaveUserArray(navigation,Censustoken)]}}>
                         <LinearGradient
                             colors={['#72be03','#397e05']} //'#72be03','#397e05'
                             style={styles.signIn}
                             start={[0, 1]} end={[1, 0]}
                         >
-                            <Text style={[styles.textSign, {color:'#fff'}]}>{parameter === 'CensusAddUser' ? 'Save New' : 'Update'}</Text>
+                             {isLoading ?
+                                <ActivityIndicator size="large" color={colors.icontitle}/>
+                                :
+                                <Text style={[styles.textSign, {color:'#fff'}]}>{parameter === 'CensusAddUser' ? 'Save New' : 'Update'}</Text>
+                            }   
                         </LinearGradient>
                     </TouchableOpacity>
 

@@ -198,7 +198,8 @@ const ClassesScreen = ({ navigation }) => {
             <ActivityIndicator size="large" color={colors.primary}/>
           </View>
           : 
-          <SafeAreaView style={{marginTop: 5}}>
+          <SafeAreaView style={{marginTop: 5, flex: 1}}>
+            
             <Text style={[styles.title,{fontSize: 17, color: color.secondary, paddingBottom: 3, textAlign: 'center'}]}>{dataState.plan.planName}</Text>
             <FlatList
               data={classData}
