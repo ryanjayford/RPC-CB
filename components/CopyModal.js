@@ -1,19 +1,31 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,Modal,Dimensions,ScrollView,TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Modal,Dimensions,ScrollView,TextInput,Alert } from 'react-native';
 import{ AuthContext } from '../components/context';
 import RadioButtonRN from 'radio-buttons-react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { useTheme } from '@react-navigation/native';
+import Settings from '../settings.json';
+const baseURL = Settings.domain;
 //import { WebView } from 'react-native-webview';
 const {width,height} = Dimensions.get('window');
 
 const CopyModal = ({ navigation,route }) => {
     let copy = route.params?.CopyInfo;
     console.log('OpenModal', copy)
+
   //let [Hide, setHide] = React.useState(true);
   const { colors } = useTheme();
   const [{},dataState] = React.useContext(AuthContext);
     //console.log('dataState',dataState.plan)
+    let [planID, setPlanId] = React.useState(copy.planId);     
+    let [planName, setPlanName] = React.useState(""); 
+    let [planDesc, setPlanDesc] = React.useState(copy.planDescription);
+    let [userName, setUserName] = React.useState(dataState.userName);
+    let [includeDetail, setIncludeDetail] = React.useState(false);
+    let [userNumber, setuserNumber] = React.useState(copy.userNumber);
+    let [sponsorId, setsponsorId] = React.useState(dataState.userSponsorId);
+
+
     const data = [
         {
           id: 1,
@@ -24,6 +36,62 @@ const CopyModal = ({ navigation,route }) => {
           label: 'No'
          }
         ];
+
+    
+    
+        
+    const CopyNow = async() => {
+        if ( planName == 0) {
+            Alert.alert('Invalid Plan Name', 'Plan Name field cannot be empty.', [
+                {text: 'OK'}
+            ]);
+            return;
+        }
+
+        let url = baseURL + '/Plans/PlanCopy';
+        let method = 'POST';
+        let headers = new Headers();
+        let body = {"planId":planID,
+        "planName":planName,
+        "planDesc":planDesc,
+        "userName":userName,
+        "includeDetail":includeDetail == 2? true: false,
+        "userNumber":userNumber,
+        "sponsorId":sponsorId
+        } 
+        
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', dataState.userToken);
+        
+        console.log(method,headers,body,url);
+
+        body = JSON.stringify(body);
+        let req = new Request(url, {
+            method,
+            headers,
+            body
+        });
+        
+        await fetch(req)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            
+            if (responseJson.isSuccess){
+                console.log("copy plan", responseJson);
+                Alert.alert('Plan Copy', 'Copy plan complete.', [
+                    {text: 'OK' , onPress: () =>{}}
+                ]);
+            } else{
+                Alert.alert("Save Error", responseJson.message);
+            }
+        })
+        .catch((error) => {
+            Alert.alert("Connection Error", error.message);
+            return false;
+        });
+    } 
+
+
     return(
        
         <Modal
@@ -52,7 +120,7 @@ const CopyModal = ({ navigation,route }) => {
                 <View style={styles.columnNamesContainer}>
                     <Text style={styles.columnNames}>Plan Name: {copy.planName}</Text>
                     
-                    <Text style={styles.columnNames}>PLan Description: </Text>
+                    <Text style={styles.columnNames}>PLan Description: {copy.planDescription}</Text>
                     <Text style={styles.columnNames}>User ID: {copy.email}</Text>
                        
                     <Text style={styles.columnNames}>Copy Plan Detail Only</Text>
@@ -65,7 +133,7 @@ const CopyModal = ({ navigation,route }) => {
                             textStyle={{paddingLeft: 10}}
                             boxStyle={{width: 70}}
                             box={false}
-                            selectedBtn={(e) => {}}
+                            selectedBtn={(e) => {setIncludeDetail(includeDetail = e.id)}}
                             circleSize={12}
                             activeColor={'#333333'}
                             deactiveColor={'grey'}
@@ -82,7 +150,7 @@ const CopyModal = ({ navigation,route }) => {
                             //autoCapitalize="none"
                             value={null}
                             keyboardType='default'
-                            onChangeText={(val) => {}}
+                            onChangeText={(val) => {setPlanName(planName = val)}}
                         />
                     <Text style={styles.columnNames}>PLan Description</Text>
                     <TextInput 
@@ -90,9 +158,9 @@ const CopyModal = ({ navigation,route }) => {
                             placeholder="Description"
                             style={[styles.textInput,{color: colors.Logintext}]}
                             //autoCapitalize="none"
-                            value={null}
+                            value={copy.planDescription}
                             keyboardType='default'
-                            onChangeText={(val) => {}}
+                            onChangeText={(val) => {setPlanDesc(planDesc = val)}}
                         />
                     <Text style={styles.columnNames}>User ID: {copy.email}</Text>
                        
@@ -100,7 +168,7 @@ const CopyModal = ({ navigation,route }) => {
 
                 <View style={styles.button}>
                 
-                    <TouchableOpacity style={[styles.signIn,{marginRight: 2.5}]} onPress={() => {}}>
+                    <TouchableOpacity style={[styles.signIn,{marginRight: 2.5}]} onPress={() => {CopyNow()}}>
                         <LinearGradient
                             colors={['#00BFFF','#00BFFF']} //'#72be03','#397e05'
                             style={styles.signIn}
@@ -135,7 +203,7 @@ const styles = StyleSheet.create({
     },
     Modalcontainer: {
         //flex: 1,
-        height: height/1.5,
+        height: height/1.3,
         //borderRadius: 5,
         //marginBottom: 150,
         //marginTop: 150,
