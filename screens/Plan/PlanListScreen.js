@@ -167,6 +167,12 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     });
   }
 
+  if(route.params?.CopyPlan === true){
+      setPlanData(planData => null);
+      getPlanData(dataState.MenuCurrent);
+      route.params.CopyPlan = null;
+  }
+
   
   deleteClickEventListener = (item,index) => {
     Alert.alert("Plan Delete", "Are you sure you want to Delete this Plan?", 

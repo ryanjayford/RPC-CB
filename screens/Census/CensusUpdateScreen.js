@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView,TextInput,Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView,TextInput,Alert,ActivityIndicator } from 'react-native';
 import{ AuthContext } from '../../components/context';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from '@react-navigation/native';

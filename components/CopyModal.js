@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,Modal,Dimensions,ScrollView,TextInput,Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Modal,Dimensions,ScrollView,TextInput,Alert,ActivityIndicator,KeyboardAvoidingView } from 'react-native';
 import{ AuthContext } from '../components/context';
 import RadioButtonRN from 'radio-buttons-react-native';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -10,12 +10,12 @@ const baseURL = Settings.domain;
 const {width,height} = Dimensions.get('window');
 
 const CopyModal = ({ navigation,route }) => {
+    const [{},dataState] = React.useContext(AuthContext);
     let copy = route.params?.CopyInfo;
     console.log('OpenModal', copy)
-
-  //let [Hide, setHide] = React.useState(true);
-  const { colors } = useTheme();
-  const [{},dataState] = React.useContext(AuthContext);
+    let [isLoading, setIsLoading] = React.useState(false);
+    //let [Hide, setHide] = React.useState(true);
+    const { colors } = useTheme();
     //console.log('dataState',dataState.plan)
     let [planID, setPlanId] = React.useState(copy.planId);     
     let [planName, setPlanName] = React.useState(""); 
@@ -42,6 +42,7 @@ const CopyModal = ({ navigation,route }) => {
         
     const CopyNow = async() => {
         if ( planName == 0) {
+            setIsLoading(isLoading = false)
             Alert.alert('Invalid Plan Name', 'Plan Name field cannot be empty.', [
                 {text: 'OK'}
             ]);
@@ -79,7 +80,9 @@ const CopyModal = ({ navigation,route }) => {
             if (responseJson.isSuccess){
                 console.log("copy plan", responseJson);
                 Alert.alert('Plan Copy', 'Copy plan complete.', [
-                    {text: 'OK' , onPress: () =>{}}
+                    {text: 'OK' , onPress: () =>{[
+                        navigation.navigate('Plan Directory', {screen: 'Plan List', params: {CopyPlan: true}})
+                    ]}}
                 ]);
             } else{
                 Alert.alert("Save Error", responseJson.message);
@@ -106,83 +109,88 @@ const CopyModal = ({ navigation,route }) => {
         <View style ={styles.ModalBackground}>
             <View style ={styles.Modalcontainer}>
 
-            <View style={styles.Colorcontainer}>
-                <View style={styles.headercontainer}>
-                    <Text style={[styles.header,{padding: 5}]}>Plan Duplication</Text>
-                    <TouchableOpacity style={{ padding: 5, borderRadius: 10}} onPress={() => {navigation.goBack()}}>
-                        <Text style={styles.header}>X</Text>
-                    </TouchableOpacity>
+                <View style={[styles.Colorcontainer, {backgroundColor: colors.icon}]}>
+                    <View style={styles.headercontainer}>
+                        <Text style={[styles.header,{padding: 5}]}>Plan Duplication</Text>
+                        <TouchableOpacity style={{ padding: 5, borderRadius: 10}} onPress={() => {navigation.goBack()}}>
+                            <Text style={styles.header}>X</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
+                <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="padding" keyboardVerticalOffset={100}>
+                    <ScrollView style={styles.scroll}>
+                        <Text style={styles.TitleName}>Original Plan</Text>
+                        <View style={styles.columnNamesContainer}>
+                            <Text style={styles.columnNames}>Plan Name: {copy.planName}</Text>
+                            
+                            <Text style={styles.columnNames}>PLan Description: {copy.planDescription}</Text>
+                            <Text style={styles.columnNames}>User ID: {copy.email}</Text>
+                            
+                            <Text style={styles.columnNames}>Copy Plan Detail Only</Text>
+                                <RadioButtonRN
+                                    data={data}
+                                    activeOpacity={1}
+                                    initial={2}
+                                    animationTypes={['pulse']}
+                                    style={{paddingLeft: 10,flexDirection: 'row'}}
+                                    textStyle={{paddingLeft: 10}}
+                                    boxStyle={{width: 70}}
+                                    box={false}
+                                    selectedBtn={(e) => {setIncludeDetail(includeDetail = e.id)}}
+                                    circleSize={12}
+                                    activeColor={'#333333'}
+                                    deactiveColor={'grey'}
+                                    textColor={'#333333'}
+                                />
+                        </View>
+                        <Text style={styles.TitleName}>New Plan</Text>
+                        <View style={styles.columnNamesContainer}>
+                            <Text style={styles.columnNames}>Plan Name</Text>
+                            <TextInput 
+                                    placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                    placeholder="Name"
+                                    style={[styles.textInput,{color: colors.Logintext}]}
+                                    //autoCapitalize="none"
+                                    value={null}
+                                    keyboardType='default'
+                                    onChangeText={(val) => {setPlanName(planName = val)}}
+                                />
+                            <Text style={styles.columnNames}>PLan Description</Text>
+                            <TextInput 
+                                    placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                    placeholder="Description"
+                                    style={[styles.textInput,{color: colors.Logintext}]}
+                                    //autoCapitalize="none"
+                                    value={planDesc}
+                                    keyboardType='default'
+                                    onChangeText={(val) => {setPlanDesc(planDesc = val)}}
+                                />
+                            <Text style={styles.columnNames}>User ID: {copy.email}</Text>
+                            
+                        </View>
 
-            <ScrollView style={styles.scroll}>
-                <Text style={styles.TitleName}>Original Plan</Text>
-                <View style={styles.columnNamesContainer}>
-                    <Text style={styles.columnNames}>Plan Name: {copy.planName}</Text>
-                    
-                    <Text style={styles.columnNames}>PLan Description: {copy.planDescription}</Text>
-                    <Text style={styles.columnNames}>User ID: {copy.email}</Text>
-                       
-                    <Text style={styles.columnNames}>Copy Plan Detail Only</Text>
-                        <RadioButtonRN
-                            data={data}
-                            activeOpacity={1}
-                            initial={2}
-                            animationTypes={['pulse']}
-                            style={{paddingLeft: 10,flexDirection: 'row'}}
-                            textStyle={{paddingLeft: 10}}
-                            boxStyle={{width: 70}}
-                            box={false}
-                            selectedBtn={(e) => {setIncludeDetail(includeDetail = e.id)}}
-                            circleSize={12}
-                            activeColor={'#333333'}
-                            deactiveColor={'grey'}
-                            textColor={'#333333'}
-                        />
-                </View>
-                <Text style={styles.TitleName}>New Plan</Text>
-                <View style={styles.columnNamesContainer}>
-                    <Text style={styles.columnNames}>Plan Name</Text>
-                    <TextInput 
-                            placeholderTextColor = 'rgba(51,51,51,0.7)'
-                            placeholder="Name"
-                            style={[styles.textInput,{color: colors.Logintext}]}
-                            //autoCapitalize="none"
-                            value={null}
-                            keyboardType='default'
-                            onChangeText={(val) => {setPlanName(planName = val)}}
-                        />
-                    <Text style={styles.columnNames}>PLan Description</Text>
-                    <TextInput 
-                            placeholderTextColor = 'rgba(51,51,51,0.7)'
-                            placeholder="Description"
-                            style={[styles.textInput,{color: colors.Logintext}]}
-                            //autoCapitalize="none"
-                            value={copy.planDescription}
-                            keyboardType='default'
-                            onChangeText={(val) => {setPlanDesc(planDesc = val)}}
-                        />
-                    <Text style={styles.columnNames}>User ID: {copy.email}</Text>
-                       
-                </View>
+                        <View style={styles.button}>
+                        
+                            <TouchableOpacity style={[styles.signIn,{marginRight: 2.5}]} disabled={isLoading} onPress={() => {[setIsLoading(isLoading = true), CopyNow()]}}>
+                                <LinearGradient
+                                    colors={['#72be03','#397e05']} //'#72be03','#397e05'
+                                    style={styles.signIn}
+                                    start={[0, 1]} end={[1, 0]}
+                                >
+                                    {isLoading ?
+                                        <ActivityIndicator size="large" color={colors.icontitle}/>
+                                        :
+                                        <Text style={[styles.textSign, {color:'#fff'}]}>Copy</Text>
+                                    } 
+                                </LinearGradient>
+                            </TouchableOpacity>
 
-                <View style={styles.button}>
-                
-                    <TouchableOpacity style={[styles.signIn,{marginRight: 2.5}]} onPress={() => {CopyNow()}}>
-                        <LinearGradient
-                            colors={['#00BFFF','#00BFFF']} //'#72be03','#397e05'
-                            style={styles.signIn}
-                            start={[0, 1]} end={[1, 0]}
-                        >
-                            <Text style={[styles.textSign, {color:'#fff'}]}>Copy</Text>
-                        </LinearGradient>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.signIn, {borderColor: '#333333', borderWidth: 1.5,marginLeft: 2.5}]}>
-                        <Text style={[styles.textSign, {color: '#333333'}]}>Cancel</Text>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
+                            <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.signIn, {borderColor: '#333333', borderWidth: 1.5,marginLeft: 2.5}]}>
+                                <Text style={[styles.textSign, {color: '#333333'}]}>Cancel</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
+                </KeyboardAvoidingView>
             </View>
         </View>
     
@@ -217,7 +225,7 @@ const styles = StyleSheet.create({
     },
     Colorcontainer: {
         padding: 5,
-        backgroundColor: '#00BFFF',
+        /*backgroundColor: '#00BFFF',*/
         //justifyContent: 'center'
         textAlign: 'center'
         
