@@ -235,6 +235,10 @@ const AddModal = ({ navigation,route }) => {
                 CBOverrideType: Cashbalancechoice,
                 PSOverrideValue: Profitsharinginput,
                 PSOverrideType: Profitsharingchoice,
+                MatchOverrideValue: MatchContributioninput,
+                MatchOverrideType: MatchContributionchoice,
+                SHOverrideValue: SafeHarborContribinput,
+                SHOverrideType: SafeHarborContribchoice,
                 //ParticipationDate?
                 ParticipationDateOverride: Overridecheck,
                 HCEOverride: HCEchoice === 1? true: false,
@@ -243,7 +247,8 @@ const AddModal = ({ navigation,route }) => {
                 HighlyComp: highlyComp,
                 ClassId: classId,
                 RetAge: retAge,
-                ParticipationDate: participationDate
+                ParticipationDate: participationDate,
+                ClassCode:"C"
             }
             if (CensusState === 'CensusEdituser') userArray.ParticipantId = paxId;
             CensusAddorEdit(navigation,userArray,CensusState,Censustoken);
