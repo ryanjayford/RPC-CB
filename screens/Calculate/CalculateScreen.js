@@ -302,8 +302,8 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
                             <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{requestDate}</Text>
                         </View>
                         <View style={{flexDirection: 'column'}}>
-                            <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>Complete Date</Text>
-                            <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{requestCompleted}</Text>
+                            <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>Reports</Text>
+                            <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>16</Text>
                         </View>
                     </View>
                     
@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     textAlign: 'center',
-    fontSize: height > 800 ? 14 : 11,
+    fontSize: height > 800 ? 13 : 10,
     //color: 'white'
   },
   DownloadAction: {

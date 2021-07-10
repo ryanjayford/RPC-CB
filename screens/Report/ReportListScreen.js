@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     textAlign: 'center',
-    fontSize: height > 800 ? 13 : 11,
+    fontSize: height > 800 ? 13 : 10,
     //color: 'white'
   },
   DownloadAction: {
