@@ -148,13 +148,13 @@ const ReportStandardScreen = ({ navigation }) => {
                   <Text style={{...styles.modalText}}>Are you sure you want to create a new Report?</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'flex-end' , justifyContent: 'flex-end'}}>
-                  <TouchableHighlight underlayColor={"#2196F3"}
-                    style={{ ...styles.openButton, backgroundColor: "#2196F3", marginRight: 5 }}onPress={() => {YesClicked();}}
+                  <TouchableHighlight underlayColor={"#72be03"}
+                    style={{ ...styles.openButton, backgroundColor: "#72be03", marginRight: 5 }}onPress={() => {YesClicked();}}
                   >
                     <Text style={styles.textStyle}>Yes</Text>
                   </TouchableHighlight>
-                  <TouchableHighlight underlayColor={"#2196F3"}
-                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}onPress={() => {[setReportModal(!ReportModal),setReportsName(ReportsName = "")]}}
+                  <TouchableHighlight underlayColor={"#72be03"}
+                    style={{ ...styles.openButton, backgroundColor: "#72be03" }}onPress={() => {[setReportModal(!ReportModal),setReportsName(ReportsName = "")]}}
                   >
                     <Text style={styles.textStyle}>No</Text>
                   </TouchableHighlight>

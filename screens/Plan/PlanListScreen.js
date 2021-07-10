@@ -209,7 +209,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
       //setPlanID(PlanId);
       //alert(2)
       dataState.selectedPlan = item.planId;
-      navigation.navigate('Plan Details',{ params: {homeClick: null}});
+      navigation.navigate('Plan Details',{screen: 'General', params: {homeClick: null}});
       console.log('Info' + " " + dataState.plan.planId + " " + dataState.plan.userNameOnly);
     }
     else{

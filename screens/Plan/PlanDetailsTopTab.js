@@ -18,7 +18,7 @@ const TopTabs = ({navigation, route,error,set_Error}) => {
     const { colors } = useTheme();
     return (
         
-      <TopTab.Navigator swipeEnabled={false}   initialRouteName="General"
+      <TopTab.Navigator swipeEnabled={false}  /*initialRouteName="General"*/
         tabBarOptions={{
           activeTintColor: '#fff',
           indicatorStyle: { backgroundColor: '#f3ad2b'},

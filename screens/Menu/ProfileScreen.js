@@ -496,7 +496,7 @@ updatePassword = async (oldPassword, newPassword) => {
 
                 <TouchableOpacity disabled={hasImageUri === false && isVisible === false || isLoading === true } onPress={() => {[setIsLoading(isLoading = true), onSubmit(ProfileImage)]}} style={[styles.bubble, styles.button, {backgroundColor: submitBackcolor, width: '100%'}]}>
                     {isLoading ?
-                        <ActivityIndicator size="large" color={'#0c5100'}/>
+                        <ActivityIndicator size="large" color={'white'}/>
                         :
                         <Text allowFontScaling={false} style={{color: submitText, fontWeight: 'bold'}}>SUBMIT</Text>
                     }   

@@ -220,13 +220,13 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
                 <Text allowFontScaling={false} style={{...styles.modalText}}>Are you sure you want to Calculate Plan?</Text>
               </View>
               <View style={{flexDirection: 'row', alignItems: 'flex-end' , justifyContent: 'flex-end'}}>
-                <TouchableHighlight underlayColor={"#2196F3"}
-                  style={{ ...styles.openButton, backgroundColor: "#2196F3", marginRight: 5 }}onPress={() => {YesClicked()}}
+                <TouchableHighlight underlayColor={"#72be03"}
+                  style={{ ...styles.openButton, backgroundColor: "#72be03", marginRight: 5 }}onPress={() => {YesClicked()}}
                 >
                   <Text allowFontScaling={false} style={styles.textStyle}>Yes</Text>
                 </TouchableHighlight>
-                <TouchableHighlight underlayColor={"#2196F3"}
-                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}onPress={() => {[SetCalculateModal(!CalculateModal),setCalReportName(CalReportName = "")]}}
+                <TouchableHighlight underlayColor={"#72be03"}
+                  style={{ ...styles.openButton, backgroundColor: "#72be03" }}onPress={() => {[SetCalculateModal(!CalculateModal),setCalReportName(CalReportName = "")]}}
                 >
                   <Text allowFontScaling={false} style={styles.textStyle}>No</Text>
                 </TouchableHighlight>
