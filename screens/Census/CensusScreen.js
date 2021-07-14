@@ -210,6 +210,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
   }
 
   const TransfromCensusData = (data) => {
+    
     let censusTransformData = [];
     if (data && data.length){
       //console.log (data);
@@ -247,6 +248,8 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
         censusD.highlyComp = item.highlyComp;
         censusD.classId = item.classId;
         censusD.retAge = item.retAge;
+        censusD.classCode = item.classCode;
+        
         censusD.participationDate = item.participationDate;
         if (item["percentOwnership"]) censusD.own = parseInt(item["percentOwnership"]);
         
@@ -255,7 +258,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
         if (item["pastService"]) tags.push("pastService: " + item["pastService"].toString());
         if (item.w2Earnings) tags.push("W-2 Earnings: " + item.w2Earnings.toString());
         if (item["lastYearComp"]) tags.push(item["lastYearComp"].toString());
-        if (item["familyCode"]) tags.push("Class Code: " + item["familyCode"].toString());
+        if (item.classCode) tags.push("Class Code: " + item.classCode.toString());
 
         censusD.tags = tags;
         censusTransformData.push(censusD);

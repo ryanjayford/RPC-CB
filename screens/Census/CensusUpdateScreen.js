@@ -41,12 +41,12 @@ const AddModal = ({ navigation,route }) => {
     let [familycode, setfamilycode] = React.useState(parameter === 'CensusAddUser' ? " " : selectedUser.FamilyCode); 
     let [datebirth, setdatebirth] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.dateOfBirth);
     let [datehire, setdatehire] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.dateOfHire);
-    let [hourswork, sethourswork] = React.useState(parameter === 'CensusAddUser' ? '1000' : selectedUser.workHours.toString());
-    let [pastservice, setpastservice] = React.useState(parameter === 'CensusAddUser' ? '0' : selectedUser.PastService.toString()); 
-    let [LYcompensation, setLYcompensation] = React.useState(parameter === 'CensusAddUser' ? '0' : selectedUser.lastYearComp.toString()); 
+    let [hourswork, sethourswork] = React.useState(parameter === 'CensusAddUser' ? '1000' : (selectedUser.workHours) ? selectedUser.workHours.toString() : "0");
+    let [pastservice, setpastservice] = React.useState(parameter === 'CensusAddUser' ? '0' : (selectedUser.PastService) ? selectedUser.PastService.toString() : "0" ); 
+    let [LYcompensation, setLYcompensation] = React.useState(parameter === 'CensusAddUser' ? '0' : (selectedUser.lastYearComp) ? selectedUser.lastYearComp.toString() : "0"); 
     let [w2earnings, setw2earnings] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.W2Earnings.toString()); 
     let [catchup, setcatchup] = React.useState(parameter === 'CensusAddUser' ? 0 : (selectedUser.HasCatchUp === 0 ? 2 : 1)); //checking
-    let [classtype, setclasstype] = React.useState('A - Owner HCEs'); 
+    let [classtype, setclasstype] = React.useState(parameter === 'CensusAddUser' ? "A" : selectedUser.classCode); //React.useState('A'); 
     let [deferral, setdeferral] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.DeferralPercent); 
     let [deferralchoice, setdeferralchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.DeferCode); 
     let [CashbalanceInput, setCashbalanceInput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.CbPercent); 
@@ -59,7 +59,7 @@ const AddModal = ({ navigation,route }) => {
     let [SafeHarborContribchoice, setSafeHarborContribchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
     let [HCEchoice, setHCEchoice] = React.useState(1); 
     let [Overridecheck, setOverridecheck] = React.useState(parameter === 'CensusAddUser' ? false : selectedUser.OverrideParticipationDate);
-    let [percentOwnership, setPercentOwnership] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.percentOwnership.toString()); 
+    let [percentOwnership, setPercentOwnership] = React.useState(parameter === 'CensusAddUser' ? "" : (selectedUser.percentOwnership) ? selectedUser.percentOwnership.toString() : ""); 
     let [age, setAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.age); 
     let [highlyComp, setHighlyComp] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.highlyComp); 
     let [classId, setClassId] = React.useState(parameter === 'CensusAddUser' ? 65 : selectedUser.classId); 
@@ -209,6 +209,7 @@ const AddModal = ({ navigation,route }) => {
         if (!CensushasError) {
             let CensusState = 'CensusEdituser';
             if (route.params?.State === 'CensusAddUser') CensusState = 'CensusAdduser';
+            
             let userArray = { 
                 PlanId: CensusPlanId, 
                 FirstName: fname,
@@ -228,7 +229,8 @@ const AddModal = ({ navigation,route }) => {
                 //HighlyComp?
                 //ClassId?
                 //RetAge
-                Classtype: classtype,//??
+                
+                ClassCode: classtype,
                 DeferralOverrideValue: deferral,
                 DeferralOverrideType: deferralchoice,
                 CBOverrideValue: CashbalanceInput,
@@ -248,7 +250,7 @@ const AddModal = ({ navigation,route }) => {
                 ClassId: classId,
                 RetAge: retAge,
                 ParticipationDate: participationDate,
-                ClassCode:"C"
+                
             }
             if (CensusState === 'CensusEdituser') userArray.ParticipantId = paxId;
             CensusAddorEdit(navigation,userArray,CensusState,Censustoken);
@@ -632,9 +634,9 @@ const AddModal = ({ navigation,route }) => {
                     <Text style={styles.columnNames}>Class Type</Text>
                         <DropDownPicker
                             items={[
-                                {label: 'A - Owner HCEs', value: 'A - Owner HCEs'},
-                                {label: 'B - Non HCEs', value: 'B - Non HCEs'},
-                                {label: 'C - Non-Owner HCEs', value: 'C - Non-Owner HCEs'},
+                                {label: 'A - Owner HCEs', value: 'A'},
+                                {label: 'B - Non HCEs', value: 'B'},
+                                {label: 'C - Non-Owner HCEs', value: 'C'},
                             ]}
                             isVisible={ClassTypehideDrop}
                             defaultIndex={0}
