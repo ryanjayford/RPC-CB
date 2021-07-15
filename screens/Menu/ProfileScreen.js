@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text,Keyboard, Button, StyleSheet,TouchableOpacity, Image, Alert, Dimensions, TextInput, AsyncStorage,ActivityIndicator } from 'react-native';
+import { View, Text,Keyboard, Button, StyleSheet,TouchableOpacity, Image, Alert, Dimensions, TextInput,ActivityIndicator } from 'react-native';
 //import { useTheme} from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as ImagePicker from 'expo-image-picker'
 import * as Permissions from 'expo-permissions'
@@ -19,9 +20,10 @@ import moment from 'moment';
 const window = Dimensions.get('screen');
 const { width, height }  = window;
 const baseURL1 = Settings.auth;
+
 const ProfileScreen = ({ navigation }) => {
   //const paperTheme = useTheme();
-  const [{ toggleTheme }, dataState] = React.useContext(AuthContext);
+  const [{ toggleTheme,setProfilePic }, dataState] = React.useContext(AuthContext);
   const initialValues = {
     old: '',
     new: '',
@@ -44,19 +46,16 @@ const ProfileScreen = ({ navigation }) => {
       changePW: false, 
       uri: '../../../assets/images/profile.png',
   });
-
   const { colors } = useTheme();
 
   const newPasswordInput = useRef();
   const confirmPasswordInput = useRef();
   
   useEffect(() => {
-    //dataState.portrait = NewProfileImage
-    //profileImage = dataState.portrait
-    //console.log('===========PROFILE IMAGE', dataState.portrait)
-   // alert('refresh')
-   // _makeRemoteRequest();
-  }, []);
+    //alert('refresh')
+    setProfileImage(ProfileImage = dataState.profilePic ? dataState.profilePic.indexOf('file') === -1 ? `data:image/jpeg;base64, ` + dataState.profilePic: dataState.profilePic: null)
+      //_makeRemoteRequest();
+  }, [dataState.profilePic]);
 
   _makeRemoteRequest = async () => {
     let headers = {
@@ -148,7 +147,7 @@ const ProfileScreen = ({ navigation }) => {
     .then((responseJson) => {
         if (responseJson && responseJson.status === "Success"){
             console.log('Saved', responseJson);
-            dataState.profilePic = values;
+            //dataState.profilePic = values;
             SaveToStorage(values);
             Alert.alert(
               'Profile',
@@ -156,7 +155,8 @@ const ProfileScreen = ({ navigation }) => {
               [
                   {text: 'OK', onPress: () => {[setIsLoading(isLoading = false),
                                                 sethasImageUri(hasImageUri = false),
-                                                setIsVisible(isVisible = false), 
+                                                setIsVisible(isVisible = false),
+                                                setProfilePic(values), 
                                                 navigation.navigate('Home')]}}
               ]
             );

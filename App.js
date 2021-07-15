@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { View, ActivityIndicator, AsyncStorage,Alert } from 'react-native';
+import { View, ActivityIndicator,Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
   NavigationContainer, 
   DefaultTheme as NavigationDefaultTheme,
@@ -352,6 +353,12 @@ const App = () => {
           ...prevState,
           NewOverrideSegRatesNew: action.RatesNew
         };  
+      case 'SetProfilePic': 
+        return {
+          ...prevState,
+          profilePic: action.url
+        };  
+
         /*
       case 'OPEN': 
         return {
@@ -552,6 +559,10 @@ const App = () => {
     setDetails: (Data) => {
       console.log("App=== Set Details", Data.planName);
       dispatch({ type: 'SetDetails', Data});
+    },
+    setProfilePic: (url) => {
+      console.log("url new -------------------------------->",url);
+      dispatch({ type: 'SetProfilePic', url});
     },
     updateOverrideSegRatesNew: (RatesNew) => {
       //console.log("DATA---------------------------->" + RatesNew)
