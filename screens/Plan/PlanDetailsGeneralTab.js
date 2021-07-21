@@ -330,7 +330,7 @@ const General = ({  route, Error, SetError }) => {
     const onChange = (event, selectedDate) => {
       let currentDate = selectedDate || date;
       //console.log("A date has been picked: ", date);
-      currentDate = moment(currentDate).format('MM/DD/YYYY')
+      currentDate = moment(currentDate).format('MM/DD/YYYY');
       setShow(Platform.OS === 'ios');
       setDate(value = currentDate);
       setInputDate(date = currentDate)
@@ -340,8 +340,12 @@ const General = ({  route, Error, SetError }) => {
     const handleConfirm = (selectedDate) => {
       let currentDate = selectedDate || date;
       let year = null;
+      let currentYr = moment().format('YYYY');
       //console.log("A date has been picked: ", selectedDate);
-      currentDate = moment(currentDate).format('MM/DD/YYYY')
+      
+      currentDate = moment(currentDate).format('MM/DD/YYYY');
+
+      
       console.log("A date has been picked: ", currentDate);
       setShow(show = !show);
       setPlanEffDate(PlanEffDate=currentDate);
@@ -351,22 +355,34 @@ const General = ({  route, Error, SetError }) => {
       if (route.params && route.params?.homeClick === 'Add') {
         if (dataState.interestRatesData) {
           //Get from existing state
+
           let iRates = dataState.interestRatesData;
           let overrideSegRatesNew =  iRates.filter(iRate => iRate.rateYear == year);
+          let defaultSegRatesNew = iRates.filter(iRate => iRate.rateYear == currentYr);
+
+          let info = {
+            "overrideSegRate1": defaultSegRatesNew[0].segment1Rate.toString(),
+            "overrideSegRate2": defaultSegRatesNew[0].segment2Rate.toString(), 
+            "overrideSegRate3": defaultSegRatesNew[0].segment3Rate.toString()
+          }
+
           if (overrideSegRatesNew.length){
             /*dataState.DetailsFetchedData.overrideSegRatesNew = {
               "overrideSegRate1": overrideSegRatesNew[0].segment1Rate.toString(),
               "overrideSegRate2": overrideSegRatesNew[0].segment2Rate.toString(), 
               "overrideSegRate3": overrideSegRatesNew[0].segment3Rate.toString()
             }*/
-            let info = {
+            info = {
               "overrideSegRate1": overrideSegRatesNew[0].segment1Rate.toString(),
               "overrideSegRate2": overrideSegRatesNew[0].segment2Rate.toString(), 
               "overrideSegRate3": overrideSegRatesNew[0].segment3Rate.toString()
             }
             
-            updateOverrideSegRatesNew(info);
-          }
+            
+          } 
+
+          updateOverrideSegRatesNew(info);
+
           //console.log("check---------->",overrideSegRatesNew, dataState.NewOverrideSegRatesNew/*dataState.DetailsFetchedData.overrideSegRatesNew*/);
         } else {
           //Get from Api
@@ -379,7 +395,7 @@ const General = ({  route, Error, SetError }) => {
 
     const GetInterestRate = async (year) => {
       console.log("interest rate: ", year);
-      let url = baseURL + '/CBLookUp/GetPlanYearInterestRates?planYear=' + year;
+      let url = baseURL + '/CBLookUp/GetPlanYearInterestRates?planYear=' + year + '&calcType=3&isProposal=true&isARPA=true';
       let method = 'GET';
       let headers = new Headers();
       console.log(url);
