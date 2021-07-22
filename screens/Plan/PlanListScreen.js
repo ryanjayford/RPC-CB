@@ -189,7 +189,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     planStorage.planId = item.planId
     planStorage.userNameOnly = item.userNameOnly
     setindexChecked(indexChecked = item.planId);
-    navigation.navigate('Plan Details');
+    navigation.navigate('Plan Details',{screen: 'General', params: {homeClick: null}});
     //?console.log('plan',planStorage)
     //Alert.alert('Edit' + " " + dataState.plan.planId + " " + dataState.plan.userNameOnly);
     console.log('Edit' + " " + dataState.plan.planId + " " + dataState.plan.userNameOnly);

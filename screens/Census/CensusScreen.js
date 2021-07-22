@@ -78,6 +78,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     headers.append('Authorization', dataState.userToken);
     
     body = JSON.stringify(body);
+    console.log('save census >>>>>>', body);
     let req = new Request(url, {
         method,
         headers,

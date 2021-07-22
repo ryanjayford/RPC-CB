@@ -57,7 +57,7 @@ const AddModal = ({ navigation,route }) => {
     let [MatchContributionchoice, setMatchContributionchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
     let [SafeHarborContribinput, setSafeHarborContribinput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent);//new
     let [SafeHarborContribchoice, setSafeHarborContribchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
-    let [HCEchoice, setHCEchoice] = React.useState(1); 
+    let [HCEchoice, setHCEchoice] = React.useState(parameter === 'CensusAddUser' ? 1 : (selectedUser.HceOverride === "") ?  1: (selectedUser.HceOverride === true) ? 2 : 3); 
     let [Overridecheck, setOverridecheck] = React.useState(parameter === 'CensusAddUser' ? false : selectedUser.OverrideParticipationDate);
     let [percentOwnership, setPercentOwnership] = React.useState(parameter === 'CensusAddUser' ? "" : (selectedUser.percentOwnership) ? selectedUser.percentOwnership.toString() : ""); 
     let [age, setAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.age); 
@@ -66,6 +66,8 @@ const AddModal = ({ navigation,route }) => {
     let [retAge, setRetAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.retAge); 
     let [participationDate, setParticipationDate] = React.useState(parameter === 'CensusAddUser' ? '1/1/' + currentYear : moment(selectedUser.participationDate).format('MM/DD/YYYY')); 
     
+    console.log("selectedUser----------------------->", selectedUser,owner, selectedUser.IsOwner)
+
     const CensusUpdateScroll = React.useRef();
     let [FamilyCodeMargin, setFamilyCodeMargin] = React.useState(0); 
     let [ClassTypeMargin, setClassTypeMargin] = React.useState(0); 
@@ -212,8 +214,8 @@ const AddModal = ({ navigation,route }) => {
             
             let userArray = { 
                 PlanId: CensusPlanId, 
-                FirstName: fname,
-                LastName: lname,
+                FirstName: fname.trim(),
+                LastName: lname.trim(),
                 Principal: (pricipal === 2 ? 0 : 1), //pricipal === 0 ? false: true,
                 Sex: sex,
                 IsOwner: (owner === 2 ? 0 : 1), 
@@ -243,7 +245,7 @@ const AddModal = ({ navigation,route }) => {
                 SHOverrideType: SafeHarborContribchoice,
                 //ParticipationDate?
                 ParticipationDateOverride: Overridecheck,
-                HCEOverride: HCEchoice === 1? true: false,
+                HCEOverride: HCEchoice === 1? "" : (HCEchoice === 2) ? true : false,
                 PercentOwnership: percentOwnership === "" ? 0: percentOwnership,
                 Age: age,
                 HighlyComp: highlyComp,
@@ -450,13 +452,13 @@ const AddModal = ({ navigation,route }) => {
                             />
                         {owner === 1 && (
                             <TextInput 
-                                        placeholderTextColor = 'rgba(51,51,51,0.7)'
-                                        placeholder="% owned"
-                                        style={[styles.textInput,{color: colors.Logintext}]}
-                                        //autoCapitalize="none"
-                                        value={percentOwnership}
-                                        keyboardType='default'
-                                        onChangeText={(val) => {setPercentOwnership(percentOwnership = val)}}
+                                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                placeholder="% owned"
+                                style={[styles.textInput,{color: colors.Logintext}]}
+                                //autoCapitalize="none"
+                                value={percentOwnership}
+                                keyboardType='default'
+                                onChangeText={(val) => {setPercentOwnership(percentOwnership = val)}}
                             />
                         )}
                         </View>    

@@ -531,6 +531,7 @@ const App = () => {
     CensusAddorEdit: (navigation,userArray,CensusState,Censustoken) => {
       userArray.Principal = userArray.Principal == 0 ? false : true;
       userArray.IsOwner = userArray.IsOwner == 0 ? false : true;
+      console.log('CensusAddorEdit---------------->',userArray.IsOwner)
       userArray.DateOfBirth = moment(userArray.DateOfBirth).format("YYYY-MM-DDT00:00:00");
       userArray.DateOfHire = moment(userArray.DateOfHire).format("YYYY-MM-DDT00:00:00");
       userArray.ParticipationDate = moment(userArray.ParticipationDate).format("YYYY-MM-DDT00:00:00");
