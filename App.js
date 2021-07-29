@@ -597,7 +597,7 @@ const App = () => {
 //{"PlanId":43773,"FirstName":"Ramir A","LastName":"Cortezano","Principal":false,"PercentOwnership":0,"FamilyCode":" ","DateOfBirth":"02/01/1980","DateOfHire":"01/01/2016","WorkHours":"1000","Age":0,"PastService":4,"LastYearComp":10000,"W2Earnings":25000,"CatchUp":1,"HighlyComp":0,"ClassId":65,"Sex":"M","DeferralOverrideType":"%","DeferralOverrideValue":" ","CBOverrideValue":" ","CBOverrideType":"%","PSOverrideValue":" ","PSOverrideType":"%","IsOwner":false,"RetAge":0,"ParticipationDate":"01/01/2020","ParticipationDateOverride":false,"HCEOverride":false}
 
   const addEditCensus = async (navigation, data, type, userToken) => {
-    console.log('census type ====', type);
+    console.log('census type ====', type,data.IsOwner);
     let url = baseURL + '/Participants/Participant';
     let method = 'POST';
     let headers = new Headers();

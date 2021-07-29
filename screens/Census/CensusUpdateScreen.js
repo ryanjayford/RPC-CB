@@ -57,7 +57,7 @@ const AddModal = ({ navigation,route }) => {
     let [MatchContributionchoice, setMatchContributionchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
     let [SafeHarborContribinput, setSafeHarborContribinput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent);//new
     let [SafeHarborContribchoice, setSafeHarborContribchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
-    let [HCEchoice, setHCEchoice] = React.useState(parameter === 'CensusAddUser' ? 1 : (selectedUser.HceOverride === "") ?  1: (selectedUser.HceOverride === true) ? 2 : 3); 
+    let [HCEchoice, setHCEchoice] = React.useState(parameter === 'CensusAddUser' ? 1 : (selectedUser.HceOverride === -1) ?  1: (selectedUser.HceOverride === 1) ? 2 : (selectedUser.HceOverride === 0) ? 3 : 1); 
     let [Overridecheck, setOverridecheck] = React.useState(parameter === 'CensusAddUser' ? false : selectedUser.OverrideParticipationDate);
     let [percentOwnership, setPercentOwnership] = React.useState(parameter === 'CensusAddUser' ? "" : (selectedUser.percentOwnership) ? selectedUser.percentOwnership.toString() : ""); 
     let [age, setAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.age); 
@@ -245,7 +245,7 @@ const AddModal = ({ navigation,route }) => {
                 SHOverrideType: SafeHarborContribchoice,
                 //ParticipationDate?
                 ParticipationDateOverride: Overridecheck,
-                HCEOverride: HCEchoice === 1? "" : (HCEchoice === 2) ? true : false,
+                HCEOverride: HCEchoice === 1? -1 : (HCEchoice === 2) ? 1 : 0,
                 PercentOwnership: percentOwnership === "" ? 0: percentOwnership,
                 Age: age,
                 HighlyComp: highlyComp,
