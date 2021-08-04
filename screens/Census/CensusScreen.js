@@ -93,10 +93,12 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
           setScreen({Name: "Census", Method: "Load"});
         } else{
           Alert.alert("Save Error", responseJson.message);
+          getCensus(dataState.plan.planId);
         }
     })
     .catch((error) => {
         Alert.alert("Connection Error", error.message);
+        getCensus(dataState.plan.planId);
         return false;
     });
   }
