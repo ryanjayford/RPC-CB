@@ -45,7 +45,7 @@ const AddModal = ({ navigation,route }) => {
     let [pastservice, setpastservice] = React.useState(parameter === 'CensusAddUser' ? '0' : (selectedUser.PastService) ? selectedUser.PastService.toString() : "0" ); 
     let [LYcompensation, setLYcompensation] = React.useState(parameter === 'CensusAddUser' ? '0' : (selectedUser.lastYearComp) ? selectedUser.lastYearComp.toString() : "0"); 
     let [w2earnings, setw2earnings] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.W2Earnings.toString()); 
-    let [catchup, setcatchup] = React.useState(parameter === 'CensusAddUser' ? 0 : (selectedUser.HasCatchUp === 0 ? 2 : 1)); //checking
+    let [catchup, setcatchup] = React.useState(parameter === 'CensusAddUser' ? 2 : (selectedUser.HasCatchUp === 0 ? 2 : 1)); //checking
     let [classtype, setclasstype] = React.useState(parameter === 'CensusAddUser' ? "A" : selectedUser.classCode); //React.useState('A'); 
     let [deferral, setdeferral] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.DeferralPercent); 
     let [deferralchoice, setdeferralchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.DeferCode); 
@@ -57,7 +57,7 @@ const AddModal = ({ navigation,route }) => {
     let [MatchContributionchoice, setMatchContributionchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
     let [SafeHarborContribinput, setSafeHarborContribinput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent);//new
     let [SafeHarborContribchoice, setSafeHarborContribchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
-    let [HCEchoice, setHCEchoice] = React.useState(parameter === 'CensusAddUser' ? 1 : (selectedUser.HceOverride === "") ?  1: (selectedUser.HceOverride === true) ? 2 : 3); 
+    let [HCEchoice, setHCEchoice] = React.useState(parameter === 'CensusAddUser' ? '-1' : (selectedUser.HceOverride === "") ?  '-1' : (selectedUser.HceOverride === true) ? '1' : '0'); 
     let [Overridecheck, setOverridecheck] = React.useState(parameter === 'CensusAddUser' ? false : selectedUser.OverrideParticipationDate);
     let [percentOwnership, setPercentOwnership] = React.useState(parameter === 'CensusAddUser' ? "" : (selectedUser.percentOwnership) ? selectedUser.percentOwnership.toString() : ""); 
     let [age, setAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.age); 
@@ -66,7 +66,7 @@ const AddModal = ({ navigation,route }) => {
     let [retAge, setRetAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.retAge); 
     let [participationDate, setParticipationDate] = React.useState(parameter === 'CensusAddUser' ? '1/1/' + currentYear : moment(selectedUser.participationDate).format('MM/DD/YYYY')); 
     
-    console.log("selectedUser----------------------->", selectedUser,owner, selectedUser.IsOwner)
+    console.log("selectedUser----------------------->", selectedUser,owner, selectedUser?.IsOwner,HCEchoice,selectedUser?.HceOverride)
 
     const CensusUpdateScroll = React.useRef();
     let [FamilyCodeMargin, setFamilyCodeMargin] = React.useState(0); 
@@ -245,8 +245,8 @@ const AddModal = ({ navigation,route }) => {
                 SHOverrideType: SafeHarborContribchoice,
                 //ParticipationDate?
                 ParticipationDateOverride: Overridecheck,
-                HCEOverride: HCEchoice === 1? "" : (HCEchoice === 2) ? true : false,
-                PercentOwnership: percentOwnership === "" ? 0: percentOwnership,
+                HCEOverride: parseInt(HCEchoice, 10) > -1 ? (parseInt(HCEchoice, 10) === 1 ? true : false) : false,
+                PercentOwnership: percentOwnership === "" ? 0 : percentOwnership,
                 Age: age,
                 HighlyComp: highlyComp,
                 ClassId: classId,
@@ -255,7 +255,7 @@ const AddModal = ({ navigation,route }) => {
                 
             }
             if (CensusState === 'CensusEdituser') userArray.ParticipantId = paxId;
-            CensusAddorEdit(navigation,userArray,CensusState,Censustoken);
+            CensusAddorEdit(navigation,userArray,CensusState,Censustoken,setIsLoading,isLoading);
         }
         
     }  
@@ -319,15 +319,15 @@ const AddModal = ({ navigation,route }) => {
     ];
     var HCE = [
         {
-            id: 1, // required
+            id: '-1', // required
             label: 'N/A'
         },
         {
-            id: 2,
+            id: '1',
             label: 'Yes'
         },
         {
-            id: 3,
+            id: '0',
             label: 'No'
         },
     ];
@@ -838,7 +838,7 @@ const AddModal = ({ navigation,route }) => {
                         <RadioButtonRN
                             data={HCE}
                             activeOpacity={2}
-                            initial={HCEchoice}
+                            initial={HCEchoice === '-1' ? 1 : (HCEchoice === '1' ? 2 : 3)}
                             animationTypes={['pulse']}
                             style={{paddingLeft: 10,flexDirection: 'row'}}
                             textStyle={{paddingLeft: 10}}

@@ -528,14 +528,14 @@ const App = () => {
       }
       */
     },
-    CensusAddorEdit: (navigation,userArray,CensusState,Censustoken) => {
+    CensusAddorEdit: (navigation,userArray,CensusState,Censustoken,setIsLoading,isLoading) => {
       userArray.Principal = userArray.Principal == 0 ? false : true;
       userArray.IsOwner = userArray.IsOwner == 0 ? false : true;
       console.log('CensusAddorEdit---------------->',userArray.IsOwner)
       userArray.DateOfBirth = moment(userArray.DateOfBirth).format("YYYY-MM-DDT00:00:00");
       userArray.DateOfHire = moment(userArray.DateOfHire).format("YYYY-MM-DDT00:00:00");
       userArray.ParticipationDate = moment(userArray.ParticipationDate).format("YYYY-MM-DDT00:00:00");
-      addEditCensus(navigation, userArray, CensusState, Censustoken);
+      addEditCensus(navigation, userArray, CensusState, Censustoken,setIsLoading,isLoading);
       
       /*
       if(CensusState === 'CensusAdduser')
@@ -596,7 +596,7 @@ const App = () => {
 //https://rpcapi-dev.azurewebsites.net/api/CB/Participants/Participant
 //{"PlanId":43773,"FirstName":"Ramir A","LastName":"Cortezano","Principal":false,"PercentOwnership":0,"FamilyCode":" ","DateOfBirth":"02/01/1980","DateOfHire":"01/01/2016","WorkHours":"1000","Age":0,"PastService":4,"LastYearComp":10000,"W2Earnings":25000,"CatchUp":1,"HighlyComp":0,"ClassId":65,"Sex":"M","DeferralOverrideType":"%","DeferralOverrideValue":" ","CBOverrideValue":" ","CBOverrideType":"%","PSOverrideValue":" ","PSOverrideType":"%","IsOwner":false,"RetAge":0,"ParticipationDate":"01/01/2020","ParticipationDateOverride":false,"HCEOverride":false}
 
-  const addEditCensus = async (navigation, data, type, userToken) => {
+  const addEditCensus = async (navigation, data, type, userToken,setIsLoading,isLoading) => {
     console.log('census type ====', type);
     let url = baseURL + '/Participants/Participant';
     let method = 'POST';
@@ -625,6 +625,7 @@ const App = () => {
           dispatch({ type: 'SCREENCensus', Data: {Name: 'Census', Method: 'Reload'}});
           navigation.goBack();
         } else {
+          setIsLoading(isLoading = false);
           Alert.alert("Data Error", responseJson.message);
         }
         

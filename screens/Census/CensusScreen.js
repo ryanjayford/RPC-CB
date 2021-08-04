@@ -78,7 +78,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     headers.append('Authorization', dataState.userToken);
     
     body = JSON.stringify(body);
-    console.log('save census >>>>>>', body);
+    console.log('save census >>>>>>', url,method,headers, body);
     let req = new Request(url, {
         method,
         headers,
@@ -382,7 +382,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
               <Text style={[{fontSize:16, color: color.secondary}]}>No Records Found</Text>
           </View>
           :   
-          <SafeAreaView style={{marginTop: 5}}>
+          <SafeAreaView style={{marginTop: 5, flex: 1}}>
             <Text style={{fontSize:17, color: color.secondary, textAlign: 'center', fontWeight: 'bold'}}>{dataState.plan.planName}</Text>  
             <FlatList 
               style={styles.notificationList}
