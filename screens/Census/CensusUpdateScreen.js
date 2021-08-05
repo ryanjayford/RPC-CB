@@ -246,7 +246,7 @@ const AddModal = ({ navigation,route }) => {
                 SHOverrideType: SafeHarborContribchoice,
                 //ParticipationDate?
                 ParticipationDateOverride: Overridecheck,
-                HCEOverride: parseInt(HCEchoice, 10) > -1 ? (parseInt(HCEchoice, 10) === 1 ? true : true) : false,
+                HCEOverride: parseInt(HCEchoice, 10) > -1 ? true : false,
                 PercentOwnership: percentOwnership === "" ? 0 : percentOwnership,
                 Age: age,
                 HighlyComp: highlyComp,
