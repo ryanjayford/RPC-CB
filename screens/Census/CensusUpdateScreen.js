@@ -31,6 +31,7 @@ const AddModal = ({ navigation,route }) => {
     let [isLoading, setIsLoading] = React.useState(false);
     
     console.log('selectected user ===>', selectedUser);
+    console.log('dataState ===>', dataState.censusDropDownData);
 
     let [paxId, setPaxId] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.participantID); 
     let [fname, setfname] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.Firstname); 
@@ -57,7 +58,7 @@ const AddModal = ({ navigation,route }) => {
     let [MatchContributionchoice, setMatchContributionchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
     let [SafeHarborContribinput, setSafeHarborContribinput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent);//new
     let [SafeHarborContribchoice, setSafeHarborContribchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
-    let [HCEchoice, setHCEchoice] = React.useState(parameter === 'CensusAddUser' ? '-1' : (selectedUser.HceOverride === "") ?  '-1' : (selectedUser.HceOverride === true) ? '1' : '0'); 
+    let [HCEchoice, setHCEchoice] = React.useState(parameter === 'CensusAddUser' ? '-1' : (selectedUser.HceOverride === false) ?  '-1' : (selectedUser.highlyComp === 1) ? '1' : '0'); 
     let [Overridecheck, setOverridecheck] = React.useState(parameter === 'CensusAddUser' ? false : selectedUser.OverrideParticipationDate);
     let [percentOwnership, setPercentOwnership] = React.useState(parameter === 'CensusAddUser' ? "" : (selectedUser.percentOwnership) ? selectedUser.percentOwnership.toString() : ""); 
     let [age, setAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.age); 
@@ -66,7 +67,7 @@ const AddModal = ({ navigation,route }) => {
     let [retAge, setRetAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.retAge); 
     let [participationDate, setParticipationDate] = React.useState(parameter === 'CensusAddUser' ? '1/1/' + currentYear : moment(selectedUser.participationDate).format('MM/DD/YYYY')); 
     
-    console.log("selectedUser----------------------->", selectedUser,owner, selectedUser?.IsOwner,HCEchoice,selectedUser?.HceOverride)
+    console.log("selectedUser----------------------->", selectedUser,owner, selectedUser?.IsOwner,HCEchoice,selectedUser?.HceOverride,selectedUser?.highlyComp)
 
     const CensusUpdateScroll = React.useRef();
     let [FamilyCodeMargin, setFamilyCodeMargin] = React.useState(0); 
@@ -245,7 +246,7 @@ const AddModal = ({ navigation,route }) => {
                 SHOverrideType: SafeHarborContribchoice,
                 //ParticipationDate?
                 ParticipationDateOverride: Overridecheck,
-                HCEOverride: parseInt(HCEchoice, 10) > -1 ? (parseInt(HCEchoice, 10) === 1 ? true : false) : false,
+                HCEOverride: parseInt(HCEchoice, 10) > -1 ? (parseInt(HCEchoice, 10) === 1 ? true : true) : false,
                 PercentOwnership: percentOwnership === "" ? 0 : percentOwnership,
                 Age: age,
                 HighlyComp: highlyComp,
@@ -635,11 +636,7 @@ const AddModal = ({ navigation,route }) => {
                         />*/}
                     <Text style={styles.columnNames}>Class Type</Text>
                         <DropDownPicker
-                            items={[
-                                {label: 'A - Owner HCEs', value: 'A'},
-                                {label: 'B - Non HCEs', value: 'B'},
-                                {label: 'C - Non-Owner HCEs', value: 'C'},
-                            ]}
+                            items={dataState.censusDropDownData}
                             isVisible={ClassTypehideDrop}
                             defaultIndex={0}
                             defaultValue={classtype}

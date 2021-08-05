@@ -43,7 +43,7 @@ let RightAction = ({item}) =>
 
 const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) => {
   const { colors } = useTheme();
-  const [{setScreen },dataState] = React.useContext(AuthContext);
+  const [{setScreen,setDropdownData },dataState] = React.useContext(AuthContext);
 
   //let search = dataState.search;
   let [CensusIndexChecked, setCensusIndexChecked] = React.useState(0);
@@ -176,6 +176,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
       } else {
         //console.log('=====================getCensus==========================');
         getCensus(dataState.plan.planId);
+        getClass(dataState.plan.planId);
       }
     }
   },  [dataState.Census]);
@@ -204,6 +205,44 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
         } else {
           Alert.alert("Data Error", responseJson.message);
           //setCensusData(censusData => []);
+        }
+    })
+    .catch((error) => {
+        Alert.alert("Connection Error", error.message);
+        return false;
+    });
+  }
+
+  const getClass = async (planId) => {
+    let url = baseURL + '/Classes/ClassList?planId=' +  planId;
+    let method = 'GET';
+    let headers = new Headers();
+    //console.log(url);
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', dataState.userToken);
+   
+    let req = new Request(url, {
+        method,
+        headers
+    });
+
+    await fetch(req)
+    .then((response) => response.json())
+    .then((responseJson) => {
+        if (responseJson.isSuccess && responseJson.obj){
+          console.log("FROM UseEffect =====Api Called CLASS========> ",responseJson.obj);
+          //setClassData(classData => responseJson.obj);
+          let responseArray = responseJson.obj
+          let NewArray = responseArray.map(function(object) {
+              for (let key in object) {
+                return { label: object.classCode + ' - ' + object.description, value: object.classCode };
+              }
+          });
+          //console.log('NewArray',NewArray)
+          setDropdownData(NewArray)
+        } else {
+          Alert.alert("Data Error", responseJson.message);
+          //setPlanData(planData => []);
         }
     })
     .catch((error) => {

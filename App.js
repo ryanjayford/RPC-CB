@@ -113,7 +113,8 @@ const App = () => {
     censusEdited: null,
     censusAdded: null,
     censusData,
-    profilePic: null
+    profilePic: null,
+    censusDropDownData: [],
   };
 
   const CustomDefaultTheme = {
@@ -358,6 +359,11 @@ const App = () => {
           ...prevState,
           profilePic: action.url
         };  
+      case 'SetDropdownData': 
+        return {
+          ...prevState,
+          censusDropDownData: action.data
+        };  
 
         /*
       case 'OPEN': 
@@ -564,6 +570,10 @@ const App = () => {
     setProfilePic: (url) => {
       console.log("url new -------------------------------->",url);
       dispatch({ type: 'SetProfilePic', url});
+    },
+    setDropdownData: (data) => {
+      console.log("data -------------------------------->",data);
+      dispatch({ type: 'SetDropdownData', data});
     },
     updateOverrideSegRatesNew: (RatesNew) => {
       //console.log("DATA---------------------------->" + RatesNew)
