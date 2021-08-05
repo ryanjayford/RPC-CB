@@ -128,7 +128,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
           payload.planId = planId;
           data.forEach(function(item, idx) {        
             let censusD = {};
-            censusD.CashBalance = item["Cash Balance"];
+            censusD.CashBalance = item["Cash Balance"] == null ? "" : item["Cash Balance"].toString();
             censusD.ClassCode = item["Class Code"];
             censusD.DateOfBirth = item["Date of Birth"];
             censusD.DateOfHire = item["Date of Hire"];
@@ -142,7 +142,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
             censusD.LastYearComp = item["Last Year Earnings"] == null ? 0 : item["Last Year Earnings"];
             censusD.PercentOwnership = item["Ownership Percentage"];
             censusD.Principal = item.Principal;
-            censusD.ProfitSharing = item["Profit Sharing"];
+            censusD.ProfitSharing = item["Profit Sharing"] == null ? "" : item["Profit Sharing"].toString();
             censusData.push(censusD);
           });
           payload.census = censusData;

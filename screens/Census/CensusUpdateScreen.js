@@ -249,7 +249,7 @@ const AddModal = ({ navigation,route }) => {
                 HCEOverride: parseInt(HCEchoice, 10) > -1 ? true : false,
                 PercentOwnership: percentOwnership === "" ? 0 : percentOwnership,
                 Age: age,
-                HighlyComp: highlyComp,
+                HighlyComp: (parseInt(HCEchoice, 10) > -1 && HCEchoice === '1') ? 1 : 0,
                 ClassId: classId,
                 RetAge: retAge,
                 ParticipationDate: participationDate,

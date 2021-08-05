@@ -64,6 +64,8 @@ const ClassUpdate = ({ navigation,route }) => {
     let [ContriTypeMargin, setContriTypeMargin] = React.useState(0);
     let [ContriTypeMarginhideDrop, setContriTypeMarginhideDrop] = React.useState(false); 
 
+    let [CB_DisableCode, setCB_DisableCode] = React.useState(route.params?.State === 'addnew' ? true : Edited.classCode && (Edited.classCode === 'A' || Edited.classCode === 'B' || Edited.classCode === 'C') ? false : true);
+
     let ContriTypeSelected = null;
     const DropContriTypeController = (ContriTypeSelected) => {
 
@@ -187,6 +189,7 @@ const ClassUpdate = ({ navigation,route }) => {
                             placeholder="Code"
                             style={[styles.textInput,{color: colors.Logintext}]}
                             //autoCapitalize="none"
+                            editable={CB_DisableCode}
                             value={classcode}
                             keyboardType='default'
                             onChangeText={(val) => {setclasscode(classcode = val)}}
