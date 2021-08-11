@@ -77,6 +77,19 @@ const AddModal = ({ navigation,route }) => {
     let [ClassTypehideDrop, setClassTypehideDrop] = React.useState(false); 
   
     let CensusDropSelected = null;
+
+    const CheckClassCode = (code) => {
+        let arr = dataState.censusDropDownData;
+        if(arr.indexOf(code) == -1) {
+            if(arr.length > 3) {
+                return arr[3].value;
+            }
+        } else {
+            return code;
+        }
+        return arr[0].value;
+    };
+    
     const DropdownCensusController = (CensusDropSelected) => {
       if(CensusDropSelected === 1)//family
       {
@@ -639,7 +652,7 @@ const AddModal = ({ navigation,route }) => {
                             items={dataState.censusDropDownData}
                             isVisible={ClassTypehideDrop}
                             defaultIndex={0}
-                            defaultValue={classtype}
+                            defaultValue={CheckClassCode(classtype)}
                             zIndex={3}
                             itemStyle={{justifyContent: 'flex-start'}}
                             //placeholder="Select number of years"

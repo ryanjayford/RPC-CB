@@ -179,7 +179,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
         getClass(dataState.plan.planId);
       }
     }
-  },  [dataState.Census]);
+  },  [dataState.Census,dataState.Classes]);
 
 
   const getCensus = async (planId) => {
@@ -238,8 +238,9 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
                 return { label: object.classCode + ' - ' + object.description, value: object.classCode };
               }
           });
-          //console.log('NewArray',NewArray)
+          console.log('NewArray',NewArray)
           setDropdownData(NewArray)
+          console.log('dataState.censusDropDownData',dataState.censusDropDownData)
         } else {
           Alert.alert("Data Error", responseJson.message);
           //setPlanData(planData => []);
