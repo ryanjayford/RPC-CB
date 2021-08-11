@@ -179,7 +179,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
         getClass(dataState.plan.planId);
       }
     }
-  },  [dataState.Census,dataState.Classes]);
+  },  [dataState.Census/*,dataState.Classes*/]);
 
 
   const getCensus = async (planId) => {

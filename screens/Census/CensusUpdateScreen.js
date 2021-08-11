@@ -80,13 +80,25 @@ const AddModal = ({ navigation,route }) => {
 
     const CheckClassCode = (code) => {
         let arr = dataState.censusDropDownData;
-        if(arr.indexOf(code) == -1) {
+        console.log(arr,code)
+        for (let i = 0; i < arr.length; i++) {
+            console.log('testing'+i,arr[i].value);
+            if(arr[i].value == code) {
+                console.log('testing2'+i,arr[i].value);
+                return code;
+            }   
+        }
+        if(arr.length > 3) {
+            return arr[3].value;
+        }
+        /*
+        if(arr.value.indexOf(code) == -1) {
             if(arr.length > 3) {
                 return arr[3].value;
             }
         } else {
             return code;
-        }
+        }*/
         return arr[0].value;
     };
     

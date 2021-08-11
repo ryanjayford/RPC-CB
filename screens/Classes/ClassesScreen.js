@@ -27,7 +27,7 @@ let RightAction = ({item}) =>
 };
 const ClassesScreen = ({ navigation }) => {
     const { colors } = useTheme();
-    const [{ },dataState] = React.useContext(AuthContext);
+    const [{setDropdownData},dataState] = React.useContext(AuthContext);
     dataState.Classes;
     
     const ClassDATA = [
@@ -119,6 +119,14 @@ const ClassesScreen = ({ navigation }) => {
             if (responseJson.isSuccess && responseJson.obj){
               console.log("FROM UseEffect =====Api Called CLASS========> ");
               setClassData(classData => responseJson.obj);
+              let responseArray = responseJson.obj
+              let NewArray = responseArray.map(function(object) {
+                  for (let key in object) {
+                    return { label: object.classCode + ' - ' + object.description, value: object.classCode };
+                  }
+              });
+              console.log('NewArray from class page',NewArray)
+              setDropdownData(NewArray)
               
             } else {
               Alert.alert("Data Error", responseJson.message);
