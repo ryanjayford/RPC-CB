@@ -85,10 +85,12 @@ const AddModal = ({ navigation,route }) => {
             console.log('testing'+i,arr[i].value);
             if(arr[i].value == code) {
                 console.log('testing2'+i,arr[i].value);
+                classtype = arr[i].value
                 return code;
             }   
         }
         if(arr.length > 3) {
+            classtype = arr[3].value
             return arr[3].value;
         }
         /*
@@ -99,6 +101,7 @@ const AddModal = ({ navigation,route }) => {
         } else {
             return code;
         }*/
+        classtype = arr[0].value
         return arr[0].value;
     };
     
