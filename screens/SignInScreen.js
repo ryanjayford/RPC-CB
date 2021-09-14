@@ -125,6 +125,7 @@ const SignInScreen = ({navigation}) => {
     }
 
     const loginHandle = async (userName, password) => {
+        console.log('============>>>>',userName, password);
        
         if ( data.username.length == 0 || data.password.length == 0 ) {
             Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
@@ -151,11 +152,11 @@ const SignInScreen = ({navigation}) => {
             method,
             headers
         });
-
+        console.log('==============> ');
         await fetch(req)
         .then((response) => response.json())
         .then((responseJson) => {
-            //console.log(responseJson);
+            console.log(responseJson);
             if(responseJson && responseJson.identityToken){
                 let expireAt = moment().add(1, 'days'); //moment.unix(responseJson.accessToken_expires_in).format('MM/DD/YYYY HH:MM:ss');
                 let info = JSON.parse(base64.decode(responseJson.identityToken));

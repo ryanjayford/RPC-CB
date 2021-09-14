@@ -1,10 +1,10 @@
 {
     "site":   "https://restsandbox.azurewebsites.net/services/rest", 
-    "auth":   "https://ebgsecapi-dev.azurewebsites.net/auth/v1", 
-    "domain":  "https://rpc-api-test.azurewebsites.net/api/CB",
-    "calc": "https://cbcalc-test.azurewebsites.net/api/CBCalc",
+    "auth":   "https://ebgsecapi.azurewebsites.net/auth/v1", 
+    "domain":  "https://rpc-api.azurewebsites.net/api/CB",
+    "calc": "https://cbcalc.azurewebsites.net/api/CBCalc",
     "apiKey": "Key",
     "token": "token",
     "clientId": "Mobile",
-    "version": "Dev Ver 0.3.5 SDK39"  
+    "version": "Prod 001 Ver 0.0.0 SDK39"  
 }
