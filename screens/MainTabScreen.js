@@ -57,7 +57,7 @@ const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNu
   }
   else
   {
-    console.log('CONFIRM ====>', planName, userToken);
+   //console.log('CONFIRM ====>', planName, userToken);
     let msg = "Are you sure you want to Add New Plan?"
     if (planId) msg = "Are you sure you want to save changes to " + planName + " Plan?"
     if (planName){
@@ -359,7 +359,7 @@ const PlanTabScreen = ({navigation, route}) => {
             [
                 {
                     text: "Cancel",
-                    onPress: () => { console.log("Cancel Pressed"); }, style: "cancel"
+                    onPress: () => {//console.log("Cancel Pressed"); }, style: "cancel"
                 },
                 { text: "Go Back", onPress: () => navigation.goBack() }],
             { cancelable: false }

@@ -32,7 +32,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
   };
     const { colors } = useTheme();
     const [{ },dataState] = React.useContext(AuthContext);
-    console.log(CalculateModal);
+   //console.log(CalculateModal);
     let [CalculateIndex, setCalculateIndex] = React.useState(null);//default 1
     let [CalReportName, setCalReportName] = React.useState(null);
     const CalculateDATA = [
@@ -58,7 +58,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
       const handleDownload = async (item) => {
         let reportLink = item.reportOutputName.replace('DownloadReport','ViewReport');
         reportLink = reportLink.replace('?id', '?repid') + '.pdf&Authorization=' + dataState.userToken.replace('bearer', '').trim();
-        console.log(item.reportOutputName, reportLink);
+       //console.log(item.reportOutputName, reportLink);
         let result = await WebBrowser.openBrowserAsync(reportLink);
         //setresult(thisresult = result)
       };      
@@ -66,7 +66,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
       React.useEffect(() => {
         if (dataState.Calculate === null || (dataState.Calculate && dataState.Calculate.Name === 'Calculate')){
           setCalculateData(calculateData => null);
-          console.log("useEffect =====CALCULATE SCREEN========> ", dataState.plan);
+         //console.log("useEffect =====CALCULATE SCREEN========> ", dataState.plan);
           if (dataState.Calculate && dataState.Calculate.Method === 'Calculate') {
             
             calculatePlan(dataState.plan.planId);
@@ -96,10 +96,10 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
         let url = baseURL1 + '/GetCalculationResult?planId=' + planId + '&reportAlias=' + name;
         let method = 'GET';
         let headers = new Headers();
-        console.log(url);
+       //console.log(url);
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', dataState.userToken);
-        console.log('CALC PLAN =====>', url, method, headers);
+       //console.log('CALC PLAN =====>', url, method, headers);
         let req = new Request(url, {
             method,
             headers
@@ -109,7 +109,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
         .then((response) => response.json())
         .then((responseJson) => {
             if (responseJson.isSuccess){
-              console.log("FROM UseEffect =====Api Called CALCULATE========> ", responseJson);
+             //console.log("FROM UseEffect =====Api Called CALCULATE========> ", responseJson);
               setCalReportName(CalReportName = "");
             } else {
               Alert.alert("Data Error", responseJson.message);              
@@ -133,7 +133,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
         
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', dataState.userToken);
-        console.log('GET CALC PLAN =====>', url, method, headers);
+       //console.log('GET CALC PLAN =====>', url, method, headers);
         let req = new Request(url, {
             method,
             headers
@@ -143,12 +143,12 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
         .then((response) => response.json())
         .then((responseJson) => {
           if (responseJson.isSuccess && responseJson.obj){
-            console.log("FROM UseEffect =====Api Called GET CALCULATE========> ", responseJson.obj);
+           //console.log("FROM UseEffect =====Api Called GET CALCULATE========> ", responseJson.obj);
             setCalculateData(calculateData => responseJson.obj);            
           } else {
             //Alert.alert("Data Error", responseJson.message);
             //getCalculatedPlan(planId);
-            console.log(responseJson)
+           //console.log(responseJson)
             setCalculateData(calculateData => []);
           }
         })
@@ -160,7 +160,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
 
       const toggleCalculate = (item,index) => {
         //Alert.alert('info:',item.id + " " + item.Class);
-        console.log('info:',item.id + " " + item.Status + " " + item.Date);
+       //console.log('info:',item.id + " " + item.Status + " " + item.Date);
         setCalculateIndex(CalculateIndex = index)
 
         //console.log('All info----------------->:',item)
@@ -200,7 +200,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
           transparent={true}
           visible={CalculateModal}
           onRequestClose={() => {
-            console.log("Modal has been closed.");
+           //console.log("Modal has been closed.");
           }}
         >
           <TouchableHighlight underlayColor={'rgba(51,51,51,0.7)'} style={styles.centeredView} onPress={() => {SetCalculateModal(!CalculateModal);}}>
@@ -266,7 +266,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
         let requestDate = moment(item.requestDate).format('MM/DD/YYYY HH:MM:ss');
         let requestCompleted = 'Running';
         let reportName = item.reportName;
-        console.log(item);
+       //console.log(item);
         if (item.requestStatus === "C") requestCompleted = moment(item.requestCompleted).format('MM/DD/YYYY HH:MM:ss');
         return (
           <View style={styles.listContainer}>

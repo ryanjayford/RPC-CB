@@ -56,10 +56,10 @@ const InterestModal = ({ navigation,Open,setOpen, setModalData, ModalData }) => 
         let url = baseURL + '/CBLookUp/GetInterestRates?calcType=3&isProposal=true';
         let method = 'GET';
         let headers = new Headers();
-        console.log(url);
+       //console.log(url);
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', dataState.userToken);
-        console.log('GetInterest Rate =====>', url, method, headers);
+       //console.log('GetInterest Rate =====>', url, method, headers);
         
         let req = new Request(url, {
             method,
@@ -70,7 +70,7 @@ const InterestModal = ({ navigation,Open,setOpen, setModalData, ModalData }) => 
         .then((response) => response.json())
         .then((responseJson) => {
             if (responseJson.isSuccess){
-              console.log("FROM UseEffect =====Api Get Interest rate========> ");// responseJson.obj, responseJson.obj
+             //console.log("FROM UseEffect =====Api Get Interest rate========> ");// responseJson.obj, responseJson.obj
               dataState.interestRatesData = responseJson.obj;
               setInterestData(responseJson.obj);
 

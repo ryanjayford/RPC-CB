@@ -13,12 +13,12 @@ import RadioButtonRN from 'radio-buttons-react-native';
 const {width,height} = Dimensions.get('window');
 
 const AddModal = ({ navigation,route }) => {
-    console.log(route.params?.State, 'State for census')
+   //console.log(route.params?.State, 'State for census')
     //console.log('Info in the Censusupdatescreen',route.params?.CensusInfo)
   const { colors } = useTheme();
     const [{CensusAddorEdit},dataState] = React.useContext(AuthContext);
-   // console.log('censusEdited',dataState.censusEdited)
-   // console.log('censusAdded',dataState.censusAdded)
+   ////console.log('censusEdited',dataState.censusEdited)
+   ////console.log('censusAdded',dataState.censusAdded)
     let Censustoken = dataState.userToken;
     let CensusPlanId = dataState.selectedPlan;
     let parameter = route.params?.State;
@@ -30,8 +30,8 @@ const AddModal = ({ navigation,route }) => {
     let [OverrideShow, setOverrideShow] = React.useState(false);
     let [isLoading, setIsLoading] = React.useState(false);
     
-    console.log('selectected user ===>', selectedUser);
-    console.log('dataState ===>', dataState.censusDropDownData);
+   //console.log('selectected user ===>', selectedUser);
+   //console.log('dataState ===>', dataState.censusDropDownData);
 
     let [paxId, setPaxId] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.participantID); 
     let [fname, setfname] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.Firstname); 
@@ -67,7 +67,7 @@ const AddModal = ({ navigation,route }) => {
     let [retAge, setRetAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.retAge); 
     let [participationDate, setParticipationDate] = React.useState(parameter === 'CensusAddUser' ? '1/1/' + currentYear : moment(selectedUser.participationDate).format('MM/DD/YYYY')); 
     
-    console.log("selectedUser----------------------->", selectedUser,owner, selectedUser?.IsOwner,HCEchoice,selectedUser?.HceOverride,selectedUser?.highlyComp)
+   //console.log("selectedUser----------------------->", selectedUser,owner, selectedUser?.IsOwner,HCEchoice,selectedUser?.HceOverride,selectedUser?.highlyComp)
 
     const CensusUpdateScroll = React.useRef();
     let [FamilyCodeMargin, setFamilyCodeMargin] = React.useState(0); 
@@ -80,11 +80,11 @@ const AddModal = ({ navigation,route }) => {
 
     const CheckClassCode = (code) => {
         let arr = dataState.censusDropDownData;
-        console.log(arr,code)
+       //console.log(arr,code)
         for (let i = 0; i < arr.length; i++) {
-            console.log('testing'+i,arr[i].value);
+           //console.log('testing'+i,arr[i].value);
             if(arr[i].value == code) {
-                console.log('testing2'+i,arr[i].value);
+               //console.log('testing2'+i,arr[i].value);
                 classtype = arr[i].value
                 return code;
             }   

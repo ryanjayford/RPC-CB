@@ -13,7 +13,7 @@ const FOI = ({ navigation }) => {
     let DetailsFetchedData = dataState.DetailsFetchedData;
 
     
-    console.log('My Catchup ========>', dataState.DetailsFetchedData.catchUp)    
+   //console.log('My Catchup ========>', dataState.DetailsFetchedData.catchUp)    
     //console.log('Is401kChecked',dataState.Is401kChecked)
     let [TotOwnerCost, setTotOwnerCost] = React.useState(DefaultPlan.totOwnerCost ? DefaultPlan.totOwnerCost.toString() : null); 
     let [TotNonOwnerCost, setTotNonOwnerCost] = React.useState(DefaultPlan.totNonOwnerCost ? DefaultPlan.totNonOwnerCost.toString() : null); 
@@ -176,7 +176,7 @@ const FOI = ({ navigation }) => {
     React.useEffect(() => {
       //Api Data
       //console.log("useEffect ====PLAN DETAILS DATA STATE ======================ROUTE========> ", route, dataState["Plan Details"]);
-      console.log("USE EFFECT 401 TAB+++++++++++++++++");
+     //console.log("USE EFFECT 401 TAB+++++++++++++++++");
       if (dataState["Plan Details"] === null || (dataState["Plan Details"] && dataState["Plan Details"].Name === 'Plan Details')){
         setPlanDetailsTab();     
       }
@@ -184,10 +184,10 @@ const FOI = ({ navigation }) => {
   
   
     const setPlanDetailsTab = () => {
-      console.log('==============401K==================FETCHED DATA', DetailsFetchedData.planName);
+     //console.log('==============401K==================FETCHED DATA', DetailsFetchedData.planName);
       
       if (DetailsFetchedData && DetailsFetchedData.planName){
-        console.log("has Data"); ////edit this with dataState.DetailsFetchedData
+       //console.log("has Data"); ////edit this with dataState.DetailsFetchedData
 
         let User401k = DetailsFetchedData
         setTotOwnerCost(TotOwnerCost = User401k.totOwnerCost.toString());

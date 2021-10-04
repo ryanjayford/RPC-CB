@@ -12,7 +12,7 @@ const {width,height} = Dimensions.get('window');
 const CopyModal = ({ navigation,route }) => {
     const [{},dataState] = React.useContext(AuthContext);
     let copy = route.params?.CopyInfo;
-    console.log('OpenModal', copy)
+   //console.log('OpenModal', copy)
     let [isLoading, setIsLoading] = React.useState(false);
     //let [Hide, setHide] = React.useState(true);
     const { colors } = useTheme();
@@ -64,7 +64,7 @@ const CopyModal = ({ navigation,route }) => {
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', dataState.userToken);
         
-        console.log(method,headers,body,url);
+       //console.log(method,headers,body,url);
 
         body = JSON.stringify(body);
         let req = new Request(url, {
@@ -78,7 +78,7 @@ const CopyModal = ({ navigation,route }) => {
         .then((responseJson) => {
             
             if (responseJson.isSuccess){
-                console.log("copy plan", responseJson);
+               //console.log("copy plan", responseJson);
                 Alert.alert('Plan Copy', 'Copy plan complete.', [
                     {text: 'OK' , onPress: () =>{[
                         navigation.navigate('Plan Directory', {screen: 'Plan List', params: {CopyPlan: true}})

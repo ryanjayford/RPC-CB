@@ -14,7 +14,7 @@ const TopTabs = ({navigation, route,error,set_Error}) => {
     //console.log(route,'nested details ------------------->')
     const [{},dataState] = React.useContext(AuthContext);
   
-    console.log('dataState.Details.PlanName', dataState.Details.planName)
+   //console.log('dataState.Details.PlanName', dataState.Details.planName)
     const { colors } = useTheme();
     return (
         
@@ -30,7 +30,7 @@ const TopTabs = ({navigation, route,error,set_Error}) => {
         <TopTab.Screen name="General" //component={PDGeneralScreen} 
           listeners={({ navigation }) => ({
           tabPress: event => {
-            console.log('Gen Tab Click');
+           //console.log('Gen Tab Click');
             //dataState.Details.tabClicked = "General";
             //navigation.popToTop()
           }

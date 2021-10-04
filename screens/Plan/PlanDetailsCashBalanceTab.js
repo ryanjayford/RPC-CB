@@ -104,11 +104,11 @@ const CashBalance = ({ route }) => {
   React.useEffect(() => {
     //Api Data
     //console.log("useEffect ====PLAN DETAILS DATA STATE ======================ROUTE========> ", route, dataState["Plan Details"]);
-    console.log("USE EFFECT CB TAB+++++++++++++++++");
+   //console.log("USE EFFECT CB TAB+++++++++++++++++");
     if (dataState["Plan Details"] === null || (dataState["Plan Details"] && dataState["Plan Details"].Name === 'Plan Details')){
       setPlanDetailsTab();     
     }
-    console.log('overrideSegRatesNew>>>>>>>>>>', dataState.NewOverrideSegRatesNew);
+   //console.log('overrideSegRatesNew>>>>>>>>>>', dataState.NewOverrideSegRatesNew);
     
     if (dataState.NewOverrideSegRatesNew){
       setOverrideSegRate1(OverrideSegRate1 = dataState.NewOverrideSegRatesNew.overrideSegRate1); 
@@ -119,10 +119,10 @@ const CashBalance = ({ route }) => {
 
 
   const setPlanDetailsTab = () => {
-    console.log('=================CB=====================FETCHED DATA', dataState.selectedPlan, '=', DetailsFetchedData.planId, DetailsFetchedData.planName);
+   //console.log('=================CB=====================FETCHED DATA', dataState.selectedPlan, '=', DetailsFetchedData.planId, DetailsFetchedData.planName);
 
     if (DetailsFetchedData && DetailsFetchedData.planName){
-      console.log("has Data");
+     //console.log("has Data");
       let UserCB = DetailsFetchedData;
       //console.log(UserCB.isPBGCCovered,UserCB.preRetMortality,UserCB.mortalityTableCombined, UserCB.fundingForLumpSum, UserCB.imputeDisparity);
 
@@ -174,7 +174,7 @@ const CashBalance = ({ route }) => {
     ];
 
     const toBool = (int) =>{
-      console.log('toBoool=============>',int);
+     //console.log('toBoool=============>',int);
       if (int){
         setIsPBGCCovered(IsPBGCCovered = true);
       } else {

@@ -27,7 +27,7 @@ const ClassUpdate = ({ navigation,route }) => {
     let Edited = route.params?.Info;
     let contriTypeDes = null;
     
-    console.log('Edited', Edited);
+   //console.log('Edited', Edited);
     //let Edited = dataState.censusEdited;
     if(route.params?.State !== 'addnew')
     {

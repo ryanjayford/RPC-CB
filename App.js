@@ -392,7 +392,7 @@ const App = () => {
       const userNumber = foundUser.userNumber;
       const userSponsorId = foundUser.userSponsorId;
       let appDefaults = { defaultPlanDetails, defaultDropdown }
-      console.log('API TOKEN ===============================>', userNumber, userSponsorId, token);
+     //console.log('API TOKEN ===============================>', userNumber, userSponsorId, token);
       //foundUser.token = token;
       try {
         await AsyncStorage.setItem('userProfile', JSON.stringify(foundUser));
@@ -465,7 +465,7 @@ const App = () => {
       //console.log('SET SCREEN DATA =============================>', dataState.Screen);
     },
     save: (navigation, type, planId, userToken, userNumber, userSponsorId) => {
-      console.log('==========DATA STATE============>',userSponsorId, userNumber);
+     //console.log('==========DATA STATE============>',userSponsorId, userNumber);
 
       if (!dataState.Details.minSvcType) dataState.Details.minSvcType = DefaultPlan.minSvcType;
       //if (!dataState.Details.sponsorId) dataState.Details.sponsorId = userSponsorId;
@@ -518,8 +518,8 @@ const App = () => {
       if(ClassesState === 'ClassAdd')
       {
         let NewInfo = StateArray;
-        console.log('state for: ', ClassesState)
-        console.log('AddArray:', StateArray)
+       //console.log('state for: ', ClassesState)
+       //console.log('AddArray:', StateArray)
         
         navigation.goBack();
         dispatch({ type: 'ClassADD', NewInfo});
@@ -527,8 +527,8 @@ const App = () => {
       else//ClassesState === ClassEdit
       {
         let EditInfo = StateArray;
-        console.log('state for: ', ClassesState)
-        console.log('EditArray:', StateArray)
+       //console.log('state for: ', ClassesState)
+       //console.log('EditArray:', StateArray)
         navigation.goBack();
         dispatch({ type: 'ClassEdit', EditInfo});
       }
@@ -537,7 +537,7 @@ const App = () => {
     CensusAddorEdit: (navigation,userArray,CensusState,Censustoken,setIsLoading,isLoading) => {
       userArray.Principal = userArray.Principal == 0 ? false : true;
       userArray.IsOwner = userArray.IsOwner == 0 ? false : true;
-      console.log('CensusAddorEdit---------------->',userArray.IsOwner)
+     //console.log('CensusAddorEdit---------------->',userArray.IsOwner)
       userArray.DateOfBirth = moment(userArray.DateOfBirth).format("YYYY-MM-DDT00:00:00");
       userArray.DateOfHire = moment(userArray.DateOfHire).format("YYYY-MM-DDT00:00:00");
       userArray.ParticipationDate = moment(userArray.ParticipationDate).format("YYYY-MM-DDT00:00:00");
@@ -547,32 +547,32 @@ const App = () => {
       if(CensusState === 'CensusAdduser')
       {
         let NewUserInfo = userArray;
-        console.log('Newuser--------------->', NewUserInfo)
-        console.log('state for: ', CensusState)
-        console.log('AddUserArray: ==================>', userArray)
+       //console.log('Newuser--------------->', NewUserInfo)
+       //console.log('state for: ', CensusState)
+       //console.log('AddUserArray: ==================>', userArray)
         navigation.goBack();
         //dispatch({ type: 'CensusADD', NewUserInfo});
       }
       else//CensusState === CensusEdituser
       {
         let EditUserInfo = userArray;
-        console.log('state for: ', CensusState)
-        console.log('EditUserArray:', userArray)
+       //console.log('state for: ', CensusState)
+       //console.log('EditUserArray:', userArray)
         navigation.goBack();
         //dispatch({ type: 'CensusEdit', EditUserInfo});
       }
       */
     },
     setDetails: (Data) => {
-      console.log("App=== Set Details", Data.planName);
+     //console.log("App=== Set Details", Data.planName);
       dispatch({ type: 'SetDetails', Data});
     },
     setProfilePic: (url) => {
-      console.log("url new -------------------------------->",url);
+     //console.log("url new -------------------------------->",url);
       dispatch({ type: 'SetProfilePic', url});
     },
     setDropdownData: (data) => {
-      console.log("data -------------------------------->",data);
+     //console.log("data -------------------------------->",data);
       dispatch({ type: 'SetDropdownData', data});
     },
     updateOverrideSegRatesNew: (RatesNew) => {
@@ -607,7 +607,7 @@ const App = () => {
 //{"PlanId":43773,"FirstName":"Ramir A","LastName":"Cortezano","Principal":false,"PercentOwnership":0,"FamilyCode":" ","DateOfBirth":"02/01/1980","DateOfHire":"01/01/2016","WorkHours":"1000","Age":0,"PastService":4,"LastYearComp":10000,"W2Earnings":25000,"CatchUp":1,"HighlyComp":0,"ClassId":65,"Sex":"M","DeferralOverrideType":"%","DeferralOverrideValue":" ","CBOverrideValue":" ","CBOverrideType":"%","PSOverrideValue":" ","PSOverrideType":"%","IsOwner":false,"RetAge":0,"ParticipationDate":"01/01/2020","ParticipationDateOverride":false,"HCEOverride":false}
 
   const addEditCensus = async (navigation, data, type, userToken,setIsLoading,isLoading) => {
-    console.log('census type ====', type);
+   //console.log('census type ====', type);
     let url = baseURL + '/Participants/Participant';
     let method = 'POST';
     let headers = new Headers();
@@ -617,7 +617,7 @@ const App = () => {
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', userToken);
 
-    console.log("<==ADD EDIT Census==>",  url, method, headers, body); //,
+   //console.log("<==ADD EDIT Census==>",  url, method, headers, body); //,
   
     let req = new Request(url, {
         method,
@@ -628,7 +628,7 @@ const App = () => {
     await fetch(req)
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log(responseJson);
+     //console.log(responseJson);
         
         if (responseJson.isSuccess && responseJson.obj){
           //alert(JSON.stringify(responseJson));
@@ -662,7 +662,7 @@ const App = () => {
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', userToken);
 
-    console.log("<==ADD EDIT CLASS==>",  url, method, headers, body); //,
+   //console.log("<==ADD EDIT CLASS==>",  url, method, headers, body); //,
    
     let req = new Request(url, {
         method,
@@ -673,7 +673,7 @@ const App = () => {
     await fetch(req)
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log(responseJson);
+     //console.log(responseJson);
         
         if (responseJson.isSuccess && responseJson.obj){
           //alert(JSON.stringify(responseJson));
@@ -704,7 +704,7 @@ const App = () => {
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', userToken);
 
-    console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers, body); //,
+   //console.log("==================SAVE UPDATE PLAN====TOKEN===>",  url, method, headers, body); //,
    
     let req = new Request(url, {
         method,
@@ -727,7 +727,7 @@ const App = () => {
           }
 
           navigation.navigate('Plan Directory', {screen: 'Plan List'})
-          console.log("==================SAVE RESPONSE ===>", responseJson);
+         //console.log("==================SAVE RESPONSE ===>", responseJson);
         } else {
           Alert.alert("Data Error", responseJson.message);
         }
@@ -754,7 +754,7 @@ const App = () => {
         let profilePic = null;
         let userNumber = null;
         let userSponsorId = null;
-      console.log("START++>");
+     //console.log("START++>");
       
       
       try {
@@ -763,7 +763,7 @@ const App = () => {
           if (isDarkThemeStorage && isDarkThemeStorage != null) setIsDarkTheme( isDarkTheme = (isDarkThemeStorage == '1' ? true : false) );
           userProfile = await AsyncStorage.getItem('userProfile');
           userProfileObj = JSON.parse(userProfile);
-          console.log('User Profile=>', userProfileObj);
+         //console.log('User Profile=>', userProfileObj);
           if (userProfileObj && userProfileObj.expireAt) minutes = moment(userProfileObj.expireAt).diff(new Date(), 'minutes');
           
           if (minutes <= 0) expired = true;
@@ -799,7 +799,7 @@ const App = () => {
       } else {
         
         dispatch({ type: 'RETRIEVE_TOKEN', token, id: userName, firstName, lastName, profilePic, userNumber, userSponsorId });
-        console.log('RETRIEVE_TOKEN=========================>', userNumber, userSponsorId, token);
+       //console.log('RETRIEVE_TOKEN=========================>', userNumber, userSponsorId, token);
         if (defaultPlanDetails && defaultDropdown) {
           dispatch({ type: 'APPDEFAULTS', defaultPlanDetails, defaultDropdown });
         }

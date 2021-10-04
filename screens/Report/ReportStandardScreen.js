@@ -105,7 +105,7 @@ const ReportStandardScreen = ({ navigation }) => {
       .then((response) => response.json())
       .then((responseJson) => {
           if (responseJson.isSuccess){
-            console.log("FROM Report =====Api Called Generate report========> ", responseJson);
+           //console.log("FROM Report =====Api Called Generate report========> ", responseJson);
             setReportsName(ReportsName = "");
             navigation.navigate("Report list")
           } else {
@@ -128,7 +128,7 @@ const ReportStandardScreen = ({ navigation }) => {
             transparent={true}
             visible={ReportModal}
             onRequestClose={() => {
-              console.log("Modal has been closed.");
+             //console.log("Modal has been closed.");
             }}
           >
             <TouchableHighlight underlayColor={'rgba(51,51,51,0.7)'} style={styles.centeredView} onPress={() => {setReportModal(!ReportModal);}}>

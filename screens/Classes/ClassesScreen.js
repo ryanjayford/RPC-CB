@@ -93,7 +93,7 @@ const ClassesScreen = ({ navigation }) => {
         
         if (dataState.Classes === null || (dataState.Classes && dataState.Classes.Name === 'Classes')){
           setClassData(classData => null);
-          console.log("useEffect =====CLASS SCREEN========> ", dataState.plan.planId);
+         //console.log("useEffect =====CLASS SCREEN========> ", dataState.plan.planId);
           getClass(dataState.plan.planId);
           //alert('called');
         }
@@ -117,7 +117,7 @@ const ClassesScreen = ({ navigation }) => {
         .then((response) => response.json())
         .then((responseJson) => {
             if (responseJson.isSuccess && responseJson.obj){
-              console.log("FROM UseEffect =====Api Called CLASS========> ");
+             //console.log("FROM UseEffect =====Api Called CLASS========> ");
               setClassData(classData => responseJson.obj);
               let responseArray = responseJson.obj
               let NewArray = responseArray.map(function(object) {
@@ -125,7 +125,7 @@ const ClassesScreen = ({ navigation }) => {
                     return { label: object.classCode + ' - ' + object.description, value: object.classCode };
                   }
               });
-              console.log('NewArray from class page',NewArray)
+             //console.log('NewArray from class page',NewArray)
               setDropdownData(NewArray)
               
             } else {
@@ -140,7 +140,7 @@ const ClassesScreen = ({ navigation }) => {
       }
 
       ClassesdeleteClickEventListener = (item) => {
-        console.log(dataState.userToken );
+       //console.log(dataState.userToken );
         //deleteClass(item)
         //Alert.alert('delete ' + item.classCode);
         Alert.alert("Delete Class", "Are you sure you want to delete Class Code " + item.classCode, 
@@ -178,7 +178,7 @@ const ClassesScreen = ({ navigation }) => {
         await fetch(req)
         .then((response) => response.json())
         .then((responseJson) => {
-          console.log(responseJson);
+         //console.log(responseJson);
             
             if (responseJson.isSuccess && responseJson.obj){
               //alert(JSON.stringify(responseJson));

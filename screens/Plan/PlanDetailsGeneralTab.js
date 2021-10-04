@@ -184,7 +184,7 @@ const General = ({  route, Error, SetError }) => {
     
     if (!dataState["Plan Details"] || (dataState["Plan Details"] && dataState["Plan Details"].Name === 'Plan Details')){
       //alert('start');
-      console.log("useEffect ====PLAN DETAILS GENERAL=========> ", PlanName, PlanDescription);      
+     //console.log("useEffect ====PLAN DETAILS GENERAL=========> ", PlanName, PlanDescription);      
       setPlanDetailsData(planDetailsData => null);
       if (route.params && route.params?.homeClick === 'Add'){
           dataState.DetailsFetchedData.overrideSegRatesNew = null;
@@ -346,7 +346,7 @@ const General = ({  route, Error, SetError }) => {
       currentDate = moment(currentDate).format('MM/DD/YYYY');
 
       
-      console.log("A date has been picked: ", currentDate);
+     //console.log("A date has been picked: ", currentDate);
       setShow(show = !show);
       setPlanEffDate(PlanEffDate=currentDate);
       year = moment(currentDate).format('YYYY');
@@ -394,14 +394,14 @@ const General = ({  route, Error, SetError }) => {
     };
 
     const GetInterestRate = async (year) => {
-      console.log("interest rate: ", year);
+     //console.log("interest rate: ", year);
       let url = baseURL + '/CBLookUp/GetPlanYearInterestRates?planYear=' + year + '&calcType=3&isProposal=true&isARPA=true';
       let method = 'GET';
       let headers = new Headers();
-      console.log(url);
+     //console.log(url);
       headers.append('Content-Type', 'application/json');
       headers.append('Authorization', dataState.userToken);
-      console.log('GetInterest Rate =====>', url, method, headers);
+     //console.log('GetInterest Rate =====>', url, method, headers);
       
       let req = new Request(url, {
           method,
@@ -412,14 +412,14 @@ const General = ({  route, Error, SetError }) => {
       .then((response) => response.json())
       .then((responseJson) => {
           if (responseJson.isSuccess){
-            console.log(" =====Api Get Interest rate year ========> ", responseJson.obj);
+           //console.log(" =====Api Get Interest rate year ========> ", responseJson.obj);
             //setInterestData(responseJson.obj);
             dataState.DetailsFetchedData.overrideSegRatesNew = {
               "overrideSegRate1": responseJson.obj.segment1Rate.toString(),
               "overrideSegRate2": responseJson.obj.segment2Rate.toString(), 
               "overrideSegRate3": responseJson.obj.segment3Rate.toString()
             }
-            console.log(dataState.DetailsFetchedData.overrideSegRatesNew);
+           //console.log(dataState.DetailsFetchedData.overrideSegRatesNew);
           } else {
             Alert.alert("Data Error", responseJson.message);              
           }
@@ -469,7 +469,7 @@ const General = ({  route, Error, SetError }) => {
        //convert to M/D/Y: 
         let nowdate = parseInt(today.getMonth()+1) +"-"+ today.getDate() +"-"+ today.getFullYear();
         let thisDate = nowdate.toString();
-        console.log("M/D/Y: ", thisDate);
+       //console.log("M/D/Y: ", thisDate);
         //setInputDate(date =  thisDate)
     }
     */

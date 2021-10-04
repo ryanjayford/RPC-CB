@@ -60,7 +60,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
         
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', dataState.userToken);
-        console.log('GET CALC PLAN =====>', url, method, headers);
+       //console.log('GET CALC PLAN =====>', url, method, headers);
         let req = new Request(url, {
             method,
             headers
@@ -70,7 +70,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
         .then((response) => response.json())
         .then((responseJson) => {
           if (responseJson.isSuccess && responseJson.obj){
-            console.log("FROM UseEffect =====Api Called GET Report========> ", responseJson.obj);
+           //console.log("FROM UseEffect =====Api Called GET Report========> ", responseJson.obj);
             let data = [];
             responseJson.obj.forEach(function(item, idx) {        
               let rptData = {};
@@ -103,7 +103,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
         
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', dataState.userToken);
-        console.log('GET REPORT PLAN =====>', url, method, headers);
+       //console.log('GET REPORT PLAN =====>', url, method, headers);
         let req = new Request(url, {
             method,
             headers
@@ -112,7 +112,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
         await fetch(req)
         .then((response) => response.json())
         .then((responseJson) => {
-          console.log("FROM UseEffect =====Api Called GET Report========> ", responseJson.obj);
+         //console.log("FROM UseEffect =====Api Called GET Report========> ", responseJson.obj);
           
         })
         .catch((error) => {
@@ -124,19 +124,19 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
   
 
       ReportDownload = async (item,index) => {
-        console.log('item ===REPORT DOWNLOAD=====>',item,index)
+       //console.log('item ===REPORT DOWNLOAD=====>',item,index)
         //'http://africau.edu/images/default/sample.pdf'
         
         //let result = viewReportById(item);
         let url = baseURL + '/Calculation/ViewReport?repid=' + item.id + '.pdf&Authorization=' + dataState.userToken.replace('bearer', '').trim();
-        console.log('URL==>', url);
+       //console.log('URL==>', url);
         let result = await WebBrowser.openBrowserAsync(url);
-        console.log(result);
+       //console.log(result);
       }
 
       Reporttoggle = (item) => {
         //Alert.alert('info:',item.id + " " + item.Class);
-        console.log('info:',item.id + " " + item.Status + " " + item.Date);
+       //console.log('info:',item.id + " " + item.Status + " " + item.Date);
       }
 
     return (

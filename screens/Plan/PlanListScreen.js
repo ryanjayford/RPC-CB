@@ -79,7 +79,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     setIsLoading(isLoading = true);
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', dataState.userToken);
-    console.log('Delete Plan ======>', url, method, headers);
+   //console.log('Delete Plan ======>', url, method, headers);
     let req = new Request(url, {
         method,
         headers
@@ -126,10 +126,10 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     
     let method = 'GET';
     let headers = new Headers();
-    console.log(dataState.userToken);
+   //console.log(dataState.userToken);
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', dataState.userToken);
-    console.log('===PLAN LIST API CALL============>',url,headers);
+   //console.log('===PLAN LIST API CALL============>',url,headers);
     let req = new Request(url, {
         method,
         headers
@@ -141,7 +141,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
         //console.log('Response:', responseJson);
         //console.log('Response: API Called FOR PLAN LIST =======>' , responseJson);
         if (responseJson.obj &&  responseJson.obj.length){
-          console.log(responseJson.obj[0].planId);
+         //console.log(responseJson.obj[0].planId);
           //console.log('=======PLAN LIST====>', responseJson.obj);
           initScreen(responseJson.obj[0].planId);
           updatePlanData(responseJson.obj);
@@ -192,7 +192,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     navigation.navigate('Plan Details',{screen: 'General', params: {homeClick: null}});
     //?console.log('plan',planStorage)
     //Alert.alert('Edit' + " " + dataState.plan.planId + " " + dataState.plan.userNameOnly);
-    console.log('Edit' + " " + dataState.plan.planId + " " + dataState.plan.userNameOnly);
+   //console.log('Edit' + " " + dataState.plan.planId + " " + dataState.plan.userNameOnly);
   }
 
   toggleshow = (item) => {
@@ -210,7 +210,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
       //alert(2)
       dataState.selectedPlan = item.planId;
       navigation.navigate('Plan Details',{screen: 'General', params: {homeClick: null}});
-      console.log('Info' + " " + dataState.plan.planId + " " + dataState.plan.userNameOnly);
+     //console.log('Info' + " " + dataState.plan.planId + " " + dataState.plan.userNameOnly);
     }
     else{
       let PlanId = item.planId;
@@ -352,7 +352,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
                   rounded
                   title={initials}                 
                   source={{ uri: portrait }}
-                  //onPress={() => console.log("Works!")}
+                  //onPress={() =>//console.log("Works!")}
                   containerStyle={styles.imageContent}
                 />
                 :

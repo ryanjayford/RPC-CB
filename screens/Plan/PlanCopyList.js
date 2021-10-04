@@ -7,7 +7,7 @@ import RadioButtonRN from 'radio-buttons-react-native';
 
 const PlanCopy = ({navigation,route}) => {
     const [{ClassAddorEdit },dataState] = React.useContext(AuthContext);
-    console.log('checker',route.params?.CopyInfo)
+   //console.log('checker',route.params?.CopyInfo)
     const { colors } = useTheme();
     let copy = route.params?.CopyInfo;
     const data = [

@@ -125,7 +125,7 @@ const SignInScreen = ({navigation}) => {
     }
 
     const loginHandle = async (userName, password) => {
-        console.log('============>>>>',userName, password);
+       //console.log('============>>>>',userName, password);
        
         if ( data.username.length == 0 || data.password.length == 0 ) {
             Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
@@ -147,16 +147,16 @@ const SignInScreen = ({navigation}) => {
         headers.append('Authorization', auth);
         
         
-        console.log('==============> Login', url, method, headers, auth);
+       //console.log('==============> Login', url, method, headers, auth);
         let req = new Request(url, {
             method,
             headers
         });
-        console.log('==============> ');
+       //console.log('==============> ');
         await fetch(req)
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson);
+           //console.log(responseJson);
             if(responseJson && responseJson.identityToken){
                 let expireAt = moment().add(1, 'days'); //moment.unix(responseJson.accessToken_expires_in).format('MM/DD/YYYY HH:MM:ss');
                 let info = JSON.parse(base64.decode(responseJson.identityToken));
@@ -180,7 +180,7 @@ const SignInScreen = ({navigation}) => {
                     "expireAt": expireAt,
                     hasNewUpdate
                 }
-                console.log("info ===>", expireAt, moment().add(1, 'days').format('MM/DD/YYYY HH:MM:ss'), info, details);
+               //console.log("info ===>", expireAt, moment().add(1, 'days').format('MM/DD/YYYY HH:MM:ss'), info, details);
                 getProfile(details);
             } else {
                 setData({...data, isLoading: false});
@@ -272,9 +272,9 @@ const SignInScreen = ({navigation}) => {
         .then((response) => response.json())
         .then((responseJson) => {
             if (responseJson){
-                console.log('Profile Found');
+               //console.log('Profile Found');
             } else {
-                console.log('Profile Not Found.');
+               //console.log('Profile Not Found.');
             }
             
             userDetails.profilePic = responseJson.profilePic
@@ -282,7 +282,7 @@ const SignInScreen = ({navigation}) => {
         })
         .catch((error) => {
             userDetails.profilePic = "";
-            console.log("Connection Error", error.message);
+           //console.log("Connection Error", error.message);
             getDefaultPlanDetails(userDetails);
         });
     }

@@ -72,7 +72,7 @@ const ProfileScreen = ({ navigation }) => {
     .then((response) => response.json())
     .then((responseJson) => {
         //console.log('joborder received size-->', sizeOf(responseJson),responseJson);
-        console.log(responseJson);
+       //console.log(responseJson);
         //this.setState({
         //    data: responseJson,
         //    loading: false,
@@ -146,7 +146,7 @@ const ProfileScreen = ({ navigation }) => {
     .then((response) => response.json())
     .then((responseJson) => {
         if (responseJson && responseJson.status === "Success"){
-            console.log('Saved', responseJson);
+           //console.log('Saved', responseJson);
             //dataState.profilePic = values;
             SaveToStorage(values);
             Alert.alert(
@@ -161,7 +161,7 @@ const ProfileScreen = ({ navigation }) => {
               ]
             );
         } else {
-            console.log('Error Save');
+           //console.log('Error Save');
             Alert.alert("Save Error", "Unable to save image. Please try again later.");
             sethasImageUri(hasImageUri = false);
             setIsVisible(isVisible = false)

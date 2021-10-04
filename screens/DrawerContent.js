@@ -49,7 +49,7 @@ export function DrawerContent(props) {
         //Base64
         portrait = `data:image/jpeg;base64, ${userData[0].avatar}`;
 
-        console.log('this is portrait', portrait);
+       //console.log('this is portrait', portrait);
         dataState.portrait = portrait;
     } 
     */

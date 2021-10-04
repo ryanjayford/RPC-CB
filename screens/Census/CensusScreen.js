@@ -78,7 +78,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     headers.append('Authorization', dataState.userToken);
     
     body = JSON.stringify(body);
-    console.log('save census >>>>>>', url,method,headers, body);
+   //console.log('save census >>>>>>', url,method,headers, body);
     let req = new Request(url, {
         method,
         headers,
@@ -200,7 +200,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     .then((responseJson) => {
      //console.log('CHECKING ERROR================>');
       if (responseJson.isSuccess && responseJson.obj){
-          console.log("FROM UseEffect =====Api Called CENSUS========> ");
+         //console.log("FROM UseEffect =====Api Called CENSUS========> ");
           TransfromCensusData(responseJson.obj);
         } else {
           Alert.alert("Data Error", responseJson.message);
@@ -230,7 +230,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     .then((response) => response.json())
     .then((responseJson) => {
         if (responseJson.isSuccess && responseJson.obj){
-          console.log("FROM UseEffect =====Api Called CLASS========> ",responseJson.obj);
+         //console.log("FROM UseEffect =====Api Called CLASS========> ",responseJson.obj);
           //setClassData(classData => responseJson.obj);
           let responseArray = responseJson.obj
           let NewArray = responseArray.map(function(object) {
@@ -238,9 +238,9 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
                 return { label: object.classCode + ' - ' + object.description, value: object.classCode };
               }
           });
-          console.log('NewArray',NewArray)
+         //console.log('NewArray',NewArray)
           setDropdownData(NewArray)
-          console.log('dataState.censusDropDownData',dataState.censusDropDownData)
+         //console.log('dataState.censusDropDownData',dataState.censusDropDownData)
         } else {
           Alert.alert("Data Error", responseJson.message);
           //setPlanData(planData => []);
@@ -319,7 +319,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', dataState.userToken);
-    console.log('Delete Participant ======>', url, method, headers);
+   //console.log('Delete Participant ======>', url, method, headers);
     let req = new Request(url, {
         method,
         headers
@@ -343,7 +343,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
 
      
   cardClickEventListener = (item) => {
-    console.log(item.name);
+   //console.log(item.name);
   }
 
   CensusEditClickEventListener = (item) => {
@@ -351,7 +351,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
   }
 
   CensusDeleteClickEventListener = (item) => {
-    console.log(item);
+   //console.log(item);
     Alert.alert("Delete", "Are you sure you want to delete " + item.name + " ?", 
     [{ text: "Yes", onPress: () => deleteParticipant(item.participantID) }, //CalculatePlan(dataState, setScreen)
     { text: "No", onPress: () => {}, style: "cancel" }],
