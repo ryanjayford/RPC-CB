@@ -28,8 +28,8 @@
     },
     "description": "",
     "android": {
-      "package": "rpc.cb.dev",
-      "versionCode": 5,
+      "package": "rpc.cb.prod",
+      "versionCode": 6,
       "permissions": [
         "CAMERA"
       ]

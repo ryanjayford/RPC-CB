@@ -359,7 +359,7 @@ const PlanTabScreen = ({navigation, route}) => {
             [
                 {
                     text: "Cancel",
-                    onPress: () => {//console.log("Cancel Pressed"); }, style: "cancel"
+                    onPress: () => {console.log("Cancel Pressed"); }, style: "cancel"
                 },
                 { text: "Go Back", onPress: () => navigation.goBack() }],
             { cancelable: false }
