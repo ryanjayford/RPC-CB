@@ -31,9 +31,10 @@ import RootStackScreen from './screens/RootStackScreen';
 import { colors } from 'react-native-elements';
 import DefaultPlan from './model/defaultPlan';
 import DefaultDropdown from './model/dropDown';
-
+import { enableScreens } from 'react-native-screens';
 const baseURL = Settings.domain;
 const Drawer = createDrawerNavigator();
+enableScreens(false);
 
 const App = () => {
   // const [isLoading, setIsLoading] = React.useState(true);
