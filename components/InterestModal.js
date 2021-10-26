@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity,Modal,Dimensions,FlatList, Alert, SafeAreaView, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity,Modal,Dimensions,FlatList, Alert, Button } from 'react-native';
 import{ AuthContext } from '../components/context';
 //import PlanTopTab from './PlandetailsTopTab'
 import { WebView } from 'react-native-webview';

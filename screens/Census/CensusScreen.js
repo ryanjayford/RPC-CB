@@ -11,9 +11,9 @@ import {
   TextInput,
   FlatList,
   ActivityIndicator,
-  SafeAreaView,
   Dimensions
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Paragraph, Menu, Divider, Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import{ AuthContext } from '../../components/context';

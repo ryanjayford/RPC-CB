@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker'
 import * as Permissions from 'expo-permissions'
 import * as ImageManipulator from 'expo-image-manipulator'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import RNPasswordStrengthMeter from 'react-native-password-strength-meter';
+//import RNPasswordStrengthMeter from 'react-native-password-strength-meter';
 import RNModal from "react-native-modal";
 import Settings from '../../settings.json';
 //import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -386,32 +386,32 @@ updatePassword = async (oldPassword, newPassword) => {
                                 
                                 <View style={{paddingLeft:25, paddingRight: 25, paddingTop: 15}}>
                                     <Text allowFontScaling={false} style={{fontSize: 13, color: '#16a085', fontWeight: 'bold', marginBottom: -15, paddingLeft: 10}}>Old Password</Text>
-                                    <RNPasswordStrengthMeter
+                                    {/*<RNPasswordStrengthMeter
                                         onChangeText={onChangeOldPassword}
                                         meterType ="bar"
                                         inputProps = { {placeholder: "Enter Old Password", secureTextEntry: true } }
                                         passwordProps = {{minLength: 1, scoreLimit: 100, width: width - 120}}
-                                    />                                 
+                                    />   */}                                
                                 </View>
                                 
                                 <View style={{paddingLeft:25, paddingRight: 25}}>
                                     <Text allowFontScaling={false} style={{fontSize: 13, color: '#16a085', fontWeight: 'bold', marginBottom: -15, paddingLeft: 10}}>New Password</Text>
-                                    <RNPasswordStrengthMeter
+                                    {/*<RNPasswordStrengthMeter
                                         onChangeText={onChangeNewPassword}
                                         meterType ="bar"
                                         inputProps = { {placeholder: "Enter New Password", secureTextEntry: true } }
                                         passwordProps = {{minLength: 1, scoreLimit: 100, width: width - 120}}                                        
-                                    />                                 
+                                    />  */}                                 
                                 </View>
 
                                 <View style={{paddingLeft:25, paddingRight: 25}}>
                                     <Text allowFontScaling={false} style={{fontSize: 13, color: '#16a085', fontWeight: 'bold', marginBottom: -15, paddingLeft: 10}}>Confirm Password</Text>
-                                    <RNPasswordStrengthMeter
+                                    {/*<RNPasswordStrengthMeter
                                         onChangeText={onChangeConfirmPassword}
                                         meterType ="bar"
                                         inputProps = { {placeholder: "Confirm Password", secureTextEntry: true } }
                                         passwordProps = {{minLength: 1, scoreLimit: 100, width: width - 120}}
-                                    />                                 
+                                    /> */}                              
                                 </View>                             
                                 
                                 <View style={styles.modalFooter}>
