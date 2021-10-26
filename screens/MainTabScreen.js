@@ -192,22 +192,22 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
       //console.log('checker',routeName,route.params?.screen );
   switch (routeName) {
     case 'Plan List': 
-      return [<Icon.Button key={0} name="ios-search" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [setPlan(Plan = !Plan)]}></Icon.Button>,//, Alert.alert('Function ' + Plan)
-              <Icon.Button key={1} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [dataState.selectedPlan=null,navigation.navigate("Plan Directory", {screen: 'Plan Details', params: {screen: 'General', params: {homeClick: 'Add'}}}), setScreen({Name: "Plan Details", Method: "ADD"})]}></Icon.Button>,
-              <Icon5.Button key={2} name="filter" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon5.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
+      return [<Icon.Button key={0} name="ios-search" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [setPlan(Plan = !Plan)]}></Icon.Button>,//, Alert.alert('Function ' + Plan)
+              <Icon.Button key={1} name="ios-add" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [dataState.selectedPlan=null,navigation.navigate("Plan Directory", {screen: 'Plan Details', params: {screen: 'General', params: {homeClick: 'Add'}}}), setScreen({Name: "Plan Details", Method: "ADD"})]}></Icon.Button>,
+              <Icon5.Button key={2} name="filter" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon5.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
     case 'Plan Details':
-        if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId,error)}></Icon.Button>, // Alert.alert('Save')
-        <Icon.Button key={1} name="ios-close-circle" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Plan Directory', {screen: 'Plan List', params: {AddCancel: 'cancel'}})}></Icon.Button>]
-        return <Icon.Button key={0} name="ios-save" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() =>  ConfirmSave(save, navigation,'Edit', dataState.selectedPlan, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId, error)}></Icon.Button>;  //Alert.alert('No function yet')
+        if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId,error)}></Icon.Button>, // Alert.alert('Save')
+        <Icon.Button key={1} name="ios-close-circle" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Plan Directory', {screen: 'Plan List', params: {AddCancel: 'cancel'}})}></Icon.Button>]
+        return <Icon.Button key={0} name="ios-save" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() =>  ConfirmSave(save, navigation,'Edit', dataState.selectedPlan, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId, error)}></Icon.Button>;  //Alert.alert('No function yet')
     case 'Classes':
-      return <Icon.Button key={0} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Class Detail Entry',{State: 'addnew'})}></Icon.Button>; 
+      return <Icon.Button key={0} name="ios-add" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Class Detail Entry',{State: 'addnew'})}></Icon.Button>; 
       case 'Census':
-        return [<Icon.Button key={0} name="ios-search" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setCensus(Census = !Census)}></Icon.Button>,//search() //navigation.setParams({censusSearch: !route.params.censusSearch})
+        return [<Icon.Button key={0} name="ios-search" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setCensus(Census = !Census)}></Icon.Button>,//search() //navigation.setParams({censusSearch: !route.params.censusSearch})
         //<Icon.Button key={1} name="md-cloud-upload" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmUpload(setScreen)}></Icon.Button>, //dataState, setCensusData, CensusIsloading, setCensusIsloading// Alert.alert('Upload Census')
         <View key={1} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Menu 
             ref={menu}
-            button={<Icon.Button name="md-cloud-upload" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => showMenu()}></Icon.Button>}
+            button={<Icon.Button name="md-cloud-upload" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => showMenu()}></Icon.Button>}
           >
            
             <MenuItem onPress={hideMenuXls} ><Icon name="ios-document" size={20}>  xls</Icon> </MenuItem>
@@ -215,12 +215,12 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
             <MenuItem onPress={hideMenuXlsx}><Icon name="md-document" size={20}>  xlsx</Icon></MenuItem>
           </Menu>
         </View>,
-        <Icon.Button key={2} name="ios-add" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Add',{State: 'CensusAddUser'})}></Icon.Button>]; //Alert.alert('Add')
+        <Icon.Button key={2} name="ios-add" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Add',{State: 'CensusAddUser'})}></Icon.Button>]; //Alert.alert('Add')
       case 'Report':
-        return <Icon2.Button key={0} name="format-list-bulleted" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate("Report list")}></Icon2.Button>;
+        return <Icon2.Button key={0} name="format-list-bulleted" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate("Report list")}></Icon2.Button>;
       case 'Calculate':
-  return [<Icon4.Button key={0} name="refresh" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setScreen({Name: 'Calculate', Method: 'Refresh'})}></Icon4.Button>,
-          <Icon.Button key={1} name="ios-calculator" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setCalculateToggle(CalculateToggle = true)/*ConfirmCalculate(dataState,setScreen)*/}></Icon.Button>]; 
+  return [<Icon4.Button key={0} name="refresh" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setScreen({Name: 'Calculate', Method: 'Refresh'})}></Icon4.Button>,
+          <Icon.Button key={1} name="ios-calculator" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setCalculateToggle(CalculateToggle = true)/*ConfirmCalculate(dataState,setScreen)*/}></Icon.Button>]; 
   }
 }
 
@@ -245,7 +245,7 @@ const MainTabScreen = ({navigation, route}) => {
           tabBarLabel: 'Home',
           tabBarColor: colors.primary, // #009387
           tabBarIcon: ({ color }) => (
-            <Icon name="ios-home" color={color} size={26} />
+            <Icon name="ios-home" color={color} size={24} />
           ),
         }}
       />
@@ -256,7 +256,7 @@ const MainTabScreen = ({navigation, route}) => {
           tabBarLabel: 'Profile',
           tabBarColor: colors.primary,
           tabBarIcon: ({ color }) => (
-            <Icon name="ios-person" color={color} size={26} />
+            <Icon name="ios-person" color={color} size={24} />
           ),
         }}
       />
@@ -267,7 +267,7 @@ const MainTabScreen = ({navigation, route}) => {
           tabBarLabel: 'contacts',
           tabBarColor: colors.primary,
           tabBarIcon: ({ color }) => (
-            <Icon2 name="contacts" color={color} size={26} />
+            <Icon2 name="contacts" color={color} size={24} />
           ),
         }}
       />
@@ -392,7 +392,7 @@ const PlanTabScreen = ({navigation, route}) => {
           tabBarLabel: 'Plan List',
           tabBarColor: colors.primary, // #009387
           tabBarIcon: ({ color }) => (
-            <Icon name="ios-list-box" color={color} size={24} />
+            <Icon name="list-circle-sharp" color={color} size={25} />
           ),
         }}
         listeners={({ }) => ({
@@ -441,7 +441,7 @@ const PlanTabScreen = ({navigation, route}) => {
           tabBarLabel: 'Classes',
           tabBarColor: colors.primary,
           tabBarIcon: ({ color }) => (
-            <Icon2 name="account-card-details" color={color} size={24} />
+            <Icon2 name="card-account-details" color={color} size={24} />
           ),
         }}
         listeners={({ }) => ({
@@ -462,7 +462,7 @@ const PlanTabScreen = ({navigation, route}) => {
           tabBarLabel: 'Census',
           tabBarColor: colors.primary,
           tabBarIcon: ({ color }) => (
-            <Icon name="ios-people" color={color} size={26} />
+            <Icon name="ios-people" color={color} size={24} />
           ),
         }}
         listeners={({ }) => ({

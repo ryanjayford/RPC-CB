@@ -322,7 +322,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
             <View style={[styles.GreenContainer,{backgroundColor: indexChecked === item.planId ? colors.icon : colors.linearlight}]}>
               <View style={styles.subContainer}>
                 <View style={{flexDirection:"row", paddingTop: 6, justifyContent: "flex-start"}}>
-                <Icon name="account-badge" size={height > 800 ? 30 :25} color={indexChecked === item.planId ? colors.iconLight : colors.textGreen} />
+                <Icon name="badge-account" size={height > 800 ? 30 :25} color={indexChecked === item.planId ? colors.iconLight : colors.textGreen} />
                 <View style={[styles.tagColor,{marginTop: -2, marginLeft:-2,borderColor:  indexChecked === item.planId ? colors.textGreen : colors.iconLight, backgroundColor: indexChecked === item.planId ? colors.iconLight: colors.textGreen}]}>
                 <Text style={[styles.tag,{color:  indexChecked === item.planId ? colors.textGreen : colors.iconLight}]}>{N0s}</Text>
                 </View>
