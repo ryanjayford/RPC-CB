@@ -206,22 +206,22 @@ const General = ({  route, Error, SetError }) => {
       if(MonthCk === true && HourCk === false){//1
           setMinSvcType(MinSvcType = 1);
           planDetailsDataState.minSvcType = 1;
-          console.log(planDetailsDataState.minSvcType)
+          //console.log(planDetailsDataState.minSvcType)
       }
       else if(MonthCk === false && HourCk === true){//2
           setMinSvcType(MinSvcType = 2);
           planDetailsDataState.minSvcType = 2;
-          console.log(planDetailsDataState.minSvcType)
+          //console.log(planDetailsDataState.minSvcType)
       }
       else if(MonthCk === true && HourCk === true){//3
           setMinSvcType(MinSvcType = 3);
           planDetailsDataState.minSvcType = 3;
-          console.log(planDetailsDataState.minSvcType)
+          //console.log(planDetailsDataState.minSvcType)
       }
       else if(MonthCk === false && HourCk === false){//0
           setMinSvcType(MinSvcType = 0);
           planDetailsDataState.minSvcType = 0;
-          console.log(planDetailsDataState.minSvcType)
+          //console.log(planDetailsDataState.minSvcType)
       }
   };
 
