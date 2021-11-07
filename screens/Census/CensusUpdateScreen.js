@@ -65,9 +65,10 @@ const AddModal = ({ navigation,route }) => {
     let [highlyComp, setHighlyComp] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.highlyComp); 
     let [classId, setClassId] = React.useState(parameter === 'CensusAddUser' ? 65 : selectedUser.classId); 
     let [retAge, setRetAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.retAge); 
+    let [CatchUpOverride, setCatchUpOverride] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.catchUpOverride); 
     let [participationDate, setParticipationDate] = React.useState(parameter === 'CensusAddUser' ? '1/1/' + currentYear : moment(selectedUser.participationDate).format('MM/DD/YYYY')); 
     
-   //console.log("selectedUser----------------------->", selectedUser,owner, selectedUser?.IsOwner,HCEchoice,selectedUser?.HceOverride,selectedUser?.highlyComp)
+    //console.log("selectedUser----------------------->", selectedUser)
 
     const CensusUpdateScroll = React.useRef();
     let [FamilyCodeMargin, setFamilyCodeMargin] = React.useState(0); 
@@ -179,6 +180,13 @@ const AddModal = ({ navigation,route }) => {
             CensushasError = true;
         }
 
+        if(!/^\d+\.\d+$|^\d+$/.test(CatchUpOverride))
+        {
+            setIsLoading(isLoading = false)
+            Alert.alert("Data Error:", "You must enter a valid Catch up override.");
+            CensushasError = true;
+        }
+
         if (pastservice === null | pastservice === "") {
             //setClassload(Classload = false);
             setIsLoading(isLoading = false)
@@ -281,6 +289,7 @@ const AddModal = ({ navigation,route }) => {
                 ClassId: classId,
                 RetAge: retAge,
                 ParticipationDate: participationDate,
+                catchUpOverride: CatchUpOverride,
                 
             }
             if (CensusState === 'CensusEdituser') userArray.ParticipantId = paxId;
@@ -859,6 +868,20 @@ const AddModal = ({ navigation,route }) => {
                         {SafeHarborContribchoice === "%"  && (SafeHarborContribinput < 0 || SafeHarborContribinput > 100) &&
                             <Text style={{color: 'red', marginLeft: 2.5, marginRight: 2.5, marginTop: 5, marginBottom: 10, fontSize: 11}}>*Between 0 and 100 percent is a valid value.</Text>
                         }
+                    <Text style={styles.columnNames}>Catch up</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <TextInput 
+                                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                placeholder="Catch up override"
+                                style={[styles.textInput,{color: colors.Logintext}]}
+                                //autoCapitalize="none"
+                                value={CatchUpOverride.toString()}
+                                keyboardType='numeric'
+                                onChangeText={(val) => {setCatchUpOverride(CatchUpOverride = val)}}
+                            />
+                            <Text style={{marginLeft: 2.5, marginRight: 2.5, fontSize: 16}}>$</Text>
+                        </View>
+
                     <Text style={styles.columnNames}>HCE Override?</Text>
                         <RadioButtonRN
                             data={HCE}

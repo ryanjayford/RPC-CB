@@ -468,7 +468,7 @@ const App = () => {
     save: (navigation, type, planId, userToken, userNumber, userSponsorId) => {
      //console.log('==========DATA STATE============>',userSponsorId, userNumber);
 
-      if (!dataState.Details.minSvcType) dataState.Details.minSvcType = DefaultPlan.minSvcType;
+      //if (!dataState.Details.minSvcType) dataState.Details.minSvcType = DefaultPlan.minSvcType;
       //if (!dataState.Details.sponsorId) dataState.Details.sponsorId = userSponsorId;
       //if (!dataState.Details.userNo) dataState.Details.userNo = userNumber;
 

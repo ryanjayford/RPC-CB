@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity,Button,Dimensions,Statu
 import { useTheme } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
 import Settings from '../settings.json';
+import * as WebBrowser from 'expo-web-browser';
 const {width,height} = Dimensions.get('window');
 const baseURL = Settings.domain;
 const DATA = [
@@ -42,6 +43,13 @@ const HomeScreen = ({navigation}) => {
     //console.log(DATA, homeData);
     //console.log("====>", homeData);
   }, []);
+
+  const feedback = async (ifFeedback) => {
+      let reportLink = 'https://www.ebgsystems.com/feedback';
+      let result = await WebBrowser.openBrowserAsync(reportLink);
+      ifFeedback = false;
+      //setresult(thisresult = result)
+  }; 
 
   const getHomeData = async () => {
     let url = baseURL + '/CB_API/GetCBMenuAsync/1247';
@@ -98,6 +106,7 @@ const HomeScreen = ({navigation}) => {
       Icon = `data:image/jpeg;base64, ${Icon}`; 
       let gotoTab = null;
       let paramsVal = null;
+      let ifFeedback = false;
       let myScreen = Screen.trim();
       switch(myScreen) {
         case 'Owner Only Plan Analysis':
@@ -105,7 +114,10 @@ const HomeScreen = ({navigation}) => {
           break;  
         case 'PPA Calculator':
             myScreen = "PPA Calculator";
-            break;    
+            break;
+        case 'Feedback':
+            ifFeedback = true;
+            break;        
         case 'Create a new Plan':
           gotoTab = 'Plan Details';
           paramsVal = {screen: 'General', params: {homeClick: 'Add'}};
@@ -117,7 +129,13 @@ const HomeScreen = ({navigation}) => {
       //require('../assets/Icon1.png');
       //console.log(Icon.match(/(gif|png|jpg|jpeg)$/));
       return (
-        <TouchableOpacity onPress={()=> navigation.navigate(myScreen, {screen: gotoTab, params: paramsVal /*,plansearch: false,censusSearch: false*/})}>
+        <TouchableOpacity onPress={()=> {
+            if(ifFeedback === true){
+              feedback(ifFeedback);
+            }else{
+              navigation.navigate(myScreen, {screen: gotoTab, params: paramsVal /*,plansearch: false,censusSearch: false*/})
+            }
+          }}>
           <View style={styles.item}>
             {/*
             <LinearGradient  

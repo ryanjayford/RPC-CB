@@ -16,7 +16,7 @@ const baseURL = Settings.domain;
 const {width,height} = Dimensions.get('window');
 
 const General = ({  route, Error, SetError }) => {
-  const [{setDetails, updateOverrideSegRatesNew},dataState] = React.useContext(AuthContext);
+  const [{setDetails, updateOverrideSegRatesNew}, dataState] = React.useContext(AuthContext);
   const DefaultPlan = dataState.DefaultPlan;
   const DropdownData = dataState.DefaultDropdown;
   const [planDetailsData, setPlanDetailsData] = React.useState(null);
@@ -32,9 +32,9 @@ const General = ({  route, Error, SetError }) => {
   let [YearOfParticipationForNRA, setYearOfParticipationForNRA] = React.useState(DefaultPlan.yearOfParticipationForNRA);
   let [PSRetAge, setPSRetAge] = React.useState(DefaultPlan.psRetAge);
   let [MinAge, setMinAge] = React.useState(DefaultPlan.minAge);
-  let [MonthCk, setMonthCk] = React.useState(DefaultPlan.minSvcMonths != null? true: false);
+  let [MonthCk, setMonthCk] = React.useState(DefaultPlan.minSvcMonths != null ? true : false);
   let [MinSvcMonths, setMinSvcMonths] = React.useState(DefaultPlan.minSvcMonths);
-  let [HourCk, setHourCk] = React.useState((DefaultPlan.minSvcHours && DefaultPlan.minSvcHours > 0) ? true: false);
+  let [HourCk, setHourCk] = React.useState((DefaultPlan.minSvcHours && DefaultPlan.minSvcHours > 0) ? true : false);
   let [MinSvcHours, setMinSvcHours] = React.useState(DefaultPlan.minSvcHours ? DefaultPlan.minSvcHours.toString():"0");
   let [EntryDate, setEntryDate] = React.useState(DefaultPlan.entryDate); 
   let [VestingSchedYear1, setVestingSchedYear1] = React.useState(DefaultPlan.vestingSchedYear1 ? DefaultPlan.vestingSchedYear1.toString():"0");
@@ -51,6 +51,29 @@ const General = ({  route, Error, SetError }) => {
   let [Entity, setEntity] = React.useState(DefaultPlan.entity); 
   let [PreparedBy, setPreparedBy] = React.useState(DefaultPlan.preparedBy); 
   let [CompanyName, setCompanyName] = React.useState(DefaultPlan.companyName); 
+  let [Showlogo, setShowlogo] = React.useState(DefaultPlan.showLogo); 
+  let [MinSvcType, setMinSvcType] = React.useState(DefaultPlan.minSvcType); 
+  
+  if(MinSvcType === 1){
+    MonthCk = true;
+    HourCk = false;
+    planDetailsDataState.minSvcType = 1;
+  }
+  else if(MinSvcType === 2){
+    MonthCk = false;
+    HourCk = true;
+    planDetailsDataState.minSvcType = 2;
+  }
+  else if(MinSvcType === 3){
+    MonthCk = true;
+    HourCk = true;
+    planDetailsDataState.minSvcType = 3;
+  }
+  else if(MinSvcType === 0){
+    MonthCk = false;
+    HourCk = false;
+    planDetailsDataState.minSvcType = 0;
+  }
 
   planDetailsDataState.planName = PlanName;
   planDetailsDataState.planDescription = PlanDescription;
@@ -78,6 +101,7 @@ const General = ({  route, Error, SetError }) => {
   planDetailsDataState.entity = Entity === undefined ? null : Entity;
   planDetailsDataState.preparedBy = PreparedBy;
   planDetailsDataState.companyName = CompanyName;
+  planDetailsDataState.showLogo = Showlogo;
 
   const Scroll = React.useRef();
   let controller;
@@ -176,6 +200,29 @@ const General = ({  route, Error, SetError }) => {
       setTaxmargin(Taxmargin = 70)
       setTaxHideDrop(TaxHideDrop = true)
     }
+  };
+
+  const minSvcTypeController = () => {
+      if(MonthCk === true && HourCk === false){//1
+          setMinSvcType(MinSvcType = 1);
+          planDetailsDataState.minSvcType = 1;
+          console.log(planDetailsDataState.minSvcType)
+      }
+      else if(MonthCk === false && HourCk === true){//2
+          setMinSvcType(MinSvcType = 2);
+          planDetailsDataState.minSvcType = 2;
+          console.log(planDetailsDataState.minSvcType)
+      }
+      else if(MonthCk === true && HourCk === true){//3
+          setMinSvcType(MinSvcType = 3);
+          planDetailsDataState.minSvcType = 3;
+          console.log(planDetailsDataState.minSvcType)
+      }
+      else if(MonthCk === false && HourCk === false){//0
+          setMinSvcType(MinSvcType = 0);
+          planDetailsDataState.minSvcType = 0;
+          console.log(planDetailsDataState.minSvcType)
+      }
   };
 
   React.useEffect(() => {
@@ -282,6 +329,9 @@ const General = ({  route, Error, SetError }) => {
     }
 
     const setPlanDetailsTab = (responseData) => {
+
+      console.log('responseData->', responseData.minSvcType)
+      console.log('responseData logo->', responseData.showLogo)
       setDetails(responseData);
       setPlanDetailsData(planDetailsData => responseData);
       // GENERAL
@@ -311,7 +361,10 @@ const General = ({  route, Error, SetError }) => {
       setEntity(Entity  = responseData.entity); 
       setPreparedBy(PreparedBy  = responseData.preparedBy); 
       setCompanyName(CompanyName  = responseData.companyName); 
-      
+      setShowlogo(Showlogo = responseData.showLogo)
+      setMinSvcType(MinSvcType = responseData.minSvcType)
+      console.log('MinSvcType->', MinSvcType)
+
     }
 
     const prepareVal = (val, def) => {
@@ -650,7 +703,7 @@ const General = ({  route, Error, SetError }) => {
             style={{paddingRight: 5}}
             checkedCheckBoxColor = {'#333333'}
             uncheckedCheckBoxColor	= {colors.Logintext}
-            isChecked={MonthCk} onClick = {()=> setMonthCk(MonthCk = !MonthCk)}/>
+            isChecked={MonthCk} onClick = {()=> [setMonthCk(MonthCk = !MonthCk), minSvcTypeController()]}/>
             <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Months</Text>
         </View>
           
@@ -679,7 +732,7 @@ const General = ({  route, Error, SetError }) => {
             style={{paddingRight: 5}}
             checkedCheckBoxColor = {'#333333'}
             uncheckedCheckBoxColor	= {colors.Logintext}
-            isChecked={HourCk} onClick = {()=> setHourCk(HourCk = !HourCk)}/>
+            isChecked={HourCk} onClick = {()=> [setHourCk(HourCk = !HourCk), minSvcTypeController()]}/>
             <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Hours</Text>
           </View>
 
@@ -889,7 +942,7 @@ const General = ({  route, Error, SetError }) => {
           placeholder="Firm"
           style={[styles.textInput,{color: colors.Logintext}]}
           //autoCapitalize="none"
-          value={planDetailsDataState.companyName}
+          value={CompanyName}
           keyboardType='default'
           onChangeText={(val) => setCompanyName(CompanyName = val)}
         />
@@ -918,7 +971,17 @@ const General = ({  route, Error, SetError }) => {
               onClose={() => {[setTaxHideDrop(TaxHideDrop = false),setTaxmargin(Taxmargin = 0)]}}
               onChangeItem={item => setEntity(Entity = item.value)}
           />
-            
+          <Text style={[styles.title,{marginTop: 10}]}>Show logo?</Text>
+          <View style={{flexDirection: 'row'}}>
+            <CheckBox 
+            style={{paddingRight: 5}}
+            checkedCheckBoxColor = {'#333333'}
+            uncheckedCheckBoxColor = {colors.Logintext}
+            isChecked={Showlogo} 
+            onClick = {()=> [setShowlogo(Showlogo = !Showlogo)]}/>
+            <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Check to display logo on the report</Text>
+          </View>
+
         </View>
       </ScrollView>
       </View>

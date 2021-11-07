@@ -256,7 +256,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     
     let censusTransformData = [];
     if (data && data.length){
-      //console.log (data);
+      //console.log ("census data-->",data);
       data.forEach(function(item, idx) {
         let tags = [];
         let censusD = {};
@@ -292,6 +292,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
         censusD.classId = item.classId;
         censusD.retAge = item.retAge;
         censusD.classCode = item.classCode;
+        censusD.catchUpOverride = item.catchUpOverride 
         
         censusD.participationDate = item.participationDate;
         if (item["percentOwnership"]) censusD.own = parseInt(item["percentOwnership"]);
