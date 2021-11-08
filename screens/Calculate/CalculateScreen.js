@@ -166,30 +166,41 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
         //console.log('All info----------------->:',item)
       }
 
-      const data = (datas) => {
+      const data = (datas, DBInNature) => {
         //const keys = Object.entries(datas); // data info
       
         return datas.map((item) => {
-          //console.log('===================================>', element.ndtFieldVal);
+          //console.log('===================================>', item.ndtFieldVal);
           let id = item.ndtFieldId;
           let text = item.ndtFieldName.replace("\\n", "\n");
           let value = item.ndtFieldVal;
-          if (value === "True"){
+          if (value === "True" && id === "MinAllocationPassed" && DBInNature === true){
+            value = <Icon name="check" size={20} color={colors.email}>*</Icon>
+          }
+          else if (value === "True"){
             value = <Icon name="check" size={20} color="green"/>
-          } else if (value === "False"){
+          } 
+          else if (value === "False"){
             value = <Icon name="window-close" size={20} color="red"/>
           }
+
         return (
           [<View key={1} style={{flex:1,flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-              <Text allowFontScaling={false} key={id} style={[styles.infotext,{color: colors.textLight}]}>{text}</Text>
-                {value !== "*" &&
-                  <Text allowFontScaling={false} style={[styles.infotext,{color: colors.textLight}]}>{value}</Text>
-                }
+              {id === "IsDBInNature" ?
+                  <Text allowFontScaling={false} key={id} style={[styles.infotext,{color: colors.email,fontSize: 10, marginLeft: 15}]}>{text}</Text>
+                  :
+                  <Text allowFontScaling={false} key={id} style={[styles.infotext,{color: colors.textLight}]}>{text}</Text>
+              }
+      
+              {value !== "*" &&
+                <Text allowFontScaling={false} style={[styles.infotext,{color: colors.textLight}]}>{value}</Text>
+              }
           </View>]
           )
         })
       }
 
+      console.log('calculateData---> ', calculateData)
     return (
         <LinearGradient 
         colors={[colors.linearlight,colors.linearDark]}
@@ -266,7 +277,16 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
         let requestDate = moment(item.requestDate).format('MM/DD/YYYY HH:MM:ss');
         let requestCompleted = 'Running';
         let reportName = item.reportName;
-       //console.log(item);
+        let DBInNature = false;
+        //console.log("item.ndtResult---> ", item.ndtResult);
+
+        item.ndtResult.map((object) => {
+            let id = object.ndtFieldId;
+            if(id === "IsDBInNature"){
+              DBInNature = true;
+            }
+        })
+
         if (item.requestStatus === "C") requestCompleted = moment(item.requestCompleted).format('MM/DD/YYYY HH:MM:ss');
         return (
           <View style={styles.listContainer}>
@@ -310,7 +330,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
                   
                     {item.ndtResult !== null && CalculateIndex === index && 
                       <View style={{ paddingLeft: 10, marginTop: 10}}>
-                        {data(item.ndtResult)}
+                        {data(item.ndtResult, DBInNature)}
                       </View>
                     }
 
