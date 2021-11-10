@@ -54,10 +54,10 @@ const AddModal = ({ navigation,route }) => {
     let [Cashbalancechoice, setCashbalancechoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.CbCode); 
     let [Profitsharinginput, setProfitsharinginput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent); 
     let [Profitsharingchoice, setProfitsharingchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode); 
-    let [MatchContributioninput, setMatchContributioninput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent);//new "MatchOverrideValue":"","MatchOverrideType":"%","SHOverrideValue":"","SHOverrideType":"%"
-    let [MatchContributionchoice, setMatchContributionchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
-    let [SafeHarborContribinput, setSafeHarborContribinput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.PsPercent);//new
-    let [SafeHarborContribchoice, setSafeHarborContribchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.PsCode);//new
+    let [MatchContributioninput, setMatchContributioninput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.matchPercent);//new "MatchOverrideValue":"","MatchOverrideType":"%","SHOverrideValue":"","SHOverrideType":"%"
+    let [MatchContributionchoice, setMatchContributionchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.matchCode);//new
+    let [SafeHarborContribinput, setSafeHarborContribinput] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.shPercent);//new
+    let [SafeHarborContribchoice, setSafeHarborContribchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.shCode);//new
     let [HCEchoice, setHCEchoice] = React.useState(parameter === 'CensusAddUser' ? '-1' : (selectedUser.HceOverride === false) ?  '-1' : (selectedUser.highlyComp === 1) ? '1' : '0'); 
     let [Overridecheck, setOverridecheck] = React.useState(parameter === 'CensusAddUser' ? false : selectedUser.OverrideParticipationDate);
     let [percentOwnership, setPercentOwnership] = React.useState(parameter === 'CensusAddUser' ? "" : (selectedUser.percentOwnership) ? selectedUser.percentOwnership.toString() : ""); 
@@ -173,14 +173,14 @@ const AddModal = ({ navigation,route }) => {
 
         //console.log(w2earnings, '>>>', /^\d+\.\d+$|^\d+$/.test(w2earnings));
         //check if W-2 Earnings only has numbers
-        if(!/^\d+\.\d+$|^\d+$/.test(w2earnings))
+        if(isNaN(w2earnings))
         {
             setIsLoading(isLoading = false)
             Alert.alert("Data Error:", "You must enter a valid W-2 Earnings.");
             CensushasError = true;
         }
 
-        if(!/^\d+\.\d+$|^\d+$/.test(CatchUpOverride))
+        if((CatchUpOverride !== null || CatchUpOverride !== "") && isNaN(CatchUpOverride))
         {
             setIsLoading(isLoading = false)
             Alert.alert("Data Error:", "You must enter a valid Catch up override.");
@@ -910,27 +910,27 @@ const AddModal = ({ navigation,route }) => {
                             onValueChange={(value) => {setHCEchoice(HCEchoice = value.id)}} //required
                         />*/}
                     <Text style={styles.columnNames}>Date of Participation</Text>
-                    <View style = {{ flexDirection: 'row'}}>
-                        <TextInput 
-                            placeholderTextColor = 'rgba(51,51,51,0.7)'
-                            placeholder="date of birth"
-                            style={[styles.textInput,{color: colors.Logintext}]}
-                            //autoCapitalize="none"
-                            value={participationDate}
-                            keyboardType='default'
-                            editable={false}
-                            onChangeText={(val) => {setParticipationDate(participationDate = val)}}
-                        /> 
                         {Overridecheck && (
-                        <TouchableOpacity onPress={() => setOverrideShow(OverrideShow = !OverrideShow)}>
-                            <Feather style={{ marginLeft: 5}}
-                                name="calendar"
-                                color="grey"
-                                size={25}
-                            />
-                        </TouchableOpacity>
+                            <View style = {{ flexDirection: 'row'}}>
+                                <TextInput 
+                                    placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                    placeholder="date of birth"
+                                    style={[styles.textInput,{color: colors.Logintext}]}
+                                    //autoCapitalize="none"
+                                    value={participationDate}
+                                    keyboardType='default'
+                                    editable={false}
+                                    onChangeText={(val) => {setParticipationDate(participationDate = val)}}
+                                /> 
+                                <TouchableOpacity onPress={() => setOverrideShow(OverrideShow = !OverrideShow)}>
+                                    <Feather style={{ marginLeft: 5}}
+                                        name="calendar"
+                                        color="grey"
+                                        size={25}
+                                    />
+                                </TouchableOpacity>
+                            </View>
                         )}
-                    </View>
                         {OverrideShow && (
                             <DateTimePickerModal
                             isVisible={OverrideShow}
@@ -942,10 +942,10 @@ const AddModal = ({ navigation,route }) => {
                         )}
                     <View style={{flexDirection: 'row', marginTop: 5}}>
                         <CheckBox 
-                        style={{paddingRight: 5}}
-                        checkedCheckBoxColor = {'#333333'}
-                        uncheckedCheckBoxColor	= {colors.Logintext}
-                        isChecked={Overridecheck} onClick = {()=> setOverridecheck(Overridecheck = !Overridecheck)}/>
+                            style={{paddingRight: 5}}
+                            checkedCheckBoxColor = {'#333333'}
+                            uncheckedCheckBoxColor	= {colors.Logintext}
+                            isChecked={Overridecheck} onClick = {()=> setOverridecheck(Overridecheck = !Overridecheck)}/>
                         <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Override Participation Date</Text>
                     </View>
                 </View>

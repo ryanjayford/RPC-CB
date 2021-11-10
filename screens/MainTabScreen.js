@@ -202,7 +202,7 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
     case 'Classes':
       return <Icon.Button key={0} name="ios-add" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Class Detail Entry',{State: 'addnew'})}></Icon.Button>; 
       case 'Census':
-        return [<Icon.Button key={0} name="ios-search" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setCensus(Census = !Census)}></Icon.Button>,//search() //navigation.setParams({censusSearch: !route.params.censusSearch})
+        return [//<Icon.Button key={0} name="ios-search" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setCensus(Census = !Census)}></Icon.Button>,//search() //navigation.setParams({censusSearch: !route.params.censusSearch})
         //<Icon.Button key={1} name="md-cloud-upload" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmUpload(setScreen)}></Icon.Button>, //dataState, setCensusData, CensusIsloading, setCensusIsloading// Alert.alert('Upload Census')
         <View key={1} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Menu 

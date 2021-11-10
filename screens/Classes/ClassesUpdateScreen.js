@@ -100,6 +100,13 @@ const ClassUpdate = ({ navigation,route }) => {
             hasError = true;
             Alert.alert("Error:", "Class code cannot be blank.");
         }
+        
+        if (classDes === null | classDes === "") {
+            //setClassload(Classload = false);
+            setIsLoading(isLoading = false)
+            hasError = true;
+            Alert.alert("Error:", "Class description cannot be blank.");
+        }
         //check if Class Code already Exist
         /*
         if (route.params?.State === 'addnew') {
