@@ -330,8 +330,8 @@ const General = ({  route, Error, SetError }) => {
 
     const setPlanDetailsTab = (responseData) => {
 
-      console.log('responseData->', responseData.minSvcType)
-      console.log('responseData logo->', responseData.showLogo)
+      //console.log('responseData->', responseData.minSvcType)
+      //console.log('responseData logo->', responseData.showLogo)
       setDetails(responseData);
       setPlanDetailsData(planDetailsData => responseData);
       // GENERAL
@@ -363,7 +363,7 @@ const General = ({  route, Error, SetError }) => {
       setCompanyName(CompanyName  = responseData.companyName); 
       setShowlogo(Showlogo = responseData.showLogo)
       setMinSvcType(MinSvcType = responseData.minSvcType)
-      console.log('MinSvcType->', MinSvcType)
+      //console.log('MinSvcType->', MinSvcType)
 
     }
 

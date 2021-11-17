@@ -933,11 +933,11 @@ const AddModal = ({ navigation,route }) => {
                         )}
                         {OverrideShow && (
                             <DateTimePickerModal
-                            isVisible={OverrideShow}
-                            mode="date"
-                            date={(participationDate) ? new Date(participationDate): new Date()}
-                            onConfirm={(val) => CensusOverridehandleConfirm(val)}
-                            onCancel={() => setOverrideShow(OverrideShow = !OverrideShow)}
+                                isVisible={OverrideShow}
+                                mode="date"
+                                date={(participationDate) ? new Date(participationDate) : new Date()}
+                                onConfirm={(val) => CensusOverridehandleConfirm(val)}
+                                onCancel={() => setOverrideShow(OverrideShow = !OverrideShow)}
                             />
                         )}
                     <View style={{flexDirection: 'row', marginTop: 5}}>

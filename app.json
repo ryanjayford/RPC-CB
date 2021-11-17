@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "RPC-Cash Balance",
+    "name": "RPC Cash Balance",
     "slug": "rpc-cash-balance",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -23,13 +23,13 @@
     ],
     "ios": {
       "bundleIdentifier": "rpc.cb",
-      "buildNumber": "1.0.1",
+      "buildNumber": "1.0.2",
       "supportsTablet": true
     },
     "description": "",
     "android": {
       "package": "rpc.cb",
-      "versionCode": 8,
+      "versionCode": 9,
       "permissions": [
         "CAMERA"
       ]

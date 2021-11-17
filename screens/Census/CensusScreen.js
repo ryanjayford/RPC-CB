@@ -130,8 +130,8 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
             let censusD = {};
             censusD.CashBalance = item["Cash Balance"] == null ? "" : item["Cash Balance"].toString();
             censusD.ClassCode = item["Class Code"];
-            censusD.DateOfBirth = item["Date of Birth"];
-            censusD.DateOfHire = item["Date of Hire"];
+            censusD.DateOfBirth = moment(item["Date of Birth"]).add(1, 'days');
+            censusD.DateOfHire = moment(item["Date of Hire"]).add(1, 'days');
             censusD.Deferral = item.Deferral == null ? null : item.Deferral.toString();
             censusD.W2Earnings = item.Earnings;
             censusD.FamCode = item["Family Code"];
@@ -146,7 +146,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
             censusData.push(censusD);
           });
           payload.census = censusData;
-          
+          //console.log('before send to api ===================>',censusData);
         }
   
         if (payload.census && payload.census.length){
@@ -256,7 +256,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     
     let censusTransformData = [];
     if (data && data.length){
-      console.log ("census data-->",data);
+      //console.log ("census data-->",data);
       data.forEach(function(item, idx) {
         let tags = [];
         let censusD = {};

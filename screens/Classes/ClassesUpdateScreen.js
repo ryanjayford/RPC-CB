@@ -163,7 +163,7 @@ const ClassUpdate = ({ navigation,route }) => {
             setTimeout(() => {
                 //setClassload(Classload = false);
                 //setIsLoading(isLoading = false)
-                ClassAddorEdit(navigation,StateArray,ClassesState, token);
+                ClassAddorEdit(navigation, StateArray, ClassesState, token, setIsLoading , isLoading);
             }, 500);
         }
         

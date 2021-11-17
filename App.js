@@ -511,10 +511,10 @@ const App = () => {
       navigation.goBack();
       dispatch({ type: 'Menu', index,MenuName,Response});
     },
-    ClassAddorEdit: (navigation,StateArray,ClassesState, userToken) => {
+    ClassAddorEdit: (navigation,StateArray,ClassesState, userToken, setIsLoading , isLoading) => {
       
       //alert(ClassesState);
-      addEditClass(navigation, StateArray, ClassesState, userToken);
+      addEditClass(navigation, StateArray, ClassesState, userToken, setIsLoading , isLoading);
       /*
       if(ClassesState === 'ClassAdd')
       {
@@ -653,7 +653,7 @@ const App = () => {
   //{"Code":"T","Description":null,"Contritype":"1","CashBalance":null,"CashAmt":"%","ProfitSharing":null,"ProfitAmt":"%"}
 
   //DELETE : https://rpcapi-dev.azurewebsites.net/api/CB/Classes/Class?id=174107
-  const addEditClass = async (navigation, data, type, userToken) => {
+  const addEditClass = async (navigation, data, type, userToken, setIsLoading , isLoading) => {
     let url = baseURL + '/Classes/Class';
     let method = 'POST';
     let headers = new Headers();
@@ -682,6 +682,7 @@ const App = () => {
           navigation.goBack();
         } else {
           Alert.alert("Data Error", responseJson.message);
+          setIsLoading(isLoading = false);
         }
         
     })
