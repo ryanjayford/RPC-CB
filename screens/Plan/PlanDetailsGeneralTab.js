@@ -339,9 +339,9 @@ const General = ({  route, Error, SetError }) => {
       setPlanDescription(PlanDescription = responseData.planDescription); 
       setPlanEffDate(PlanEffDate  = responseData.planEffDate? moment(responseData.planEffDate).format('MM/DD/YYYY'):null); 
       setRetAge(RetAge = responseData.retAge.toString? responseData.retAge.toString():null); 
-      setYearOfParticipationForNRA(YearOfParticipationForNRA = prepareVal(responseData.yearOfParticipationForNRA));
+      setYearOfParticipationForNRA(YearOfParticipationForNRA = responseData.yearOfParticipationForNRA ? prepareVal(responseData.yearOfParticipationForNRA): DropdownData.yearOfParticipationForNRA[0].value );
       setPSRetAge(PSRetAge = prepareVal(responseData.psRetAge));
-      setMinAge(MinAge = prepareVal(responseData.minAge));
+      setMinAge(MinAge = responseData.minAge ?  prepareVal(responseData.minAge) : DropdownData.minAge[0].value);
       setMonthCk(MonthCk  = responseData.minSvcMonths != null? true: false);
       setMinSvcMonths(MinSvcMonths = responseData.minSvcMonths);
       setHourCk(HourCk = (responseData.minSvcHours && responseData.minSvcHours > 0) ? true: false);
@@ -364,7 +364,10 @@ const General = ({  route, Error, SetError }) => {
       setShowlogo(Showlogo = responseData.showLogo)
       setMinSvcType(MinSvcType = responseData.minSvcType)
       //console.log('MinSvcType->', MinSvcType)
-
+      // console.log('TEST BUG', DropdownData.yearOfParticipationForNRA );
+      // console.log('Val1',YearOfParticipationForNRA)
+      // console.log('Ar2',DropdownData.minAge);
+      // console.log('Val2',MinAge);
     }
 
     const prepareVal = (val, def) => {
