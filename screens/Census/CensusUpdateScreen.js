@@ -65,7 +65,7 @@ const AddModal = ({ navigation,route }) => {
     let [highlyComp, setHighlyComp] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.highlyComp); 
     let [classId, setClassId] = React.useState(parameter === 'CensusAddUser' ? 65 : selectedUser.classId); 
     let [retAge, setRetAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.retAge); 
-    let [CatchUpOverride, setCatchUpOverride] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.catchUpOverride); 
+    let [CatchUpOverride, setCatchUpOverride] = React.useState(parameter === 'CensusAddUser' ? "" : (selectedUser.catchUpOverride === null ? "" : selectedUser.catchUpOverride)); 
     let [participationDate, setParticipationDate] = React.useState(parameter === 'CensusAddUser' ? '1/1/' + currentYear : moment(selectedUser.participationDate).format('MM/DD/YYYY')); 
     
     //console.log("selectedUser----------------------->", selectedUser)
@@ -910,27 +910,27 @@ const AddModal = ({ navigation,route }) => {
                             onValueChange={(value) => {setHCEchoice(HCEchoice = value.id)}} //required
                         />*/}
                     <Text style={styles.columnNames}>Date of Participation</Text>
-                        {Overridecheck && (
-                            <View style = {{ flexDirection: 'row'}}>
-                                <TextInput 
-                                    placeholderTextColor = 'rgba(51,51,51,0.7)'
-                                    placeholder="date of birth"
-                                    style={[styles.textInput,{color: colors.Logintext}]}
-                                    //autoCapitalize="none"
-                                    value={participationDate}
-                                    keyboardType='default'
-                                    editable={false}
-                                    onChangeText={(val) => {setParticipationDate(participationDate = val)}}
-                                /> 
-                                <TouchableOpacity onPress={() => setOverrideShow(OverrideShow = !OverrideShow)}>
-                                    <Feather style={{ marginLeft: 5}}
-                                        name="calendar"
-                                        color="grey"
-                                        size={25}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                        )}
+
+                        <View style = {{ flexDirection: 'row'}}>
+                            <TextInput 
+                                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                placeholder="date of birth"
+                                style={[styles.textInput,{color: colors.Logintext}]}
+                                //autoCapitalize="none"
+                                value={participationDate}
+                                keyboardType='default'
+                                editable={false}
+                                onChangeText={(val) => {setParticipationDate(participationDate = val)}}
+                            /> 
+                            <TouchableOpacity disabled={Overridecheck === true ? false : true} onPress={() => setOverrideShow(OverrideShow = !OverrideShow)}>
+                                <Feather style={{ marginLeft: 5}}
+                                    name="calendar"
+                                    color="grey"
+                                    size={25}
+                                />
+                            </TouchableOpacity>
+                        </View>
+
                         {OverrideShow && (
                             <DateTimePickerModal
                                 isVisible={OverrideShow}

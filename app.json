@@ -7,7 +7,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -23,16 +23,29 @@
     ],
     "ios": {
       "bundleIdentifier": "rpc.cb",
-      "buildNumber": "1.0.2",
-      "supportsTablet": true
+      "buildNumber": "1.0.3",
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to capture and upload user profile image.",
+        "NSPhotoLibraryUsageDescription": "This app needs access to the photo library to select and upload user profile image."
+      }
     },
     "description": "",
     "android": {
       "package": "rpc.cb",
-      "versionCode": 9,
+      "versionCode": 10,
       "permissions": [
         "CAMERA"
       ]
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "This app needs access to the photo library to select and upload user profile image.",
+          "cameraPermission": "This app uses the camera to capture and upload user profile image."
+        }
+      ]
+    ]
   }
 }

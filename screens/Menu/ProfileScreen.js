@@ -4,7 +4,6 @@ import { View, Text,Keyboard, Button, StyleSheet,TouchableOpacity, Image, Alert,
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as ImagePicker from 'expo-image-picker'
-import * as Permissions from 'expo-permissions'
 import * as ImageManipulator from 'expo-image-manipulator'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 //import RNPasswordStrengthMeter from 'react-native-password-strength-meter';
@@ -93,7 +92,7 @@ const ProfileScreen = ({ navigation }) => {
 
   
   const _pickImage = async() => {
-    let CameraRollStatus = await ImagePicker.requestCameraRollPermissionsAsync()
+    let CameraRollStatus = await ImagePicker.requestMediaLibraryPermissionsAsync()
     if(CameraRollStatus.status === 'granted')
     {
       let result = await ImagePicker.launchImageLibraryAsync({
