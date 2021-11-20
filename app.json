@@ -35,7 +35,9 @@
       "package": "rpc.cb",
       "versionCode": 10,
       "permissions": [
-        "CAMERA"
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
       ]
     },
     "plugins": [
