@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text,Keyboard, Button, StyleSheet,TouchableOpacity, Image, Alert, Dimensions, TextInput,ActivityIndicator } from 'react-native';
+import { View, Text,Keyboard, Button, StyleSheet,TouchableOpacity, Image, Alert, Dimensions, TextInput,ActivityIndicator,Platform } from 'react-native';
 //import { useTheme} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -92,11 +92,29 @@ const ProfileScreen = ({ navigation }) => {
 
   
   const _pickImage = async() => {
-    let CameraRollStatus = await ImagePicker.requestMediaLibraryPermissionsAsync()
-    if(CameraRollStatus.status === 'granted')
-    {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: false,
+
+    if(Platform.OS === "ios"){//ios
+      // Ask the user for the permission to access the media library 
+      const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+      if (permissionResult.granted === false) {
+        alert("We need access to your media library to make this work.");
+        return;
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [3, 3.5]
+      });
+
+      if (!result.cancelled) {
+        sethasImageUri(hasImageUri = true);
+        setProfileImage(ProfileImage = result.uri);
+      }
+    }
+    else{//android
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
         aspect: [3, 3.5]
       })
       
@@ -108,18 +126,24 @@ const ProfileScreen = ({ navigation }) => {
   }
 
   const _captureImage = async() => {
-    let CameraStatus = await ImagePicker.requestCameraPermissionsAsync()
-    if(CameraStatus.status === 'granted')
-    {
-      let result = await ImagePicker.launchCameraAsync({
-        allowsEditing: false,
-        aspect: [3, 3.5]
-      })
+    //ios & android
     
-      if (!result.cancelled) {
-        sethasImageUri(hasImageUri = true);
-        setProfileImage(ProfileImage = result.uri);
-      }
+    // Ask the user for the permission to access the camera
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("We need access to your camera to make this work.");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [3, 3.5]
+    });
+
+    if (!result.cancelled) {
+      sethasImageUri(hasImageUri = true);
+      setProfileImage(ProfileImage = result.uri);
     }
   }
 
