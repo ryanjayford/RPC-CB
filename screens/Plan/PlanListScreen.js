@@ -122,7 +122,12 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
       default:  
         filter = '-1';
     }
-    let url = baseURL + '/Plans/PlanListQuery?lastModified=' + filter + '&filteredUserId=' + dataState.userName + '&maxRows=50'; //+ '&filteredCompanyName=EBG&filteredUserId=01247@noemail.com&maxRows=10';
+    
+    let url = baseURL + '/Plans/PlanListQuery?lastModified=' + filter + '&filteredUserId=' + dataState.userName + '&maxRows=500'; //+ '&filteredCompanyName=EBG&filteredUserId=01247@noemail.com&maxRows=10';
+    if(filter === '-1')
+    {
+      url = baseURL + '/Plans/PlanListQuery?lastModified=' + filter + '&filteredUserId=' + dataState.userName;
+    }
     
     let method = 'GET';
     let headers = new Headers();
@@ -201,7 +206,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
       //alert(1);
       dataState.selectedPlan = item.planId;
       route.params.AddCancel = null
-      navigation.navigate('Plan Details',{ params: {homeClick: 'cancel'}});
+      navigation.navigate('Plan Details',{screen: 'General', params: {homeClick: 'cancel'}});
     }
     else if(indexChecked === item.planId)
     {

@@ -247,7 +247,6 @@ const FOI = ({ navigation }) => {
         setMatchLimit3(MatchLimit3 = User401k.matchLimit3.toString());
         setIsSafeHarborContrib(IsSafeHarborContrib = User401k.isSafeHarborContrib);
 
-
         switch(User401k.exclusions) {
           case 3://Owner in website
             setExclusions(Exclusions = 1);
@@ -324,26 +323,31 @@ const FOI = ({ navigation }) => {
     }
 
     const CurrentMatch = (id) => {
-      if(id === 3 && IsSafeHarborContrib === false)
+      if(id !== IncludeMatch)
       {
-        setIncludeMatch(IncludeMatch = id);
-        setMatchPercent1(MatchPercent1 = '100');
-        setMatchLimit1(MatchLimit1 = '3');
-        setMatchPercent2(MatchPercent2 = '50');
-        setMatchLimit2(MatchLimit2 = '2');
-        setMatchPercent3(MatchPercent3 = '0');
-        setMatchLimit3(MatchLimit3 = '0');
+        if(id === 3 && IsSafeHarborContrib === false)
+        {
+          //console.log('id ', id)
+          setIncludeMatch(IncludeMatch = id);
+          setMatchPercent1(MatchPercent1 = '100');
+          setMatchLimit1(MatchLimit1 = '3');
+          setMatchPercent2(MatchPercent2 = '50');
+          setMatchLimit2(MatchLimit2 = '2');
+          setMatchPercent3(MatchPercent3 = '0');
+          setMatchLimit3(MatchLimit3 = '0');
 
-      }
-      else
-      {
-        setIncludeMatch(IncludeMatch = id);
-        setMatchPercent1(MatchPercent1 = '0');
-        setMatchLimit1(MatchLimit1 = '0');
-        setMatchPercent2(MatchPercent2 = '0');
-        setMatchLimit2(MatchLimit2 = '0');
-        setMatchPercent3(MatchPercent3 = '0');
-        setMatchLimit3(MatchLimit3 = '0');
+        }
+        else
+        {
+          //console.log('id 2 ', id)
+          setIncludeMatch(IncludeMatch = id);
+          setMatchPercent1(MatchPercent1 = '0');
+          setMatchLimit1(MatchLimit1 = '0');
+          setMatchPercent2(MatchPercent2 = '0');
+          setMatchLimit2(MatchLimit2 = '0');
+          setMatchPercent3(MatchPercent3 = '0');
+          setMatchLimit3(MatchLimit3 = '0');
+        }
       }
     }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert} from 'react-native';
+import { Alert, Dimensions} from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import{ AuthContext } from '../../components/context';
 import PDGeneralScreen from './PlanDetailsGeneralTab';
@@ -23,9 +23,12 @@ const TopTabs = ({navigation, route,error,set_Error}) => {
           activeTintColor: '#fff',
           indicatorStyle: { backgroundColor: '#f3ad2b'},
           //labelStyle: { fontSize: 12 },
-          
           style: { backgroundColor: colors.secondary },
-      }}>
+        }}
+        initialLayout={{
+          width: Dimensions.get('window').width
+        }}
+      >
 
         <TopTab.Screen name="General" //component={PDGeneralScreen} 
           listeners={({ navigation }) => ({
