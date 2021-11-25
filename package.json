@@ -42,7 +42,6 @@
     "react-native-material-menu": "^1.2.0",
     "react-native-modal": "^7.0.2",
     "react-native-modal-datetime-picker": "^8.9.3",
-    "react-native-pager-view": "^5.4.9",
     "react-native-paper": "^4.5.0",
     "react-native-reanimated": "~2.1.0",
     "react-native-safe-area-context": "3.2.0",
@@ -51,7 +50,8 @@
     "react-native-vector-icons": "^6.7.0",
     "react-native-web": "~0.13.12",
     "react-native-webview": "11.2.3",
-    "xlsx": "^0.16.9"
+    "xlsx": "^0.17.4",
+    "react-native-pager-view": "5.0.12"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
