@@ -23,7 +23,7 @@
     ],
     "ios": {
       "bundleIdentifier": "rpc.cb",
-      "buildNumber": "2",
+      "buildNumber": "3",
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera to capture and upload user profile image.",
@@ -33,6 +33,7 @@
     "description": "",
     "android": {
       "package": "rpc.cb",
+      "icon": "./assets/rpc_android.png",
       "versionCode": 10,
       "permissions": [
         "CAMERA",
