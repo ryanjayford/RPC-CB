@@ -34,7 +34,7 @@ const ReportStandardScreen = ({ navigation }) => {
     let [maxCash, setmaxCash] = React.useState(false); 
     let [testRes, settestRes] = React.useState(false); 
 
-    select = () => {
+    const select = () => {
       setselectAll(selectAll = !selectAll)
       setcover(cover = selectAll)
       setstanding(standing = selectAll)

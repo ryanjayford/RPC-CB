@@ -1004,6 +1004,7 @@ const styles = StyleSheet.create({
     paddingTop: 10
   },
   inputContainer: {
+    flex: 1,
     marginTop: 10,
     backgroundColor: 'white',
     borderTopLeftRadius: 20,

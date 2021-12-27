@@ -13,26 +13,26 @@ import SettingsScreen from '../Menu/SettingsScreen';
 const {width,height} = Dimensions.get('window');
 const baseURL = Settings.domain;
 
-
-let RightAction = ({item,index}) =>
-{
-  return(
-    <View style={{flexDirection: 'row'}}>
-      <TouchableOpacity  style={styles.DeleteAction} onPress={() => deleteClickEventListener(item,index)}>
-          <Icon style={styles.actionText} name="delete" size={25} color="white" />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.EditAction} onPress={() => editClickEventListener(item)}>
-        <Icon style={styles.actionText} name="pencil-outline" size={25} color="white" />
-      </TouchableOpacity>
-
-      <TouchableOpacity  style={styles.CopyAction} onPress={() => CopyClickEventListener(item)}>
-          <Icon style={styles.actionText} name="content-copy" size={25} color="white" />
-      </TouchableOpacity>
-    </View>
-  )
-};
-
 const PlanScreen = ({ navigation,route,PlanToggle }) => {
+
+  let RightAction = ({item,index}) =>
+  {
+    return(
+      <View style={{flexDirection: 'row'}}>
+        <TouchableOpacity  style={styles.DeleteAction} onPress={() => deleteClickEventListener(item,index)}>
+            <Icon style={styles.actionText} name="delete" size={25} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.EditAction} onPress={() => editClickEventListener(item)}>
+          <Icon style={styles.actionText} name="pencil-outline" size={25} color="white" />
+        </TouchableOpacity>
+
+        <TouchableOpacity  style={styles.CopyAction} onPress={() => CopyClickEventListener(item)}>
+            <Icon style={styles.actionText} name="content-copy" size={25} color="white" />
+        </TouchableOpacity>
+      </View>
+    )
+  };
+
   //console.log('toggle', PlanToggle)
   ///console.log(route,'from list');
   const [{updatePlanData, Delete,setPlanID, initScreen, setScreen},dataState] = React.useContext(AuthContext);
@@ -179,18 +179,18 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
   }
 
   
-  deleteClickEventListener = (item,index) => {
+  const deleteClickEventListener = (item,index) => {
     Alert.alert("Plan Delete", "Are you sure you want to Delete this Plan?", 
     [{ text: "Yes", onPress: () => deletePlan(item.planId) }, //CalculatePlan(dataState, setScreen)
     { text: "No", onPress: () => {}, style: "cancel" }],
     { cancelable: false }); 
   }
 
-  CopyClickEventListener = (item) => {
+  const CopyClickEventListener = (item) => {
     navigation.navigate('Copy modal', {CopyInfo: item});
   }
 
-  editClickEventListener = (item) => {
+  const editClickEventListener = (item) => {
     planStorage.planId = item.planId
     planStorage.userNameOnly = item.userNameOnly
     setindexChecked(indexChecked = item.planId);
@@ -200,7 +200,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
    //console.log('Edit' + " " + dataState.plan.planId + " " + dataState.plan.userNameOnly);
   }
 
-  toggleshow = (item) => {
+  const toggleshow = (item) => {
     if(route.params?.AddCancel === 'cancel' && indexChecked === item.planId)
     {
       //alert(1);
@@ -224,10 +224,11 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
       planStorage.planId = item.planId
       planStorage.userNameOnly = item.userNameOnly
       //?console.log('plan2',planStorage)
+      alert(indexChecked + " " + item.planId)
     }
   }
 
-  OnSearch = (value) => {
+  const OnSearch = (value) => {
     let filteredName = inMemory.filter(
       Name => {
         let namelowercase = (Name.planName + " " + Name.userNameOnly).toLowerCase() 
@@ -239,7 +240,6 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     )
     setSearchVal(SearchVal = value)
     setPlanData(planData => filteredName)
-
   }
 
 
@@ -273,7 +273,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
             <Text style={[{fontSize:16, color: color.secondary}]}>No Records Found {dataState.MenuCurrent ? dataState.MenuCurrent : 'In 24 hours'}</Text>
         </View>
         :
-        <SafeAreaView>
+        <SafeAreaView style={{flex: 1}}>
           <FlatList
           //keyboardShouldPersistTaps={'never'}
             data={planData}
@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
     shadowRadius: 7.49,
     elevation: 12,
 
-    flexBasis: '46%',
+    flexBasis: '100%',
     padding: 0,
     flexDirection:'row',
     flexWrap: 'wrap',
@@ -525,7 +525,7 @@ const styles = StyleSheet.create({
   imageContent:{
     marginTop:10,
     marginLeft:15,
-    marginRight:5
+    marginRight:5,
   },
   image:{
     width:60,

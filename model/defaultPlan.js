@@ -1,4 +1,4 @@
-export default DefaultPlan = {
+const DefaultPlan = {
   "planId": 0,
   "planName": "",
   "companyName": "",
@@ -61,3 +61,5 @@ export default DefaultPlan = {
   "entryDate": "SA",
   "entity": "C"
 };
+
+export default DefaultPlan;

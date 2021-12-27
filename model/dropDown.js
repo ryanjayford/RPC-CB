@@ -1,4 +1,4 @@
-export default DropDown = {
+const DropDown = {
     "yearOfParticipationForNRA": [
         {
             "label": "0",
@@ -400,3 +400,5 @@ export default DropDown = {
         }
     ]
 }
+
+export default DropDown;

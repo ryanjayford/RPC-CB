@@ -27,21 +27,23 @@ import XLSX from 'xlsx';
 import Settings from '../../settings.json';
 const baseURL = Settings.domain;
 const {width,height} = Dimensions.get('window');
-let RightAction = ({item}) =>
-{
-  return(
-    <View style={{flexDirection: 'row'}}>
-      <TouchableOpacity  style={styles.DeleteAction} onPress={() => CensusDeleteClickEventListener(item)}>
-          <Icon style={styles.actionText} name="delete" size={25} color="white" />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.EditAction} onPress={() => CensusEditClickEventListener(item)}>
-          <Icon style={styles.actionText} name="account-edit" size={25} color="white" />
-      </TouchableOpacity>
-    </View>
-  )
-};
 
 const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) => {
+
+  let RightAction = ({item}) =>
+  {
+    return(
+      <View style={{flexDirection: 'row'}}>
+        <TouchableOpacity  style={styles.DeleteAction} onPress={() => CensusDeleteClickEventListener(item)}>
+            <Icon style={styles.actionText} name="delete" size={25} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.EditAction} onPress={() => CensusEditClickEventListener(item)}>
+            <Icon style={styles.actionText} name="account-edit" size={25} color="white" />
+        </TouchableOpacity>
+      </View>
+    )
+  };
+  
   const { colors } = useTheme();
   const [{setScreen,setDropdownData },dataState] = React.useContext(AuthContext);
 
@@ -347,15 +349,15 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
   }
 
      
-  cardClickEventListener = (item) => {
+  const cardClickEventListener = (item) => {
    //console.log(item.name);
   }
 
-  CensusEditClickEventListener = (item) => {
+  const CensusEditClickEventListener = (item) => {
     navigation.navigate('Add',{CensusInfo: item})
   }
 
-  CensusDeleteClickEventListener = (item) => {
+  const CensusDeleteClickEventListener = (item) => {
    //console.log(item);
     Alert.alert("Delete", "Are you sure you want to delete " + item.name + " ?", 
     [{ text: "Yes", onPress: () => deleteParticipant(item.participantID) }, //CalculatePlan(dataState, setScreen)
@@ -363,11 +365,11 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     { cancelable: false }); 
   }
 
-  tagClickEventListener = (tagName) => {
+  const tagClickEventListener = (tagName) => {
     Alert.alert(tagName);
   }
   
-  CensusToggleshow = (item) => {
+  const CensusToggleshow = (item) => {
     if(CensusIndexChecked === item.id)
     {
       setCensusIndexChecked(CensusIndexChecked = 0);
@@ -379,7 +381,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     }
   }
 
-  CensusOnSearch = (value) => {
+  const CensusOnSearch = (value) => {
     let filteredName = CensusInmemory.filter(
       Name => {
         let namelowercase = (Name.name).toLowerCase()
@@ -394,7 +396,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     //Alert.alert(value);
   }
   // {tagClickEventListener(tag)}
-  renderTags = (item) =>{
+  const renderTags = (item) =>{
     return item.tags.map((tag, key) => {
       return (
         <TouchableOpacity key={key} style={styles.btnColor} onPress={() => CensusToggleshow(item)}>

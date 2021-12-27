@@ -123,7 +123,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
 
   
 
-      ReportDownload = async (item,index) => {
+      const ReportDownload = async (item,index) => {
        //console.log('item ===REPORT DOWNLOAD=====>',item,index)
         //'http://africau.edu/images/default/sample.pdf'
         
@@ -134,7 +134,7 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
        //console.log(result);
       }
 
-      Reporttoggle = (item) => {
+      const Reporttoggle = (item) => {
         //Alert.alert('info:',item.id + " " + item.Class);
        //console.log('info:',item.id + " " + item.Status + " " + item.Date);
       }

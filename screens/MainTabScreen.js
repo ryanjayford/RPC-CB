@@ -352,7 +352,7 @@ const PlanTabScreen = ({navigation, route}) => {
 
     if(route.params?.screen === 'Plan Details')
     {
-      handleBackPress = () => {
+      const handleBackPress = () => {
         Alert.alert(
             "Unsaved",
             "Are you sure you want to go back?",

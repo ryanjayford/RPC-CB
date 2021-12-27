@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,Modal,Dimensions,Platform } from 'react-native';
 import{ AuthContext } from '../components/context';
-import RadioButtonRN from 'radio-buttons-react-native';
-import {LinearGradient} from 'expo-linear-gradient';
+//import RadioButtonRN from 'radio-buttons-react-native';
+//import {LinearGradient} from 'expo-linear-gradient';
 import { useTheme } from '@react-navigation/native';
 //import { WebView } from 'react-native-webview';
 const {width,height} = Dimensions.get('window');

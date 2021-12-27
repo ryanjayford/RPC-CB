@@ -140,7 +140,7 @@ const ClassesScreen = ({ navigation }) => {
         });
       }
 
-      ClassesdeleteClickEventListener = (item) => {
+      const ClassesdeleteClickEventListener = (item) => {
        //console.log(dataState.userToken );
         //deleteClass(item)
         //Alert.alert('delete ' + item.classCode);
@@ -150,13 +150,13 @@ const ClassesScreen = ({ navigation }) => {
         { cancelable: false }); 
       }
     
-      ClassesEditEventListener = (item) => {
+      const ClassesEditEventListener = (item) => {
         navigation.navigate('Class Detail Entry',{Info: item});
         //Alert.alert('Edit ' + item.classCode);
       }
     
 
-      toggleClass = (item) => {
+      const toggleClass = (item) => {
         //Alert.alert('info:',item.classId + " " + item.classCode);
         navigation.navigate('Class Detail Entry',{Info: item});
       }

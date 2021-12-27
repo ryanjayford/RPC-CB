@@ -55,40 +55,40 @@ const ProfileScreen = ({ navigation }) => {
     setProfileImage(ProfileImage = dataState.profilePic ? dataState.profilePic.indexOf('file') === -1 ? `data:image/jpeg;base64, ` + dataState.profilePic: dataState.profilePic: null)
       //_makeRemoteRequest();
   }, [dataState.profilePic]);
-
-  _makeRemoteRequest = async () => {
-    let headers = {
-        'Content-Type': 'application/json',
-        'userId': dataState._id,
-        'token': dataState.apiToken,
-        'clientId': Settings.clientId,
-    };
-    //console.log('joborder sent size-->', sizeOf(headers));
-    await fetch(Settings.site + '/api/joborders/?linemanId=' + dataState._id + '&type=1', {
-        method: 'GET',
-        headers ,
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-        //console.log('joborder received size-->', sizeOf(responseJson),responseJson);
-       //console.log(responseJson);
-        //this.setState({
-        //    data: responseJson,
-        //    loading: false,
-        //    BadgeCount: 0 //responseJson.length,
-        //});
-    })
-    .catch((error) => {
-        let isConnectionError = error.message.includes('Unrecognized token');
-        if (isConnectionError){
-            Alert.alert("DAS Connection Error", "Unable to connect to server. Please try again later.");
-            return false;
-        } else {
-            Alert.alert("DAS Issue", error.message);
-            return false;
-        }
-    }); 
-};
+  
+  const _makeRemoteRequest = async () => {
+      let headers = {
+          'Content-Type': 'application/json',
+          'userId': dataState._id,
+          'token': dataState.apiToken,
+          'clientId': Settings.clientId,
+      };
+      //console.log('joborder sent size-->', sizeOf(headers));
+      await fetch(Settings.site + '/api/joborders/?linemanId=' + dataState._id + '&type=1', {
+          method: 'GET',
+          headers ,
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+          //console.log('joborder received size-->', sizeOf(responseJson),responseJson);
+        //console.log(responseJson);
+          //this.setState({
+          //    data: responseJson,
+          //    loading: false,
+          //    BadgeCount: 0 //responseJson.length,
+          //});
+      })
+      .catch((error) => {
+          let isConnectionError = error.message.includes('Unrecognized token');
+          if (isConnectionError){
+              Alert.alert("DAS Connection Error", "Unable to connect to server. Please try again later.");
+              return false;
+          } else {
+              Alert.alert("DAS Issue", error.message);
+              return false;
+          }
+      }); 
+  };
 
   
   const _pickImage = async() => {
@@ -242,7 +242,7 @@ const ProfileScreen = ({ navigation }) => {
   };
 
 
-  updatePortrait = async (file) => {
+  const updatePortrait = async (file) => {
     await fetch(Settings.site + '/api/userportrait/'+ dataState._id , {
         method: 'PUT',
         headers: {
@@ -286,7 +286,7 @@ const ProfileScreen = ({ navigation }) => {
     
 };
 
-updatePassword = async (oldPassword, newPassword) => {
+const updatePassword = async (oldPassword, newPassword) => {
   //console.log('====> Password', oldPassword, newPassword);
 
   await fetch(Settings.site + '/api/login/'+ dataState._id , {

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity,Modal,Dimensions,FlatList, Alert, Button } from 'react-native';
 import{ AuthContext } from '../components/context';
 //import PlanTopTab from './PlandetailsTopTab'
-import { WebView } from 'react-native-webview';
+//import { WebView } from 'react-native-webview';
 const {width,height} = Dimensions.get('window');
 import {LinearGradient} from 'expo-linear-gradient';
 import { useTheme } from '@react-navigation/native';

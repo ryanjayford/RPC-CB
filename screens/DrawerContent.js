@@ -5,7 +5,8 @@ import {
     ImageBackground, 
     Image, 
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    Platform
 } from 'react-native';
 import {
     useTheme,
@@ -27,7 +28,7 @@ import {
 import {LinearGradient} from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon2 from 'react-native-vector-icons/Ionicons';
-import Avatars from '../model/avatars';
+//import Avatars from '../model/avatars';
 import{ AuthContext } from '../components/context';
 import * as WebBrowser from 'expo-web-browser';
 

@@ -31,7 +31,7 @@ const ClassUpdate = ({ navigation,route }) => {
     //let Edited = dataState.censusEdited;
     if(route.params?.State !== 'addnew')
     {
-        contriTypeTrim = Edited.contributionTypeDesc.trim();
+        let contriTypeTrim = Edited.contributionTypeDesc.trim();
         if(contriTypeTrim === 'Fixed Contribution per Individual')
         {
             contriTypeDes = 1;

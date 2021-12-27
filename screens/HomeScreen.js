@@ -90,7 +90,7 @@ const HomeScreen = ({navigation}) => {
             <ActivityIndicator size="large" color={colors.primary}/>
           </View>
           :       
-          <SafeAreaView style={{marginTop: 2.5}}>
+          <SafeAreaView style={{marginTop: 2.5, flex: 1}}>
             <FlatList
               data={homeData}
               renderItem={({ item }) => <Item title={item.menuTitle} Description={item.menuDescription} Icon={item.menuImage} Screen = {item.menuTitle} /> }

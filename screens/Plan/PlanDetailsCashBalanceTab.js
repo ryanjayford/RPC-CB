@@ -22,7 +22,7 @@ const CashBalance = ({ route }) => {
   let [thisresult, setresult] = React.useState(null); 
   //
   //function for opening browser
-  _handlePressButtonAsync = async () => {
+  const _handlePressButtonAsync = async () => {
     let result = await WebBrowser.openBrowserAsync('https://expo.io');
     setresult(thisresult = result)
   };
@@ -470,6 +470,7 @@ const styles = StyleSheet.create({
      
     },
     inputContainer: {
+      flex: 1,
       marginTop: 10,
       backgroundColor: 'white',
       borderTopLeftRadius: 20,
