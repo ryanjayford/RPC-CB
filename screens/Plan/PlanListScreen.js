@@ -224,7 +224,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
       planStorage.planId = item.planId
       planStorage.userNameOnly = item.userNameOnly
       //?console.log('plan2',planStorage)
-      alert(indexChecked + " " + item.planId)
+      //alert(indexChecked + " " + item.planId)
     }
   }
 
