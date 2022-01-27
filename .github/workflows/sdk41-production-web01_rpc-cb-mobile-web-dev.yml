@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'RPC-CB-Mobile-Web-Dev'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9892CFC5386A4752B3A7B854D6F0A0F4 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7096E0CF6D524F8E84F56ED60B37C0BC }}
           package: .
