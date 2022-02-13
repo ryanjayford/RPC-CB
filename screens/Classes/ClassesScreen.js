@@ -11,22 +11,24 @@ import Settings from '../../settings.json';
 const {width,height} = Dimensions.get('window');
 const baseURL = Settings.domain;
 
-let RightAction = ({item}) =>
-{
-  return(
-    <View style={{flexDirection: 'row'}}>
-    {(item.classCode === 'A' || item.classCode === 'B' || item.classCode === 'C')? null:
-    <TouchableOpacity  style={styles.DeleteAction} onPress={() =>  ClassesdeleteClickEventListener(item)}>
-        <Icon style={styles.actionText} name="delete" size={25} color="white" />
-    </TouchableOpacity>
-    }
-    <TouchableOpacity style={styles.EditAction} onPress={() => ClassesEditEventListener(item)}>
-        <Icon style={styles.actionText} name="pencil-outline" size={25} color="white" />
-    </TouchableOpacity>
-  </View>
-  )
-};
 const ClassesScreen = ({ navigation }) => {
+
+  let RightAction = ({item}) =>
+  {
+    return(
+      <View style={{flexDirection: 'row'}}>
+      {(item.classCode === 'A' || item.classCode === 'B' || item.classCode === 'C')? null:
+      <TouchableOpacity  style={styles.DeleteAction} onPress={() =>  ClassesdeleteClickEventListener(item)}>
+          <Icon style={styles.actionText} name="delete" size={25} color="white" />
+      </TouchableOpacity>
+      }
+      <TouchableOpacity style={styles.EditAction} onPress={() => ClassesEditEventListener(item)}>
+          <Icon style={styles.actionText} name="pencil-outline" size={25} color="white" />
+      </TouchableOpacity>
+    </View>
+    )
+  };
+
     const { colors } = useTheme();
     const [{setDropdownData},dataState] = React.useContext(AuthContext);
     dataState.Classes;

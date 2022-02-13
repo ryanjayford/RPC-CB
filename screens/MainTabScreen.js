@@ -54,10 +54,14 @@ const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNu
   if(error === true)
   {
     alert('Valid values are from 62-65. NRA less than 62 generally not allowed per Notice 2007-69.');
+    console.log('Valid values are from 62-65. NRA less than 62 generally not allowed per Notice 2007-69.');
   }
   else
   {
+
+    save(navigation, type, planId, userToken, userNumber, userSponsorId)
    //console.log('CONFIRM ====>', planName, userToken);
+   /*
     let msg = "Are you sure you want to Add New Plan?"
     if (planId) msg = "Are you sure you want to save changes to " + planName + " Plan?"
     if (planName){
@@ -67,7 +71,7 @@ const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNu
       { cancelable: false }); 
     } else {
       alert('Plan Name field is required.');
-    }
+    }*/
   }
   
 }

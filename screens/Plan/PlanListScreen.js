@@ -351,23 +351,23 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
                 {/*<Image style={[styles.image, styles.imageContent]} source={avatar}/>*/}
                 
                 {portrait? 
-                <Avatar 
-                  size={height > 800 ? 70 : 60}
-                  overlayContainerStyle={{borderWidth:2, borderColor: colors.imgBorder, backgroundColor: colors.imgBackground}}
-                  rounded
-                  title={initials}                 
-                  source={{ uri: portrait }}
-                  //onPress={() =>//console.log("Works!")}
-                  containerStyle={styles.imageContent}
-                />
-                :
-                <Avatar 
-                  size={height > 800 ? 70 : 60}
-                  overlayContainerStyle={{borderWidth:2, borderColor: colors.imgBorder, backgroundColor: colors.imgBackground}}
-                  rounded
-                  title={initials}                 
-                  containerStyle={styles.imageContent}
-                />
+                  <Avatar 
+                    size={height > 800 ? 70 : 60}
+                    overlayContainerStyle={{borderWidth:2, borderColor: colors.imgBorder, backgroundColor: colors.imgBackground}}
+                    rounded
+                    title={initials}                 
+                    source={{ uri: portrait }}
+                    //onPress={() =>//console.log("Works!")}
+                    containerStyle={{ marginTop:10, marginLeft:15, marginRight:5 }}
+                  />
+                  :
+                  <Avatar 
+                    size={height > 800 ? 70 : 60}
+                    overlayContainerStyle={{borderWidth:2, borderColor: colors.imgBorder, backgroundColor: colors.imgBackground}}
+                    rounded
+                    title={initials}                 
+                    containerStyle={{ marginTop:10, marginLeft:15, marginRight:5 }}
+                  />
                 }
                 
                 <View >
@@ -521,11 +521,6 @@ const styles = StyleSheet.create({
     fontWeight:"bold",
     paddingLeft: 1,
     color: '#ffffff'
-  },
-  imageContent:{
-    marginTop:10,
-    marginLeft:15,
-    marginRight:5,
   },
   image:{
     width:60,
