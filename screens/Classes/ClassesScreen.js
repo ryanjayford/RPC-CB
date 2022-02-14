@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,Alert, ActivityIndicator,Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@react-navigation/native';
 import{ AuthContext } from '../../components/context';
@@ -28,6 +28,7 @@ const ClassesScreen = ({ navigation }) => {
     </View>
     )
   };
+
 
     const { colors } = useTheme();
     const [{setDropdownData},dataState] = React.useContext(AuthContext);
@@ -143,13 +144,21 @@ const ClassesScreen = ({ navigation }) => {
       }
 
       const ClassesdeleteClickEventListener = (item) => {
-       //console.log(dataState.userToken );
+        //console.log(dataState.userToken );
         //deleteClass(item)
         //Alert.alert('delete ' + item.classCode);
-        Alert.alert("Delete Class", "Are you sure you want to delete Class Code " + item.classCode, 
-        [{ text: "Yes", onPress: () => deleteClass(item) }, 
-        { text: "No", onPress: () => {}, style: "cancel" }],
-        { cancelable: false }); 
+        if(Platform.OS === 'web'){
+          let choice = confirm("Delete Class,\nAre you sure you want to delete Class Code " + item.classCode);
+          if(choice === true){
+            deleteClass(item)
+          }
+        }
+        else{
+          Alert.alert("Delete Class", "Are you sure you want to delete Class Code " + item.classCode, 
+          [{ text: "Yes", onPress: () => deleteClass(item) }, 
+          { text: "No", onPress: () => {}, style: "cancel" }],
+          { cancelable: false }); 
+        }
       }
     
       const ClassesEditEventListener = (item) => {

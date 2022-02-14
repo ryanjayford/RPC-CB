@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Text,View,Alert, BackHandler} from 'react-native';
+import { Text,View,Alert, BackHandler, Platform} from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator,HeaderBackButton } from '@react-navigation/stack';
 import { useTheme, getFocusedRouteNameFromRoute } from '@react-navigation/native';
@@ -58,20 +58,32 @@ const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNu
   }
   else
   {
+    //console.log('CONFIRM ====>', planName, userToken);
+    if(Platform.OS === 'web'){
+      let msg = "Are you sure you want to Add New Plan?"
+      if (planId) msg = "Are you sure you want to save changes to " + planName + " Plan?"
+      if (planName){
+        let choice = confirm("Save Plan,\n"+msg);
+        if(choice === true){
+          save(navigation, type, planId, userToken, userNumber, userSponsorId)
+        }
+      } else {
+        alert('Plan Name field is required.');
+      }
 
-    save(navigation, type, planId, userToken, userNumber, userSponsorId)
-   //console.log('CONFIRM ====>', planName, userToken);
-   /*
-    let msg = "Are you sure you want to Add New Plan?"
-    if (planId) msg = "Are you sure you want to save changes to " + planName + " Plan?"
-    if (planName){
-      Alert.alert("Save Plan", msg, 
-      [{ text: "Yes", onPress: () => save(navigation, type, planId, userToken, userNumber, userSponsorId) }, //CalculatePlan(dataState, setScreen)
-      { text: "No", onPress: () => {}, style: "cancel" }],
-      { cancelable: false }); 
-    } else {
-      alert('Plan Name field is required.');
-    }*/
+    }
+    else{
+        let msg = "Are you sure you want to Add New Plan?"
+        if (planId) msg = "Are you sure you want to save changes to " + planName + " Plan?"
+        if (planName){
+          Alert.alert("Save Plan", msg, 
+          [{ text: "Yes", onPress: () => save(navigation, type, planId, userToken, userNumber, userSponsorId) }, //CalculatePlan(dataState, setScreen)
+          { text: "No", onPress: () => {}, style: "cancel" }],
+          { cancelable: false }); 
+        } else {
+          alert('Plan Name field is required.');
+        }
+    }
   }
   
 }
