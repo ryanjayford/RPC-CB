@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,Modal,Dimensions,ScrollView,TextInput,Alert,ActivityIndicator,KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Modal,Dimensions,ScrollView,TextInput,Alert,ActivityIndicator,KeyboardAvoidingView,Platform } from 'react-native';
 import{ AuthContext } from '../components/context';
 import RadioButtonRN from 'radio-buttons-react-native';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -43,9 +43,14 @@ const CopyModal = ({ navigation,route }) => {
     const CopyNow = async() => {
         if ( planName == 0) {
             setIsLoading(isLoading = false)
-            Alert.alert('Invalid Plan Name', 'Plan Name field cannot be empty.', [
-                {text: 'OK'}
-            ]);
+            if(Platform.OS === 'web'){
+                alert("Invalid Plan Name\n" + 'Plan Name field cannot be empty.')
+            }
+            else{
+                Alert.alert('Invalid Plan Name', 'Plan Name field cannot be empty.', [
+                    {text: 'OK'}
+                ]);
+            }
             return;
         }
 
@@ -78,18 +83,36 @@ const CopyModal = ({ navigation,route }) => {
         .then((responseJson) => {
             
             if (responseJson.isSuccess){
-               //console.log("copy plan", responseJson);
-                Alert.alert('Plan Copy', 'Copy plan complete.', [
-                    {text: 'OK' , onPress: () =>{[
+                //console.log("copy plan", responseJson);
+                if(Platform.OS === 'web'){
+                    let choice = confirm("Plan Copy,\nCopy plan complete.");
+                    if(choice === true){
                         navigation.navigate('Plan Directory', {screen: 'Plan List', params: {CopyPlan: true}})
-                    ]}}
-                ]);
+                    }
+                }
+                else{
+                    Alert.alert('Plan Copy', 'Copy plan complete.', [
+                        {text: 'OK' , onPress: () =>{[
+                            navigation.navigate('Plan Directory', {screen: 'Plan List', params: {CopyPlan: true}})
+                        ]}}
+                    ]);
+                }
             } else{
-                Alert.alert("Save Error", responseJson.message);
+                if(Platform.OS === 'web'){
+                    alert("Save Error\n" + responseJson.message)
+                }
+                else{
+                    Alert.alert("Save Error", responseJson.message);
+                }
             }
         })
         .catch((error) => {
-            Alert.alert("Connection Error", error.message);
+            if(Platform.OS === 'web'){
+                alert("Connection Error\n" + error.message)
+            }
+            else {
+                Alert.alert("Connection Error", error.message);
+            }
             return false;
         });
     } 

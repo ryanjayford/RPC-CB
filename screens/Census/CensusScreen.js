@@ -11,7 +11,8 @@ import {
   TextInput,
   FlatList,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Paragraph, Menu, Divider, Provider } from 'react-native-paper';
@@ -94,12 +95,22 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
         if (responseJson.isSuccess){
           setScreen({Name: "Census", Method: "Load"});
         } else{
-          Alert.alert("Save Error", responseJson.message);
+          if(Platform.OS === 'web'){
+            alert("Save Error,\n" + responseJson.message);
+          }
+          else {
+            Alert.alert("Save Error", responseJson.message);
+          }
           getCensus(dataState.plan.planId);
         }
     })
     .catch((error) => {
-        Alert.alert("Connection Error", error.message);
+        if(Platform.OS === 'web'){
+          alert("Connection Error,\n" + error.message);
+        }
+        else {
+          Alert.alert("Connection Error", error.message);
+        }
         getCensus(dataState.plan.planId);
         return false;
     });
@@ -205,12 +216,23 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
          //console.log("FROM UseEffect =====Api Called CENSUS========> ");
           TransfromCensusData(responseJson.obj);
         } else {
-          Alert.alert("Data Error", responseJson.message);
+          if(Platform.OS === 'web'){
+            alert("Data Error,\n" + responseJson.message);
+          }
+          else {
+            Alert.alert("Data Error", responseJson.message);
+          }
           //setCensusData(censusData => []);
         }
     })
     .catch((error) => {
-        Alert.alert("Connection Error", error.message);
+        if(Platform.OS === 'web'){
+          alert("Connection Error,\n" + error.message);
+        }
+        else {
+          Alert.alert("Connection Error", error.message);
+        }
+        
         return false;
     });
   }
@@ -244,12 +266,23 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
           setDropdownData(NewArray)
          //console.log('dataState.censusDropDownData',dataState.censusDropDownData)
         } else {
-          Alert.alert("Data Error", responseJson.message);
+          if(Platform.OS === 'web'){
+            alert("Data Error,\n" + responseJson.message);
+          }
+          else {
+            Alert.alert("Data Error", responseJson.message);
+          }
           //setPlanData(planData => []);
         }
     })
     .catch((error) => {
-        Alert.alert("Connection Error", error.message);
+        if(Platform.OS === 'web'){
+          alert("Connection Error,\n" + error.message);
+        }
+        else {
+          Alert.alert("Connection Error", error.message);
+        }
+        
         return false;
     });
   }
@@ -339,11 +372,21 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
           setCensusData(censusData => null);
           getCensus(dataState.plan.planId);
         } else {
-          Alert.alert("Data Error", responseJson.message);
+          if(Platform.OS === 'web'){
+            alert("Data Error,\n" + responseJson.message);
+          }
+          else {
+            Alert.alert("Data Error", responseJson.message);
+          }
         }
     })
     .catch((error) => {
-        Alert.alert("Connection Error", error.message);
+        if(Platform.OS === 'web'){
+          alert("Connection Error,\n" + error.message);
+        }
+        else {
+          Alert.alert("Connection Error", error.message);
+        }
         return false;
     });
   }
@@ -359,14 +402,18 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
 
   const CensusDeleteClickEventListener = (item) => {
    //console.log(item);
-    Alert.alert("Delete", "Are you sure you want to delete " + item.name + " ?", 
-    [{ text: "Yes", onPress: () => deleteParticipant(item.participantID) }, //CalculatePlan(dataState, setScreen)
-    { text: "No", onPress: () => {}, style: "cancel" }],
-    { cancelable: false }); 
-  }
-
-  const tagClickEventListener = (tagName) => {
-    Alert.alert(tagName);
+    if(Platform.OS === 'web'){
+      let choice = confirm("Delete,\nAre you sure you want to delete " + item.name + " ?");
+      if(choice === true){
+        deleteParticipant(item.participantID)
+      }
+    }
+    else{
+      Alert.alert("Delete", "Are you sure you want to delete " + item.name + " ?", 
+      [{ text: "Yes", onPress: () => deleteParticipant(item.participantID) }, //CalculatePlan(dataState, setScreen)
+      { text: "No", onPress: () => {}, style: "cancel" }],
+      { cancelable: false }); 
+    }
   }
   
   const CensusToggleshow = (item) => {
@@ -395,7 +442,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     setCensusInfo(CensusInfo = filteredName)
     //Alert.alert(value);
   }
-  // {tagClickEventListener(tag)}
+  
   const renderTags = (item) =>{
     return item.tags.map((tag, key) => {
       return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,SafeAreaView, Alert, ActivityIndicator, Button, Modal,TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,SafeAreaView, Alert, ActivityIndicator, Button, Modal,TextInput,Platform } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import{ AuthContext } from '../../components/context';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -79,10 +79,21 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
       
 
       const ConfirmCalcualte = (planId) => {
-        Alert.alert("Calculate", "Are you sure you want to Calculate current Plan?", 
-        [{ text: "Yes", onPress: () => calculatePlan(planId) },
-        { text: "No", onPress: () => getCalculatedPlan(planId), style: "cancel" }],
-        { cancelable: false }); 
+        if(Platform.OS === 'web'){
+          let choice = confirm("Calculate,\nAre you sure you want to Calculate current Plan?");
+          if(choice === true){
+            calculatePlan(planId)
+          }
+          else{
+            getCalculatedPlan(planId)
+          }
+        }
+        else {
+          Alert.alert("Calculate", "Are you sure you want to Calculate current Plan?", 
+          [{ text: "Yes", onPress: () => calculatePlan(planId) },
+          { text: "No", onPress: () => getCalculatedPlan(planId), style: "cancel" }],
+          { cancelable: false }); 
+        }
       }
 
       const YesClicked = () => {
@@ -112,14 +123,24 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
              //console.log("FROM UseEffect =====Api Called CALCULATE========> ", responseJson);
               setCalReportName(CalReportName = "");
             } else {
-              Alert.alert("Data Error", responseJson.message);              
+              if(Platform.OS === 'web'){
+                alert("Data Error,\n" + responseJson.message);
+              }
+              else {
+                Alert.alert("Data Error", responseJson.message);        
+              }      
             }
             setTimeout(() => {
               getCalculatedPlan(planId);
             }, 1000)
         })
         .catch((error) => {
-            Alert.alert("Connection Error", error.message);
+            if(Platform.OS === 'web'){
+              alert("Connection Error,\n" + error.message);
+            }
+            else {
+              Alert.alert("Connection Error", error.message);
+            }
             getCalculatedPlan(planId);
             return false;
         });
@@ -153,7 +174,12 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
           }
         })
         .catch((error) => {
-            Alert.alert("Connection Error", error.message);
+            if(Platform.OS === 'web'){
+              alert("Connection Error,\n" + error.message);
+            }
+            else {
+              Alert.alert("Connection Error", error.message);
+            }
             return false;
         });
       }

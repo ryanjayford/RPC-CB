@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,SafeAreaView, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,SafeAreaView, Alert, ActivityIndicator,Platform } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import{ AuthContext } from '../../components/context';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -89,7 +89,12 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
           }
         })
         .catch((error) => {
-            Alert.alert("Connection Error", error.message);
+            if(Platform.OS === 'web'){
+              alert("Connection Error,\n"+ error.message);
+            }
+            else {
+              Alert.alert("Connection Error", error.message);
+            }
             return false;
         });
       }
@@ -116,7 +121,12 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
           
         })
         .catch((error) => {
-            Alert.alert("Connection Error", error.message);
+            if(Platform.OS === 'web'){
+              alert("Connection Error,\n"+ error.message);
+            }
+            else {
+              Alert.alert("Connection Error", error.message);
+            }
             return false;
         });
       }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity,Modal,Dimensions,FlatList, Alert, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity,Modal,Dimensions,FlatList, Alert, Button, Platform } from 'react-native';
 import{ AuthContext } from '../components/context';
 //import PlanTopTab from './PlandetailsTopTab'
 //import { WebView } from 'react-native-webview';
@@ -75,12 +75,22 @@ const InterestModal = ({ navigation,Open,setOpen, setModalData, ModalData }) => 
               setInterestData(responseJson.obj);
 
             } else {
-              Alert.alert("Data Error", responseJson.message);              
+                if(Platform.OS === 'web'){
+                    alert("Data Error\n" + responseJson.message)
+                }
+                else {
+                    Alert.alert("Data Error", responseJson.message);     
+                }         
             }
             
         })
         .catch((error) => {
-            Alert.alert("Connection Error", error.message);
+            if(Platform.OS === 'web'){
+                alert("Connection Error\n" + error.message)
+            }
+            else {
+                Alert.alert("Connection Error", error.message);
+            }
             
             return false;
         });

@@ -318,12 +318,22 @@ const General = ({  route, Error, SetError }) => {
             }
 
           } else {
-            Alert.alert("Data Error", responseJson.message);
+            if(Platform.OS === 'web'){
+              alert("Data Error,\n"+ responseJson.message);
+            }
+            else {
+              Alert.alert("Data Error", responseJson.message);
+            }
             setPlanData(planData => []);
           }
       })
       .catch((error) => {
-          Alert.alert("Connection Error", error.message);
+          if(Platform.OS === 'web'){
+            alert("Connection Error,\n"+ error.message);
+          }
+          else {
+            Alert.alert("Connection Error", error.message);
+          }
           return false;
       });
     }
@@ -477,12 +487,22 @@ const General = ({  route, Error, SetError }) => {
             }
            //console.log(dataState.DetailsFetchedData.overrideSegRatesNew);
           } else {
-            Alert.alert("Data Error", responseJson.message);              
+            if(Platform.OS === 'web'){
+              alert("Data Error,\n"+ responseJson.message);
+            }
+            else {
+              Alert.alert("Data Error", responseJson.message);     
+            }         
           }
           
       })
       .catch((error) => {
-          Alert.alert("Connection Error", error.message);
+          if(Platform.OS === 'web'){
+            alert("Connection Error,\n"+ error.message);
+          }
+          else {
+            Alert.alert("Connection Error", error.message);
+          }
           
           return false;
       });

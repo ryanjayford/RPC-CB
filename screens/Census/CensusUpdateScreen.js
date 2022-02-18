@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView,TextInput,Alert,ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Dimensions,ScrollView,TextInput,Alert,ActivityIndicator,Platform } from 'react-native';
 import{ AuthContext } from '../../components/context';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from '@react-navigation/native';
@@ -136,7 +136,12 @@ const AddModal = ({ navigation,route }) => {
             //setClassload(Classload = false);
             setIsLoading(isLoading = false)
             CensushasError = true;
-            Alert.alert("Error:", "First Name cannot be blank.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nFirst Name cannot be blank.");
+            }
+            else {
+                Alert.alert("Error:", "First Name cannot be blank.");
+            }
         }
 
         //check if Last Name is blank
@@ -144,7 +149,12 @@ const AddModal = ({ navigation,route }) => {
             //setClassload(Classload = false);
             setIsLoading(isLoading = false)
             CensushasError = true;
-            Alert.alert("Error:", "Last Name cannot be blank.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nLast Name cannot be blank.");
+            }
+            else {
+                Alert.alert("Error:", "Last Name cannot be blank.");
+            }
         }
 
         //check if Date of Birth is blank
@@ -152,7 +162,12 @@ const AddModal = ({ navigation,route }) => {
             //setClassload(Classload = false);
             setIsLoading(isLoading = false)
             CensushasError = true;
-            Alert.alert("Error:", "Date of Birth cannot be blank.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nDate of Birth cannot be blank.");
+            }
+            else {
+                Alert.alert("Error:", "Date of Birth cannot be blank.");
+            }
         }
 
         //check if Date of Hire is blank
@@ -160,7 +175,12 @@ const AddModal = ({ navigation,route }) => {
             //setClassload(Classload = false);
             setIsLoading(isLoading = false)
             CensushasError = true;
-            Alert.alert("Error:", "Date of Hire cannot be blank.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nDate of Hire cannot be blank.");
+            }
+            else {
+                Alert.alert("Error:", "Date of Hire cannot be blank.");
+            }
         }
 
         //check if W-2 Earnings is blank
@@ -168,7 +188,12 @@ const AddModal = ({ navigation,route }) => {
             //setClassload(Classload = false);
             setIsLoading(isLoading = false)
             CensushasError = true;
-            Alert.alert("Error:", "W-2 Earnings cannot be blank.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nW-2 Earnings cannot be blank.");
+            }
+            else {
+                Alert.alert("Error:", "W-2 Earnings cannot be blank.");
+            }
         }
 
         //console.log(w2earnings, '>>>', /^\d+\.\d+$|^\d+$/.test(w2earnings));
@@ -176,14 +201,24 @@ const AddModal = ({ navigation,route }) => {
         if(isNaN(w2earnings))
         {
             setIsLoading(isLoading = false)
-            Alert.alert("Data Error:", "You must enter a valid W-2 Earnings.");
+            if(Platform.OS === 'web'){
+                alert("Data Error:\nYou must enter a valid W-2 Earnings.");
+            }
+            else {
+                Alert.alert("Data Error:", "You must enter a valid W-2 Earnings.");
+            }
             CensushasError = true;
         }
 
         if((CatchUpOverride !== null || CatchUpOverride !== "") && isNaN(CatchUpOverride))
         {
             setIsLoading(isLoading = false)
-            Alert.alert("Data Error:", "You must enter a valid Catch up override.");
+            if(Platform.OS === 'web'){
+                alert("Data Error:\nYou must enter a Catch up override.");
+            }
+            else {
+                Alert.alert("Data Error:", "You must enter a valid Catch up override.");
+            }
             CensushasError = true;
         }
 
@@ -191,14 +226,24 @@ const AddModal = ({ navigation,route }) => {
             //setClassload(Classload = false);
             setIsLoading(isLoading = false)
             CensushasError = true;
-            Alert.alert("Error:", "Past Service cannot be blank.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nPast Service cannot be blank.");
+            }
+            else {
+                Alert.alert("Error:", "Past Service cannot be blank.");
+            }
         }
 
         if (LYcompensation === null | LYcompensation === "") {
             //setClassload(Classload = false);
             setIsLoading(isLoading = false)
             CensushasError = true;
-            Alert.alert("Error:", "LY Compensation cannot be blank.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nLY Compensation cannot be blank.");
+            }
+            else {
+                Alert.alert("Error:", "LY Compensation cannot be blank.");
+            }
         }
 
         //console.log(LYcompensation, '>>>', /^\d+\.\d+$|^\d+$/.test(LYcompensation));
@@ -206,8 +251,13 @@ const AddModal = ({ navigation,route }) => {
          if(!/^\d+\.\d+$|^\d+$/.test(LYcompensation))
          {
             setIsLoading(isLoading = false)
-             Alert.alert("Data Error:", "You must enter a valid LY Compensation.");
-             CensushasError = true;
+            if(Platform.OS === 'web'){
+                alert("Data Error:\nYou must enter a valid LY Compensation.");
+            }
+            else {
+                Alert.alert("Data Error:", "You must enter a valid LY Compensation.");
+            }
+            CensushasError = true;
          }
  
 
@@ -215,33 +265,63 @@ const AddModal = ({ navigation,route }) => {
             //setClassload(Classload = false);
             setIsLoading(isLoading = false)
             CensushasError = true;
-            Alert.alert("Error:", "Percent Ownership cannot be blank.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nPercent Ownership cannot be blank.");
+            }
+            else {
+                Alert.alert("Error:", "Percent Ownership cannot be blank.");
+            }
         }
 
         if(deferralchoice === "%"  && (deferral < 0 || deferral > 100)){
             setIsLoading(isLoading = false)
             CensushasError = true;
-            Alert.alert("Error:", "Deferral, between 0 and 100 percent is a valid value.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nDeferral, between 0 and 100 percent is a valid value.");
+            }
+            else {
+                Alert.alert("Error:", "Deferral, between 0 and 100 percent is a valid value.");
+            }
         }
         if(Cashbalancechoice === "%"  && (CashbalanceInput < 0 || CashbalanceInput > 100)){
             setIsLoading(isLoading = false)
             CensushasError = true;
-            Alert.alert("Error:", "Cash Balance, between 0 and 100 percent is a valid value.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nCash Balance, between 0 and 100 percent is a valid value.");
+            }
+            else {
+                Alert.alert("Error:", "Cash Balance, between 0 and 100 percent is a valid value.");
+            }
         }
         if(Profitsharingchoice === "%"  && (Profitsharinginput < 0 || Profitsharinginput > 100)){
             setIsLoading(isLoading = false)
             CensushasError = true;
-            Alert.alert("Error:", "Profit Sharing, between 0 and 100 percent is a valid value.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nProfit Sharing, between 0 and 100 percent is a valid value.");
+            }
+            else {
+                Alert.alert("Error:", "Profit Sharing, between 0 and 100 percent is a valid value.");
+            }
         }
         if(MatchContributionchoice === "%"  && (MatchContributioninput < 0 || MatchContributioninput > 100)){
             setIsLoading(isLoading = false)
             CensushasError = true;
-            Alert.alert("Error:", "Match Contribution, between 0 and 100 percent is a valid value.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nMatch Contribution, between 0 and 100 percent is a valid value.");
+            }
+            else {
+                Alert.alert("Error:", "Match Contribution, between 0 and 100 percent is a valid value.");
+            }
         }
         if(SafeHarborContribchoice === "%"  && (SafeHarborContribinput < 0 || SafeHarborContribinput > 100)){
             setIsLoading(isLoading = false)
             CensushasError = true;
-            Alert.alert("Error:", "Safe Harbor Contrib, between 0 and 100 percent is a valid value.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nSafe Harbor Contrib, between 0 and 100 percent is a valid value.");
+            }
+            else {
+                Alert.alert("Error:", "Safe Harbor Contrib, between 0 and 100 percent is a valid value.");
+            }
         }
     
         

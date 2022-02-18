@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity,Button,ScrollView, Alert, ActivityIndicator, Modal,TextInput,Dimensions,TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity,Button,ScrollView, Alert, ActivityIndicator, Modal,TextInput,Dimensions,TouchableHighlight,Platform } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { useTheme } from '@react-navigation/native';
 import CheckBox from 'react-native-check-box';
@@ -109,12 +109,22 @@ const ReportStandardScreen = ({ navigation }) => {
             setReportsName(ReportsName = "");
             navigation.navigate("Report list")
           } else {
-            Alert.alert("Data Error", responseJson.message);              
+            if(Platform.OS === 'web'){
+              alert("Data Error,\n"+ responseJson.message);
+            }
+            else {
+              Alert.alert("Data Error", responseJson.message);       
+            }       
           }
           setIsLoading(false);
       })
       .catch((error) => {
-          Alert.alert("Connection Error", error.message);
+          if(Platform.OS === 'web'){
+            alert("Connection Error,\n"+ error.message);
+          }
+          else {
+            Alert.alert("Connection Error", error.message);
+          }
           setIsLoading(false);
           return false;
       });

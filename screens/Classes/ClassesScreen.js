@@ -133,12 +133,22 @@ const ClassesScreen = ({ navigation }) => {
               setDropdownData(NewArray)
               
             } else {
-              Alert.alert("Data Error", responseJson.message);
+              if(Platform.OS === 'web'){
+                alert("Data Error:\n" + responseJson.message);
+              }
+              else {
+                Alert.alert("Data Error", responseJson.message);
+              }
               setPlanData(planData => []);
             }
         })
         .catch((error) => {
-            Alert.alert("Connection Error", error.message);
+            if(Platform.OS === 'web'){
+              alert("Connection Error:\n" + error.message);
+            }
+            else {
+              Alert.alert("Connection Error", error.message);
+            }
             return false;
         });
       }
@@ -197,11 +207,21 @@ const ClassesScreen = ({ navigation }) => {
               setClassData(classData => null);
               getClass(dataState.plan.planId);
             } else {
-              Alert.alert("Data Error", responseJson.message);
+              if(Platform.OS === 'web'){
+                alert("Data Error:\n" + responseJson.message);
+              }
+              else {
+                Alert.alert("Data Error", responseJson.message);
+              }
             }
         })
         .catch((error) => {
-            Alert.alert("Connection Error", error.message);
+            if(Platform.OS === 'web'){
+              alert("Connection Error:\n" + error.message);
+            }
+            else {
+              Alert.alert("Connection Error", error.message);
+            }
             return false;
         });
       }

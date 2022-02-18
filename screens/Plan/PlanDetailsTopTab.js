@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Dimensions} from 'react-native';
+import { Alert, Dimensions,Platform} from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import{ AuthContext } from '../../components/context';
 import PDGeneralScreen from './PlanDetailsGeneralTab';
@@ -49,7 +49,12 @@ const TopTabs = ({navigation, route,error,set_Error}) => {
               if(dataState.Details.planName === undefined || dataState.Details.planName === "")
               {
                 event.preventDefault();
-                Alert.alert('Error','Please enter Plan Name'); //dataState.Details.PlanName
+                if(Platform.OS === 'web'){
+                  alert("Error,\n"+ 'Please enter Plan Name');
+                }
+                else {
+                  Alert.alert('Error','Please enter Plan Name'); //dataState.Details.PlanName
+                }
               }
             }
             })
@@ -62,7 +67,12 @@ const TopTabs = ({navigation, route,error,set_Error}) => {
               if(dataState.Details.planName === undefined || dataState.Details.planName === "")
               {
                 event.preventDefault();
-                Alert.alert('Error','Please enter Plan Name'); //dataState.Details.PlanName
+                if(Platform.OS === 'web'){
+                  alert("Error,\n"+ 'Please enter Plan Name');
+                }
+                else {
+                  Alert.alert('Error','Please enter Plan Name'); //dataState.Details.PlanName
+                }
               }
               else if(dataState.Is401kChecked === false)
               {

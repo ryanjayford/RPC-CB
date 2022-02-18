@@ -98,14 +98,24 @@ const ClassUpdate = ({ navigation,route }) => {
             //setClassload(Classload = false);
             setIsLoading(isLoading = false)
             hasError = true;
-            Alert.alert("Error:", "Class code cannot be blank.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nClass code cannot be blank.");
+            }
+            else {
+                Alert.alert("Error:", "Class code cannot be blank.");
+            }
         }
         
         if (classDes === null | classDes === "") {
             //setClassload(Classload = false);
             setIsLoading(isLoading = false)
             hasError = true;
-            Alert.alert("Error:", "Class description cannot be blank.");
+            if(Platform.OS === 'web'){
+                alert("Error:\nClass description cannot be blank.");
+            }
+            else {
+                Alert.alert("Error:", "Class description cannot be blank.");
+            }
         }
         //check if Class Code already Exist
         /*
@@ -127,7 +137,12 @@ const ClassUpdate = ({ navigation,route }) => {
             hasError = true;
             let err = "Invalid Cash balance value."; //"Cash balance percent (%) must be from 0 to 200.";
             //if (cashAmt === '$') err = "Invalid Cash balance amount.";
-            Alert.alert("Error:", err );
+            if(Platform.OS === 'web'){
+                alert("Error:\n" + err);
+            }
+            else {
+                Alert.alert("Error:", err );
+            }
         } //else if (cashBalance && cashBalance)
 
 
@@ -138,7 +153,12 @@ const ClassUpdate = ({ navigation,route }) => {
             hasError = true;
             let err = "Invalid Profit sharing amount."; //"Profit sharing percent (%) must be from 0 to 100.";
             //if (profitAmt === 'S') err = "Invalid Profit sharing amount.";
-            Alert.alert("Error:", err); 
+            if(Platform.OS === 'web'){
+                alert("Error:\n" + err);
+            }
+            else {
+                Alert.alert("Error:", err); 
+            }
         }
         
         if (!hasError) {

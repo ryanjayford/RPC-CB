@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, ActivityIndicator,Alert } from 'react-native';
+import { View, ActivityIndicator,Alert,Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
   NavigationContainer, 
@@ -637,12 +637,22 @@ const App = () => {
           navigation.goBack();
         } else {
           setIsLoading(isLoading = false);
-          Alert.alert("Data Error", responseJson.message);
+          if(Platform.OS === 'web'){
+            alert("Data Error\n" + responseJson.message)
+          }
+          else{
+            Alert.alert("Data Error", responseJson.message);
+          }
         }
         
     })
     .catch((error) => {
-        Alert.alert("Connection Error", error.message);
+        if(Platform.OS === 'web'){
+          alert("Connection Error\n" + error.message)
+        }
+        else{
+          Alert.alert("Connection Error", error.message);
+        }
         return false;
     });
   }
@@ -681,13 +691,23 @@ const App = () => {
           dispatch({ type: 'SCREENClass', Data: {Name: 'Classes', Method: 'Reload'}});
           navigation.goBack();
         } else {
-          Alert.alert("Data Error", responseJson.message);
+          if(Platform.OS === 'web'){
+            alert("Data Error\n" + responseJson.message)
+          }
+          else{
+            Alert.alert("Data Error", responseJson.message);
+          }
           setIsLoading(isLoading = false);
         }
         
     })
     .catch((error) => {
-        Alert.alert("Connection Error", error.message);
+        if(Platform.OS === 'web'){
+          alert("Connection Error\n" + error.message)
+        }
+        else{
+          Alert.alert("Connection Error", error.message);
+        }
         return false;
     });
   }
@@ -731,11 +751,21 @@ const App = () => {
           navigation.navigate('Plan Directory', {screen: 'Plan List'})
          //console.log("==================SAVE RESPONSE ===>", responseJson);
         } else {
-          Alert.alert("Data Error", responseJson.message);
+          if(Platform.OS === 'web'){
+            alert("Data Error\n" + responseJson.message)
+          }
+          else{
+            Alert.alert("Data Error", responseJson.message);
+          }
         }
     })
     .catch((error) => {
-        Alert.alert("Connection Error", error.message);
+        if(Platform.OS === 'web'){
+          alert("Connection Error\n" + error.message)
+        }
+        else{
+          Alert.alert("Connection Error", error.message);
+        }
         return false;
     });
   }
@@ -791,8 +821,13 @@ const App = () => {
       }
 
       if (userProfileObj && userProfileObj.hasNewUpdate){
-        Alert.alert( 'New Update Available',
-        'You will now be redirected to Login screen.');
+        if(Platform.OS === 'web'){
+          alert("New Update Available\n" + 'You will now be redirected to Login screen.')
+        }
+        else{
+          Alert.alert( 'New Update Available',
+          'You will now be redirected to Login screen.');
+        }
         dispatch({ type: 'LOGOUT' });
       } else if (expired) {
         //Alert.alert( 'Session Expired',

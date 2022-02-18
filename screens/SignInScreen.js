@@ -128,9 +128,14 @@ const SignInScreen = ({navigation}) => {
        //console.log('============>>>>',userName, password);
        
         if ( data.username.length == 0 || data.password.length == 0 ) {
-            Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
-                {text: 'Okay'}
-            ]);
+            if(Platform.OS === 'web'){
+                alert("Wrong Input!,\nUsername or password field cannot be empty.")
+            }
+            else {
+                Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
+                    {text: 'Okay'}
+                ]);
+            }
             return;
         }
 
@@ -184,15 +189,26 @@ const SignInScreen = ({navigation}) => {
                 getProfile(details);
             } else {
                 setData({...data, isLoading: false});
-                Alert.alert('Invalid User!', 'Username or password is incorrect.', [
-                    {text: 'Okay'}
-                ]);
+                if(Platform.OS === 'web'){
+                    alert("Invalid User!,\nUsername or password is incorrect.")
+                }
+                else {
+                    Alert.alert('Invalid User!', 'Username or password is incorrect.', [
+                        {text: 'Okay'}
+                    ]);
+                }
+                
                 return;
             }
         })
         .catch((error) => {
             setData({...data, isLoading: false});
-            Alert.alert("Connection Error", error.message);
+            if(Platform.OS === 'web'){
+                alert("Connection Error,\n" + error.message)
+            }
+            else {
+                Alert.alert("Connection Error", error.message);
+            }
             return false;
         });
     }
@@ -207,9 +223,14 @@ const SignInScreen = ({navigation}) => {
         //console.log(foundUser);
         
         if ( data.username.length == 0 || data.password.length == 0 ) {
-            Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
-                {text: 'Okay'}
-            ]);
+            if(Platform.OS === 'web'){
+                alert("Wrong Input!,\nUsername or password field cannot be empty.")
+            }
+            else {
+                Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
+                    {text: 'Okay'}
+                ]);
+            }
             return;
         }
 
@@ -240,15 +261,25 @@ const SignInScreen = ({navigation}) => {
                 getDefaultPlanDetails(responseJson.details)
             } else{
                 setData({...data, isLoading: false});
-                Alert.alert('Invalid User!', 'Username or password is incorrect.', [
-                    {text: 'Okay'}
-                ]);
+                if(Platform.OS === 'web'){
+                    alert("Invalid User!,\nUsername or password is incorrect.")
+                }
+                else {
+                    Alert.alert('Invalid User!', 'Username or password is incorrect.', [
+                        {text: 'Okay'}
+                    ]);
+                }
                 return;
             }
         })
         .catch((error) => {
             setData({...data, isLoading: false});
-            Alert.alert("Connection Error", error.message);
+            if(Platform.OS === 'web'){
+                alert("Connection Error,\n" + error.message);
+            }
+            else {
+                Alert.alert("Connection Error", error.message);
+            }
             return false;
         });
     }
@@ -312,13 +343,23 @@ const SignInScreen = ({navigation}) => {
             } else {
                 setData({...data, isLoading: false});
                 //console.log(responseJson.message);
-                Alert.alert("Auth Error", responseJson.message);
+                if(Platform.OS === 'web'){
+                    alert("Auth Error,\n" + responseJson.message);
+                }
+                else {
+                    Alert.alert("Auth Error", responseJson.message);
+                }
                 return null;
             }
         })
         .catch((error) => {
             setData({...data, isLoading: false});
-            Alert.alert("Connection Error", error.message);
+            if(Platform.OS === 'web'){
+                alert("Connection Error,\n" + error.message);
+            }
+            else {
+                Alert.alert("Connection Error", error.message);
+            }
             return null;
         });
     }
@@ -343,13 +384,23 @@ const SignInScreen = ({navigation}) => {
                 signIn(userDetails, planDetails, responseJson.obj);
             } else {
                 setData({...data, isLoading: false});
-                Alert.alert("Data Error", responseJson.message);
+                if(Platform.OS === 'web'){
+                    alert("Data Error,\n" + responseJson.message);
+                }
+                else {
+                    Alert.alert("Data Error", responseJson.message);
+                }
                 return null;
             }
         })
         .catch((error) => {
             setData({...data, isLoading: false});
-            Alert.alert("Connection Error", error.message);
+            if(Platform.OS === 'web'){
+                alert("Connection Error,\n" + error.message);
+            }
+            else {
+                Alert.alert("Connection Error", error.message);
+            }
             return null;
         });
     }

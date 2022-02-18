@@ -1,5 +1,5 @@
 import React, { Component, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity,TouchableHighlight,SafeAreaView,FlatList,Dimensions,Alert,TextInput,ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity,TouchableHighlight,SafeAreaView,FlatList,Dimensions,Alert,TextInput,ActivityIndicator, Platform } from 'react-native';
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -92,12 +92,22 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
           setScreen({Name: "Plan Details", Method: dataState.selectedPlan});
           getPlanData(dataState.MenuCurrent);
         } else {
-          Alert.alert("Data Error", responseJson.message);
+          if(Platform.OS === 'web'){
+            alert("Data Error,\n"+ responseJson.message);
+          }
+          else {
+            Alert.alert("Data Error", responseJson.message);
+          }
           setIsLoading(isLoading = false);
         }
     })
     .catch((error) => {
-        Alert.alert("Connection Error", error.message);
+        if(Platform.OS === 'web'){
+          alert("Connection Error,\n"+ error.message);
+        }
+        else {
+          Alert.alert("Connection Error", error.message);
+        }
         setIsLoading(isLoading = false);
         return false;
     });
@@ -160,13 +170,23 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
           dataState.selectedPlan = null;
           setPlanData(planData => []);
         } else {
-          Alert.alert("Data Error", responseJson.message);
+          if(Platform.OS === 'web'){
+            alert("Data Error,\n"+ responseJson.message);
+          }
+          else {
+            Alert.alert("Data Error", responseJson.message);
+          }
           setPlanData(planData => []);
         }
         if (isLoading) setIsLoading(isLoading = false);
     })
     .catch((error) => {
-        Alert.alert("Connection Error", error.message);
+        if(Platform.OS === 'web'){
+          alert("Connection Error,\n"+ error.message);
+        }
+        else {
+          Alert.alert("Connection Error", error.message);
+        }
         if (isLoading) setIsLoading(isLoading = false);
         return false;
     });
@@ -180,10 +200,18 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
 
   
   const deleteClickEventListener = (item,index) => {
-    Alert.alert("Plan Delete", "Are you sure you want to Delete this Plan?", 
-    [{ text: "Yes", onPress: () => deletePlan(item.planId) }, //CalculatePlan(dataState, setScreen)
-    { text: "No", onPress: () => {}, style: "cancel" }],
-    { cancelable: false }); 
+    if(Platform.OS === 'web'){
+      let choice = confirm("Plan Delete,\nAre you sure you want to Delete this Plan?");
+      if(choice === true){
+        deletePlan(item.planId)
+      }
+    }
+    else{
+      Alert.alert("Plan Delete", "Are you sure you want to Delete this Plan?", 
+      [{ text: "Yes", onPress: () => deletePlan(item.planId) }, //CalculatePlan(dataState, setScreen)
+      { text: "No", onPress: () => {}, style: "cancel" }],
+      { cancelable: false }); 
+    }
   }
 
   const CopyClickEventListener = (item) => {

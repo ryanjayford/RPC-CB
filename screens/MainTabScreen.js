@@ -54,7 +54,6 @@ const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNu
   if(error === true)
   {
     alert('Valid values are from 62-65. NRA less than 62 generally not allowed per Notice 2007-69.');
-    console.log('Valid values are from 62-65. NRA less than 62 generally not allowed per Notice 2007-69.');
   }
   else
   {
@@ -89,18 +88,34 @@ const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNu
 }
 
 const ConfirmCalculate = (dataState, setScreen) => {
-  Alert.alert("Calculate", "Are you sure you want to Calculate Plan?", 
-  [{ text: "Yes", onPress: () => setScreen({Name: 'Calculate', Method: 'Calculate'}) }, //CalculatePlan(dataState, setScreen)
-  { text: "No", onPress: () => {}, style: "cancel" }],
-  { cancelable: false }); 
+  if(Platform.OS === 'web'){
+    let choice = confirm("Calculate,\nAre you sure you want to Calculate Plan?");
+    if(choice === true){
+      setScreen({Name: 'Calculate', Method: 'Calculate'})
+    }
+  }
+  else{
+    Alert.alert("Calculate", "Are you sure you want to Calculate Plan?", 
+    [{ text: "Yes", onPress: () => setScreen({Name: 'Calculate', Method: 'Calculate'}) }, //CalculatePlan(dataState, setScreen)
+    { text: "No", onPress: () => {}, style: "cancel" }],
+    { cancelable: false }); 
+  }
 }
 
 
 const ConfirmUpload = (setScreen) => { //dataState,setCensusData,CensusIsloading, setCensusIsloading
-  Alert.alert("Census Upload", "Are you sure you want to upload New Census?", 
-  [{ text: "Yes", onPress: () => setScreen({Name: 'Census', Method: 'PickAndUpload'}) } , //PickAndUpload(dataState,setCensusData,CensusIsloading, setCensusIsloading)
-  { text: "No", onPress: () => {}, style: "cancel" }],
-  { cancelable: false }); 
+  if(Platform.OS === 'web'){
+    let choice = confirm("Census Upload,\nAre you sure you want to upload New Census?");
+    if(choice === true){
+      setScreen({Name: 'Census', Method: 'PickAndUpload'})
+    }
+  }
+  else{
+    Alert.alert("Census Upload", "Are you sure you want to upload New Census?", 
+    [{ text: "Yes", onPress: () => setScreen({Name: 'Census', Method: 'PickAndUpload'}) } , //PickAndUpload(dataState,setCensusData,CensusIsloading, setCensusIsloading)
+    { text: "No", onPress: () => {}, style: "cancel" }],
+    { cancelable: false }); 
+  }
 }
 
 const EbgLink = async () => {
@@ -208,18 +223,18 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
       //console.log('checker',routeName,route.params?.screen );
   switch (routeName) {
     case 'Plan List': 
-      return [<Icon.Button key={0} name="ios-search" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [setPlan(Plan = !Plan)]}></Icon.Button>,//, Alert.alert('Function ' + Plan)
+      return [<Icon.Button key={0} name="ios-search" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [setPlan(Plan = !Plan)]}></Icon.Button>,
               <Icon.Button key={1} name="ios-add" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [dataState.selectedPlan=null,navigation.navigate("Plan Directory", {screen: 'Plan Details', params: {screen: 'General', params: {homeClick: 'Add'}}}), setScreen({Name: "Plan Details", Method: "ADD"})]}></Icon.Button>,
               <Icon5.Button key={2} name="filter" size={21} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon5.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
     case 'Plan Details':
-        if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId,error)}></Icon.Button>, // Alert.alert('Save')
+        if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId,error)}></Icon.Button>,
         <Icon.Button key={1} name="ios-close-circle" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Plan Directory', {screen: 'Plan List', params: {AddCancel: 'cancel'}})}></Icon.Button>]
-        return <Icon.Button key={0} name="ios-save" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() =>  ConfirmSave(save, navigation,'Edit', dataState.selectedPlan, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId, error)}></Icon.Button>;  //Alert.alert('No function yet')
+        return <Icon.Button key={0} name="ios-save" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() =>  ConfirmSave(save, navigation,'Edit', dataState.selectedPlan, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId, error)}></Icon.Button>;
     case 'Classes':
       return <Icon.Button key={0} name="ios-add" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Class Detail Entry',{State: 'addnew'})}></Icon.Button>; 
       case 'Census':
         return [//<Icon.Button key={0} name="ios-search" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => setCensus(Census = !Census)}></Icon.Button>,//search() //navigation.setParams({censusSearch: !route.params.censusSearch})
-        //<Icon.Button key={1} name="md-cloud-upload" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmUpload(setScreen)}></Icon.Button>, //dataState, setCensusData, CensusIsloading, setCensusIsloading// Alert.alert('Upload Census')
+        //<Icon.Button key={1} name="md-cloud-upload" size={25} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmUpload(setScreen)}></Icon.Button>, //dataState, setCensusData, CensusIsloading, setCensusIsloading
         <View key={1} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Menu 
             ref={menu}
@@ -231,7 +246,7 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
             <MenuItem onPress={hideMenuXlsx}><Icon name="md-document" size={20}>  xlsx</Icon></MenuItem>
           </Menu>
         </View>,
-        <Icon.Button key={2} name="ios-add" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Add',{State: 'CensusAddUser'})}></Icon.Button>]; //Alert.alert('Add')
+        <Icon.Button key={2} name="ios-add" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Add',{State: 'CensusAddUser'})}></Icon.Button>]; 
       case 'Report':
         return <Icon2.Button key={0} name="format-list-bulleted" size={20} iconStyle={{left: 5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate("Report list")}></Icon2.Button>;
       case 'Calculate':
@@ -349,10 +364,19 @@ const PlanTabScreen = ({navigation, route}) => {
           onPress={() => { 
             if(route.params?.screen === 'Plan Details')
             {
-              Alert.alert("Unsaved", "Are you sure you want to go back?", 
-              [{ text: "Cancel", onPress: () => {}, style: "cancel" }, 
-              { text: "Go Back", onPress: () => navigation.goBack() }], //navigation.navigate('Home')
-              { cancelable: false }); 
+              //for ios and web only
+              if(Platform.OS === 'web'){
+                let choice = confirm("Unsaved,\nAre you sure you want to go back?");
+                if(choice === true){
+                  navigation.goBack()
+                }
+              }
+              else{
+                Alert.alert("Unsaved", "Are you sure you want to go back?", 
+                [{ text: "Cancel", onPress: () => {}, style: "cancel" }, 
+                { text: "Go Back", onPress: () => navigation.goBack() }], //navigation.navigate('Home')
+                { cancelable: false }); 
+              }
             }
             else{
               navigation.goBack()
@@ -368,6 +392,7 @@ const PlanTabScreen = ({navigation, route}) => {
 
     if(route.params?.screen === 'Plan Details')
     {
+      //for android only
       const handleBackPress = () => {
         Alert.alert(
             "Unsaved",

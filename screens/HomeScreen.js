@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity,Button,Dimensions,StatusBar,SafeAreaView,FlatList,ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity,Button,Dimensions,StatusBar,SafeAreaView,FlatList,ActivityIndicator, Alert,Platform } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
 import Settings from '../settings.json';
@@ -71,7 +71,12 @@ const HomeScreen = ({navigation}) => {
         setHomeData(homeData => responseJson);
     })
     .catch((error) => {
-        Alert.alert("Connection Error", error.message);
+        if(Platform.OS === 'web'){
+          alert("Connection Error\n" + error.message)
+        }
+        else {
+          Alert.alert("Connection Error", error.message);
+        }
         return false;
     });
   }

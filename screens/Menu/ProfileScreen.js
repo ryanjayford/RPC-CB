@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text,Keyboard, Button, StyleSheet,TouchableOpacity, Image, Alert, Dimensions, TextInput,ActivityIndicator } from 'react-native';
+import { View, Text,Keyboard, Button, StyleSheet,TouchableOpacity, Image, Alert, Dimensions, TextInput,ActivityIndicator,Platform } from 'react-native';
 //import { useTheme} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -81,10 +81,20 @@ const ProfileScreen = ({ navigation }) => {
       .catch((error) => {
           let isConnectionError = error.message.includes('Unrecognized token');
           if (isConnectionError){
-              Alert.alert("DAS Connection Error", "Unable to connect to server. Please try again later.");
+              if(Platform.OS === 'web'){
+                  alert("DAS Connection Error:\n" + "Unable to connect to server. Please try again later.");
+              }
+              else {
+                Alert.alert("DAS Connection Error", "Unable to connect to server. Please try again later.");
+              }
               return false;
           } else {
-              Alert.alert("DAS Issue", error.message);
+              if(Platform.OS === 'web'){
+                  alert("DAS Issue:\n" + error.message);
+              }
+              else {
+                Alert.alert("DAS Issue", error.message);
+              }
               return false;
           }
       }); 
@@ -156,27 +166,47 @@ const ProfileScreen = ({ navigation }) => {
            //console.log('Saved', responseJson);
             //dataState.profilePic = values;
             SaveToStorage(values);
-            Alert.alert(
-              'Profile',
-              'New profile picture saved.',
-              [
-                  {text: 'OK', onPress: () => {[setIsLoading(isLoading = false),
-                                                sethasImageUri(hasImageUri = false),
-                                                setIsVisible(isVisible = false),
-                                                setProfilePic(values), 
-                                                navigation.navigate('Home')]}}
-              ]
-            );
+            if(Platform.OS === 'web'){
+              alert("Profile,\nNew profile picture saved.");
+              setIsLoading(isLoading = false),
+              sethasImageUri(hasImageUri = false),
+              setIsVisible(isVisible = false),
+              setProfilePic(values), 
+              navigation.navigate('Home')
+            }
+            else{
+              Alert.alert(
+                'Profile',
+                'New profile picture saved.',
+                [
+                    {text: 'OK', onPress: () => {[setIsLoading(isLoading = false),
+                                                  sethasImageUri(hasImageUri = false),
+                                                  setIsVisible(isVisible = false),
+                                                  setProfilePic(values), 
+                                                  navigation.navigate('Home')]}}
+                ]
+              );
+            }
         } else {
            //console.log('Error Save');
-            Alert.alert("Save Error", "Unable to save image. Please try again later.");
+            if(Platform.OS === 'web'){
+              alert("Save Error:\n" + "Unable to save image. Please try again later.");
+            }
+            else {
+              Alert.alert("Save Error", "Unable to save image. Please try again later.");
+            }
             sethasImageUri(hasImageUri = false);
             setIsVisible(isVisible = false)
             setIsLoading(isLoading = false);
         }
     })
     .catch((error) => {
-      Alert.alert("Error", error.message);       
+      if(Platform.OS === 'web'){
+        alert("Error:\n" + error.message);
+      }
+      else {
+        Alert.alert("Error", error.message);       
+      }
     });
   }
 
@@ -262,24 +292,45 @@ const ProfileScreen = ({ navigation }) => {
             portrait = Settings.site + '/api/userportrait/'+ dataState._id + ".jpg?" + suffix; 
             dataState.portrait = portrait;
             dataState.suffix = suffix;
-            Alert.alert(
-                'Profile',
-                'New profile picture saved.',
-                [
-                    {text: 'OK', onPress: () => { navigation.goBack()}}
-                ]
-            );
+            if(Platform.OS === 'web'){
+              alert("Profile,\nNew profile picture saved.");
+              navigation.goBack()
+            }
+            else {
+              Alert.alert(
+                  'Profile',
+                  'New profile picture saved.',
+                  [
+                      {text: 'OK', onPress: () => { navigation.goBack()}}
+                  ]
+              );
+            }
         } else{
+          if(Platform.OS === 'web'){
+            alert("Profile,\nError: Please try again.");
+          }
+          else {
             Alert.alert('Profile','Error: Please try again.');
+          }
         }
     })
     .catch((error) => {
         let isConnectionError = error.message.includes('Unrecognized token');
         if (isConnectionError){
-            Alert.alert("DAS Connection Error", "Unable to connect to server. Please try again later.");
+            if(Platform.OS === 'web'){
+              alert("DAS Connection Error,\nUnable to connect to server. Please try again later.");
+            }
+            else {
+              Alert.alert("DAS Connection Error", "Unable to connect to server. Please try again later.");
+            }
             return false;
         } else {
-            Alert.alert("Error", error.message);
+            if(Platform.OS === 'web'){
+              alert("Error,\n" + error.message);
+            }
+            else {
+              Alert.alert("Error", error.message);
+            }
             return false;
         }
     });
@@ -306,25 +357,46 @@ const updatePassword = async (oldPassword, newPassword) => {
   .then((responseJson) => {     
       if (responseJson.success){
           setIsVisible(false);
-          Alert.alert(
-              'Password',
-              'New Password saved.',
-              [
-                  {text: 'OK', onPress: () => { navigation.goBack()}}
-              ]
-          );
+          if(Platform.OS === 'web'){
+            alert("Profile,\nNew Password saved.");
+            navigation.goBack()
+          }
+          else {
+            Alert.alert(
+                'Password',
+                'New Password saved.',
+                [
+                    {text: 'OK', onPress: () => { navigation.goBack()}}
+                ]
+            );
+          }
       } else{
-          Alert.alert('Password', responseJson.details);
+          if(Platform.OS === 'web'){
+            alert("Password,\n"+ responseJson.details);
+          }
+          else {
+            Alert.alert('Password', responseJson.details);
+          }
       }
   })
   .catch((error) => {
       
       let isConnectionError = error.message.includes('Unrecognized token');
       if (isConnectionError){
-          Alert.alert("DAS Connection Error", "Unable to connect to server. Please try again later.");
+          if(Platform.OS === 'web'){
+            alert("DAS Connection Error,\n"+ "Unable to connect to server. Please try again later.");
+          }
+          else {
+            Alert.alert("DAS Connection Error", "Unable to connect to server. Please try again later.");
+          }
           return false;
       } else {
-          Alert.alert("Error", error.message);
+          if(Platform.OS === 'web'){
+            alert("Error,\n"+ error.message);
+          }
+          else {
+            Alert.alert("Error", error.message);
+          }
           return false;
       }
   });
@@ -334,15 +406,30 @@ const updatePassword = async (oldPassword, newPassword) => {
 
   const validatePassword = () => {
     if (data.oldPassword.toString().trim().length == 0){
-        Alert.alert('Change Password','The Old Password field is required.');
+        if(Platform.OS === 'web'){
+          alert("Change Password,\n"+ 'The Old Password field is required.');
+        }
+        else {
+          Alert.alert('Change Password','The Old Password field is required.');
+        }
         
     } else if (data.newPassword.toString().trim().length == 0) {
         setData({...data, hasError: true});
-        Alert.alert('Change Password','The New Password field is required.');
+        if(Platform.OS === 'web'){
+          alert("Change Password,\n"+ 'The New Password field is required.');
+        }
+        else {
+          Alert.alert('Change Password','The New Password field is required.');
+        }
         
     } else if (data.confirmPassword.toString().trim() != data.newPassword.toString().trim()) {
         setData({...data, hasError: true});
-        Alert.alert('Change Password','The New Password and Confirm Password field do not match.');
+        if(Platform.OS === 'web'){
+          alert("Change Password,\n"+ 'The New Password and Confirm Password field do not match.');
+        }
+        else {
+          Alert.alert('Change Password','The New Password and Confirm Password field do not match.');
+        }
     } else {
         //updatePassword(data.oldPassword, data.newPassword);
     }
