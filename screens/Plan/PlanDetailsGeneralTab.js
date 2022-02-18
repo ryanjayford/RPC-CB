@@ -12,6 +12,8 @@ import moment from 'moment';
 import Settings from '../../settings.json';
 import { set } from 'react-native-reanimated';
 import RadioButtonRN from 'radio-buttons-react-native';
+import WebDatePicker from '../../components/CustomWebDatePicker';
+
 const baseURL = Settings.domain;
 const {width,height} = Dimensions.get('window');
 
@@ -392,17 +394,8 @@ const General = ({  route, Error, SetError }) => {
         }
       }
     }
-    //DateTimePicker
-    const onChange = (event, selectedDate) => {
-      let currentDate = selectedDate || date;
-      //console.log("A date has been picked: ", date);
-      currentDate = moment(currentDate).format('MM/DD/YYYY');
-      setShow(Platform.OS === 'ios');
-      setDate(value = currentDate);
-      setInputDate(date = currentDate)
-    };
     
-    //DateTimePickerModal
+    //DateTimePickerModal And WebDatePicker Picker
     const handleConfirm = (selectedDate) => {
       let currentDate = selectedDate || date;
       let year = null;
@@ -413,7 +406,9 @@ const General = ({  route, Error, SetError }) => {
 
       
      //console.log("A date has been picked: ", currentDate);
-      setShow(show = !show);
+      if(Platform.OS !== 'web'){
+        setShow(show = !show);
+      }
       setPlanEffDate(PlanEffDate=currentDate);
       year = moment(currentDate).format('YYYY');
 
@@ -606,27 +601,32 @@ const General = ({  route, Error, SetError }) => {
         <Text style={[styles.title,{marginTop: 10}]}>Plan Effective Date</Text>
         
         
-        <TouchableOpacity style = {{ flexDirection: 'row'}} onPress={() => setShow(show = !show)}>
-          <TextInput style={{flex: 1}}
-            placeholderTextColor = 'rgba(51,51,51,0.7)'
-            placeholder="Date"
-            style={[styles.textInput,{color: colors.Logintext}]}
-            value={date != null ? date.toString() : PlanEffDate}
-            editable={false}
-            
-            //autoCapitalize="none"
-            //keyboardType='default'
-            onChangeText={(val) => setPlanEffDate(PlanEffDate = val)}
-          />
-          <Feather style={{ marginLeft: 5}}
-                name="calendar"
-                color="grey"
-                size={25}
-            /> 
-        </TouchableOpacity>
+        {
+          Platform.OS === 'web' ? 
+          <WebDatePicker style={[styles.datePickerStyle,{color: colors.Logintext}]} currentValue={moment(PlanEffDate).format('YYYY-MM-DD')} Changedate={handleConfirm}/>
+          :
+          <TouchableOpacity style = {{ flexDirection: 'row'}} onPress={() => setShow(show = !show)}>
+            <TextInput style={{flex: 1}}
+              placeholderTextColor = 'rgba(51,51,51,0.7)'
+              placeholder="Date"
+              style={[styles.textInput,{color: colors.Logintext}]}
+              value={date != null ? date.toString() : PlanEffDate}
+              editable={false}
+              
+              //autoCapitalize="none"
+              //keyboardType='default'
+              onChangeText={(val) => setPlanEffDate(PlanEffDate = val)}
+            />
+            <Feather style={{ marginLeft: 5}}
+                  name="calendar"
+                  color="grey"
+                  size={25}
+              /> 
+          </TouchableOpacity>
+        }
           
 
-        {show && (
+        {show && Platform.OS !== 'web' && (
           <DateTimePickerModal
           isVisible={show}
           mode="date"
@@ -635,6 +635,7 @@ const General = ({  route, Error, SetError }) => {
           onCancel={() => setShow(show = !show)}
         />
         )}
+
         <Text style={[styles.title,{marginTop: 10}]}>Normal Retirement Age</Text>
           {Error === true  &&
             <Text style={{color: 'red', marginLeft: 2.5, marginRight: 2.5, marginTop: 5, marginBottom: 10, fontSize: 11}}>Valid values are from 62-65. NRA less than 62 generally not allowed per Notice 2007-69.</Text>
@@ -663,7 +664,7 @@ const General = ({  route, Error, SetError }) => {
                 itemStyle={{justifyContent: 'flex-start'}}
                 style={{borderWidth: 1}}
                 dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-                containerStyle={{ height: 38, flex: height > 800 ? 0.2 : 1,marginLeft: 0, marginTop:-12}}
+                containerStyle={{ height: 38, flex: height > 800 ? 0.2 : 1, marginLeft: 0, marginTop:-12}}
                 arrowColor='rgba(51,51,51,0.5)'
                 onChangeItem={item => setYearOfParticipationForNRA(YearOfParticipationForNRA = item.value)}
               />
@@ -1074,4 +1075,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#989c9d',
   },
+  datePickerStyle: {
+    borderWidth: 0,
+    borderBottomWidth: 1.5,
+    borderBottomColor: '#989c9d',
+  }
   });
