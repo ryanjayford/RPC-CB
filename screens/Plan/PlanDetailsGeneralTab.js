@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity,Button,ScrollView,TextInput, A
 import{ AuthContext } from '../../components/context';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from '@react-navigation/native';
-import CheckBox from 'react-native-check-box';
+//import CheckBox from 'react-native-check-box';
 import DropDownPicker from 'react-native-dropdown-picker';
 //import RadioButton from 'react-native-customizable-radio-button';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -13,6 +13,7 @@ import Settings from '../../settings.json';
 import { set } from 'react-native-reanimated';
 import RadioButtonRN from 'radio-buttons-react-native';
 import WebDatePicker from '../../components/CustomWebDatePicker';
+import Checkbox from 'expo-checkbox';
 
 const baseURL = Settings.domain;
 const {width,height} = Dimensions.get('window');
@@ -723,12 +724,13 @@ const General = ({  route, Error, SetError }) => {
           <Button onPress={() => [console.log(JSON.stringify(Dd2, null, 2))]} title='test'></Button>*/}
         <Text style={[styles.title,{marginTop: 10}]}>Minimum Service</Text>
         <View style={{flexDirection: 'row', marginBottom: 5}}>
-            <CheckBox 
-            style={{paddingRight: 5}}
-            checkedCheckBoxColor = {'#333333'}
-            uncheckedCheckBoxColor	= {colors.Logintext}
-            isChecked={MonthCk} onClick = {()=> [setMonthCk(MonthCk = !MonthCk), minSvcTypeController()]}/>
-            <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Months</Text>
+            <Checkbox
+                style={styles.checkStyle}
+                value={MonthCk}
+                onValueChange={()=> [setMonthCk(MonthCk = !MonthCk), minSvcTypeController()]}
+                color={MonthCk ? "#333333" : colors.Logintext}
+            />
+            <Text style = {{color: colors.Logintext,paddingTop: 6}}>Months</Text>
         </View>
           
         <DropDownPicker
@@ -752,12 +754,13 @@ const General = ({  route, Error, SetError }) => {
             />
           
           <View style={{flexDirection: 'row', marginTop: 5,marginBottom: 5}}>
-            <CheckBox 
-            style={{paddingRight: 5}}
-            checkedCheckBoxColor = {'#333333'}
-            uncheckedCheckBoxColor	= {colors.Logintext}
-            isChecked={HourCk} onClick = {()=> [setHourCk(HourCk = !HourCk), minSvcTypeController()]}/>
-            <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Hours</Text>
+            <Checkbox
+                style={styles.checkStyle}
+                value={HourCk}
+                onValueChange={()=> [setHourCk(HourCk = !HourCk), minSvcTypeController()]}
+                color={HourCk ? "#333333" : colors.Logintext}
+            />
+            <Text style = {{color: colors.Logintext,paddingTop: 6}}>Hours</Text>
           </View>
 
             <TextInput 
@@ -833,20 +836,22 @@ const General = ({  route, Error, SetError }) => {
         <Text style={[styles.title,{marginTop: 10}]}>Excluded Years</Text>
 
           <View style={{flexDirection: 'row'}}>
-            <CheckBox 
-            style={{paddingRight: 5}}
-            checkedCheckBoxColor = {'#333333'}
-            uncheckedCheckBoxColor	= {colors.Logintext}
-            isChecked={ExcludedYears_18} onClick = {()=> setExcludedYears_18(ExcludedYears_18 = !ExcludedYears_18)}/>
-            <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Service Prior to Age 18</Text>
+            <Checkbox
+                style={styles.checkStyle}
+                value={ExcludedYears_18}
+                onValueChange={()=> setExcludedYears_18(ExcludedYears_18 = !ExcludedYears_18)}
+                color={ExcludedYears_18 ? "#333333" : colors.Logintext}
+            />
+            <Text style = {{color: colors.Logintext,paddingTop: 6}}>Service Prior to Age 18</Text>
           </View>
           <View style={{flexDirection: 'row'}}>
-            <CheckBox 
-            style={{paddingRight: 5}}
-            checkedCheckBoxColor = {'#333333'}
-            uncheckedCheckBoxColor	= {colors.Logintext}
-            isChecked={ExcludedYears_Eff} onClick = {()=> setExcludedYears_Eff(ExcludedYears_Eff = !ExcludedYears_Eff)}/>
-            <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Service Prior to Effective Date</Text>
+            <Checkbox
+                style={styles.checkStyle}
+                value={ExcludedYears_Eff}
+                onValueChange={()=> setExcludedYears_Eff(ExcludedYears_Eff = !ExcludedYears_Eff)}
+                color={ExcludedYears_Eff ? "#333333" : colors.Logintext}
+            />
+            <Text style = {{color: colors.Logintext,paddingTop: 6}}>Service Prior to Effective Date</Text>
           </View>
 
         <Text style={[styles.title,{marginTop: 10}]}>Age Definition</Text>
@@ -900,12 +905,13 @@ const General = ({  route, Error, SetError }) => {
         <Text style={[styles.title,{marginTop: 10}]}>Include Deferrals in Employer Cost</Text>
 
           <View style={{flexDirection: 'row'}}>
-            <CheckBox 
-            style={{paddingRight: 5}}
-            checkedCheckBoxColor = {'#333333'}
-            uncheckedCheckBoxColor	= {colors.Logintext}
-            isChecked={IncludeDefInEmployerCost} onClick = {()=> setIncludeDefInEmployerCost(IncludeDefInEmployerCost = !IncludeDefInEmployerCost)}/>
-            <Text style = {{color: colors.Logintext,paddingTop: 2.5,fontSize: 13.5}}>Check to include deferrals in employer costs</Text>
+            <Checkbox
+                style={styles.checkStyle}
+                value={IncludeDefInEmployerCost}
+                onValueChange={()=> setIncludeDefInEmployerCost(IncludeDefInEmployerCost = !IncludeDefInEmployerCost)}
+                color={IncludeDefInEmployerCost ? "#333333" : colors.Logintext}
+            />
+            <Text style = {{color: colors.Logintext,paddingTop: 6,fontSize: 13.5}}>Check to include deferrals in employer costs</Text>
           </View>
 
 
@@ -913,12 +919,13 @@ const General = ({  route, Error, SetError }) => {
         <Text style={[styles.title,{marginTop: 10}]}>Include 401(k) </Text>
 
           <View style={{flexDirection: 'row'}}>
-            <CheckBox 
-            style={{paddingRight: 5}}
-            checkedCheckBoxColor = {'#333333'}
-            uncheckedCheckBoxColor	= {colors.Logintext}
-            isChecked={Include401k} onClick = {()=> [setInclude401k(Include401k = !Include401k),dataState.Is401kChecked = Include401k]}/>
-            <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Check to include 401(k)</Text>
+            <Checkbox
+                style={styles.checkStyle}
+                value={Include401k}
+                onValueChange={()=> [setInclude401k(Include401k = !Include401k),dataState.Is401kChecked = Include401k]}
+                color={Include401k ? "#333333" : colors.Logintext}
+            />
+            <Text style = {{color: colors.Logintext,paddingTop: 6}}>Check to include 401(k)</Text>
           </View>
 
         <Text style={[styles.title,{marginTop: 10}]}>Tax Bracket</Text>
@@ -997,13 +1004,13 @@ const General = ({  route, Error, SetError }) => {
           />
           <Text style={[styles.title,{marginTop: 10}]}>Show logo?</Text>
           <View style={{flexDirection: 'row'}}>
-            <CheckBox 
-            style={{paddingRight: 5}}
-            checkedCheckBoxColor = {'#333333'}
-            uncheckedCheckBoxColor = {colors.Logintext}
-            isChecked={Showlogo} 
-            onClick = {()=> [setShowlogo(Showlogo = !Showlogo)]}/>
-            <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Check to display logo on the report</Text>
+            <Checkbox
+                style={styles.checkStyle}
+                value={Showlogo}
+                onValueChange={()=> [setShowlogo(Showlogo = !Showlogo)]}
+                color={Showlogo ? "#333333" : colors.Logintext}
+            />
+            <Text style = {{color: colors.Logintext,paddingTop: 6}}>Check to display logo on the report</Text>
           </View>
 
         </View>
@@ -1079,5 +1086,8 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderBottomWidth: 1.5,
     borderBottomColor: '#989c9d',
+  },
+  checkStyle: {
+      margin: 8,
   }
   });

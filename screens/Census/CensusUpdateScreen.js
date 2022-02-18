@@ -4,12 +4,14 @@ import{ AuthContext } from '../../components/context';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
-import CheckBox from 'react-native-check-box';
 import DropDownPicker from 'react-native-dropdown-picker';
 //import RadioButton from 'react-native-customizable-radio-button';
 import moment from 'moment';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import WebDatePicker from '../../components/CustomWebDatePicker';
 import RadioButtonRN from 'radio-buttons-react-native';
+import Checkbox from 'expo-checkbox';
+
 const {width,height} = Dimensions.get('window');
 
 const AddModal = ({ navigation,route }) => {
@@ -382,14 +384,18 @@ const AddModal = ({ navigation,route }) => {
         let BirthcurrentDate = BselectedDate;
         BirthcurrentDate = moment(BirthcurrentDate).format('MM/DD/YYYY');
         //alert(currentDate)
-        setBirthShow(BirthShow = !BirthShow);
+        if(Platform.OS !== 'web'){
+            setBirthShow(BirthShow = !BirthShow);
+        }
         setdatebirth(datebirth = BirthcurrentDate);
     };
    const CensusHirehandleConfirm = (HselectedDate) => {
         let HirecurrentDate = HselectedDate;
         HirecurrentDate = moment(HirecurrentDate).format('MM/DD/YYYY');
         //alert(currentDate)
-        setHireShow(HireShow = !HireShow);
+        if(Platform.OS !== 'web'){
+            setHireShow(HireShow = !HireShow);
+        }
         setdatehire(datehire = HirecurrentDate);
     };
 
@@ -397,7 +403,9 @@ const AddModal = ({ navigation,route }) => {
         let OverridecurrentDate = OselectedDate;
         OverridecurrentDate = moment(OverridecurrentDate).format('MM/DD/YYYY');
         //alert(currentDate)
-        setOverrideShow(OverrideShow = !OverrideShow);
+        if(Platform.OS !== 'web'){
+            setOverrideShow(OverrideShow = !OverrideShow);
+        }
         setParticipationDate(participationDate = OverridecurrentDate);
     };
 
@@ -626,26 +634,31 @@ const AddModal = ({ navigation,route }) => {
                         />
                       
                     <Text style={styles.columnNames}>Date of Birth {datebirth === null | datebirth === "" ?  <Text style={{color:'red'}}>*</Text> : null}</Text>
-                    <View style = {{ flexDirection: 'row'}}>
-                        <TextInput 
-                            placeholderTextColor = 'rgba(51,51,51,0.7)'
-                            placeholder="date of birth"
-                            style={[styles.textInput,{color: colors.Logintext}]}
-                            //autoCapitalize="none"
-                            value={datebirth}
-                            keyboardType='default'
-                            editable={false}
-                            onChangeText={(val) => {setdatebirth(datebirth = val)}}
-                        />
-                        <TouchableOpacity onPress={() => setBirthShow(BirthShow = !BirthShow)}>
-                            <Feather style={{ marginLeft: 5}}
-                                name="calendar"
-                                color="grey"
-                                size={25}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                        {BirthShow && (
+                        {
+                            Platform.OS === 'web' ? 
+                            <WebDatePicker style={[styles.datePickerStyle,{color: colors.Logintext}]} currentValue={moment(datebirth).format('YYYY-MM-DD')} Changedate={CensusBirthhandleConfirm}/>
+                            :
+                            <View style = {{ flexDirection: 'row'}}>
+                                <TextInput 
+                                    placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                    placeholder="date of birth"
+                                    style={[styles.textInput,{color: colors.Logintext}]}
+                                    //autoCapitalize="none"
+                                    value={datebirth}
+                                    keyboardType='default'
+                                    editable={false}
+                                    onChangeText={(val) => {setdatebirth(datebirth = val)}}
+                                />
+                                <TouchableOpacity onPress={() => setBirthShow(BirthShow = !BirthShow)}>
+                                    <Feather style={{ marginLeft: 5}}
+                                        name="calendar"
+                                        color="grey"
+                                        size={25}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        }
+                        {BirthShow && Platform.OS !== 'web' && (
                             <DateTimePickerModal
                             isVisible={BirthShow}
                             mode="date"
@@ -655,26 +668,31 @@ const AddModal = ({ navigation,route }) => {
                             />
                         )}
                     <Text style={styles.columnNames}>Date of Hire {datehire === null | datehire === "" ?  <Text style={{color:'red'}}>*</Text> : null}</Text>
-                    <View style = {{ flexDirection: 'row'}}>
-                            <TextInput 
-                                placeholderTextColor = 'rgba(51,51,51,0.7)'
-                                placeholder="date of hire"
-                                style={[styles.textInput,{color: colors.Logintext}]}
-                                //autoCapitalize="none"
-                                value={datehire}
-                                keyboardType='default'
-                                editable={false}
-                                onChangeText={(val) => {setdatehire(datehire = val)}}
-                            />
-                         <TouchableOpacity onPress={() => setHireShow(HireShow = !HireShow)}>
-                            <Feather style={{ marginLeft: 5}}
-                            name="calendar"
-                            color="grey"
-                            size={25}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                        {HireShow && (
+                        {
+                            Platform.OS === 'web' ? 
+                            <WebDatePicker style={[styles.datePickerStyle,{color: colors.Logintext}]} currentValue={moment(datehire).format('YYYY-MM-DD')} Changedate={CensusHirehandleConfirm}/>
+                            :
+                            <View style = {{ flexDirection: 'row'}}>
+                                    <TextInput 
+                                        placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                        placeholder="date of hire"
+                                        style={[styles.textInput,{color: colors.Logintext}]}
+                                        //autoCapitalize="none"
+                                        value={datehire}
+                                        keyboardType='default'
+                                        editable={false}
+                                        onChangeText={(val) => {setdatehire(datehire = val)}}
+                                    />
+                                <TouchableOpacity onPress={() => setHireShow(HireShow = !HireShow)}>
+                                    <Feather style={{ marginLeft: 5}}
+                                    name="calendar"
+                                    color="grey"
+                                    size={25}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        }
+                        {HireShow && Platform.OS !== 'web' && (
                             <DateTimePickerModal
                             isVisible={HireShow}
                             mode="date"
@@ -990,28 +1008,32 @@ const AddModal = ({ navigation,route }) => {
                             onValueChange={(value) => {setHCEchoice(HCEchoice = value.id)}} //required
                         />*/}
                     <Text style={styles.columnNames}>Date of Participation</Text>
+                        {
+                            Platform.OS === 'web' ? 
+                            <WebDatePicker style={[styles.datePickerStyle,{color: colors.Logintext}]} Isdisabled={Overridecheck === true ? false : true} currentValue={moment(participationDate).format('YYYY-MM-DD')} Changedate={CensusOverridehandleConfirm}/>
+                            :
+                            <View style = {{ flexDirection: 'row'}}>
+                                <TextInput 
+                                    placeholderTextColor = 'rgba(51,51,51,0.7)'
+                                    placeholder="date of birth"
+                                    style={[styles.textInput,{color: colors.Logintext}]}
+                                    //autoCapitalize="none"
+                                    value={participationDate}
+                                    keyboardType='default'
+                                    editable={false}
+                                    onChangeText={(val) => {setParticipationDate(participationDate = val)}}
+                                /> 
+                                <TouchableOpacity disabled={Overridecheck === true ? false : true} onPress={() => setOverrideShow(OverrideShow = !OverrideShow)}>
+                                    <Feather style={{ marginLeft: 5}}
+                                        name="calendar"
+                                        color="grey"
+                                        size={25}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        }
 
-                        <View style = {{ flexDirection: 'row'}}>
-                            <TextInput 
-                                placeholderTextColor = 'rgba(51,51,51,0.7)'
-                                placeholder="date of birth"
-                                style={[styles.textInput,{color: colors.Logintext}]}
-                                //autoCapitalize="none"
-                                value={participationDate}
-                                keyboardType='default'
-                                editable={false}
-                                onChangeText={(val) => {setParticipationDate(participationDate = val)}}
-                            /> 
-                            <TouchableOpacity disabled={Overridecheck === true ? false : true} onPress={() => setOverrideShow(OverrideShow = !OverrideShow)}>
-                                <Feather style={{ marginLeft: 5}}
-                                    name="calendar"
-                                    color="grey"
-                                    size={25}
-                                />
-                            </TouchableOpacity>
-                        </View>
-
-                        {OverrideShow && (
+                        {OverrideShow && Platform.OS !== 'web' && (
                             <DateTimePickerModal
                                 isVisible={OverrideShow}
                                 mode="date"
@@ -1021,12 +1043,15 @@ const AddModal = ({ navigation,route }) => {
                             />
                         )}
                     <View style={{flexDirection: 'row', marginTop: 5}}>
-                        <CheckBox 
-                            style={{paddingRight: 5}}
-                            checkedCheckBoxColor = {'#333333'}
-                            uncheckedCheckBoxColor	= {colors.Logintext}
-                            isChecked={Overridecheck} onClick = {()=> setOverridecheck(Overridecheck = !Overridecheck)}/>
-                        <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Override Participation Date</Text>
+                
+                        <Checkbox
+                            style={styles.checkStyle}
+                            value={Overridecheck}
+                            onValueChange={()=> setOverridecheck(Overridecheck = !Overridecheck)}
+                            color={Overridecheck ? "#333333" : colors.Logintext}
+                        />
+
+                        <Text style = {{color: colors.Logintext,paddingTop: 6}}>Override Participation Date</Text>
                     </View>
                 </View>
 
@@ -1107,5 +1132,13 @@ const styles = StyleSheet.create({
     textSign: {
         fontSize: 18,
         fontWeight: 'bold'
+    },
+    checkStyle: {
+        margin: 8,
+    },
+    datePickerStyle: {
+        borderWidth: 0,
+        borderBottomWidth: 1.5,
+        borderBottomColor: '#989c9d',
     },
   });

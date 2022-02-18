@@ -2,10 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity,Button,ScrollView, Alert, ActivityIndicator, Modal,TextInput,Dimensions,TouchableHighlight,Platform } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { useTheme } from '@react-navigation/native';
-import CheckBox from 'react-native-check-box';
 import{ AuthContext } from '../../components/context';
 import { color } from 'react-native-reanimated';
 import Settings from '../../settings.json';
+import Checkbox from 'expo-checkbox';
+
 const baseURL1 = Settings.calc;
 const {width,height} = Dimensions.get('window');
 
@@ -132,7 +133,7 @@ const ReportStandardScreen = ({ navigation }) => {
 
   
     return(
-        <ScrollView>
+        <>
           <Modal
             animationType="slide"
             transparent={true}
@@ -178,222 +179,240 @@ const ReportStandardScreen = ({ navigation }) => {
             colors={[colors.linearlight,colors.linearDark]}
             style = {styles.listcontainer}
           >  
-            <View style={{ flexDirection: 'column', marginTop: 5}}>
+            <View style={{ flexDirection: 'column', marginTop: 5,flex: 1}}>
             <Text style={{fontSize:17, color: color.secondary, paddingBottom: 5, textAlign: 'center', fontWeight: 'bold'}}>{dataState.plan.planName}</Text>
               <View style={{backgroundColor: colors.plan, padding: 10, borderTopWidth: 5, borderColor: 'green'}}>
                 <Text style={styles.header}>Standard Reports</Text>
               </View>
-              <View  style={{backgroundColor: 'white', padding: 10}}>
-
-                <View style={{flexDirection: 'row',flexWrap: 'wrap',flexShrink: 1,justifyContent: 'space-between',marginBottom: 10}}>
-                  <TouchableOpacity disabled = {isLoading} style={[styles.buttoncontainer,{backgroundColor: colors.icon}] } onPress={() => setReportModal(!ReportModal)/*setReport()*/}>
-                  { isLoading ?
-                    <ActivityIndicator size="large" color="white"/>
-                    :
-                    <Text style={styles.buttons}>Generate Reports</Text>
-                  } 
-                    
-                  </TouchableOpacity>
-                  {/*<TouchableOpacity style={[styles.buttoncontainer,{backgroundColor: colors.icon}]} >
-                    <Text style={styles.buttons}>Generate PDF Reports</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={[styles.buttoncontainer,{backgroundColor: colors.icon}]} >
-                    <Text style={styles.buttons}>Generate Excel Reports</Text>
-                  </TouchableOpacity>*/}
-                </View>
-                <View style={{flexDirection: 'row',borderColor: 'grey',borderBottomWidth: 1.5,marginTop: 10}}>
-                  <View style={{flexDirection: 'row'}}>
-                    <CheckBox 
-                    style={styles.CheckBox}
-                    checkedCheckBoxColor = {'#333333'}
-                    uncheckedCheckBoxColor	= {colors.Logintext}
-                    isChecked={selectAll} onClick = {()=> select()}/>
-                    <View style={styles.titlecontainer}>
-                      <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Select All</Text>
+              <View style={{backgroundColor: 'white',flex: 1}}>
+                <ScrollView style={{padding: 10}}>
+                  <View style={{flexDirection: 'row',flexWrap: 'wrap',flexShrink: 1,justifyContent: 'space-between',marginBottom: 10}}>
+                    <TouchableOpacity disabled = {isLoading} style={[styles.buttoncontainer,{backgroundColor: colors.icon}] } onPress={() => setReportModal(!ReportModal)/*setReport()*/}>
+                    { isLoading ?
+                      <ActivityIndicator size="large" color="white"/>
+                      :
+                      <Text style={styles.buttons}>Generate Reports</Text>
+                    } 
+                      
+                    </TouchableOpacity>
+                    {/*<TouchableOpacity style={[styles.buttoncontainer,{backgroundColor: colors.icon}]} >
+                      <Text style={styles.buttons}>Generate PDF Reports</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.buttoncontainer,{backgroundColor: colors.icon}]} >
+                      <Text style={styles.buttons}>Generate Excel Reports</Text>
+                    </TouchableOpacity>*/}
+                  </View>
+                  <View style={{flexDirection: 'row',borderColor: 'grey',borderBottomWidth: 1.5,marginTop: 10}}>
+                    <View style={{flexDirection: 'row'}}>
+                      <Checkbox
+                          style={styles.CheckBox}
+                          value={selectAll}
+                          onValueChange={()=> select()}
+                          color={selectAll ? "#333333" : colors.Logintext}
+                      />
+                      <View style={styles.titlecontainer}>
+                        <Text style = {{color: colors.Logintext,paddingTop: 6}}>Select All</Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-                <View style={{marginTop: 5}}>
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={cover} onClick = {()=> {setcover(cover = !cover)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Cover Sheet</Text>
+                  <View style={{marginTop: 5}}>
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={cover}
+                        onValueChange={()=> setcover(cover = !cover)}
+                        color={cover ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Cover Sheet</Text>
+                    </View>
                   </View>
-                </View>
 
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={standing} onClick = {()=> {setstanding(standing = !standing)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Understanding Cash Balance Plans</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={standing}
+                        onValueChange={()=> setstanding(standing = !standing)}
+                        color={standing ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Understanding Cash Balance Plans</Text>
+                    </View>
                   </View>
-                </View>
-                
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={provision} onClick = {()=> {setprovision(provision = !provision)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Plan Provision</Text>
+                  
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={provision}
+                        onValueChange={()=> setprovision(provision = !provision)}
+                        color={provision ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Plan Provision</Text>
+                    </View>
                   </View>
-                </View>
 
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={employee} onClick = {()=> {setemployee(employee = !employee)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Employee Census Listing Report</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={employee}
+                        onValueChange={()=> setemployee(employee = !employee)}
+                        color={employee ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Employee Census Listing Report</Text>
+                    </View>
                   </View>
-                </View>
-                
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={contriReport} onClick = {()=> {setcontriReport(contriReport = !contriReport)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Contribution Report</Text>
+                  
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={contriReport}
+                        onValueChange={()=> setcontriReport(contriReport = !contriReport)}
+                        color={contriReport ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Contribution Report</Text>
+                    </View>
                   </View>
-                </View>
 
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={chartReport} onClick = {()=> {setchartReport(chartReport = !chartReport)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Contribution Chart Report</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={chartReport}
+                        onValueChange={()=> setchartReport(chartReport = !chartReport)}
+                        color={chartReport ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Contribution Chart Report</Text>
+                    </View>
                   </View>
-                </View>
 
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={taxReport} onClick = {()=> {settaxReport(taxReport = !taxReport)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Tax Summary Report</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={taxReport}
+                        onValueChange={()=> settaxReport(taxReport = !taxReport)}
+                        color={taxReport ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Tax Summary Report</Text>
+                    </View>
                   </View>
-                </View>
 
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={costReport} onClick = {()=> {setcostReport(costReport = !costReport)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Target Normal Cost Report</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={costReport}
+                        onValueChange={()=> setcostReport(costReport = !costReport)}
+                        color={costReport ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Target Normal Cost Report</Text>
+                    </View>
                   </View>
-                </View>
-                
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={testReport} onClick = {()=> {settestReport(testReport = !testReport)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Minimum Participation Test Report</Text>
+                  
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={testReport}
+                        onValueChange={()=> settestReport(testReport = !testReport)}
+                        color={testReport ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Minimum Participation Test Report</Text>
+                    </View>
                   </View>
-                </View>
 
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={percentReport} onClick = {()=> {setpercentReport(percentReport = !percentReport)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Average Benefit Percentage Test Report</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={percentReport}
+                        onValueChange={()=> setpercentReport(percentReport = !percentReport)}
+                        color={percentReport ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Average Benefit Percentage Test Report</Text>
+                    </View>
                   </View>
-                </View>
 
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={gateway} onClick = {()=> {setgateway(gateway = !gateway)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Minimum Allocation Gateway Report</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={gateway}
+                        onValueChange={()=> setgateway(gateway = !gateway)}
+                        color={gateway ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Minimum Allocation Gateway Report</Text>
+                    </View>
                   </View>
-                </View>
 
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={grouptestReport} onClick = {()=> {setgrouptestReport(grouptestReport = !grouptestReport)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Normal Accrual Rate For Rate Group Testing Report</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={grouptestReport}
+                        onValueChange={()=> setgrouptestReport(grouptestReport = !grouptestReport)}
+                        color={grouptestReport ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Normal Accrual Rate For Rate Group Testing Report</Text>
+                    </View>
                   </View>
-                </View>
 
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={mostValue} onClick = {()=> {setmostValue(mostValue = !mostValue)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Most Valuable Accrual Rate for Rate Group Testing</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={mostValue}
+                        onValueChange={()=> setmostValue(mostValue = !mostValue)}
+                        color={mostValue ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Most Valuable Accrual Rate for Rate Group Testing</Text>
+                    </View>
                   </View>
-                </View>
 
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={detailReport} onClick = {()=> {setdetailReport(detailReport = !detailReport)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Rate Group Test Detail Report</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={detailReport}
+                        onValueChange={()=> setdetailReport(detailReport = !detailReport)}
+                        color={detailReport ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Rate Group Test Detail Report</Text>
+                    </View>
                   </View>
-                </View>
 
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={maxCash} onClick = {()=> {setmaxCash(maxCash = !maxCash)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Maximum Cash Balance Contribution</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={maxCash}
+                        onValueChange={()=> setmaxCash(maxCash = !maxCash)}
+                        color={maxCash ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Maximum Cash Balance Contribution</Text>
+                    </View>
                   </View>
-                </View>
 
-                <View style={{flexDirection: 'row'}}>
-                  <CheckBox 
-                  style={styles.CheckBox}
-                  checkedCheckBoxColor = {'#333333'}
-                  uncheckedCheckBoxColor	= {colors.Logintext}
-                  isChecked={testRes} onClick = {()=> {settestRes(testRes = !testRes)}}/>
-                  <View style={styles.titlecontainer}>
-                    <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Test Result</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Checkbox
+                        style={styles.CheckBox}
+                        value={testRes}
+                        onValueChange={()=> settestRes(testRes = !testRes)}
+                        color={testRes ? "#333333" : colors.Logintext}
+                    />
+                    <View style={styles.titlecontainer}>
+                      <Text style = {{color: colors.Logintext,paddingTop: 6}}>Test Result</Text>
+                    </View>
                   </View>
-                </View>
-                </View>
+                  </View>
+                </ScrollView>
               </View>
             </View>
           </LinearGradient>
-          </ScrollView>
+          </>
     )
 }
 export default ReportStandardScreen;

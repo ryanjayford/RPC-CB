@@ -16,7 +16,6 @@ import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 //import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 import { Feather as Icon } from '@expo/vector-icons';
-import CheckBox from 'react-native-check-box';
 import Settings from '../settings.json';
 import base64 from 'base-64'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -24,7 +23,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { useTheme } from 'react-native-paper';
 
 import { AuthContext } from '../components/context';
-import WebCheckBox from '../components/CustomWebCheckbox';
+import Checkbox from 'expo-checkbox';
 
 import Users from '../model/users';
 import moment from 'moment';
@@ -517,16 +516,12 @@ const SignInScreen = ({navigation}) => {
                         </Animatable.View>
                     }
                     <View style={styles.checkBox}>
-                        {
-                            Platform.OS === 'web' ? 
-                            <WebCheckBox style={styles.checkBox} checked={isChecked} checkCheck={chkKeepMeSignedIn}/>
-                            :
-                            <CheckBox 
+                        <Checkbox
                             style={styles.checkStyle}
-                            checkedCheckBoxColor ={'#72be03'}
-                            uncheckedCheckBoxColor	= {colors.Logintext}
-                            isChecked={isChecked} onClick = {()=> chkKeepMeSignedIn()}/>
-                        }
+                            value={isChecked}
+                            onValueChange={()=> chkKeepMeSignedIn()}
+                            color={isChecked ? "#72be03" : colors.Logintext}
+                        />
                         <Text style = {[styles.checkInput,{color: colors.Logintext}]}> Keep me signed in</Text>
                     </View>
                     
@@ -663,14 +658,13 @@ const styles = StyleSheet.create({
         //borderColor: "#989c9d",
     },
     checkStyle: {
-        marginLeft: 2.5,
+        margin: 8,
     },
     checkInput: {
         fontSize: 13,
         //color: "#989c9d",  
         fontWeight: 'bold',
-        marginTop: 2.5,
-        marginLeft: 2.5,
+        marginTop: 8.5,
     },
     buttoncontainer: {
         shadowColor: '#000',

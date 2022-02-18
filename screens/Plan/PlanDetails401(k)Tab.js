@@ -2,8 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,ScrollView,TextInput,Dimensions } from 'react-native';
 import{ AuthContext } from '../../components/context';
 import { useTheme } from '@react-navigation/native';
-import CheckBox from 'react-native-check-box';
+//import CheckBox from 'react-native-check-box';
 import RadioButtonRN from 'radio-buttons-react-native';
+import Checkbox from 'expo-checkbox';
+
 const {width,height} = Dimensions.get('window');
 
 const FOI = ({ navigation }) => {
@@ -631,12 +633,13 @@ const FOI = ({ navigation }) => {
           <Text style={[styles.title,{marginTop: 10}]}>3% Safe Harbor Contribution </Text>
 
           <View style={{flexDirection: 'row'}}>
-              <CheckBox 
-              style={{paddingRight: 5}}
-              checkedCheckBoxColor = {'#333333'}
-              uncheckedCheckBoxColor	= {colors.Logintext}
-              isChecked={IsSafeHarborContrib} onClick = {()=> Is3Percentcheck()}/>
-              <Text style = {{color: colors.Logintext,paddingTop: 2.5}}>Yes</Text>
+              <Checkbox
+                style={styles.checkStyle}
+                value={IsSafeHarborContrib}
+                onValueChange={()=> Is3Percentcheck()}
+                color={IsSafeHarborContrib ? "#333333" : colors.Logintext}
+              />
+              <Text style = {{color: colors.Logintext,paddingTop: 6}}>Yes</Text>
           </View>
           <Text style={[styles.title,{marginTop: 10}]}>Exclusions</Text>
 
@@ -709,5 +712,8 @@ const styles = StyleSheet.create({
       marginTop: 7,
       paddingLeft: 10,
       fontSize: height > 800 ? 18 : 15
+    },
+    checkStyle: {
+        margin: 8,
     }
   });
