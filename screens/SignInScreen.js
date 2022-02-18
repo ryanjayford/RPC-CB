@@ -24,6 +24,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { useTheme } from 'react-native-paper';
 
 import { AuthContext } from '../components/context';
+import WebCheckBox from '../components/CustomWebCheckbox';
 
 import Users from '../model/users';
 import moment from 'moment';
@@ -516,15 +517,17 @@ const SignInScreen = ({navigation}) => {
                         </Animatable.View>
                     }
                     <View style={styles.checkBox}>
-                        <TouchableOpacity style={styles.checkBox} onPress={() => {chkKeepMeSignedIn()}}>
+                        {
+                            Platform.OS === 'web' ? 
+                            <WebCheckBox style={styles.checkBox} checked={isChecked} checkCheck={chkKeepMeSignedIn}/>
+                            :
                             <CheckBox 
                             style={styles.checkStyle}
                             checkedCheckBoxColor ={'#72be03'}
                             uncheckedCheckBoxColor	= {colors.Logintext}
                             isChecked={isChecked} onClick = {()=> chkKeepMeSignedIn()}/>
-
-                            <Text style = {[styles.checkInput,{color: colors.Logintext}]}> Keep me signed in</Text>
-                        </TouchableOpacity>
+                        }
+                        <Text style = {[styles.checkInput,{color: colors.Logintext}]}> Keep me signed in</Text>
                     </View>
                     
                     
