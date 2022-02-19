@@ -185,8 +185,8 @@ const ReportStandardScreen = ({ navigation }) => {
                 <Text style={styles.header}>Standard Reports</Text>
               </View>
               <View style={{backgroundColor: 'white',flex: 1}}>
-                <ScrollView style={{padding: 10}}>
-                  <View style={{flexDirection: 'row',flexWrap: 'wrap',flexShrink: 1,justifyContent: 'space-between',marginBottom: 10}}>
+                <ScrollView style={{paddingLeft: 10,paddingRight: 10}}>
+                  <View style={{flexDirection: 'row',flexWrap: 'wrap',flexShrink: 1,justifyContent: 'space-between',marginBottom: 10, marginTop: 10}}>
                     <TouchableOpacity disabled = {isLoading} style={[styles.buttoncontainer,{backgroundColor: colors.icon}] } onPress={() => setReportModal(!ReportModal)/*setReport()*/}>
                     { isLoading ?
                       <ActivityIndicator size="large" color="white"/>
@@ -396,7 +396,7 @@ const ReportStandardScreen = ({ navigation }) => {
                     </View>
                   </View>
 
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{flexDirection: 'row', marginBottom: 10}}>
                     <Checkbox
                         style={styles.CheckBox}
                         value={testRes}
