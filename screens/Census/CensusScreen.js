@@ -26,6 +26,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import XLSX from 'xlsx';
 import Settings from '../../settings.json';
+
 const baseURL = Settings.domain;
 const {width,height} = Dimensions.get('window');
 
@@ -121,57 +122,72 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     
     
     let result = await DocumentPicker.getDocumentAsync({type: DocumentType,copyToCacheDirectory: true}); //type: '*/*' for all files
-    //alert(result.uri);
+    //console.log(result.type);
     
     if(result.uri != undefined)
     {
-      const info =  await FileSystem.getInfoAsync(result.uri)
-      //?console.log('read file res: ', info);
-  
-      await FileSystem.readAsStringAsync(result.uri, {encoding: FileSystem.EncodingType.Base64}).then(b64 => XLSX.read(b64, {type: 'base64',cellText:true,cellNF: false,cellDates: true})).then(wb => { 
-        /* sheet name */
-        const wsname = wb.SheetNames[1];
-        const ws = wb.Sheets[wsname];
-        /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, { raw: true,defval:null, dateNF:'mm/dd/yyyy'}); // or dateNF:'mm-dd-yyyy'
-        let payload = {};
-        let censusData = [];
-        
-        if (data && data.length){
-          payload.planId = planId;
-          data.forEach(function(item, idx) {        
-            let censusD = {};
-            censusD.CashBalance = item["Cash Balance"] == null ? "" : item["Cash Balance"].toString();
-            censusD.ClassCode = item["Class Code"];
-            censusD.DateOfBirth = moment(item["Date of Birth"]).add(1, 'days');
-            censusD.DateOfHire = moment(item["Date of Hire"]).add(1, 'days');
-            censusD.Deferral = item.Deferral == null ? null : item.Deferral.toString();
-            censusD.W2Earnings = item.Earnings;
-            censusD.FamCode = item["Family Code"];
-            censusD.Firstname = item["First Name"];
-            censusD.Sex = item.Gender;
-            censusD.WorkHours = item.Hours;
-            censusD.LastName = item["Last Name"];
-            censusD.LastYearComp = item["Last Year Earnings"] == null ? 0 : item["Last Year Earnings"];
-            censusD.PercentOwnership = item["Ownership Percentage"];
-            censusD.Principal = item.Principal;
-            censusD.ProfitSharing = item["Profit Sharing"] == null ? "" : item["Profit Sharing"].toString();
-            censusData.push(censusD);
-          });
-          payload.census = censusData;
-          //console.log('before send to api ===================>',censusData);
-        }
-  
-        if (payload.census && payload.census.length){
+      if(Platform.OS === 'web'){
+          const reader = new FileReader();
+          reader.readAsDataURL(result.output[0]);
+          reader.onloadend = () => {
+            const base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
+            const workbook = XLSX.read(base64String, {type: 'base64',cellText:true,cellNF: false,cellDates: true});
+            const wsname = workbook.SheetNames[1];
+            const ws = workbook.Sheets[wsname];
+            const data = XLSX.utils.sheet_to_json(ws, {raw: true,defval:null, dateNF:'mm/dd/yyyy'});
+            JsonToPayload(data)
+          };  
+      }
+      else {
+        await FileSystem.readAsStringAsync(result.uri, {encoding: FileSystem.EncodingType.Base64}).then(b64 => XLSX.read(b64, {type: 'base64',cellText:true,cellNF: false,cellDates: true})).then(wb => { 
+          /* sheet name */
+          const wsname = wb.SheetNames[1];
+          const ws = wb.Sheets[wsname];
+          /* Convert array of arrays */
+          const data = XLSX.utils.sheet_to_json(ws, { raw: true,defval:null, dateNF:'mm/dd/yyyy'}); // or dateNF:'mm-dd-yyyy'
+          JsonToPayload(data)
+        });
+      }
+
+      function JsonToPayload(Excel_rows) {
+          const data = Excel_rows;
+          let payload = {};
+          let censusData = [];
+          
+          if (data && data.length){
+            payload.planId = planId;
+            data.forEach(function(item, idx) {        
+              let censusD = {};
+              censusD.CashBalance = item["Cash Balance"] == null ? "" : item["Cash Balance"].toString();
+              censusD.ClassCode = item["Class Code"];
+              censusD.DateOfBirth = moment(item["Date of Birth"]).add(1, 'days');
+              censusD.DateOfHire = moment(item["Date of Hire"]).add(1, 'days');
+              censusD.Deferral = item.Deferral == null ? null : item.Deferral.toString();
+              censusD.W2Earnings = item.Earnings;
+              censusD.FamCode = item["Family Code"];
+              censusD.Firstname = item["First Name"];
+              censusD.Sex = item.Gender;
+              censusD.WorkHours = item.Hours;
+              censusD.LastName = item["Last Name"];
+              censusD.LastYearComp = item["Last Year Earnings"] == null ? 0 : item["Last Year Earnings"];
+              censusD.PercentOwnership = item["Ownership Percentage"];
+              censusD.Principal = item.Principal;
+              censusD.ProfitSharing = item["Profit Sharing"] == null ? "" : item["Profit Sharing"].toString();
+              censusData.push(censusD);
+            });
+            payload.census = censusData;
+            //console.log('before send to api ===================>',censusData);
+          }
+    
+          if (payload.census && payload.census.length){
             SaveCensus(payload, planId);
-          }else{
+          }
+          else{
             alert('Invalid File');
             setCensusData(censusData => oldCensusData);
           }
-        
-  
-      
-      });
+      }
+
     }else{
           
           setCensusData(censusData => oldCensusData);

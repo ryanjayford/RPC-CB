@@ -24,37 +24,27 @@ const AlertModal = ({ navigation }) => {
             visible={true}
             onRequestClose={() => {}}  
         >
-       
-        <View style ={styles.ModalBackground}>
-            <View style ={styles.Modalcontainer}>
+            <View style ={styles.ModalBackground}>
+                <View style ={styles.Modalcontainer}>
+                    <View style={{flexDirection: 'column'}}>
+                        <Text style={[styles.header,{padding: 5}]}>Census Upload</Text>
+                        <Text style={[styles.message,{padding: 5}]}>Are you sure you want to upload New Census?</Text>
+                    </View>
+                    <View style={styles.button}>
+                        <TouchableOpacity style={[styles.signIn,{marginRight: 2.5}]} onPress={() => {[navigation.goBack(), 
+                            setTimeout(() => {
+                                setScreen({Name: 'Census', Method: 'PickAndUpload'})
+                            }, 800)
+                        ]}}>
+                            <Text style={[styles.textSign, {color:'white'}]}>Yes</Text>
+                        </TouchableOpacity>
 
-           
-                <View style={styles.headercontainer}>
-                    <Text style={[styles.header,{padding: 5}]}>Census Upload</Text>
-                    <Text style={[styles.message,{padding: 5}]}>Are you sure you want to upload New Census?</Text>
+                        <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.signIn, {marginLeft: 2.5}]}>
+                            <Text style={[styles.textSign, {color: 'white'}]}>No</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-           
-                
-                <View style={styles.button}>
-                
-                    <TouchableOpacity style={[styles.signIn,{marginRight: 2.5}]} onPress={() => {[navigation.goBack(), 
-                        setTimeout(() => {
-                            setScreen({Name: 'Census', Method: 'PickAndUpload'})
-                        }, 800)
-                    ]}}>
-                        <View style={styles.signIn}>
-                            <Text style={[styles.textSign, {color:'#333333'}]}>Yes</Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => navigation.goBack()} style={[styles.signIn, {marginLeft: 2.5}]}>
-                        <Text style={[styles.textSign, {color: '#333333'}]}>No</Text>
-                    </TouchableOpacity>
-                </View>
-          
             </View>
-        </View>
-    
         </Modal>
        
     )
@@ -74,76 +64,51 @@ const styles = StyleSheet.create({
     },
     Modalcontainer: {
         //flex: 1,
-        height: height/5,
-        width: width/1.2,
+        //height: height/5,
+        width: '80%',
         borderRadius: 5,
-        //marginBottom: Platform.OS === 'ios' ? height/2.4 : height/2.52,
-       // marginTop: Platform.OS === 'ios' ? height/2.4 : height/2.52,
-        //marginRight: 30,
-        //marginLeft: 30,
-        //top: '10%',
-        //padding: 20,
-        //backgroundColor: 'rgba(51,51,51,1)',
+        padding: 20,
         backgroundColor: 'white',
-       //justifyContent: 'center'
-    },
-    headercontainer: {
-        marginLeft: 5,
-        marginRight: 5,   
-        flexDirection: 'column',
-        padding: 5,
-        textAlign: 'center'
+        shadowColor: "#000",
+        shadowOffset: {
+        width: 0,
+        height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
     },
     header: {
         fontSize: 18,
-        color: 'grey',
+        color: 'black',
         fontWeight: 'bold',
         alignContent: 'center',
     },
     message: {
-        fontSize: 15,
+        fontSize: 16,
         color: 'grey',
         //fontWeight: 'bold',
         alignContent: 'center',
     },
-    TitleName: {
-        padding: 2.5,
-        paddingHorizontal: 15,
-        color: 'grey',
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginTop: 10,
-        backgroundColor: 'lightgrey'
-    },
-   
-    Copyinfo: {
-        //paddingHorizontal: 25,
-        marginTop: 5,
-        marginLeft: 5,
-        marginBottom: 5,
-        //fontWeight: 'bold'
-    },
     button: {
         //backgroundColor: 'grey',
-        flex: 1,
-        margin: 10,
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'flex-end',
     },
     signIn: {
         //flex: 1,
-        width: 40,
-        height: 40,
+        padding: 10,
         justifyContent: 'center',
         //alignItems: 'center',
+        backgroundColor: "#72be03",
         borderRadius: 5
         
     },
     textSign: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
     },
   
   });
