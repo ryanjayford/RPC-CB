@@ -1137,6 +1137,7 @@ const styles = StyleSheet.create({
         margin: 8,
     },
     datePickerStyle: {
+        flex: 1,
         borderWidth: 0,
         borderBottomWidth: 1.5,
         borderBottomColor: '#989c9d',

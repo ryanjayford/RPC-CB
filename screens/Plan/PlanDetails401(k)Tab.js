@@ -497,26 +497,29 @@ const FOI = ({ navigation }) => {
             
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.subNames}>Owner</Text>
-              <TextInput 
-                placeholderTextColor = 'rgba(51,51,51,0.7)'
-                placeholder="0.00"
-                style={[styles.textInput,{color: colors.Logintext}]}
-                value={TotOwnerCost}
-                //autoCapitalize="none"
-                keyboardType='numeric'
-                onChangeText={(val) => setTotOwnerCost(TotOwnerCost = val)}
-              />
+              <View style={{flex: 1}}>
+                <TextInput 
+                  placeholderTextColor = 'rgba(51,51,51,0.7)'
+                  placeholder="0.00"
+                  style={[styles.textInput,{color: colors.Logintext}]}
+                  value={TotOwnerCost}
+                  //autoCapitalize="none"
+                  keyboardType='numeric'
+                  onChangeText={(val) => setTotOwnerCost(TotOwnerCost = val)}
+                />
+              </View>
               <Text style={styles.subNames}>Non-Owner</Text>
-
-              <TextInput 
-                placeholderTextColor = 'rgba(51,51,51,0.7)'
-                placeholder="0.00"
-                style={[styles.textInput2,{color: colors.Logintext}]}
-                //autoCapitalize="none"
-                value={TotNonOwnerCost}
-                keyboardType='numeric'
-                onChangeText={(val) => setTotNonOwnerCost(TotNonOwnerCost = val)}
-              />
+              <View style={{flex: 1}}>
+                <TextInput 
+                  placeholderTextColor = 'rgba(51,51,51,0.7)'
+                  placeholder="0.00"
+                  style={[styles.textInput2,{color: colors.Logintext}]}
+                  //autoCapitalize="none"
+                  value={TotNonOwnerCost}
+                  keyboardType='numeric'
+                  onChangeText={(val) => setTotNonOwnerCost(TotNonOwnerCost = val)}
+                />
+              </View>
             </View>
 
           <Text style={[styles.title,{marginTop: 10}]}>Catch-Up</Text>
@@ -558,76 +561,89 @@ const FOI = ({ navigation }) => {
 
             <View style={{flexDirection: 'row', marginTop: 5}}>
 
-              <TextInput 
-                placeholderTextColor = 'rgba(51,51,51,0.7)'
-                placeholder="0"
-                style={[styles.textInput,{color: colors.Logintext}]}
-                value={MatchPercent1}
-                //autoCapitalize="none"
-                keyboardType='numeric'
-                onChangeText={(val) => setMatchPercent1(MatchPercent1 = val)}
-              />
+              <View style={{flex: 1}}>
+                <TextInput 
+                  placeholderTextColor = 'rgba(51,51,51,0.7)'
+                  placeholder="0"
+                  style={[styles.textInput,{color: colors.Logintext}]}
+                  value={MatchPercent1}
+                  //autoCapitalize="none"
+                  keyboardType='numeric'
+                  onChangeText={(val) => setMatchPercent1(MatchPercent1 = val)}
+                />
+              </View>
               <Text style={styles.MatchNum}>% of first</Text>
-
-              <TextInput 
-                placeholderTextColor = 'rgba(51,51,51,0.7)'
-                placeholder="0"
-                style={[styles.textInput2,{color: colors.Logintext}]}
-                //autoCapitalize="none"
-                value={MatchLimit1}
-                keyboardType='numeric'
-                onChangeText={(val) => setMatchLimit1(MatchLimit1 = val)}
-              />
+              <View style={{flex: 1}}>
+                <TextInput 
+                  placeholderTextColor = 'rgba(51,51,51,0.7)'
+                  placeholder="0"
+                  style={[styles.textInput2,{color: colors.Logintext}]}
+                  //autoCapitalize="none"
+                  value={MatchLimit1}
+                  keyboardType='numeric'
+                  onChangeText={(val) => setMatchLimit1(MatchLimit1 = val)}
+                />
+              </View>
               <Text style={styles.MatchNum}>%</Text>
 
             </View>
 
             <View style={{flexDirection: 'row'}}>
-              <TextInput 
-                placeholderTextColor = 'rgba(51,51,51,0.7)'
-                placeholder="0"
-                style={[styles.textInput,{color: colors.Logintext}]}
-                //autoCapitalize="none"
-                value={MatchPercent2}
-                keyboardType='numeric'
-                onChangeText={(val) => setMatchPercent2(MatchPercent2 = val)}
-              />
-              <Text style={styles.MatchNum}>% of first</Text>
 
-              <TextInput 
-                placeholderTextColor = 'rgba(51,51,51,0.7)'
-                placeholder="0"
-                style={[styles.textInput2,{color: colors.Logintext}]}
-                //autoCapitalize="none"
-                value={MatchLimit2}
-                keyboardType='numeric'
-                onChangeText={(val) => setMatchLimit2(MatchLimit2 = val)}
-              />
+              <View style={{flex: 1}}>
+                <TextInput 
+                  placeholderTextColor = 'rgba(51,51,51,0.7)'
+                  placeholder="0"
+                  style={[styles.textInput,{color: colors.Logintext}]}
+                  //autoCapitalize="none"
+                  value={MatchPercent2}
+                  keyboardType='numeric'
+                  onChangeText={(val) => setMatchPercent2(MatchPercent2 = val)}
+                />
+              </View>
+              <Text style={styles.MatchNum}>% of first</Text>
+              <View style={{flex: 1}}>
+                <TextInput 
+                  placeholderTextColor = 'rgba(51,51,51,0.7)'
+                  placeholder="0"
+                  style={[styles.textInput2,{color: colors.Logintext}]}
+                  //autoCapitalize="none"
+                  value={MatchLimit2}
+                  keyboardType='numeric'
+                  onChangeText={(val) => setMatchLimit2(MatchLimit2 = val)}
+                />
+              </View>
               <Text style={styles.MatchNum}>%</Text>
+
             </View>
 
             <View style={{flexDirection: 'row'}}>
-              <TextInput 
-                placeholderTextColor = 'rgba(51,51,51,0.7)'
-                placeholder="0"
-                style={[styles.textInput,{color: colors.Logintext}]}
-                //autoCapitalize="none"
-                value={MatchPercent3}
-                keyboardType='numeric'
-                onChangeText={(val) => setMatchPercent3(MatchPercent3 = val)}
-              />
-              <Text style={styles.MatchNum}>% of first</Text>
 
-              <TextInput 
-                placeholderTextColor = 'rgba(51,51,51,0.7)'
-                placeholder="0"
-                style={[styles.textInput2,{color: colors.Logintext}]}
-                //autoCapitalize="none"
-                value={MatchLimit3}
-                keyboardType='numeric'
-                onChangeText={(val) => setMatchLimit3(MatchLimit3 = val)}
-              />
+              <View style={{flex: 1}}>
+                <TextInput 
+                  placeholderTextColor = 'rgba(51,51,51,0.7)'
+                  placeholder="0"
+                  style={[styles.textInput,{color: colors.Logintext}]}
+                  //autoCapitalize="none"
+                  value={MatchPercent3}
+                  keyboardType='numeric'
+                  onChangeText={(val) => setMatchPercent3(MatchPercent3 = val)}
+                />
+              </View>
+              <Text style={styles.MatchNum}>% of first</Text>
+              <View style={{flex: 1}}>
+                <TextInput 
+                  placeholderTextColor = 'rgba(51,51,51,0.7)'
+                  placeholder="0"
+                  style={[styles.textInput2,{color: colors.Logintext}]}
+                  //autoCapitalize="none"
+                  value={MatchLimit3}
+                  keyboardType='numeric'
+                  onChangeText={(val) => setMatchLimit3(MatchLimit3 = val)}
+                />
+              </View>
               <Text style={styles.MatchNum}>%</Text>
+              
             </View>
 
           <Text style={[styles.title,{marginTop: 10}]}>3% Safe Harbor Contribution </Text>

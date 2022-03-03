@@ -607,10 +607,10 @@ const General = ({  route, Error, SetError }) => {
           <WebDatePicker style={[styles.datePickerStyle,{color: colors.Logintext}]} currentValue={moment(PlanEffDate).format('YYYY-MM-DD')} Changedate={handleConfirm}/>
           :
           <TouchableOpacity style = {{ flexDirection: 'row'}} onPress={() => setShow(show = !show)}>
-            <TextInput style={{flex: 1}}
+            <TextInput
               placeholderTextColor = 'rgba(51,51,51,0.7)'
               placeholder="Date"
-              style={[styles.textInput,{color: colors.Logintext}]}
+              style={[styles.textInput,{color: colors.Logintext,flex: 1}]}
               value={date != null ? date.toString() : PlanEffDate}
               editable={false}
               
@@ -643,17 +643,19 @@ const General = ({  route, Error, SetError }) => {
           }
           <View style={{...(Platform.OS !== 'android'? {zIndex: 5,flexDirection: 'row'} : {flexDirection: 'row'})}}>
             <Text style={[styles.subNames,{}]}>The later of Age</Text>
-            <TextInput style={{alignSelf:'flex-start', flex:1}}
-              placeholderTextColor = 'rgba(51,51,51,0.7)'
-              placeholder="0"
-              style={[styles.SubtextInput,{color: colors.Logintext}]}
-              //autoCapitalize="none"
-              value={RetAge}
-              keyboardType='numeric'
-              onChangeText={(val) => [setRetAge(RetAge = val), NRA_Error(val)]}
-            />
+            <View style={{flex: 1}}>
+              <TextInput
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0"
+                style={[styles.SubtextInput,{color: colors.Logintext}]}
+                //autoCapitalize="none"
+                value={RetAge}
+                keyboardType='numeric'
+                onChangeText={(val) => [setRetAge(RetAge = val), NRA_Error(val)]}
+              />
+            </View>
             <Text style={styles.subNames}>years of participation</Text>
-            
+            <View style={{flex: 1}}>
               <DropDownPicker
                 items={DropdownData.yearOfParticipationForNRA}
                 defaultValue={YearOfParticipationForNRA}             
@@ -665,11 +667,11 @@ const General = ({  route, Error, SetError }) => {
                 itemStyle={{justifyContent: 'flex-start'}}
                 style={{borderWidth: 1}}
                 dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-                containerStyle={{ height: 38, flex: height > 800 ? 0.2 : 1, marginLeft: 0, marginTop:-12}}
+                containerStyle={{ height: 38, /*flex: height > 800 ? 0.2 : 1,*/ marginLeft: 0, marginTop:-12}}
                 arrowColor='rgba(51,51,51,0.5)'
                 onChangeItem={item => setYearOfParticipationForNRA(YearOfParticipationForNRA = item.value)}
               />
-            
+            </View>
           </View>  
          
         <Text style={[styles.title,{marginTop: 10}]}>Testing Age</Text>
@@ -798,39 +800,45 @@ const General = ({  route, Error, SetError }) => {
         <Text style={[styles.title,{marginTop: 10}]}>Vesting Schedule</Text>
 
         <View style={{flexDirection: 'row'}}>
+            
             <Text style={styles.subNames}>Year 1</Text>
-            <TextInput 
-              placeholderTextColor = 'rgba(51,51,51,0.7)'
-              placeholder="0"
-              style={[styles.textInput,{color: colors.Logintext}]}
-              //autoCapitalize="none"
-              value={VestingSchedYear1}
-              keyboardType='numeric'
-              onChangeText={(val) => setVestingSchedYear1(VestingSchedYear1 = val)}
-            />
+            <View style={{flex: 1}}>
+              <TextInput 
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0"
+                style={[styles.textInput,{color: colors.Logintext}]}
+                //autoCapitalize="none"
+                value={VestingSchedYear1}
+                keyboardType='numeric'
+                onChangeText={(val) => setVestingSchedYear1(VestingSchedYear1 = val)}
+              />
+            </View>
+
             <Text style={styles.subNames}>Year 2</Text>
+            <View style={{flex: 1}}>
+              <TextInput 
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0"
+                style={[styles.textInput2,{color: colors.Logintext}]}
+                //autoCapitalize="none"
+                value={VestingSchedYear2}
+                keyboardType='numeric'
+                onChangeText={(val) => setVestingSchedYear2(VestingSchedYear2 = val)}
+              />
+            </View>
 
-            <TextInput 
-              placeholderTextColor = 'rgba(51,51,51,0.7)'
-              placeholder="0"
-              style={[styles.textInput2,{color: colors.Logintext}]}
-              //autoCapitalize="none"
-              value={VestingSchedYear2}
-              keyboardType='numeric'
-              onChangeText={(val) => setVestingSchedYear2(VestingSchedYear2 = val)}
-            />
-
-          <Text style={styles.subNames}>Year 3</Text>
-
-          <TextInput 
-            placeholderTextColor = 'rgba(51,51,51,0.7)'
-            placeholder="0"
-            style={[styles.textInput3,{color: colors.Logintext}]}
-            //autoCapitalize="none"
-            value={VestingSchedYear3}
-            keyboardType='numeric'
-            onChangeText={(val) => setVestingSchedYear3(VestingSchedYear3 = val)}
-          />
+            <Text style={styles.subNames}>Year 3</Text>
+            <View style={{flex: 1}}>
+              <TextInput 
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0"
+                style={[styles.textInput3,{color: colors.Logintext}]}
+                //autoCapitalize="none"
+                value={VestingSchedYear3}
+                keyboardType='numeric'
+                onChangeText={(val) => setVestingSchedYear3(VestingSchedYear3 = val)}
+              />
+            </View>
           </View>
 
         <Text style={[styles.title,{marginTop: 10}]}>Excluded Years</Text>
@@ -932,26 +940,30 @@ const General = ({  route, Error, SetError }) => {
 
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.subNames}>Minimum</Text>
-            <TextInput 
-              placeholderTextColor = 'rgba(51,51,51,0.7)'
-              placeholder="0"
-              style={[styles.textInput,{color: colors.Logintext}]}
-              //autoCapitalize="none"
-              value={MinTaxBracket}
-              keyboardType='numeric'
-              onChangeText={(val) => setMinTaxBracket(MinTaxBracket = val)}
-            />
-            <Text style={styles.subNames}>Maximum</Text>
+            <View style={{flex: 1}}>
+              <TextInput 
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0"
+                style={[styles.textInput,{color: colors.Logintext}]}
+                //autoCapitalize="none"
+                value={MinTaxBracket}
+                keyboardType='numeric'
+                onChangeText={(val) => setMinTaxBracket(MinTaxBracket = val)}
+              />
+            </View>
 
-            <TextInput 
-              placeholderTextColor = 'rgba(51,51,51,0.7)'
-              placeholder="0"
-              style={[styles.textInput2,{color: colors.Logintext}]}
-              //autoCapitalize="none"
-              value={MaxTaxBracket}
-              keyboardType='numeric'
-              onChangeText={(val) => setMaxTaxBracket(MaxTaxBracket = val)}
-            />
+            <Text style={styles.subNames}>Maximum</Text>
+            <View style={{flex: 1}}>
+              <TextInput 
+                placeholderTextColor = 'rgba(51,51,51,0.7)'
+                placeholder="0"
+                style={[styles.textInput2,{color: colors.Logintext}]}
+                //autoCapitalize="none"
+                value={MaxTaxBracket}
+                keyboardType='numeric'
+                onChangeText={(val) => setMaxTaxBracket(MaxTaxBracket = val)}
+              />
+            </View>
           </View>
           
         <Text style={[styles.title,{marginTop: 10}]}>Report Prepared By</Text>
@@ -1048,6 +1060,7 @@ const styles = StyleSheet.create({
     marginBottom: 7
   },
   subNames: {
+    flexShrink: 1,
     paddingRight: 3,
     marginTop: 7,
     paddingLeft: 3,
@@ -1061,18 +1074,18 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: '#989c9d',
   },
-  textInput: {
+  textInput: { 
     flex: 1,  
     borderBottomWidth: 1.5,
     borderBottomColor: '#989c9d',
   },
   textInput2: {
-    flex: 1, 
+    flex: 1,  
     borderBottomWidth: 1.5,
     borderBottomColor: '#989c9d',
   },
   textInput3: {
-    flex: 1, 
+    flex: 1,  
     borderBottomWidth: 1.5,
     borderBottomColor: '#989c9d',
   },
@@ -1083,6 +1096,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#989c9d',
   },
   datePickerStyle: {
+    flex: 1,
     borderWidth: 0,
     borderBottomWidth: 1.5,
     borderBottomColor: '#989c9d',
