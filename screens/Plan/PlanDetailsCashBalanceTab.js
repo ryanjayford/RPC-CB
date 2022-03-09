@@ -52,6 +52,12 @@ const CashBalance = ({ route }) => {
   let [TAPreRetInt, setTAPreRetInt] = React.useState(DefaultPlan.taPreRetInt ? DefaultPlan.taPreRetInt.toString() : null);
   let [TAPostRetInt, setTAPostRetInt] = React.useState(DefaultPlan.taPostRetInt ? DefaultPlan.taPostRetInt.toString() : null); 
 
+  if(ModalData) {
+    OverrideSegRate1 = ModalData.segment1Rate.toString(); 
+    OverrideSegRate2 = ModalData.segment2Rate.toString(); 
+    OverrideSegRate3 = ModalData.segment3Rate.toString();
+  }
+
   Balance.isPBGCCovered = IsPBGCCovered === 1 ? true : false;
   Balance.cbInterestCredit = CBInterestCredit ? CBInterestCredit.toString() : "0";
   Balance.overrideSegRate1 = OverrideSegRate1 ? OverrideSegRate1.toString() : "0";
@@ -67,13 +73,6 @@ const CashBalance = ({ route }) => {
   Balance.taPostRetMort = TAPostRetMort === undefined ? null : TAPostRetMort;
   Balance.taPreRetInt = TAPreRetInt ? TAPreRetInt.toString() : "0";
   Balance.taPostRetInt = TAPostRetInt ? TAPostRetInt.toString() : "0";
-
-  
-  if(ModalData) {
-    OverrideSegRate1 = ModalData.segment1Rate.toString(); 
-    OverrideSegRate2 = ModalData.segment2Rate.toString(); 
-    OverrideSegRate3 = ModalData.segment3Rate.toString();
-  }
 
   const CBScroll = React.useRef();
   let [ACTUARIALMargin, setACTUARIALMargin] = React.useState(0); 
@@ -397,7 +396,7 @@ const CashBalance = ({ route }) => {
                   searchableStyle={{color: 'rgba(51,51,51,0.5)'}}
                   arrowColor='rgba(51,51,51,0.5)'
                   onOpen={() => [CashDropSelected = 1,DropdownCashController(CashDropSelected),CBScroll.current.scrollTo({ x: 0, y: 500, animated: true })]}
-                onClose={() => {[setACTUARIALhideDrop(ACTUARIALhideDrop = false),setACTUARIALMargin(ACTUARIALMargin = 0)]}}
+                  onClose={() => {[setACTUARIALhideDrop(ACTUARIALhideDrop = false),setACTUARIALMargin(ACTUARIALMargin = 0)]}}
                   onChangeItem={item => setAEPostRetMortalityTable(AEPostRetMortalityTable = item.value)}
               /> 
             </View>

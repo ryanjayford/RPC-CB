@@ -39,7 +39,7 @@ const AddModal = ({ navigation,route }) => {
     let [fname, setfname] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.Firstname); 
     let [lname, setlname] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.Lastname); 
     let [sex, setsex] = React.useState(parameter === 'CensusAddUser' ? 'M' : selectedUser.Sex); 
-    let [pricipal, setpricipal] = React.useState(parameter === 'CensusAddUser' ? 1 : (selectedUser.Principal === 0 ? 2 : 1)); 
+    let [pricipal, setpricipal] = React.useState(parameter === 'CensusAddUser' ? 2 : (selectedUser.Principal === 0 ? 2 : 1)); 
     let [owner, setowner] = React.useState(parameter === 'CensusAddUser' ? 2 : (selectedUser.IsOwner === 0 ? 2 : 1)); 
     let [familycode, setfamilycode] = React.useState(parameter === 'CensusAddUser' ? " " : selectedUser.FamilyCode); 
     let [datebirth, setdatebirth] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.dateOfBirth);
@@ -48,7 +48,7 @@ const AddModal = ({ navigation,route }) => {
     let [pastservice, setpastservice] = React.useState(parameter === 'CensusAddUser' ? '0' : (selectedUser.PastService) ? selectedUser.PastService.toString() : "0" ); 
     let [LYcompensation, setLYcompensation] = React.useState(parameter === 'CensusAddUser' ? '0' : (selectedUser.lastYearComp) ? selectedUser.lastYearComp.toString() : "0"); 
     let [w2earnings, setw2earnings] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.W2Earnings.toString()); 
-    let [catchup, setcatchup] = React.useState(parameter === 'CensusAddUser' ? 2 : (selectedUser.HasCatchUp === 0 ? 2 : 1)); //checking
+    let [catchup, setcatchup] = React.useState(parameter === 'CensusAddUser' ? 1 : (selectedUser.HasCatchUp === 0 ? 2 : 1)); //checking
     let [classtype, setclasstype] = React.useState(parameter === 'CensusAddUser' ? "A" : selectedUser.classCode); //React.useState('A'); 
     let [deferral, setdeferral] = React.useState(parameter === 'CensusAddUser' ? "" : selectedUser.DeferralPercent); 
     let [deferralchoice, setdeferralchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.DeferCode); 

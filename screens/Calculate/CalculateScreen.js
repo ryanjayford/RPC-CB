@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     //margin: 20,
-    width: width - 80,
+    width: '80%',
     backgroundColor: "white",
     borderRadius: 5,
     padding: 20,
@@ -464,7 +464,8 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    padding: 5
   },
   modalText: {
     marginBottom: 10,
