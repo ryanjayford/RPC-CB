@@ -407,7 +407,7 @@ const SignInScreen = ({navigation}) => {
 
 
     const register = async () => {
-        let reportLink = 'http://therpc.com/register';
+        let reportLink = 'https://ebgreg.azurewebsites.net/';
         let result = await WebBrowser.openBrowserAsync(reportLink);
     };    
 
