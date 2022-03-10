@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,SafeAreaView, Alert, ActivityIndicator, Button, Modal,TextInput,Platform } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,FlatList,Dimensions,TouchableHighlight,SafeAreaView, Alert, ActivityIndicator, Button, Modal,TextInput,Platform,TouchableWithoutFeedback  } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import{ AuthContext } from '../../components/context';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -241,34 +241,36 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
           }}
         >
           <TouchableHighlight underlayColor={'rgba(51,51,51,0.7)'} style={styles.centeredView} onPress={() => {SetCalculateModal(!CalculateModal);}}>
-            <View style={styles.modalView}>
-              <View style={{flexDirection: 'column'}}>
-                <Text allowFontScaling={false} style={{...styles.modalText, fontWeight: 'bold', fontSize: 18}}>Calculate</Text>
-                <Text allowFontScaling={false} style={{...styles.modalText}}>Report Name</Text>
-                <TextInput 
-                  placeholderTextColor = 'rgba(51,51,51,0.7)'
-                  placeholder="Name..."
-                  style={[styles.SubtextInput,{color: colors.Logintext}]}
-                  //autoCapitalize="none"
-                  value={CalReportName}
-                  //keyboardType='numeric'
-                  onChangeText={(val) => setCalReportName(CalReportName = val)}
-                />
-                <Text allowFontScaling={false} style={{...styles.modalText}}>Are you sure you want to Calculate Plan?</Text>
+            <TouchableWithoutFeedback>
+              <View style={styles.modalView}>
+                <View style={{flexDirection: 'column'}}>
+                  <Text allowFontScaling={false} style={{...styles.modalText, fontWeight: 'bold', fontSize: 18}}>Calculate</Text>
+                  <Text allowFontScaling={false} style={{...styles.modalText}}>Report Name</Text>
+                  <TextInput 
+                    placeholderTextColor = 'rgba(51,51,51,0.7)'
+                    placeholder="Name..."
+                    style={[styles.SubtextInput,{color: colors.Logintext}]}
+                    //autoCapitalize="none"
+                    value={CalReportName}
+                    //keyboardType='numeric'
+                    onChangeText={(val) => setCalReportName(CalReportName = val)}
+                  />
+                  <Text allowFontScaling={false} style={{...styles.modalText}}>Are you sure you want to Calculate Plan?</Text>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'flex-end' , justifyContent: 'flex-end'}}>
+                  <TouchableHighlight underlayColor={"#72be03"}
+                    style={{ ...styles.openButton, backgroundColor: "#72be03", marginRight: 5 }}onPress={() => {YesClicked()}}
+                  >
+                    <Text allowFontScaling={false} style={styles.textStyle}>Yes</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight underlayColor={"#72be03"}
+                    style={{ ...styles.openButton, backgroundColor: "#72be03" }}onPress={() => {[SetCalculateModal(!CalculateModal),setCalReportName(CalReportName = "")]}}
+                  >
+                    <Text allowFontScaling={false} style={styles.textStyle}>No</Text>
+                  </TouchableHighlight>
+                </View>
               </View>
-              <View style={{flexDirection: 'row', alignItems: 'flex-end' , justifyContent: 'flex-end'}}>
-                <TouchableHighlight underlayColor={"#72be03"}
-                  style={{ ...styles.openButton, backgroundColor: "#72be03", marginRight: 5 }}onPress={() => {YesClicked()}}
-                >
-                  <Text allowFontScaling={false} style={styles.textStyle}>Yes</Text>
-                </TouchableHighlight>
-                <TouchableHighlight underlayColor={"#72be03"}
-                  style={{ ...styles.openButton, backgroundColor: "#72be03" }}onPress={() => {[SetCalculateModal(!CalculateModal),setCalReportName(CalReportName = "")]}}
-                >
-                  <Text allowFontScaling={false} style={styles.textStyle}>No</Text>
-                </TouchableHighlight>
-              </View>
-            </View>
+            </TouchableWithoutFeedback>
           </TouchableHighlight>
         </Modal>
 
@@ -473,6 +475,7 @@ const styles = StyleSheet.create({
   },
   SubtextInput: {
     //flex: 1,  
+    padding: 5,
     marginBottom: 5,
     borderBottomWidth: 2,
     borderBottomColor: '#989c9d',
