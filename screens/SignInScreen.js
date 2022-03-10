@@ -409,8 +409,12 @@ const SignInScreen = ({navigation}) => {
     const register = async () => {
         let reportLink = 'http://therpc.com/register';
         let result = await WebBrowser.openBrowserAsync(reportLink);
-        //setresult(thisresult = result)
     };    
+
+    const forgotPassword = async () => {
+        let reportLink = 'http://cb.ebgsystems.net/CashBalance/login/forgotpassword.aspx';
+        let result = await WebBrowser.openBrowserAsync(reportLink);
+    }
 
 
     const chkKeepMeSignedIn = () =>
@@ -544,7 +548,9 @@ const SignInScreen = ({navigation}) => {
 
                     
                     <View style ={styles.lastoptions}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => forgotPassword()}
+                        >
                             <Text style = {[styles.lastText,{color: colors.Logintext}]}>Cannot login?</Text>
                         </TouchableOpacity>
 
