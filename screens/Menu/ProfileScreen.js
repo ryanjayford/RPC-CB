@@ -30,7 +30,16 @@ const ProfileScreen = ({ navigation }) => {
     image: ''
   }
   
-  let [ProfileImage, setProfileImage] = React.useState(dataState.profilePic ? dataState.profilePic.indexOf('file') === -1 ? `data:image/jpeg;base64, ` + dataState.profilePic: dataState.profilePic: null);
+  const currentProfile = () => {
+    if(Platform.OS === 'web'){
+      return dataState.profilePic;
+    }
+    else {
+      return dataState.profilePic ? dataState.profilePic.indexOf('file') === -1 ? `data:image/jpeg;base64, ` + dataState.profilePic: dataState.profilePic: null;
+    }
+  }
+  
+  let [ProfileImage, setProfileImage] = React.useState(currentProfile());
   let [hasImageUri, sethasImageUri] = React.useState(false);
   let [showHidePassword, setshowHidePassword] = React.useState(false);
   let [newPassword, setnewPassword] = React.useState('');
@@ -52,7 +61,7 @@ const ProfileScreen = ({ navigation }) => {
   
   useEffect(() => {
     //alert('refresh')
-    setProfileImage(ProfileImage = dataState.profilePic ? dataState.profilePic.indexOf('file') === -1 ? `data:image/jpeg;base64, ` + dataState.profilePic: dataState.profilePic: null)
+    setProfileImage(ProfileImage = currentProfile())
       //_makeRemoteRequest();
   }, [dataState.profilePic]);
   
@@ -112,7 +121,8 @@ const ProfileScreen = ({ navigation }) => {
 
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      aspect: [3, 3.5]
+      aspect: [3, 3.5],
+      quality: 1
     });
 
     if (!result.cancelled) {
@@ -132,7 +142,8 @@ const ProfileScreen = ({ navigation }) => {
 
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
-      aspect: [3, 3.5]
+      aspect: [3, 3.5],
+      quality: 1
     });
 
     if (!result.cancelled) {

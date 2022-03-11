@@ -54,11 +54,20 @@ export function DrawerContent(props) {
         dataState.portrait = portrait;
     } 
     */
+
+    const sidebarProfile = () => {
+        if(Platform.OS === 'web'){
+            return userProfile.profilePic;
+        }
+        else {
+            return `data:image/jpeg;base64, ` + userProfile.profilePic;
+        }
+    }
     
     if (userProfile && userProfile.profilePic) {
         portrait = userProfile.profilePic;  
         if (portrait.indexOf('file:') === -1) {
-            portrait = `data:image/jpeg;base64, ` + userProfile.profilePic;
+            portrait = sidebarProfile();
         }
         dataState.portrait = portrait;
     }
