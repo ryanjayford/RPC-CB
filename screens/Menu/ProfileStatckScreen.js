@@ -31,7 +31,7 @@ const ProfileStackScreen = ({navigation}) => {
         }}>
             <ProfileStack.Screen name="My Profile" component={ProfileScreen} options={{
                 headerLeft: () => (
-                    <Icon.Button name="ios-menu" size={25} backgroundColor= {colors.primary} onPress={() => navigation.openDrawer()}></Icon.Button>
+                    <Icon.Button name="ios-menu" size={25} iconStyle={{marginRight: 2.5,marginLeft: 2.5}} backgroundColor= {colors.primary} onPress={() => navigation.openDrawer()}></Icon.Button>
                 )
             }} />
             

@@ -32,10 +32,10 @@ const ProfileScreen = ({ navigation }) => {
   
   const currentProfile = () => {
     if(Platform.OS === 'web'){
-      return dataState.profilePic;
+      return dataState.profilePic ? dataState.profilePic : null;
     }
     else {
-      return dataState.profilePic ? dataState.profilePic.indexOf('file') === -1 ? `data:image/jpeg;base64, ` + dataState.profilePic: dataState.profilePic: null;
+      return dataState.profilePic ? dataState.profilePic.indexOf('file') === -1 ? `data:image/jpeg;base64, ` + dataState.profilePic: dataState.profilePic : null;
     }
   }
   
@@ -54,6 +54,7 @@ const ProfileScreen = ({ navigation }) => {
       changePW: false, 
       uri: '../../../assets/images/profile.png',
   });
+
   const { colors } = useTheme();
 
   const newPasswordInput = useRef();
@@ -265,8 +266,8 @@ const ProfileScreen = ({ navigation }) => {
   const onSubmit = async (values) => {
     //this.setState({disabled: true});
     if (values.trim().length > 0) {
-      let h = 250;
-      let w = 250;
+      let h = height > 800 ? 500 : 250;
+      let w = height > 800 ? 500 : 250;
       let manipResult = await ImageManipulator.manipulateAsync(
         values.trim(),
         [{ resize: {width: w, height: h} }], 
@@ -459,8 +460,8 @@ const updatePassword = async (oldPassword, newPassword) => {
   }
 
 
-  let submitText = 'grey';
-  let submitBackcolor = 'lightgrey';
+  let submitText = colors.placeholder;//'grey'
+  let submitBackcolor = colors.linearDark; //'lightgrey'
 
   if (hasImageUri === true && isVisible === false) {
     submitText = 'white';
@@ -469,147 +470,149 @@ const updatePassword = async (oldPassword, newPassword) => {
 
 
     return (
-      <KeyboardAwareScrollView style={styles.container}>
-          <RNModal style={styles.modalContainer} isVisible={isVisible}>
-                <View style={{backgroundColor: "white", borderRadius: 4, borderColor: "rgba(0, 0, 0, 0.1)", width: width - 50, height: 430,}}>
-                    <View>
-                        <View style={styles.modalNavBar}>
-                           
-                            <Text allowFontScaling={false} style={styles.headerPassStyle}> Password Change</Text>
-                           
-                            <TouchableOpacity onPress={() => setIsVisible(false)}>
-                                <Icon style={{color: "white", marginLeft: 15}} name="close" size={25} />
-                            </TouchableOpacity>                                
-                           
-                        </View>
-                        <View style={[styles.modalBody, {marginTop:10}]}>
-                            <View>
-                                {/*<Text allowFontScaling={false} style={styles.textStyle2}>Update your password to continue.</Text>*/}
-                                <Text allowFontScaling={false} style={{fontSize: 13, color: '#95a5a6', paddingLeft: 25 }}>
-                                    Minimum of 8 characters. Must contain 1-small letter, 1-uppercase letter, 1-number, and 1-symbol.
-                                </Text>
-                                
-                                <View style={{paddingLeft:25, paddingRight: 25, paddingTop: 15}}>
-                                    <Text allowFontScaling={false} style={{fontSize: 13, color: '#16a085', fontWeight: 'bold', marginBottom: -15, paddingLeft: 10}}>Old Password</Text>
-                                    {/*<RNPasswordStrengthMeter
-                                        onChangeText={onChangeOldPassword}
-                                        meterType ="bar"
-                                        inputProps = { {placeholder: "Enter Old Password", secureTextEntry: true } }
-                                        passwordProps = {{minLength: 1, scoreLimit: 100, width: width - 120}}
-                                    />   */}                                
-                                </View>
-                                
-                                <View style={{paddingLeft:25, paddingRight: 25}}>
-                                    <Text allowFontScaling={false} style={{fontSize: 13, color: '#16a085', fontWeight: 'bold', marginBottom: -15, paddingLeft: 10}}>New Password</Text>
-                                    {/*<RNPasswordStrengthMeter
-                                        onChangeText={onChangeNewPassword}
-                                        meterType ="bar"
-                                        inputProps = { {placeholder: "Enter New Password", secureTextEntry: true } }
-                                        passwordProps = {{minLength: 1, scoreLimit: 100, width: width - 120}}                                        
-                                    />  */}                                 
-                                </View>
+      <LinearGradient colors={[colors.linearlight,colors.linearDark]} style = {styles.container}>
+        <KeyboardAwareScrollView>
+            <RNModal style={styles.modalContainer} isVisible={isVisible}>
+                  <View style={{backgroundColor: "white", borderRadius: 4, borderColor: "rgba(0, 0, 0, 0.1)", width: width - 50, height: 430,}}>
+                      <View>
+                          <View style={styles.modalNavBar}>
+                            
+                              <Text allowFontScaling={false} style={styles.headerPassStyle}> Password Change</Text>
+                            
+                              <TouchableOpacity onPress={() => setIsVisible(false)}>
+                                  <Icon style={{color: "white", marginLeft: 15}} name="close" size={25} />
+                              </TouchableOpacity>                                
+                            
+                          </View>
+                          <View style={[styles.modalBody, {marginTop:10}]}>
+                              <View>
+                                  {/*<Text allowFontScaling={false} style={styles.textStyle2}>Update your password to continue.</Text>*/}
+                                  <Text allowFontScaling={false} style={{fontSize: 13, color: '#95a5a6', paddingLeft: 25 }}>
+                                      Minimum of 8 characters. Must contain 1-small letter, 1-uppercase letter, 1-number, and 1-symbol.
+                                  </Text>
+                                  
+                                  <View style={{paddingLeft:25, paddingRight: 25, paddingTop: 15}}>
+                                      <Text allowFontScaling={false} style={{fontSize: 13, color: '#16a085', fontWeight: 'bold', marginBottom: -15, paddingLeft: 10}}>Old Password</Text>
+                                      {/*<RNPasswordStrengthMeter
+                                          onChangeText={onChangeOldPassword}
+                                          meterType ="bar"
+                                          inputProps = { {placeholder: "Enter Old Password", secureTextEntry: true } }
+                                          passwordProps = {{minLength: 1, scoreLimit: 100, width: width - 120}}
+                                      />   */}                                
+                                  </View>
+                                  
+                                  <View style={{paddingLeft:25, paddingRight: 25}}>
+                                      <Text allowFontScaling={false} style={{fontSize: 13, color: '#16a085', fontWeight: 'bold', marginBottom: -15, paddingLeft: 10}}>New Password</Text>
+                                      {/*<RNPasswordStrengthMeter
+                                          onChangeText={onChangeNewPassword}
+                                          meterType ="bar"
+                                          inputProps = { {placeholder: "Enter New Password", secureTextEntry: true } }
+                                          passwordProps = {{minLength: 1, scoreLimit: 100, width: width - 120}}                                        
+                                      />  */}                                 
+                                  </View>
 
-                                <View style={{paddingLeft:25, paddingRight: 25}}>
-                                    <Text allowFontScaling={false} style={{fontSize: 13, color: '#16a085', fontWeight: 'bold', marginBottom: -15, paddingLeft: 10}}>Confirm Password</Text>
-                                    {/*<RNPasswordStrengthMeter
-                                        onChangeText={onChangeConfirmPassword}
-                                        meterType ="bar"
-                                        inputProps = { {placeholder: "Confirm Password", secureTextEntry: true } }
-                                        passwordProps = {{minLength: 1, scoreLimit: 100, width: width - 120}}
-                                    /> */}                              
-                                </View>                             
-                                
-                                <View style={styles.modalFooter}>
-                                    <TouchableOpacity 
-                                        disabled= {data.changePW}
-                                        onPress={() => validatePassword()}
-                                        style={[styles.bubble, styles.buttonModal, {width:120}]}>
-                                        <Text allowFontScaling={false} style={{color:'white'}}>CHANGE</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>        
-                        </View>
-                    </View>
-                </View>
-            </RNModal>
-         
-            <View>
-              <View style={styles.leftNav}>
-                <Text allowFontScaling={false} style={styles.textStyle}>Manage Account</Text>
-              </View>  
-              <View style={styles.profileBtn}>
-                <View style={{ padding: 20}}>
-                  { ProfileImage !== null ?
-                    <Image source={{ uri: ProfileImage }} style={{ width: height > 800 ? 500 : 250, height: height > 800 ? 500 : 250, borderRadius: height > 800 ? 250 : 125 }}/> :
-                    <Image source={require("../../assets/user.jpg")} style={{ width: height > 800 ? 500 : 250, height: height > 800 ? 500 : 250, borderRadius: height > 800 ? 250 : 125 }} />
-                  }
-                </View>
-                <TouchableOpacity onPress={() => _captureImage()} style={[styles.bubble, styles.button, {width: '100%'}]}>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Icon name="camera-plus" size={20} color="white" style={{marginRight: 5}} />
-                    <Text allowFontScaling={false} style={{color:'white',fontWeight: 'bold'}}>CAPTURE PHOTO</Text>
+                                  <View style={{paddingLeft:25, paddingRight: 25}}>
+                                      <Text allowFontScaling={false} style={{fontSize: 13, color: '#16a085', fontWeight: 'bold', marginBottom: -15, paddingLeft: 10}}>Confirm Password</Text>
+                                      {/*<RNPasswordStrengthMeter
+                                          onChangeText={onChangeConfirmPassword}
+                                          meterType ="bar"
+                                          inputProps = { {placeholder: "Confirm Password", secureTextEntry: true } }
+                                          passwordProps = {{minLength: 1, scoreLimit: 100, width: width - 120}}
+                                      /> */}                              
+                                  </View>                             
+                                  
+                                  <View style={styles.modalFooter}>
+                                      <TouchableOpacity 
+                                          disabled= {data.changePW}
+                                          onPress={() => validatePassword()}
+                                          style={[styles.bubble, styles.buttonModal, {width:120}]}>
+                                          <Text allowFontScaling={false} style={{color:'white'}}>CHANGE</Text>
+                                      </TouchableOpacity>
+                                  </View>
+                              </View>        
+                          </View>
+                      </View>
                   </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => {_pickImage()}} style={[styles.bubble, styles.button, {width: '100%'}]}>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Icon name="folder" size={20} color="white" style={{marginRight: 5}}/>
-                    <Text allowFontScaling={false} style={{color:'white',fontWeight: 'bold'}}>SELECT PHOTO</Text>
+              </RNModal>
+          
+              <View>
+                <View style={styles.leftNav}>
+                  <Icon name="account-box" size={25} color={colors.tertiary} style={{marginLeft: 5, marginTop: 10}} />
+                  <Text allowFontScaling={false} style={[styles.textStyle, {color: colors.tertiary}]}>Manage Account</Text>
+                </View>  
+                <View style={styles.profileBtn}>
+                  <View style={{ padding: 20}}>
+                    { ProfileImage !== null ?
+                      <Image source={{ uri: ProfileImage }} style={[styles.MainProfile,{borderWidth: 5, borderColor: colors.linearDark}]}/> :
+                      <Image source={require("../../assets/user.jpg")} style={[styles.MainProfile,{borderWidth: 5, borderColor: colors.linearDark}]} />
+                    }
                   </View>
-                </TouchableOpacity>
-
-                {/*
-                  <TouchableOpacity onPress={() => setIsVisible(true)} style={[styles.bubble, styles.button, {width: '100%'}]}>
-                    <Text allowFontScaling={false} style={{color:'white', fontWeight: 'bold'}}>CHANGE PASSWORD</Text>
-                </TouchableOpacity>
-                */}
-
-                  {/*showHidePassword ?
-                    <View style={{paddingTop:20}}>
-                        <TextInput
-                          //onChangeText={(val) => setPlanEffDate(PlanEffDate = val)}
-                          onChangeText={handleChange('old')}
-                          value={values.old}
-                          label="Old Password"
-                          placeholder="Enter Old Password"
-                          underlineColorAndroid="grey"
-                          selectionColor = "red"
-                          secureTextEntry
-                          onSubmitEditing={() => newPasswordInput.current.focus()}
-                        />
-                        <TextInput
-                            onChangeText={handleChange('new')}
-                            value={newPassword}
-                            label="New Password"
-                            placeholder="Enter New Password"
-                            secureTextEntry
-                            ref={newPasswordInput} 
-                            onSubmitEditing={() => confirmPasswordInput.current.focus()}
-                        />
-                        
-                        <TextInput
-                            onChangeText={handleChange('confirm')}
-                            value={values.confirm}
-                            label="Confirm Password"
-                            placeholder="Confirm New Password"
-                            secureTextEntry
-                            ref={confirmPasswordInput}
-                            onSubmitEditing={() => onSubmit(values)} 
-                        />
+                  <TouchableOpacity onPress={() => _captureImage()} style={[styles.bubble, styles.button, {width: '100%', backgroundColor: colors.textGreen}]}>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <Icon name="camera-plus" size={20} color="white" style={{marginRight: 5}} />
+                      <Text allowFontScaling={false} style={{color:'white',fontWeight: 'bold'}}>CAPTURE PHOTO</Text>
                     </View>
-                  : null*/}
+                  </TouchableOpacity>
 
-                <TouchableOpacity disabled={hasImageUri === false && isVisible === false || isLoading === true } onPress={() => {[setIsLoading(isLoading = true), onSubmit(ProfileImage)]}} style={[styles.bubble, styles.button, {backgroundColor: submitBackcolor, width: '100%'}]}>
-                    {isLoading ?
-                        <ActivityIndicator size="large" color={'white'}/>
-                        :
-                        <Text allowFontScaling={false} style={{color: submitText, fontWeight: 'bold'}}>SUBMIT</Text>
-                    }   
-                </TouchableOpacity>
+                  <TouchableOpacity onPress={() => {_pickImage()}} style={[styles.bubble, styles.button, {width: '100%', backgroundColor: colors.textGreen}]}>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <Icon name="folder" size={20} color="white" style={{marginRight: 5}}/>
+                      <Text allowFontScaling={false} style={{color:'white',fontWeight: 'bold'}}>SELECT PHOTO</Text>
+                    </View>
+                  </TouchableOpacity>
+
+                  {/*
+                    <TouchableOpacity onPress={() => setIsVisible(true)} style={[styles.bubble, styles.button, {width: '100%'}]}>
+                      <Text allowFontScaling={false} style={{color:'white', fontWeight: 'bold'}}>CHANGE PASSWORD</Text>
+                  </TouchableOpacity>
+                  */}
+
+                    {/*showHidePassword ?
+                      <View style={{paddingTop:20}}>
+                          <TextInput
+                            //onChangeText={(val) => setPlanEffDate(PlanEffDate = val)}
+                            onChangeText={handleChange('old')}
+                            value={values.old}
+                            label="Old Password"
+                            placeholder="Enter Old Password"
+                            underlineColorAndroid="grey"
+                            selectionColor = "red"
+                            secureTextEntry
+                            onSubmitEditing={() => newPasswordInput.current.focus()}
+                          />
+                          <TextInput
+                              onChangeText={handleChange('new')}
+                              value={newPassword}
+                              label="New Password"
+                              placeholder="Enter New Password"
+                              secureTextEntry
+                              ref={newPasswordInput} 
+                              onSubmitEditing={() => confirmPasswordInput.current.focus()}
+                          />
+                          
+                          <TextInput
+                              onChangeText={handleChange('confirm')}
+                              value={values.confirm}
+                              label="Confirm Password"
+                              placeholder="Confirm New Password"
+                              secureTextEntry
+                              ref={confirmPasswordInput}
+                              onSubmitEditing={() => onSubmit(values)} 
+                          />
+                      </View>
+                    : null*/}
+
+                  <TouchableOpacity disabled={hasImageUri === false && isVisible === false || isLoading === true } onPress={() => {[setIsLoading(isLoading = true), onSubmit(ProfileImage)]}} style={[styles.bubble, styles.button, {backgroundColor: submitBackcolor, width: '100%'}]}>
+                      {isLoading ?
+                          <ActivityIndicator size="large" color={'white'}/>
+                          :
+                          <Text allowFontScaling={false} style={{color: submitText, fontWeight: 'bold'}}>SUBMIT</Text>
+                      }   
+                  </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-         
-      </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
+      </LinearGradient>
     );
 };
 
@@ -626,7 +629,13 @@ const styles = StyleSheet.create({
     //backgroundColor: 'white'
   },
   leftNav: {
-    //flexDirection: 'row',
+    flexDirection: 'row',
+    alignItems: 'center', 
+  },
+  MainProfile: {
+    width: height > 800 ? 500 : 250, 
+    height: height > 800 ? 500 : 250, 
+    borderRadius: height > 800 ? 250 : 125, 
   },
   profileBtn: {
     alignItems: 'center', 
@@ -638,10 +647,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'grey'
+    //color: 'grey'
   },
   bubble: {
-      backgroundColor: '#72be03',
+      //backgroundColor: '#72be03',
       //paddingHorizontal: 18,
       paddingVertical: 12,
       borderRadius: 5,

@@ -681,15 +681,14 @@ const styles = StyleSheet.create({
         //overflow: 'hidden'
     },
     gradient: {
-        flex: 1,
-        paddingVertical: 25,
+        height: 60,
+        //paddingVertical: 25,
         justifyContent: 'center',
         borderRadius: 5,
         //overflow: 'hidden'   
         
     },
     buttonText: {
-        height: 25,
         textAlign: 'center',
         color: "white",
         fontWeight: 'bold',
