@@ -563,7 +563,7 @@ const General = ({  route, Error, SetError }) => {
       //enableOnAndroid={false}
   >
      
-    <View style= {[styles.container,{backgroundColor: colors.tertiary}]}>
+    <View style= {[styles.container,{backgroundColor: colors.primary}]}>
     {!planDetailsData?
         <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
           <ActivityIndicator size="large" color={colors.secondary}/>

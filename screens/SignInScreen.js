@@ -298,7 +298,7 @@ const SignInScreen = ({navigation}) => {
             method,
             headers
         });
-        
+        //console.log('getProfile >>>>>>>>>>> ',userDetails.apiToken,url,method,headers);
         await fetch(req)
         .then((response) => response.json())
         .then((responseJson) => {
@@ -307,13 +307,13 @@ const SignInScreen = ({navigation}) => {
             } else {
                //console.log('Profile Not Found.');
             }
-            
+            //console.log('responseJson: ', responseJson)
             userDetails.profilePic = responseJson.profilePic
             getDefaultPlanDetails(userDetails);
         })
         .catch((error) => {
             userDetails.profilePic = "";
-           //console.log("Connection Error", error.message);
+            //console.log("Connection Error", error.message);
             getDefaultPlanDetails(userDetails);
         });
     }

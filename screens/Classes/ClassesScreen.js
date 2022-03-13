@@ -270,7 +270,7 @@ const ClassesScreen = ({ navigation }) => {
                     <Text style={[styles.Class,{color: colors.plantitle}]}>{item.classCode}</Text>
                 </View> 
                 <View style={[styles.TextContainer, {backgroundColor: colors.iconDes}]}>
-                  <Text style={[styles.title,{color: colors.icontitle}]}>{item.description}</Text>
+                  <Text style={[styles.title,{color: colors.textGreen}]}>{item.description}</Text>
                   <View style={{borderBottomWidth: 1,borderBottomColor: colors.text,marginBottom: 2,marginTop: 2 }}></View>
                   <Text style={[styles.Description,{ color: colors.text}]}>{item.contributionTypeDesc}</Text>
                   <View style={{ borderBottomWidth: 1,borderBottomColor: colors.text,marginBottom: 2,marginTop: 2 }}></View>

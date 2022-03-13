@@ -31,12 +31,7 @@ const ProfileScreen = ({ navigation }) => {
   }
   
   const currentProfile = () => {
-    if(Platform.OS === 'web'){
-      return dataState.profilePic ? dataState.profilePic : null;
-    }
-    else {
-      return dataState.profilePic ? dataState.profilePic.indexOf('file') === -1 ? `data:image/jpeg;base64, ` + dataState.profilePic: dataState.profilePic : null;
-    }
+      return dataState.profilePic ? dataState.profilePic.indexOf('file') === -1 ? `data:image/jpeg;base64,` + dataState.profilePic: dataState.profilePic : null;
   }
   
   let [ProfileImage, setProfileImage] = React.useState(currentProfile());
@@ -158,6 +153,7 @@ const ProfileScreen = ({ navigation }) => {
     let url = baseURL1 + '/Profile';
     let method = 'PUT';
     let headers = new Headers();
+    values = values.replace("data:image/jpeg;base64,","")
     let body = JSON.stringify({"profilePic":values});
     
     headers.append('Content-Type', 'application/json');
@@ -273,10 +269,9 @@ const ProfileScreen = ({ navigation }) => {
         [{ resize: {width: w, height: h} }], 
         {compress: 1, format: ImageManipulator.SaveFormat.JPEG, base64: true }
       );
-      
+
       saveImage(manipResult.base64);
-      
-      
+
     } else {
         //updatePassword(values.old, values.new);
     } 
@@ -465,7 +460,7 @@ const updatePassword = async (oldPassword, newPassword) => {
 
   if (hasImageUri === true && isVisible === false) {
     submitText = 'white';
-    submitBackcolor = '#72be03';
+    submitBackcolor = colors.textGreen;
   }
 
 

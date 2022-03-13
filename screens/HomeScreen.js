@@ -152,7 +152,7 @@ const HomeScreen = ({navigation}) => {
               <Image style = {styles.Icon} source = {{uri : Icon}} />
             </View> 
             <View style={[styles.TextContainer, {backgroundColor: colors.iconDes}]}>
-              <Text style={[styles.title,{color: colors.icontitle}]}>{title}</Text>
+              <Text style={[styles.title,{color: colors.textGreen}]}>{title}</Text>
               <View style={{ borderBottomWidth: 1.5,borderBottomColor: colors.text,marginBottom: 2,marginTop: 2 }}></View>
               <Text style={[styles.Description,{ color: colors.text}]}>{Description}</Text>
             </View>

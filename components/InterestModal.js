@@ -111,7 +111,7 @@ const InterestModal = ({ navigation,Open,setOpen, setModalData, ModalData }) => 
             <LinearGradient colors={[colors.linearlight,colors.linearDark]} 
             style ={styles.Modalcontainer}>
 
-            <View style={[styles.greencontainer, {backgroundColor: colors.icon }]}>
+            <View style={[styles.greencontainer, {backgroundColor: colors.textGreen }]}>
                 <View style={styles.headercontainer}>
                     <Text style={[styles.header,{padding: 5}]}>Interest Rates</Text>
                     <TouchableOpacity style={{ padding: 5, borderRadius: 10}} onPress={() => setOpen(Open = !Open)}>
