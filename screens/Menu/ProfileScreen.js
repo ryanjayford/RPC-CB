@@ -262,8 +262,8 @@ const ProfileScreen = ({ navigation }) => {
   const onSubmit = async (values) => {
     //this.setState({disabled: true});
     if (values.trim().length > 0) {
-      let h = height > 800 ? 500 : 250;
-      let w = height > 800 ? 500 : 250;
+      let h = 600;
+      let w = 600;
       let manipResult = await ImageManipulator.manipulateAsync(
         values.trim(),
         [{ resize: {width: w, height: h} }], 
