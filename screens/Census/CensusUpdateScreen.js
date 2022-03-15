@@ -204,10 +204,10 @@ const AddModal = ({ navigation,route }) => {
         {
             setIsLoading(isLoading = false)
             if(Platform.OS === 'web'){
-                alert("Data Error:\nYou must enter a valid W-2 Earnings.");
+                alert("Error:\nYou must enter a valid W-2 Earnings.");
             }
             else {
-                Alert.alert("Data Error:", "You must enter a valid W-2 Earnings.");
+                Alert.alert("Error:", "You must enter a valid W-2 Earnings.");
             }
             CensushasError = true;
         }
@@ -216,10 +216,10 @@ const AddModal = ({ navigation,route }) => {
         {
             setIsLoading(isLoading = false)
             if(Platform.OS === 'web'){
-                alert("Data Error:\nYou must enter a Catch up override.");
+                alert("Error:\nYou must enter a Catch up override.");
             }
             else {
-                Alert.alert("Data Error:", "You must enter a valid Catch up override.");
+                Alert.alert("Error:", "You must enter a valid Catch up override.");
             }
             CensushasError = true;
         }
@@ -254,10 +254,10 @@ const AddModal = ({ navigation,route }) => {
          {
             setIsLoading(isLoading = false)
             if(Platform.OS === 'web'){
-                alert("Data Error:\nYou must enter a valid LY Compensation.");
+                alert("Error:\nYou must enter a valid LY Compensation.");
             }
             else {
-                Alert.alert("Data Error:", "You must enter a valid LY Compensation.");
+                Alert.alert("Error:", "You must enter a valid LY Compensation.");
             }
             CensushasError = true;
          }
