@@ -14,6 +14,7 @@ import { set } from 'react-native-reanimated';
 import RadioButtonRN from 'radio-buttons-react-native';
 import WebDatePicker from '../../components/CustomWebDatePicker';
 import Checkbox from 'expo-checkbox';
+//import { transparent } from 'react-native-paper/lib/typescript/styles/colors';
 
 const baseURL = Settings.domain;
 const {width,height} = Dimensions.get('window');
@@ -227,6 +228,41 @@ const General = ({  route, Error, SetError }) => {
           //console.log(planDetailsDataState.minSvcType)
       }
   };
+
+  const OnMinSvcMonthsChange = (item) => {
+
+    setMinSvcMonths(MinSvcMonths = item.value)
+    
+    if(item.value === 0){
+      setEntryDate(EntryDate = 'PYB')
+    }
+    else if(item.value === 3){
+      setEntryDate(EntryDate = 'Q')
+    }
+    else if(item.value === 6){
+      setEntryDate(EntryDate = 'PYB')
+    }
+    else if(item.value === 9){
+      setEntryDate(EntryDate = 'SA')
+    }
+    else if(item.value === 12){
+      setEntryDate(EntryDate = 'SA')
+    }
+    else if(item.value === 24){
+      setVestingSchedYear1(VestingSchedYear1 = '100')
+      setVestingSchedYear2(VestingSchedYear2 = '100')
+      setVestingSchedYear3(VestingSchedYear3 = '100')
+    }
+  };
+
+  const MaxValue100 = (NumVal) => {
+    if(NumVal <= 100){
+      return NumVal;
+    }
+    else{
+      return '100';
+    }
+  }
 
   React.useEffect(() => {
     //Api Data
@@ -741,6 +777,7 @@ const General = ({  route, Error, SetError }) => {
               defaultIndex={0}
               defaultValue={MinSvcMonths}
               zIndex={2}
+              disabled={!MonthCk}
               placeholder="Select number of months"
               placeholderStyle={{color: colors.Logintext}}
               activeLabelStyle={{color: 'green'}}
@@ -752,7 +789,7 @@ const General = ({  route, Error, SetError }) => {
               arrowColor='rgba(51,51,51,0.5)'
               onOpen={() => {[DropSelected = 3, DropdownController(DropSelected),Scroll.current.scrollTo({ x: 0, y: 400, animated: true })]}}
               onClose={() => {[setMonthHideDrop(MonthHideDrop = false),setMonthmargin(Monthmargin = 0)]}}
-              onChangeItem={item => setMinSvcMonths(MinSvcMonths = item.value)}
+              onChangeItem={item => OnMinSvcMonthsChange(item)}
             />
           
           <View style={{flexDirection: 'row', marginTop: 5,marginBottom: 5}}>
@@ -768,11 +805,12 @@ const General = ({  route, Error, SetError }) => {
             <TextInput 
               placeholderTextColor = 'rgba(51,51,51,0.7)'
               placeholder="Number of hours"
-              style={[styles.SubtextInput,{color: colors.Logintext}]}
+              style={[styles.SubtextInput,{color: colors.Logintext, backgroundColor: HourCk ? 'transparent': 'lightgrey'}]}
               //autoCapitalize="none"
+              editable={HourCk}
               value={MinSvcHours}
               keyboardType='numeric'
-              onChangeText={(val) => setMinSvcHours(MinSvcHours = val)}
+              onChangeText={(val) => setMinSvcHours(MinSvcHours = val.replace(/[^0-9]/g, ''))}
             />
 
           <Text style = {{color: colors.Logintext,marginTop: 10,marginBottom: 5}}>Entry Date</Text>
@@ -794,7 +832,7 @@ const General = ({  route, Error, SetError }) => {
               arrowColor='rgba(51,51,51,0.5)'
               onOpen={() => {[DropSelected = 4, DropdownController(DropSelected),Scroll.current.scrollTo({ x: 0, y: 500, animated: true })]}}
               onClose={() => {[setEntryHideDrop(EntryHideDrop = false),setEntryDatemargin(EntryDatemargin = 0)]}}
-              onChangeItem={item => setEntryDate(EntryDate = item.value)}
+              onChangeItem={item => [setEntryDate(EntryDate = item.value), console.log(item.value)]}
             />
               }
         <Text style={[styles.title,{marginTop: 10}]}>Vesting Schedule</Text>
@@ -806,11 +844,13 @@ const General = ({  route, Error, SetError }) => {
               <TextInput 
                 placeholderTextColor = 'rgba(51,51,51,0.7)'
                 placeholder="0"
-                style={[styles.textInput,{color: colors.Logintext}]}
-                //autoCapitalize="none"
+                style={[styles.textInput,{color: colors.Logintext, backgroundColor: MinSvcMonths !== 24 ? 'transparent': 'lightgrey'}]}
+                //autoCapitalize="none" MinSvcMonths
+                editable={MinSvcMonths == 24 ? false : true}
                 value={VestingSchedYear1}
+                maxLength={3}
                 keyboardType='numeric'
-                onChangeText={(val) => setVestingSchedYear1(VestingSchedYear1 = val)}
+                onChangeText={(val) => setVestingSchedYear1(VestingSchedYear1 = MaxValue100(val.replace(/[^0-9]/g, '')))}
               />
             </View>
 
@@ -819,11 +859,13 @@ const General = ({  route, Error, SetError }) => {
               <TextInput 
                 placeholderTextColor = 'rgba(51,51,51,0.7)'
                 placeholder="0"
-                style={[styles.textInput2,{color: colors.Logintext}]}
+                style={[styles.textInput2,{color: colors.Logintext, backgroundColor: MinSvcMonths !== 24 ? 'transparent': 'lightgrey'}]}
                 //autoCapitalize="none"
+                editable={MinSvcMonths == 24 ? false : true}
                 value={VestingSchedYear2}
+                maxLength={3}
                 keyboardType='numeric'
-                onChangeText={(val) => setVestingSchedYear2(VestingSchedYear2 = val)}
+                onChangeText={(val) => setVestingSchedYear2(VestingSchedYear2 =  MaxValue100(val.replace(/[^0-9]/g, '')))}
               />
             </View>
 
@@ -832,11 +874,13 @@ const General = ({  route, Error, SetError }) => {
               <TextInput 
                 placeholderTextColor = 'rgba(51,51,51,0.7)'
                 placeholder="0"
-                style={[styles.textInput3,{color: colors.Logintext}]}
+                style={[styles.textInput3,{color: colors.Logintext, backgroundColor: MinSvcMonths !== 24 ? 'transparent': 'lightgrey'}]}
                 //autoCapitalize="none"
+                editable={MinSvcMonths == 24 ? false : true}
                 value={VestingSchedYear3}
+                maxLength={3}
                 keyboardType='numeric'
-                onChangeText={(val) => setVestingSchedYear3(VestingSchedYear3 = val)}
+                onChangeText={(val) => setVestingSchedYear3(VestingSchedYear3 =  MaxValue100(val.replace(/[^0-9]/g, '')))}
               />
             </View>
           </View>

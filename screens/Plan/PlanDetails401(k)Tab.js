@@ -16,7 +16,7 @@ const FOI = ({ navigation }) => {
 
     
    //console.log('My Catchup ========>', dataState.DetailsFetchedData.catchUp)    
-    //console.log('Is401kChecked',dataState.Is401kChecked)
+    //console.log('DefaultPlan------->',DefaultPlan)
     let [TotOwnerCost, setTotOwnerCost] = React.useState(DefaultPlan.totOwnerCost ? DefaultPlan.totOwnerCost.toString() : null); 
     let [TotNonOwnerCost, setTotNonOwnerCost] = React.useState(DefaultPlan.totNonOwnerCost ? DefaultPlan.totNonOwnerCost.toString() : null); 
     let [CatchUp, setCatchUp] = React.useState(DefaultPlan.catchUp == "Y" ? 1:2); 
@@ -28,6 +28,7 @@ const FOI = ({ navigation }) => {
     let [MatchPercent3, setMatchPercent3] = React.useState(DefaultPlan.matchPercent3 ? DefaultPlan.matchPercent3.toString() : "0.0");
     let [MatchLimit3, setMatchLimit3] = React.useState(DefaultPlan.matchLimit3 ? DefaultPlan.matchLimit3.toString() : "0.0");
     let [IsSafeHarborContrib, setIsSafeHarborContrib] = React.useState(DefaultPlan.isSafeHarborContrib);
+    let [SafeHarbor3Pcnt, setSafeHarbor3Pcnt] = React.useState(DefaultPlan.safeHarbor3Pcnt  === 3 ? 1:2);
     let [Exclusions, setExclusions] = React.useState(DefaultPlan.exclusions == 0 ? 4:1); 
 
     //changing value of loginstate details
@@ -78,6 +79,7 @@ const FOI = ({ navigation }) => {
     Details.matchPercent3 = MatchPercent3 ? MatchPercent3.toString() : "0";
     Details.matchLimit3 = MatchLimit3 ? MatchLimit3.toString() : "0";
     Details.isSafeHarborContrib = IsSafeHarborContrib;
+    Details.safeHarbor3Pcnt = SafeHarbor3Pcnt === 1 ? 3 : 4;
 
     switch(Exclusions) {
       case 1://Owner in mobile
@@ -113,6 +115,19 @@ const FOI = ({ navigation }) => {
       id: 2,
       //text: 'No',
       label: 'No'
+    },
+  ];
+
+  const SHRbt = [
+    {
+      id: 1, 
+      //text: 'Yes', 
+      label: '3%'
+    },
+    {
+      id: 2,
+      //text: 'No',
+      label: '4%'
     },
   ];
 
@@ -648,14 +663,31 @@ const FOI = ({ navigation }) => {
 
           <Text style={[styles.title,{marginTop: 10}]}>3% Safe Harbor Contribution </Text>
 
-          <View style={{flexDirection: 'row'}}>
-              <Checkbox
-                style={styles.checkStyle}
-                value={IsSafeHarborContrib}
-                onValueChange={()=> Is3Percentcheck()}
-                color={IsSafeHarborContrib ? "#333333" : colors.Logintext}
-              />
-              <Text style = {{color: colors.Logintext,paddingTop: 6}}>Yes</Text>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <Checkbox
+              style={styles.checkStyle}
+              value={IsSafeHarborContrib}
+              onValueChange={()=> Is3Percentcheck()}
+              color={IsSafeHarborContrib ? "#333333" : colors.Logintext}
+            />
+            <Text style = {{color: colors.Logintext,marginRight: 10}}>Non-elective</Text>
+           
+            <RadioButtonRN
+              data={SHRbt}
+              activeOpacity={2}
+              initial={SafeHarbor3Pcnt}
+              animationTypes={['pulse']}
+              style={{paddingLeft: 10, flexDirection: 'row', marginBottom: 8 }}
+              textStyle={{paddingLeft: 10}}
+              boxStyle={{width: 70}}
+              box={false}
+              selectedBtn={(e) => {setSafeHarbor3Pcnt(SafeHarbor3Pcnt = e.id)}}
+              circleSize={13}
+              activeColor={'#333333'}
+              deactiveColor={'grey'}
+              textColor={'#333333'}
+            />
+
           </View>
           <Text style={[styles.title,{marginTop: 10}]}>Exclusions</Text>
 
