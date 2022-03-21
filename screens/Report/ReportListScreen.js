@@ -11,20 +11,23 @@ import { color } from 'react-native-reanimated';
 import * as WebBrowser from 'expo-web-browser';
 const {width,height} = Dimensions.get('window');
 const baseURL = Settings.domain;
-let ReportRightAction = ({item,index}) =>
-{
-  return(
-    <View style={{flexDirection: 'row'}}>
-      <TouchableOpacity  style={styles.DownloadAction} disabled = {item.Status != "Completed"} onPress={() => ReportDownload(item,index)}>
-          <Icon style={styles.actionText} name="download" size={25} color="white" />
-      </TouchableOpacity>
-    </View>
-  )
-};
 const ReportListScreen = ({ navigation, CalculateLoading }) => {
+  
+    let ReportRightAction = ({item,index}) =>
+    {
+      return(
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity  style={styles.DownloadAction} disabled = {item.Status != "Completed"} onPress={() => ReportDownload(item,index)}>
+              <Icon style={styles.actionText} name="download" size={25} color="white" />
+          </TouchableOpacity>
+        </View>
+      )
+    };
+
     const { colors } = useTheme();
     const [{ },dataState] = React.useContext(AuthContext);
     const [reportData, setReportData] = React.useState(null);
+
     
     React.useEffect(() => { 
         setReportData(reportData => null)

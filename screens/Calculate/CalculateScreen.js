@@ -17,22 +17,25 @@ const baseURL1 = Settings.calc;
 
 
 const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalculateModal }) => {
-  let CalculateRightAction = ({item,index}) =>
-  {
-    return(
-      <View style={{flexDirection: 'row'}}>
-        {(item.requestStatus === 'C')?
-        <TouchableOpacity  style={styles.DownloadAction} onPress={() => handleDownload(item)}>
-            <Icon style={styles.actionText} name="download" size={25} color="white" />
-        </TouchableOpacity>
-        : null
-        }
-      </View>
-    )
-  };
+
+    let CalculateRightAction = ({item,index}) =>
+    {
+      return(
+        <View style={{flexDirection: 'row'}}>
+          {(item.requestStatus === 'C')?
+          <TouchableOpacity  style={styles.DownloadAction} onPress={() => handleDownload(item)}>
+              <Icon style={styles.actionText} name="download" size={25} color="white" />
+          </TouchableOpacity>
+          : null
+          }
+        </View>
+      )
+    };
+
     const { colors } = useTheme();
     const [{ },dataState] = React.useContext(AuthContext);
-   //console.log(CalculateModal);
+    //console.log(CalculateModal);
+
     let [CalculateIndex, setCalculateIndex] = React.useState(null);//default 1
     let [CalReportName, setCalReportName] = React.useState(null);
     const CalculateDATA = [
