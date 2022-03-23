@@ -288,6 +288,7 @@ const FOI = ({ navigation }) => {
         
         //IsSafeHarborContrib if true or false
         SetIncludeMatchAarry();
+        setSafeHarbor3Pcnt(User401k.safeHarbor3Pcnt === 3 ? 1 : 2);
       }
     }
 
