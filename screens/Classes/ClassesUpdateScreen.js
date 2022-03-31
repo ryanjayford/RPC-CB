@@ -14,6 +14,7 @@ const ClassUpdate = ({ navigation,route }) => {
     let [Classload, setClassload] = React.useState(false); 
     let [isLoading, setIsLoading] = React.useState(false);
     let currentClasses = dataState.classData;
+    const DropdownData = dataState.DefaultDropdown;
     let token = dataState.userToken;
 
     let planId = dataState.selectedPlan;
@@ -32,18 +33,21 @@ const ClassUpdate = ({ navigation,route }) => {
     if(route.params?.State !== 'addnew')
     {
         let contriTypeTrim = Edited.contributionTypeDesc.trim();
-        if(contriTypeTrim === 'Fixed Contribution per Individual')
-        {
-            contriTypeDes = 1;
-        }
-        else if(contriTypeTrim === 'Entire class gets the same percent as the 415 max for youngest')
-        {
-            contriTypeDes = 4;
-        }
-        else if(contriTypeTrim === 'Maximize Class to 415 Limit')
-        {
-            contriTypeDes = 3;
-        }
+        const cType = DropdownData.contributionType;
+        const result = cType.find( ({ label }) => label === contriTypeTrim );
+        contriTypeDes = result.value;
+        // if(contriTypeTrim === 'Fixed Contribution per Individual')
+        // {
+        //     contriTypeDes = 1;
+        // }
+        // else if(contriTypeTrim === 'Entire class gets the same percent as the 415 max for youngest')
+        // {
+        //     contriTypeDes = 4;
+        // }
+        // else if(contriTypeTrim === 'Maximize Class to 415 Limit')
+        // {
+        //     contriTypeDes = 3;
+        // }
         
         
         //error
@@ -189,11 +193,12 @@ const ClassUpdate = ({ navigation,route }) => {
         
     }  
 
-    var contribution = [
-        {label: 'Fixed Contribution per Individual', value: 1},
-        {label: 'Entire class gets the same percent as the 415 max for youngest', value: 4},
-        {label: 'Maximize Class to 415 Limit', value: 3},
-    ]
+    var contribution = DropdownData.contributionType;
+    // var contribution = [
+    //     {label: 'Fixed Contribution per Individual', value: 1},
+    //     {label: 'Entire class gets the same percent as the 415 max for youngest', value: 4},
+    //     {label: 'Maximize Class to 415 Limit', value: 3},
+    // ]
     var Amt = [
         {label: '$', value: '$'},
         {label: '%', value: '%'},
