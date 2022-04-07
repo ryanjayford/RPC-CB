@@ -207,17 +207,10 @@ const FOI = ({ navigation }) => {
        //console.log("has Data"); ////edit this with dataState.DetailsFetchedData
 
         let User401k = DetailsFetchedData
+
         setTotOwnerCost(TotOwnerCost = User401k.totOwnerCost.toString());
         setTotNonOwnerCost(TotNonOwnerCost = User401k.totNonOwnerCost.toString());
         setCatchUp(CatchUp = User401k.catchUp === 'Y' ? 1 : 2);
-        /*
-        if(User401k.isSafeHarborContrib === true && User401k.includeMatch === 4)// checking User401k.includeMatch
-        {
-          setIncludeMatch(IncludeMatch = 3);
-        }
-        else{
-          setIncludeMatch(IncludeMatch = User401k.includeMatch);
-        }*/
 
         if(User401k.isSafeHarborContrib === true && User401k.includeMatch === 3)//IsSafeHarborContrib is true and Discretionary Match is selected
         {
@@ -231,7 +224,7 @@ const FOI = ({ navigation }) => {
         {
           setIncludeMatch(IncludeMatch = 1);
         }
-        else if(IsSafeHarborContrib === false)//IsSafeHarborContrib is false
+        else if(User401k.isSafeHarborContrib === false)//IsSafeHarborContrib is false
         {
           switch(User401k.includeMatch) {
             case 0://No Match in website
@@ -284,16 +277,15 @@ const FOI = ({ navigation }) => {
           default:
             //Details.includeMatch = null;
         }
-        //setExclusions(Exclusions = User401k.exclusions);
         
         //IsSafeHarborContrib if true or false
-        SetIncludeMatchAarry();
         setSafeHarbor3Pcnt(User401k.safeHarbor3Pcnt === 3 ? 1 : 2);
+        SetIncludeMatchAarry(User401k);
       }
     }
 
-    const SetIncludeMatchAarry = () => {
-      if(IsSafeHarborContrib === true)
+    const SetIncludeMatchAarry = (User401k) => {
+      if(User401k.isSafeHarborContrib === true)
         {
           setmatchChoice(matchChoice =  [
             {

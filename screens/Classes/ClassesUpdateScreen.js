@@ -81,7 +81,7 @@ const ClassUpdate = ({ navigation,route }) => {
     };
 
     const Disable_CB = (id) => {
-        if(id === 3 || id === 4)
+        if(id === 3 || id === 4 || id === 5)
         {
             setCB_Disable(CB_Disable = true);
             setCB_DisableTxt(CB_DisableTxt = false);
