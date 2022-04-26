@@ -85,6 +85,7 @@ const ClassUpdate = ({ navigation,route }) => {
         {
             setCB_Disable(CB_Disable = true);
             setCB_DisableTxt(CB_DisableTxt = false);
+            setcashBalance(cashBalance = '0')
         }
         else
         {
