@@ -63,8 +63,7 @@ const ClassUpdate = ({ navigation,route }) => {
 
 
     const CUpdateScroll = React.useRef();
-    let [CB_Disable, setCB_Disable] = React.useState(contritype === 3 || contritype === 4 ? true : false);
-    let [CB_DisableTxt, setCB_DisableTxt] = React.useState(contritype === 3 || contritype === 4 ? false : true);
+    let [CB_DisableTxt, setCB_DisableTxt] = React.useState((contritype === 3 || contritype === 4  || contritype === 5) ? false : true);
     let [ContriTypeMargin, setContriTypeMargin] = React.useState(0);
     let [ContriTypeMarginhideDrop, setContriTypeMarginhideDrop] = React.useState(false); 
 
@@ -83,13 +82,12 @@ const ClassUpdate = ({ navigation,route }) => {
     const Disable_CB = (id) => {
         if(id === 3 || id === 4 || id === 5)
         {
-            setCB_Disable(CB_Disable = true);
             setCB_DisableTxt(CB_DisableTxt = false);
-            setcashBalance(cashBalance = '0')
+            setcashBalance(cashBalance = '0');
+            setcashAmt(cashAmt = '%')
         }
         else
         {
-            setCB_Disable(CB_Disable = false);
             setCB_DisableTxt(CB_DisableTxt = true);
         }
     }
@@ -280,7 +278,6 @@ const ClassUpdate = ({ navigation,route }) => {
                                 defaultIndex={0}
                                 defaultValue={cashAmt}
                                 zIndex={2}
-                                disabled={CB_Disable}
                                 //placeholder="Select number of years"
                                 placeholderStyle={{color: colors.Logintext}}
                                 activeLabelStyle={{color: 'green'}}
