@@ -85,7 +85,7 @@ const CopyModal = ({ navigation,route }) => {
             if (responseJson.isSuccess){
                 //console.log("copy plan", responseJson);
                 if(Platform.OS === 'web'){
-                    let choice = confirm("Plan Copy,\nCopy plan complete.");
+                    let choice = confirm("Copy plan complete.");
                     if(choice === true){
                         navigation.navigate('Plan Directory', {screen: 'Plan List', params: {CopyPlan: true}})
                     }
