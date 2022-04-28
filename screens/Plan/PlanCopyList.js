@@ -27,7 +27,7 @@ const PlanCopy = ({navigation,route}) => {
             <View style={styles.columnNamesContainer}>
                 <Text ellipsizeMode='tail' numberOfLines={1} style={styles.columnNames}>Plan Name:  <Text style={styles.Copyinfo}>{copy.planName}</Text></Text>
 
-                <Text ellipsizeMode='tail' numberOfLines={1} style={styles.columnNames}>PLan Description: <Text style={styles.Copyinfo}>ewiueiweyiquweywqieyqwuieyqeuqew</Text></Text>
+                <Text ellipsizeMode='tail' numberOfLines={1} style={styles.columnNames}>Plan Description: <Text style={styles.Copyinfo}>ewiueiweyiquweywqieyqwuieyqeuqew</Text></Text>
                 <Text ellipsizeMode='tail' numberOfLines={1} style={styles.columnNames}>User ID:  <Text style={styles.Copyinfo}>{copy.email}</Text></Text>
                 <Text style={styles.columnNames}>Copy Plan Detail Only</Text>
                     <RadioButtonRN
@@ -58,7 +58,7 @@ const PlanCopy = ({navigation,route}) => {
                     keyboardType='default'
                     onChangeText={(val) => {}}
                 />
-                <Text style={styles.columnNames}>PLan Description</Text>
+                <Text style={styles.columnNames}>Plan Description</Text>
                 <TextInput 
                     multiline={true}
                     numberOfLines={5}

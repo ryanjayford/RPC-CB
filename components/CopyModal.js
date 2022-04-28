@@ -146,7 +146,7 @@ const CopyModal = ({ navigation,route }) => {
                         <View style={styles.columnNamesContainer}>
                             <Text style={styles.columnNames}>Plan Name: {copy.planName}</Text>
                             
-                            <Text style={styles.columnNames}>PLan Description: {copy.planDescription}</Text>
+                            <Text style={styles.columnNames}>Plan Description: {copy.planDescription}</Text>
                             <Text style={styles.columnNames}>User ID: {copy.email}</Text>
                             
                             <Text style={styles.columnNames}>Copy Plan Detail Only</Text>
