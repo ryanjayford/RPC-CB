@@ -83,7 +83,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
 
       const ConfirmCalcualte = (planId) => {
         if(Platform.OS === 'web'){
-          let choice = confirm("Calculate,\nAre you sure you want to Calculate current Plan?");
+          let choice = confirm("Are you sure you want to calculate the plan?");
           if(choice === true){
             calculatePlan(planId)
           }
@@ -92,7 +92,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
           }
         }
         else {
-          Alert.alert("Calculate", "Are you sure you want to Calculate current Plan?", 
+          Alert.alert("Calculate", "Are you sure you want to calculate the plan?", 
           [{ text: "Yes", onPress: () => calculatePlan(planId) },
           { text: "No", onPress: () => getCalculatedPlan(planId), style: "cancel" }],
           { cancelable: false }); 
@@ -258,7 +258,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
                     //keyboardType='numeric'
                     onChangeText={(val) => setCalReportName(CalReportName = val)}
                   />
-                  <Text allowFontScaling={false} style={{...styles.modalText}}>Are you sure you want to Calculate Plan?</Text>
+                  <Text allowFontScaling={false} style={{...styles.modalText}}>Are you sure you want to calculate the plan?</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'flex-end' , justifyContent: 'flex-end'}}>
                   <TouchableHighlight underlayColor={"#72be03"}

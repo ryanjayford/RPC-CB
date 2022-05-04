@@ -178,7 +178,7 @@ const CopyModal = ({ navigation,route }) => {
                                     keyboardType='default'
                                     onChangeText={(val) => {setPlanName(planName = val)}}
                                 />
-                            <Text style={styles.columnNames}>PLan Description</Text>
+                            <Text style={styles.columnNames}>Plan Description</Text>
                             <TextInput 
                                     placeholderTextColor = 'rgba(51,51,51,0.7)'
                                     placeholder="Description"

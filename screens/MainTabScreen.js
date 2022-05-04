@@ -59,7 +59,7 @@ const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNu
   {
     //console.log('CONFIRM ====>', planName, userToken);
     if(Platform.OS === 'web'){
-      let msg = "Are you sure you want to Add New Plan?"
+      let msg = "Are you sure you want to create a new plan?"
       if (planId) msg = "Are you sure you want to save changes to " + planName + " Plan?"
       if (planName){
         let choice = confirm("Save Plan,\n"+msg);
@@ -72,7 +72,7 @@ const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNu
 
     }
     else{
-        let msg = "Are you sure you want to Add New Plan?"
+        let msg = "Are you sure you want to create a new plan?"
         if (planId) msg = "Are you sure you want to save changes to " + planName + " Plan?"
         if (planName){
           Alert.alert("Save Plan", msg, 
@@ -89,13 +89,13 @@ const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNu
 
 const ConfirmCalculate = (dataState, setScreen) => {
   if(Platform.OS === 'web'){
-    let choice = confirm("Calculate,\nAre you sure you want to Calculate Plan?");
+    let choice = confirm("Are you sure you want to calculate the plan?");
     if(choice === true){
       setScreen({Name: 'Calculate', Method: 'Calculate'})
     }
   }
   else{
-    Alert.alert("Calculate", "Are you sure you want to Calculate Plan?", 
+    Alert.alert("Calculate", "Are you sure you want to calculate the plan?", 
     [{ text: "Yes", onPress: () => setScreen({Name: 'Calculate', Method: 'Calculate'}) }, //CalculatePlan(dataState, setScreen)
     { text: "No", onPress: () => {}, style: "cancel" }],
     { cancelable: false }); 
@@ -105,13 +105,13 @@ const ConfirmCalculate = (dataState, setScreen) => {
 
 const ConfirmUpload = (setScreen) => { //dataState,setCensusData,CensusIsloading, setCensusIsloading
   if(Platform.OS === 'web'){
-    let choice = confirm("Census Upload,\nAre you sure you want to upload New Census?");
+    let choice = confirm("Are you sure you want to upload the new census template?");
     if(choice === true){
       setScreen({Name: 'Census', Method: 'PickAndUpload'})
     }
   }
   else{
-    Alert.alert("Census Upload", "Are you sure you want to upload New Census?", 
+    Alert.alert("Census Upload", "Are you sure you want to upload the new census template?", 
     [{ text: "Yes", onPress: () => setScreen({Name: 'Census', Method: 'PickAndUpload'}) } , //PickAndUpload(dataState,setCensusData,CensusIsloading, setCensusIsloading)
     { text: "No", onPress: () => {}, style: "cancel" }],
     { cancelable: false }); 

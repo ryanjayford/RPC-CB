@@ -201,13 +201,13 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
   
   const deleteClickEventListener = (item,index) => {
     if(Platform.OS === 'web'){
-      let choice = confirm("Plan Delete,\nAre you sure you want to Delete this Plan?");
+      let choice = confirm("Are you sure you want to delete this plan?");
       if(choice === true){
         deletePlan(item.planId)
       }
     }
     else{
-      Alert.alert("Plan Delete", "Are you sure you want to Delete this Plan?", 
+      Alert.alert("Plan Delete", "Are you sure you want to delete this plan?", 
       [{ text: "Yes", onPress: () => deletePlan(item.planId) }, //CalculatePlan(dataState, setScreen)
       { text: "No", onPress: () => {}, style: "cancel" }],
       { cancelable: false }); 

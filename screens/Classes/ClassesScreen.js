@@ -158,16 +158,16 @@ const ClassesScreen = ({ navigation }) => {
         //deleteClass(item)
         //Alert.alert('delete ' + item.classCode);
         if(Platform.OS === 'web'){
-          let choice = confirm("Delete Class,\nAre you sure you want to delete Class Code " + item.classCode);
+          let choice = confirm("Are you sure you want to delete this Plan Class?"); // Code " + item.classCode
           if(choice === true){
             deleteClass(item)
           }
         }
         else{
-          Alert.alert("Delete Class", "Are you sure you want to delete Class Code " + item.classCode, 
+          Alert.alert("Delete Class", "Are you sure you want to delete this Plan Class?", 
           [{ text: "Yes", onPress: () => deleteClass(item) }, 
           { text: "No", onPress: () => {}, style: "cancel" }],
-          { cancelable: false }); 
+          { cancelable: false });  // + item.classCode
         }
       }
     

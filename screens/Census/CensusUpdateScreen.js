@@ -62,6 +62,7 @@ const AddModal = ({ navigation,route }) => {
     let [SafeHarborContribchoice, setSafeHarborContribchoice] = React.useState(parameter === 'CensusAddUser' ? '%' : selectedUser.shCode);//new
     let [HCEchoice, setHCEchoice] = React.useState(parameter === 'CensusAddUser' ? '-1' : (selectedUser.HceOverride === false) ?  '-1' : (selectedUser.highlyComp === 1) ? '1' : '0'); 
     let [Overridecheck, setOverridecheck] = React.useState(parameter === 'CensusAddUser' ? false : selectedUser.OverrideParticipationDate);
+    let [Ignore415Limit, setIgnore415Limit] = React.useState(parameter === 'CensusAddUser' ? false : (selectedUser.ignore415Limit === null ? false : selectedUser.ignore415Limit));
     let [percentOwnership, setPercentOwnership] = React.useState(parameter === 'CensusAddUser' ? "" : (selectedUser.percentOwnership) ? selectedUser.percentOwnership.toString() : ""); 
     let [age, setAge] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.age); 
     let [highlyComp, setHighlyComp] = React.useState(parameter === 'CensusAddUser' ? 0 : selectedUser.highlyComp); 
@@ -70,7 +71,7 @@ const AddModal = ({ navigation,route }) => {
     let [CatchUpOverride, setCatchUpOverride] = React.useState(parameter === 'CensusAddUser' ? "" : (selectedUser.catchUpOverride === null ? "" : selectedUser.catchUpOverride)); 
     let [participationDate, setParticipationDate] = React.useState(parameter === 'CensusAddUser' ? '1/1/' + currentYear : moment(selectedUser.participationDate).format('MM/DD/YYYY')); 
     
-    //console.log("selectedUser----------------------->", selectedUser)
+    console.log("selectedUser----------------------->", selectedUser)
 
     const CensusUpdateScroll = React.useRef();
     let [FamilyCodeMargin, setFamilyCodeMargin] = React.useState(0); 
@@ -364,6 +365,7 @@ const AddModal = ({ navigation,route }) => {
                 SHOverrideType: SafeHarborContribchoice,
                 //ParticipationDate?
                 ParticipationDateOverride: Overridecheck,
+                ignore415Limit: Ignore415Limit,
                 HCEOverride: parseInt(HCEchoice, 10) > -1 ? true : false,
                 PercentOwnership: percentOwnership === "" ? 0 : percentOwnership,
                 Age: age,
@@ -1007,6 +1009,22 @@ const AddModal = ({ navigation,route }) => {
                             innerCircleStyle={{ /*backgroundColor: 'green' }} // add your styles to each inner circle
                             onValueChange={(value) => {setHCEchoice(HCEchoice = value.id)}} //required
                         />*/}
+
+                    <Text style={styles.columnNames}>HCE Override?</Text>
+                        
+                        <View style={{flexDirection: 'row', marginTop: 5}}>
+                                        
+                            <Checkbox
+                                style={styles.checkStyle}
+                                value={Ignore415Limit}
+                                onValueChange={()=> setIgnore415Limit(Ignore415Limit = !Ignore415Limit)}
+                                color={Ignore415Limit ? "#333333" : colors.Logintext}
+                            />
+
+                            <Text style = {{color: colors.Logintext,paddingTop: 6}}>Ignore 415 Limit for Cash Balance Allocation</Text>
+                        </View>
+
+
                     <Text style={styles.columnNames}>Date of Participation</Text>
                         {
                             Platform.OS === 'web' ? 

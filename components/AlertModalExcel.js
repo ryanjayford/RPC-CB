@@ -28,7 +28,7 @@ const AlertModal = ({ navigation }) => {
                 <View style ={styles.Modalcontainer}>
                     <View style={{flexDirection: 'column'}}>
                         <Text style={[styles.header,{padding: 5}]}>Census Upload</Text>
-                        <Text style={[styles.message,{padding: 5}]}>Are you sure you want to upload New Census?</Text>
+                        <Text style={[styles.message,{padding: 5}]}>Are you sure you want to upload the new census template?</Text>
                     </View>
                     <View style={styles.button}>
                         <TouchableOpacity style={[styles.signIn,{marginRight: 2.5}]} onPress={() => {[navigation.goBack(), 

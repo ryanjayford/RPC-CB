@@ -419,7 +419,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
   const CensusDeleteClickEventListener = (item) => {
    //console.log(item);
     if(Platform.OS === 'web'){
-      let choice = confirm("Delete,\nAre you sure you want to delete " + item.name + " ?");
+      let choice = confirm("Are you sure you want to delete " + item.name + " ?");
       if(choice === true){
         deleteParticipant(item.participantID)
       }
