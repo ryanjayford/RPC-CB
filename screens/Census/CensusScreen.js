@@ -47,7 +47,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
   };
   
   const { colors } = useTheme();
-  const [{setScreen,setDropdownData },dataState] = React.useContext(AuthContext);
+  const [{setScreen,setDropdownData,setCurrentCensusData },dataState] = React.useContext(AuthContext);
 
   //let search = dataState.search;
   let [CensusIndexChecked, setCensusIndexChecked] = React.useState(0);
@@ -365,6 +365,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
       });      
     }  
     //console.log(censusTransformData);
+    setCurrentCensusData(censusTransformData);
     setCensusData(censusData => censusTransformData);
     setOldCensusData(oldCensusData => censusTransformData);
   }

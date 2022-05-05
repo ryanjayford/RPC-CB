@@ -114,6 +114,7 @@ const App = () => {
     censusEdited: null,
     censusAdded: null,
     censusData,
+    CurrentcensusData: [],
     profilePic: null,
     censusDropDownData: [],
   };
@@ -310,6 +311,11 @@ const App = () => {
           censusData: action.Data,
           //SavePlanId: action.newId
         }; 
+      case 'CurrentCENSUS': 
+        return {
+          ...prevState,
+          CurrentcensusData: action.Data,
+        }; 
       case 'PLANID': 
         return {
           ...prevState,
@@ -500,6 +506,9 @@ const App = () => {
     },
     setCensusData: (Data) => {
       dispatch({ type: 'CENSUS', Data});
+    },
+    setCurrentCensusData: (Data) => {
+      dispatch({ type: 'CurrentCENSUS', Data});
     },
     setPlanID: (PlanId, PlanName) => {
       dispatch({ type: 'PLANID', PlanId, PlanName});
