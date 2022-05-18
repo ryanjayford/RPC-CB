@@ -230,6 +230,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
      //console.log('CHECKING ERROR================>');
       if (responseJson.isSuccess && responseJson.obj){
          //console.log("FROM UseEffect =====Api Called CENSUS========> ");
+         //console.log("response=====>", responseJson)
           TransfromCensusData(responseJson.obj);
         } else {
           if(Platform.OS === 'web'){
@@ -348,6 +349,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
         censusD.matchPercent = item.matchPercent 
         censusD.shCode = item.shCode 
         censusD.shPercent = item.shPercent 
+        censusD.ignore415Limit = item.ignore415Limit
         
         censusD.participationDate = item.participationDate;
         if (item["percentOwnership"]) censusD.own = parseInt(item["percentOwnership"]);
@@ -360,11 +362,12 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
         if (item.classCode) tags.push("Class Code: " + item.classCode.toString());
 
         censusD.tags = tags;
+        //console.log('censusD',censusD)
         censusTransformData.push(censusD);
         
       });      
     }  
-    //console.log(censusTransformData);
+    //console.log("Transform====>", censusTransformData);
     setCurrentCensusData(censusTransformData);
     setCensusData(censusData => censusTransformData);
     setOldCensusData(oldCensusData => censusTransformData);

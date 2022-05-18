@@ -71,7 +71,7 @@ const AddModal = ({ navigation,route }) => {
     let [CatchUpOverride, setCatchUpOverride] = React.useState(parameter === 'CensusAddUser' ? "" : (selectedUser.catchUpOverride === null ? "" : selectedUser.catchUpOverride)); 
     let [participationDate, setParticipationDate] = React.useState(parameter === 'CensusAddUser' ? '1/1/' + currentYear : moment(selectedUser.participationDate).format('MM/DD/YYYY')); 
     
-    console.log("selectedUser----------------------->", selectedUser)
+    //console.log("selectedUser----------------------->", selectedUser)
 
     const CensusUpdateScroll = React.useRef();
     let [FamilyCodeMargin, setFamilyCodeMargin] = React.useState(0); 
@@ -1010,7 +1010,6 @@ const AddModal = ({ navigation,route }) => {
                             onValueChange={(value) => {setHCEchoice(HCEchoice = value.id)}} //required
                         />*/}
 
-                    <Text style={styles.columnNames}>HCE Override?</Text>
                         
                         <View style={{flexDirection: 'row', marginTop: 5}}>
                                         

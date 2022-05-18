@@ -62,7 +62,7 @@ const ConfirmSave = (save, navigation, type, planId, planName, userToken, userNu
       let msg = "Are you sure you want to create a new plan?"
       if (planId) msg = "Are you sure you want to save changes to " + planName + " Plan?"
       if (planName){
-        let choice = confirm("Save Plan,\n"+msg);
+        let choice = confirm(msg);
         if(choice === true){
           save(navigation, type, planId, userToken, userNumber, userSponsorId)
         }

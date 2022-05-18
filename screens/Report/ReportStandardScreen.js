@@ -45,7 +45,7 @@ const ReportStandardScreen = ({ navigation }) => {
     }, [dataState.selectedPlan]);
 
     const getReportslist = async () => {
-      let url = 'http://cbcalc-test.azurewebsites.net/api/CBCalc/ShowHideReportItemList?PlanId=' + dataState.selectedPlan;
+      let url = baseURL1 + '/ShowHideReportItemList?PlanId=' + dataState.selectedPlan;
       let method = 'GET';
       let headers = new Headers();
       //console.log(url);
