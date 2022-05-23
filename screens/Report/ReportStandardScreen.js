@@ -40,7 +40,7 @@ const ReportStandardScreen = ({ navigation }) => {
     let [testRes, settestRes] = React.useState(false); 
 
     useEffect(() => {
-      //console.log('selected plan is: ',dataState.selectedPlan)
+      console.log('userNumber is: ',dataState.userNumber)
       getReportslist()
     }, [dataState.selectedPlan]);
 
