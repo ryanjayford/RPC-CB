@@ -8,6 +8,7 @@ import Settings from '../../settings.json';
 import Checkbox from 'expo-checkbox';
 
 const baseURL1 = Settings.calc;
+const baseURL = Settings.domain;
 const {width,height} = Dimensions.get('window');
 
 const ReportStandardScreen = ({ navigation }) => {
@@ -40,12 +41,13 @@ const ReportStandardScreen = ({ navigation }) => {
     let [testRes, settestRes] = React.useState(false); 
 
     useEffect(() => {
-      console.log('userNumber is: ',dataState.userNumber)
+      //console.log('selected plan is: ',dataState.selectedPlan, dataState.userNumber)
       getReportslist()
     }, [dataState.selectedPlan]);
 
     const getReportslist = async () => {
-      let url = baseURL1 + '/ShowHideReportItemList?PlanId=' + dataState.selectedPlan;
+      //let url = baseURL1 + '/ShowHideReportItemList?PlanId=' + dataState.selectedPlan;
+      let url = baseURL + '/CBLookUp/GetAvailableReports?userNumber=' + dataState.userNumber + '&planId=' + dataState.selectedPlan; 
       let method = 'GET';
       let headers = new Headers();
       //console.log(url);
@@ -61,9 +63,9 @@ const ReportStandardScreen = ({ navigation }) => {
       .then((response) => response.json())
       .then((responseJson) => {
         if (responseJson.isSuccess && responseJson.obj){
-            //console.log('RESPONS',responseJson.obj);
+            console.log('RESPONS',responseJson.obj);
             setReportData(ReportData = responseJson.obj)
-            setDynamic(dynamic = responseJson.obj.map(v => ({ name: v.ReportName, check: false })))
+            setDynamic(dynamic = responseJson.obj.map(v => ({ name: v.reportDisplayName, check: false, rdlc: v.report_FileName })))
             setReportloading(Reportloading = !Reportloading)
         } 
         else {
@@ -108,38 +110,20 @@ const ReportStandardScreen = ({ navigation }) => {
       settestRes(testRes = selectAll)
       
       if(dynamic.length !== 0){
-        setDynamic(dynamic = dynamic.map(v => ({ name: v.name, check: selectAll })))
+        setDynamic(dynamic = dynamic.map(v => ({ name: v.name, check: selectAll, rdlc: v.rdlc }))) 
       }
 
     }
 
     const setParams = () => {
-      let params = "";
-      if (cover) params += "'CoverPage.rdlc',";
-      if (standing) params += "'UnderstandingCB.rdlc',";
-      if (provision) params += "'PlanProvision.rdlc',";
-      if (employee) params += "'EmployeeCensusListingReport.rdlc',";
-      if (contriReport) params += "'ContributionListingReport.rdlc',";
-      if (chartReport) params += "'ContributionChartReport.rdlc',";
-      if (taxReport) params += "'CBTaxSummaryReport.rdlc',";
-      if (costReport) params += "'TargetNormalCost.rdlc',";
-      if (testReport) params += "'MinimumParticipationTest.rdlc',";
-      if (percentReport) params += "'AverageBenefitTest.rdlc',";
-      if (gateway) params += "'MinimumAllocationGateway.rdlc',";
-      if (grouptestReport) params += "'NormalAccrualRateForRateGroup.rdlc',";
-      if (mostValue) params += "'MostValuableEBAR.rdlc',";
-      if (detailReport) params += "'RateGroupTestingDetailReport.rdlc',";
-      if (maxCash) params += "'MaximumCashBalanceContributionReport.rdlc',";
-      
+      let params = "";     
       if(dynamic.length !== 0){
         dynamic.forEach((item) => {
           if(item.check === true){
-            params += `'${item.name.split('_').join('')}.rdlc',`;
+            params += `'${item.rdlc.trim()}',`;
           }
         })
       }
-
-      params += "'NonDiscriminationTest.rdlc'";
       return params;
     }
 
@@ -293,203 +277,11 @@ const ReportStandardScreen = ({ navigation }) => {
                         </View>
                       </View>
                     </View>
-                    <View style={{marginTop: 5}}>
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={cover}
-                            onValueChange={()=> setcover(cover = !cover)}
-                            color={cover ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Cover Sheet</Text>
-                        </View>
-                      </View>
-
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={standing}
-                            onValueChange={()=> setstanding(standing = !standing)}
-                            color={standing ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Understanding Cash Balance Plans</Text>
-                        </View>
-                      </View>
-                      
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={provision}
-                            onValueChange={()=> setprovision(provision = !provision)}
-                            color={provision ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Plan Provision</Text>
-                        </View>
-                      </View>
-
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={employee}
-                            onValueChange={()=> setemployee(employee = !employee)}
-                            color={employee ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Employee Census Listing Report</Text>
-                        </View>
-                      </View>
-                      
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={contriReport}
-                            onValueChange={()=> setcontriReport(contriReport = !contriReport)}
-                            color={contriReport ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Contribution Report</Text>
-                        </View>
-                      </View>
-
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={chartReport}
-                            onValueChange={()=> setchartReport(chartReport = !chartReport)}
-                            color={chartReport ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Contribution Chart Report</Text>
-                        </View>
-                      </View>
-
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={taxReport}
-                            onValueChange={()=> settaxReport(taxReport = !taxReport)}
-                            color={taxReport ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Tax Summary Report</Text>
-                        </View>
-                      </View>
-
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={costReport}
-                            onValueChange={()=> setcostReport(costReport = !costReport)}
-                            color={costReport ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Target Normal Cost Report</Text>
-                        </View>
-                      </View>
-                      
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={testReport}
-                            onValueChange={()=> settestReport(testReport = !testReport)}
-                            color={testReport ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Minimum Participation Test Report</Text>
-                        </View>
-                      </View>
-
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={percentReport}
-                            onValueChange={()=> setpercentReport(percentReport = !percentReport)}
-                            color={percentReport ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Average Benefit Percentage Test Report</Text>
-                        </View>
-                      </View>
-
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={gateway}
-                            onValueChange={()=> setgateway(gateway = !gateway)}
-                            color={gateway ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Minimum Allocation Gateway Report</Text>
-                        </View>
-                      </View>
-
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={grouptestReport}
-                            onValueChange={()=> setgrouptestReport(grouptestReport = !grouptestReport)}
-                            color={grouptestReport ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Normal Accrual Rate For Rate Group Testing Report</Text>
-                        </View>
-                      </View>
-
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={mostValue}
-                            onValueChange={()=> setmostValue(mostValue = !mostValue)}
-                            color={mostValue ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Most Valuable Accrual Rate for Rate Group Testing</Text>
-                        </View>
-                      </View>
-
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={detailReport}
-                            onValueChange={()=> setdetailReport(detailReport = !detailReport)}
-                            color={detailReport ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Rate Group Test Detail Report</Text>
-                        </View>
-                      </View>
-
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={maxCash}
-                            onValueChange={()=> setmaxCash(maxCash = !maxCash)}
-                            color={maxCash ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Maximum Cash Balance Contribution</Text>
-                        </View>
-                      </View>
-
-                      <View style={{flexDirection: 'row'}}>
-                        <Checkbox
-                            style={styles.CheckBox}
-                            value={testRes}
-                            onValueChange={()=> settestRes(testRes = !testRes)}
-                            color={testRes ? "#333333" : colors.Logintext}
-                        />
-                        <View style={styles.titlecontainer}>
-                          <Text style = {{color: colors.Logintext,paddingTop: 6}}>Test Result</Text>
-                        </View>
-                      </View>
-                      
+                    <View style={{marginTop: 5}}>                      
                       {ReportData.length !== 0 && ReportData.map((item, i) => {
                           return (
                             <View key={i}>
-                              {item.Show === true ?
+                              {item.showReport === true ?
                                 <View style={{flexDirection: 'row'}}>
                                   <Checkbox
                                       style={styles.CheckBox}
@@ -498,7 +290,7 @@ const ReportStandardScreen = ({ navigation }) => {
                                       color={dynamic[i].check ? "#333333" : colors.Logintext}
                                   />
                                   <View style={styles.titlecontainer}>
-                                    <Text style = {{color: colors.Logintext,paddingTop: 6}}>{item.ReportName.split('_').join(' ')}</Text>
+                                    <Text style = {{color: colors.Logintext,paddingTop: 6}}>{item.reportDisplayName.trim()}</Text>
                                   </View>
                                 </View>
                                 :
