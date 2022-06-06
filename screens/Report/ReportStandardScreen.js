@@ -23,23 +23,7 @@ const ReportStandardScreen = ({ navigation }) => {
     
     let [isLoading, setIsLoading] = React.useState(false); 
     let [selectAll, setselectAll] = React.useState(false); 
-    let [cover, setcover] = React.useState(false); 
-    let [standing, setstanding] = React.useState(false); 
-    let [provision, setprovision] = React.useState(false); 
-    let [employee, setemployee] = React.useState(false);
-    let [contriReport, setcontriReport] = React.useState(false);
-    let [chartReport, setchartReport] = React.useState(false);
-    let [taxReport, settaxReport] = React.useState(false);
-    let [costReport, setcostReport] = React.useState(false);
-    let [testReport, settestReport] = React.useState(false);
-    let [percentReport, setpercentReport] = React.useState(false);
-    let [gateway, setgateway] = React.useState(false); 
-    let [grouptestReport, setgrouptestReport] = React.useState(false);
-    let [mostValue, setmostValue] = React.useState(false);
-    let [detailReport, setdetailReport] = React.useState(false); 
-    let [maxCash, setmaxCash] = React.useState(false); 
-    let [testRes, settestRes] = React.useState(false); 
-
+   
     useEffect(() => {
       //console.log('selected plan is: ',dataState.selectedPlan, dataState.userNumber)
       getReportslist()
@@ -65,7 +49,7 @@ const ReportStandardScreen = ({ navigation }) => {
         if (responseJson.isSuccess && responseJson.obj){
             console.log('RESPONS',responseJson.obj);
             setReportData(ReportData = responseJson.obj)
-            setDynamic(dynamic = responseJson.obj.map(v => ({ name: v.reportDisplayName, check: false, rdlc: v.report_FileName })))
+            setDynamic(dynamic = responseJson.obj.map(v => ({ name: v.reportDisplayName, check: false, rdlc: v.report_FileName, isVisble: v.showReport })))
             setReportloading(Reportloading = !Reportloading)
         } 
         else {
@@ -92,27 +76,9 @@ const ReportStandardScreen = ({ navigation }) => {
 
     const select = () => {
       setselectAll(selectAll = !selectAll)
-      setcover(cover = selectAll)
-      setstanding(standing = selectAll)
-      setprovision(provision = selectAll)
-      setemployee(employee = selectAll)
-      setcontriReport(contriReport = selectAll)
-      setchartReport(chartReport = selectAll)
-      settaxReport(taxReport = selectAll)
-      setcostReport(costReport = selectAll)
-      settestReport(testReport = selectAll)
-      setpercentReport(percentReport = selectAll)
-      setgateway(gateway = selectAll)
-      setgrouptestReport(grouptestReport = selectAll)
-      setmostValue(mostValue = selectAll)
-      setdetailReport(detailReport = selectAll)
-      setmaxCash(maxCash = selectAll)
-      settestRes(testRes = selectAll)
-      
       if(dynamic.length !== 0){
-        setDynamic(dynamic = dynamic.map(v => ({ name: v.name, check: selectAll, rdlc: v.rdlc }))) 
+        setDynamic(dynamic = dynamic.map(v => ({ name: v.name, check: v.isVisble ? selectAll : false, rdlc: v.rdlc, isVisble: v.isVisble }))) 
       }
-
     }
 
     const setParams = () => {
@@ -124,6 +90,7 @@ const ReportStandardScreen = ({ navigation }) => {
           }
         })
       }
+      params += "'NonDiscriminationTest.rdlc'";
       return params;
     }
 
