@@ -126,6 +126,7 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
     
     if(result.uri != undefined)
     {
+      setCensusData(censusData => null);
       if(Platform.OS === 'web'){
           const reader = new FileReader();
           reader.readAsDataURL(result.output[0]);
@@ -198,8 +199,8 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
   React.useEffect(() => {
     //Api Data
     if (dataState.Census === null || (dataState.Census && dataState.Census.Name === 'Census')){
-    setCensusData(censusData => null);
-    //console.log("useEffect =====CENSUS SCREEN========> ");
+      //setCensusData(censusData => null);
+      //console.log("useEffect =====CENSUS SCREEN========> ");
       if (dataState.Census && dataState.Census.Method === 'PickAndUpload') {
         PickAndUpload(dataState.plan.planId);
       } else {
