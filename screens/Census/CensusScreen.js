@@ -97,10 +97,18 @@ const CensusScreen = ({ navigation, CensusToggle, CensusLoading,DocumentType }) 
           setScreen({Name: "Census", Method: "Load"});
         } else{
           if(Platform.OS === 'web'){
-            alert("Save Error,\n" + responseJson.message);
+            let strEnd = responseJson.message.substring(0, responseJson.message.indexOf(' |'));
+            let newtext = strEnd.substring(strEnd.indexOf("$.") + 2);
+            let errorArray = newtext.replace( /^\D+/g, '').split("].");
+
+            alert(`Save Error,\ncensus number ${parseInt(errorArray[0]) + 1}, invalid ${errorArray[1]}`);
           }
           else {
-            Alert.alert("Save Error", responseJson.message);
+            let strEnd = responseJson.message.substring(0, responseJson.message.indexOf(' |'));
+            let newtext = strEnd.substring(strEnd.indexOf("$.") + 2);
+            let errorArray = newtext.replace( /^\D+/g, '').split("].");
+
+            Alert.alert(`Save Error,\ncensus number ${parseInt(errorArray[0]) + 1}, invalid ${errorArray[1]}`);
           }
           getCensus(dataState.plan.planId);
         }
