@@ -150,7 +150,7 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
       }
 
       const getCalculatedPlan = async (planId) => {
-        let url = baseURL + '/Calculation/CalculationRequestList?planId=' +  planId;
+        let url = baseURL + '/Calculation/CalculationRequestList?queStatus=&sortBy=RequestDate&sortOrder=D&maxRows=10&planId=' +  planId;
         let method = 'GET';
         let headers = new Headers();
         //console.log(url);
@@ -168,6 +168,24 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
         .then((responseJson) => {
           if (responseJson.isSuccess && responseJson.obj){
            //console.log("FROM UseEffect =====Api Called GET CALCULATE========> ", responseJson.obj);
+           let data = [];
+           responseJson.obj.forEach(function(item, idx) {        
+             let calcData = {};
+             calcData.id = item.id;
+             calcData.ndtResult = item.ndtResult;
+             calcData.planId = item.planId;
+             calcData.planName = item.planName;
+             calcData.reportId = item.reportId;
+             calcData.reportName = item.reportName;
+             calcData.reportOutputName = item.reportOutputName;
+             calcData.requestCompleted = item.requestCompleted;
+             calcData.requestDate = moment(item.requestDate).format('MM/DD/YYYY HH:MM:ss');
+             calcData.requestStatus = item.requestStatus;
+             calcData.requestStatusDesc =  item.requestStatusDesc;
+             calcData.testResult = item.testResult;
+             calcData.userNumber =  item.userNumber;
+             data.push(calcData);
+           });
             setCalculateData(calculateData => responseJson.obj);            
           } else {
             //Alert.alert("Data Error", responseJson.message);
@@ -352,10 +370,12 @@ const CalculateScreen = ({ navigation, CalculateLoading, CalculateModal,SetCalcu
                             <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>Run Date</Text>
                             <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{requestDate}</Text>
                         </View>
+                        {/*
                         <View style={{flexDirection: 'column'}}>
                             <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>Reports</Text>
-                            <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>16</Text>
+                            <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{item.Num}</Text>
                         </View>
+                        */}
                     </View>
                     
                   

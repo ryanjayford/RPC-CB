@@ -190,10 +190,10 @@ const SignInScreen = ({navigation}) => {
             } else {
                 setData({...data, isLoading: false});
                 if(Platform.OS === 'web'){
-                    alert("Invalid User!,\nUsername or password is incorrect.")
+                    alert("Invalid Login!,\nUsername or password is incorrect.")
                 }
                 else {
-                    Alert.alert('Invalid User!', 'Username or password is incorrect.', [
+                    Alert.alert('Invalid Login!', 'Username or password is incorrect.', [
                         {text: 'Okay'}
                     ]);
                 }
@@ -262,10 +262,10 @@ const SignInScreen = ({navigation}) => {
             } else{
                 setData({...data, isLoading: false});
                 if(Platform.OS === 'web'){
-                    alert("Invalid User!,\nUsername or password is incorrect.")
+                    alert("Invalid Login!,\nUsername or password is incorrect.")
                 }
                 else {
-                    Alert.alert('Invalid User!', 'Username or password is incorrect.', [
+                    Alert.alert('Invalid Login!', 'Username or password is incorrect.', [
                         {text: 'Okay'}
                     ]);
                 }

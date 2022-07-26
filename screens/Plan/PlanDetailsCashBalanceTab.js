@@ -44,6 +44,7 @@ const CashBalance = ({ route }) => {
   let [PreRetMortality, setPreRetMortality] = React.useState(DefaultPlan.preRetMortality === true ? 1:2);
   let [MortalityTableCombined, setMortalityTableCombined] = React.useState(DefaultPlan.mortalityTableCombined === true ? 1:2);
   let [FundingForLumpSum, setFundingForLumpSum] = React.useState(DefaultPlan.fundingForLumpSum === true ? 1:2);
+  let [LimitMaxCBToPVAB, setLimitMaxCBToPVAB] = React.useState(DefaultPlan.limitMaxCB_to_PVAB === true ? 1:2);
   let [ImputeDisparity, setImputeDisparity] = React.useState(DefaultPlan.imputeDisparity === true ? 1:2);
   let [AEPostRetMortalityTable, setAEPostRetMortalityTable] = React.useState(DefaultPlan.aePostRetMortalityTable);
   let [AEPreRetInt, setAEPreRetInt] = React.useState(DefaultPlan.aePreRetInt ? DefaultPlan.aePreRetInt.toString() : null);
@@ -66,6 +67,7 @@ const CashBalance = ({ route }) => {
   Balance.preRetMortality = PreRetMortality === 1 ? true : false;
   Balance.mortalityTableCombined = MortalityTableCombined === 1 ? true : false;
   Balance.fundingForLumpSum = FundingForLumpSum === 1 ? true : false;
+  Balance.limitMaxCB_to_PVAB = LimitMaxCBToPVAB === 1 ? true : false;
   Balance.imputeDisparity = ImputeDisparity === 1 ? true : false;
   Balance.aePostRetMortalityTable = AEPostRetMortalityTable === undefined ? null : AEPostRetMortalityTable;
   Balance.aePreRetInt = AEPreRetInt ? AEPreRetInt.toString() : "0";
@@ -124,7 +126,7 @@ const CashBalance = ({ route }) => {
      //console.log("has Data");
       let UserCB = DetailsFetchedData;
       //console.log(UserCB.isPBGCCovered,UserCB.preRetMortality,UserCB.mortalityTableCombined, UserCB.fundingForLumpSum, UserCB.imputeDisparity);
-
+  
       setIsPBGCCovered(IsPBGCCovered = UserCB.isPBGCCovered === true ? 1 : 2); 
       setCBInterestCredit(CBInterestCredit = UserCB.cbInterestCredit.toString())
       setOverrideSegRate1(OverrideSegRate1 = UserCB.overrideSegRate1.toString()); 
@@ -133,6 +135,7 @@ const CashBalance = ({ route }) => {
       setPreRetMortality(PreRetMortality = UserCB.preRetMortality === true ? 1 : 2);
       setMortalityTableCombined(MortalityTableCombined = UserCB.mortalityTableCombined === true ? 1 : 2);
       setFundingForLumpSum(FundingForLumpSum = UserCB.fundingForLumpSum === true ? 1 : 2);
+      setLimitMaxCBToPVAB(LimitMaxCBToPVAB = UserCB.limitMaxCB_to_PVAB === true ? 1 : 2);
       setImputeDisparity(ImputeDisparity = UserCB.imputeDisparity === true ? 1 : 2);
       setAEPostRetMortalityTable(AEPostRetMortalityTable = UserCB.aePostRetMortalityTable);
       setAEPreRetInt(AEPreRetInt = UserCB.aePreRetInt.toString());
@@ -318,6 +321,25 @@ const CashBalance = ({ route }) => {
                 boxStyle={{width: 70}}
                 box={false}
                 selectedBtn={(e) => setFundingForLumpSum(FundingForLumpSum = e.id)}
+                circleSize={13}
+                activeColor={'#333333'}
+                deactiveColor={'grey'}
+                textColor={'#333333'}
+              />
+
+
+            <Text style={styles.subNames}>Limit CB Allocation to PVAB</Text>
+
+              <RadioButtonRN
+                data={RadioBtn} //required
+                activeOpacity={1}
+                initial={LimitMaxCBToPVAB}
+                animationTypes={['pulse']}
+                style={{paddingLeft: 5,flexDirection: 'row'}}
+                textStyle={{paddingLeft: 10}}
+                boxStyle={{width: 70}}
+                box={false}
+                selectedBtn={(e) => setLimitMaxCBToPVAB(LimitMaxCBToPVAB = e.id)}
                 circleSize={13}
                 activeColor={'#333333'}
                 deactiveColor={'grey'}

@@ -222,10 +222,12 @@ const ReportListScreen = ({ navigation, CalculateLoading }) => {
                             <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>Run Date</Text>
                             <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{item.Date}</Text>
                         </View>
+                        {/*
                         <View style={{flexDirection: 'column'}}>
                             <Text allowFontScaling={false} style={[styles.title,{color: colors.textLight}]}>Reports</Text>
                             <Text allowFontScaling={false} style={[styles.subtitle,{color: colors.textLight}]}>{item.Num}</Text>
                         </View>
+                        */}
                     </View>
                 </View>
               

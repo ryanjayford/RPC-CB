@@ -407,7 +407,7 @@ const General = ({  route, Error, SetError }) => {
       setInclude401k(Include401k  = responseData.include401k); 
       setMinTaxBracket(MinTaxBracket  = responseData.minTaxBracket ? responseData.minTaxBracket.toString():null); 
       setMaxTaxBracket(MaxTaxBracket  = responseData.maxTaxBracket ? responseData.maxTaxBracket.toString():null); 
-      setEntity(Entity  = responseData.entity); 
+      setEntity(Entity  = responseData.entity ? responseData.entity : "C"); 
       setPreparedBy(PreparedBy  = responseData.preparedBy); 
       setCompanyName(CompanyName  = responseData.companyName); 
       setShowlogo(Showlogo = responseData.showLogo)
