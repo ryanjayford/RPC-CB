@@ -5,6 +5,7 @@ import { useTheme } from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
 import{ AuthContext } from '../../components/context';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { color } from 'react-native-reanimated';
 import { Avatar } from 'react-native-elements';
 import Settings from '../../settings.json';
@@ -36,7 +37,50 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
   //console.log('toggle', PlanToggle)
   ///console.log(route,'from list');
   const [{updatePlanData, Delete,setPlanID, initScreen, setScreen},dataState] = React.useContext(AuthContext);
+  const filterData = [
+    {label: 'Last Modified', value: 'LM'},
+    {label: 'Individual User', value: 'IU'},
+    {label: 'Company Name', value: 'CN'}
+  ];
+  const lastModifiedData = [
+    {label: 'In 24 hours', value: '0'},
+    {label: 'In 48 hours', value: '1'},
+    {label: 'This Week', value: '2'},
+    {label: 'All plans', value: '3'},
+  ];
+  const individualUserData = [
+    {label: 'Test user1', value: '12'},
+    {label: 'Test user2', value: '123'},
+    {label: 'Test user3', value: '1234'}
+  ];
+  let [filterDefault, setfilterDefault] = React.useState('LM');
+  let [lastModifiedDefault, setlastModifiedDefault] = React.useState('0');
+  let [individualUserDefault, setindividualUserDefault] = React.useState('12');
 
+  let [filterDrop, setfilterDrop] = React.useState(false); 
+  let [filterDropMargin, setfilterDropMargin] = React.useState(10); 
+
+  let [SelectedDrop, setSelectedDrop] = React.useState(false); 
+  let [SelectedDropMargin, setSelectedDropMargin] = React.useState(10);
+
+  const DropdownController = (DropSelected) => {
+    if(DropSelected === 1)
+    {
+      setfilterDropMargin(filterDropMargin = 160)
+      setfilterDrop(filterDrop = true)
+
+      setSelectedDropMargin(SelectedDropMargin = 0)
+      setSelectedDrop(SelectedDrop = false)
+    }
+    else if(DropSelected === 2)
+    {
+      setfilterDropMargin(filterDropMargin = 10)
+      setfilterDrop(filterDrop = false)
+
+      setSelectedDropMargin(SelectedDropMargin = 160)
+      setSelectedDrop(SelectedDrop = true)
+    }
+  };
   let planStorage = dataState.plan;
   //let plansearch = dataState.plansearch;
 
@@ -270,20 +314,67 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     setPlanData(planData => filteredName)
   }
 
+  const setDropData = (value) => {
+    if(value == 'IU'){
+      return individualUserData;
+    }
+    return lastModifiedData;
+  }
+
 
   return(
     <View style={{flex: 1}}>
        {PlanToggle === true &&
           <View style={styles.formContent}>
-            <View style={styles.inputContainer}>
-              <Icon style={styles.inputIcon} name="account-search" size={25} color="grey" />
-              <TextInput style={styles.inputs}
-                //ref={'txtSearch'}
-                value={SearchVal}
-                placeholder="Search"
-                underlineColorAndroid='transparent'
-                onChangeText={(value) => OnSearch(value)}/>
-            </View>
+            <DropDownPicker
+              items={filterData}
+              isVisible={filterDrop}
+              defaultValue={filterDefault}             
+              zIndex={5}
+              placeholder=""
+              placeholderStyle={{color: colors.Logintext}}
+              activeLabelStyle={{color: 'green'}}
+              labelStyle={{color: colors.Logintext}}
+              itemStyle={{justifyContent: 'flex-start'}}
+              style={{borderWidth: 1}}
+              dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
+              containerStyle={{ height: 45, flex: 0.3, marginTop: 10, marginLeft: 10, marginBottom: filterDropMargin }}
+              arrowColor='rgba(51,51,51,0.5)'
+              onOpen={() => {[DropdownController(1)]}}
+              onClose={() => {[setfilterDropMargin(filterDropMargin = 10)]}}
+              onChangeItem={item => setfilterDefault(filterDefault = item.value)}
+            />
+          
+            {filterDefault == 'CN' ?
+              <View style={styles.inputContainer}>
+                <Icon style={styles.inputIcon} name="account-search" size={25} color="grey" />
+                <TextInput style={styles.inputs}
+                  //ref={'txtSearch'}
+                  value={SearchVal}
+                  placeholder="Search"
+                  underlineColorAndroid='transparent'
+                  onChangeText={(value) => OnSearch(value)}/>
+              </View>
+              :
+              <DropDownPicker
+                items={setDropData(filterDefault)}
+                defaultValue={filterDefault == 'IU' ? individualUserDefault : lastModifiedDefault} 
+                isVisible={SelectedDrop}            
+                zIndex={5}
+                placeholder=""
+                placeholderStyle={{color: colors.Logintext}}
+                activeLabelStyle={{color: 'green'}}
+                labelStyle={{color: colors.Logintext}}
+                itemStyle={{justifyContent: 'flex-start'}}
+                style={{borderWidth: 1}}
+                dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
+                containerStyle={{ height: 45, flex: 1, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: SelectedDropMargin }}
+                arrowColor='rgba(51,51,51,0.5)'
+                onOpen={() => {[DropdownController(2)]}}
+                onClose={() => {[setSelectedDropMargin(SelectedDropMargin = 10)]}}
+                onChangeItem={item => filterDefault == 'IU' ? setindividualUserDefault(individualUserDefault = item.value) : setlastModifiedDefault(lastModifiedDefault = item.value)}
+              />
+            }
           </View> }
     <LinearGradient 
       colors={[colors.linearlight,colors.linearDark]}
@@ -437,20 +528,20 @@ const styles = StyleSheet.create({
 
   formContent:{
     flexDirection: 'row',
-    marginTop: 5,
   },
   inputContainer: {
     //borderBottomColor: '#F5FCFF',
     backgroundColor: '#FFFFFF',
-    borderRadius:30,
+    borderRadius: 5,
     //borderBottomWidth: 1,
-    height:45,
+    height: 45,
     flexDirection: 'row',
     alignItems:'center',
-    flex:1,
-    margin:10, 
+    flex: 1,
+    margin: 10, 
   },
   inputs:{
+    paddingLeft: 10,
     height:45,
     marginLeft:16,
     borderBottomColor: '#FFFFFF',
