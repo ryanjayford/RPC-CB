@@ -35,6 +35,7 @@ import CopyModal from '../components/CopyModal';
 import AlertModal from '../components/AlertModalExcel';
 import moment from 'moment';
 import MenuModal from '../components/MenuModal';
+import SearchModal from '../components/SearchModal';
 import Settings from '../settings.json';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import * as WebBrowser from 'expo-web-browser';
@@ -225,7 +226,8 @@ function getPlanIconsTitle(route,navigation,colors/*,search,Plansearch*/,save,da
     case 'Plan List': 
       return [<Icon.Button key={0} name="ios-search" size={20} iconStyle={{marginRight: 2.5,marginLeft: 2.5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [setPlan(Plan = !Plan)]}></Icon.Button>,
               <Icon.Button key={1} name="ios-add" size={20} iconStyle={{marginRight: 2.5,marginLeft: 2.5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => [dataState.selectedPlan=null,navigation.navigate("Plan Directory", {screen: 'Plan Details', params: {screen: 'General', params: {homeClick: 'Add'}}}), setScreen({Name: "Plan Details", Method: "ADD"})]}></Icon.Button>,
-              <Icon5.Button key={2} name="filter" size={21} iconStyle={{marginRight: 2.5,marginLeft: 2.5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon5.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
+              <Icon5.Button key={2} name="filter" size={21} iconStyle={{marginRight: 2.5,marginLeft: 2.5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('menu')}></Icon5.Button>,
+              <Icon5.Button key={2} name="filter" size={21} iconStyle={{marginRight: 2.5,marginLeft: 2.5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('SearchModal')}></Icon5.Button>];//Plansearch() //navigation.setParams({plansearch: !route.params.plansearch})
     case 'Plan Details':
         if (route.params?.screen === 'Plan Details') return [<Icon.Button key={0} name="ios-save" size={20} iconStyle={{marginRight: 2.5,marginLeft: 2.5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => ConfirmSave(save, navigation,'Add New', null, dataState.Details.planName, dataState.userToken, dataState.userNumber, dataState.userSponsorId,error)}></Icon.Button>,
         <Icon.Button key={1} name="ios-close-circle" size={20} iconStyle={{marginRight: 2.5,marginLeft: 2.5}} backgroundColor= {colors.primary} underlayColor= 'grey' onPress={() => navigation.navigate('Plan Directory', {screen: 'Plan List', params: {AddCancel: 'cancel'}})}></Icon.Button>]
@@ -446,7 +448,7 @@ const PlanTabScreen = ({navigation, route}) => {
           })
         }
       >
-         {props => <PlanListScreen {...props} PlanToggle={Plan} />}
+         {props => <PlanListScreen {...props} PlanToggle={Plan} SetplanToggle={setPlan} />}
       </PlanTab.Screen>
 
       <PlanTab.Screen
@@ -603,6 +605,14 @@ const HomeStackScreen = ({navigation}) => {
             },
           }}/>
           <HomeStack.Screen name="menu" component={MenuModal}  options={{ 
+              headerShown: false,
+              animationEnabled: false,
+              cardStyle: {
+                backgroundColor: 'transparent'
+              }
+          }}/>
+
+          <HomeStack.Screen name="SearchModal" component={SearchModal}  options={{ 
               headerShown: false,
               animationEnabled: false,
               cardStyle: {
