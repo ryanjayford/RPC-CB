@@ -10,7 +10,7 @@ import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 const baseURL = Settings.domain;
 
 const SearchModal = ({ navigation }) => {
-
+    const [{IsSearch},dataState] = React.useContext(AuthContext);
     React.useEffect(() => {
         //GetInterestRate();
     }, []);
@@ -39,28 +39,28 @@ const SearchModal = ({ navigation }) => {
     let [individualUserDefault, setindividualUserDefault] = React.useState('12');
 
     let [filterDrop, setfilterDrop] = React.useState(false); 
-    let [filterDropMargin, setfilterDropMargin] = React.useState(10); 
+    //let [filterDropMargin, setfilterDropMargin] = React.useState(10); 
 
     let [SelectedDrop, setSelectedDrop] = React.useState(false); 
-    let [SelectedDropMargin, setSelectedDropMargin] = React.useState(10);
+    //let [SelectedDropMargin, setSelectedDropMargin] = React.useState(10);
     let [SearchVal, setSearchVal] = React.useState("");
     
 
     const DropdownController = (DropSelected) => {
         if(DropSelected === 1)
         {
-            setfilterDropMargin(filterDropMargin = 150)
+            //setfilterDropMargin(filterDropMargin = 150)
             setfilterDrop(filterDrop = true)
 
-            setSelectedDropMargin(SelectedDropMargin = 10)
+            //setSelectedDropMargin(SelectedDropMargin = 10)
             setSelectedDrop(SelectedDrop = false)
         }
         else if(DropSelected === 2)
         {
-            setfilterDropMargin(filterDropMargin = 10)
+            //setfilterDropMargin(filterDropMargin = 10)
             setfilterDrop(filterDrop = false)
 
-            setSelectedDropMargin(SelectedDropMargin = 160)
+            //setSelectedDropMargin(SelectedDropMargin = 160)
             setSelectedDrop(SelectedDrop = true)
         }
     };
@@ -70,6 +70,26 @@ const SearchModal = ({ navigation }) => {
             return individualUserData;
         }
         return lastModifiedData;
+    }
+
+    const OnSearch = (value) => {
+        setSearchVal(SearchVal = value);
+    }
+
+    const onSend = async () => {
+        let val = "";
+        if(filterDefault == 'LM'){
+            val = lastModifiedDefault;
+        }
+        else if(filterDefault == 'IU'){
+            val = individualUserDefault;
+        }
+        else{//Cn
+            val = SearchVal;
+        }
+
+        await IsSearch(filterDefault, val);
+        navigation.goBack();
     }
 
     return(
@@ -98,9 +118,9 @@ const SearchModal = ({ navigation }) => {
                     <View style = {{padding: 20}}>
                         <DropDownPicker
                             items={filterData}
-                            isVisible={filterDrop}
+                            //isVisible={filterDrop}
                             defaultValue={filterDefault}             
-                            zIndex={5}
+                            zIndex={6}
                             placeholder=""
                             placeholderStyle={{color: colors.Logintext}}
                             activeLabelStyle={{color: 'green'}}
@@ -108,11 +128,11 @@ const SearchModal = ({ navigation }) => {
                             itemStyle={{justifyContent: 'flex-start'}}
                             style={{borderWidth: 1}}
                             dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-                            containerStyle={{ height: 45, marginBottom: filterDropMargin }}
+                            containerStyle={{ height: 45, marginBottom: 10/*filterDropMargin*/ }}
                             arrowColor='rgba(51,51,51,0.5)'
-                            onOpen={() => {[DropdownController(1)]}}
-                            onClose={() => {[setfilterDropMargin(filterDropMargin = 10)]}}
-                            onChangeItem={item => setfilterDefault(filterDefault = item.value)}
+                            onOpen={() => {DropdownController(1)}}
+                            //onClose={() => {[setfilterDropMargin(filterDropMargin = 10)]}}
+                            onChangeItem={(item) => setfilterDefault(filterDefault = item.value)}
                         />
                         
                         {filterDefault == 'CN' ?
@@ -139,15 +159,15 @@ const SearchModal = ({ navigation }) => {
                                 itemStyle={{justifyContent: 'flex-start'}}
                                 style={{borderWidth: 1}}
                                 dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-                                containerStyle={{ height: 45, marginBottom: SelectedDropMargin }}
+                                containerStyle={{ height: 45, marginBottom: 10/*SelectedDropMargin*/ }}
                                 arrowColor='rgba(51,51,51,0.5)'
                                 onOpen={() => {[DropdownController(2)]}}
-                                onClose={() => {[setSelectedDropMargin(SelectedDropMargin = 10)]}}
-                                onChangeItem={item => filterDefault == 'IU' ? setindividualUserDefault(individualUserDefault = item.value) : setlastModifiedDefault(lastModifiedDefault = item.value)}
+                                //onClose={() => {[setSelectedDropMargin(SelectedDropMargin = 10)]}}
+                                onChangeItem={(item) => filterDefault == 'IU' ? setindividualUserDefault(individualUserDefault = item.value) : setlastModifiedDefault(lastModifiedDefault = item.value)}
                             />
                         }
 
-                        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.signIn}>
+                        <TouchableOpacity onPress={() => onSend()} style={styles.signIn}>
                             <Text style={styles.textSign}>Search</Text>
                         </TouchableOpacity>
                     </View>
@@ -212,6 +232,7 @@ const styles = StyleSheet.create({
         marginLeft:16,
         borderBottomColor: '#FFFFFF',
         flex:1,
+        zIndex: 10
     },
     inputIcon:{
         marginLeft:15,

@@ -108,6 +108,8 @@ const App = () => {
     Selected: 0,
     MenuCurrent: null,
     MenuResponse: false,
+    SearchDropVal: "",
+    SearchVal: "",
     classEdited: null,
     classAdded: null,
     classData: null,
@@ -331,6 +333,12 @@ const App = () => {
           MenuResponse: action.Response
           //SavePlanId: action.newId
         };  
+      case 'Search': 
+        return {
+          ...prevState,
+          SearchDropVal: action.dropValue,
+          SearchVal: action.search,
+        };  
       case 'ClassADD': 
         return {
           ...prevState,
@@ -519,6 +527,10 @@ const App = () => {
       let Response = true;
       navigation.goBack();
       dispatch({ type: 'Menu', index,MenuName,Response});
+      return;
+    },
+    IsSearch: (dropValue,search) => {
+      dispatch({ type: 'Search', dropValue, search});
     },
     ClassAddorEdit: (navigation,StateArray,ClassesState, userToken, setIsLoading , isLoading) => {
       

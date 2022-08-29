@@ -37,50 +37,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
   //console.log('toggle', PlanToggle)
   ///console.log(route,'from list');
   const [{updatePlanData, Delete,setPlanID, initScreen, setScreen},dataState] = React.useContext(AuthContext);
-  const filterData = [
-    {label: 'Last Modified', value: 'LM'},
-    {label: 'Individual User', value: 'IU'},
-    {label: 'Company Name', value: 'CN'}
-  ];
-  const lastModifiedData = [
-    {label: 'In 24 hours', value: '0'},
-    {label: 'In 48 hours', value: '1'},
-    {label: 'This Week', value: '2'},
-    {label: 'All plans', value: '3'},
-  ];
-  const individualUserData = [
-    {label: 'Test user1', value: '12'},
-    {label: 'Test user2', value: '123'},
-    {label: 'Test user3', value: '1234'}
-  ];
-  let [filterDefault, setfilterDefault] = React.useState('LM');
-  let [lastModifiedDefault, setlastModifiedDefault] = React.useState('0');
-  let [individualUserDefault, setindividualUserDefault] = React.useState('12');
-
-  let [filterDrop, setfilterDrop] = React.useState(false); 
-  let [filterDropMargin, setfilterDropMargin] = React.useState(10); 
-
-  let [SelectedDrop, setSelectedDrop] = React.useState(false); 
-  let [SelectedDropMargin, setSelectedDropMargin] = React.useState(10);
-
-  const DropdownController = (DropSelected) => {
-    if(DropSelected === 1)
-    {
-      setfilterDropMargin(filterDropMargin = 160)
-      setfilterDrop(filterDrop = true)
-
-      setSelectedDropMargin(SelectedDropMargin = 0)
-      setSelectedDrop(SelectedDrop = false)
-    }
-    else if(DropSelected === 2)
-    {
-      setfilterDropMargin(filterDropMargin = 10)
-      setfilterDrop(filterDrop = false)
-
-      setSelectedDropMargin(SelectedDropMargin = 160)
-      setSelectedDrop(SelectedDrop = true)
-    }
-  };
+  
   let planStorage = dataState.plan;
   //let plansearch = dataState.plansearch;
 
@@ -93,6 +50,15 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
   {
     //alert(dataState.MenuCurrent);
     dataState.MenuResponse = false;
+    //?console.log(dataState.MenuCurrent)
+    //?console.log(dataState.MenuResponse)
+  }
+
+  if(dataState.SearchVal !== "" && dataState.SearchDropVal !== "")
+  {
+    alert(dataState.SearchDropVal + " " + dataState.SearchVal);
+    //dataState.SearchVal = "";
+    //dataState.SearchDropVal = "";
     //?console.log(dataState.MenuCurrent)
     //?console.log(dataState.MenuResponse)
   }
@@ -326,26 +292,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
     <View style={{flex: 1}}>
        {PlanToggle === true &&
           <View style={styles.formContent}>
-            <DropDownPicker
-              items={filterData}
-              isVisible={filterDrop}
-              defaultValue={filterDefault}             
-              zIndex={5}
-              placeholder=""
-              placeholderStyle={{color: colors.Logintext}}
-              activeLabelStyle={{color: 'green'}}
-              labelStyle={{color: colors.Logintext}}
-              itemStyle={{justifyContent: 'flex-start'}}
-              style={{borderWidth: 1}}
-              dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-              containerStyle={{ height: 45, flex: 0.3, marginTop: 10, marginLeft: 10, marginBottom: filterDropMargin }}
-              arrowColor='rgba(51,51,51,0.5)'
-              onOpen={() => {[DropdownController(1)]}}
-              onClose={() => {[setfilterDropMargin(filterDropMargin = 10)]}}
-              onChangeItem={item => setfilterDefault(filterDefault = item.value)}
-            />
-          
-            {filterDefault == 'CN' ?
+            
               <View style={styles.inputContainer}>
                 <Icon style={styles.inputIcon} name="account-search" size={25} color="grey" />
                 <TextInput style={styles.inputs}
@@ -355,26 +302,7 @@ const PlanScreen = ({ navigation,route,PlanToggle }) => {
                   underlineColorAndroid='transparent'
                   onChangeText={(value) => OnSearch(value)}/>
               </View>
-              :
-              <DropDownPicker
-                items={setDropData(filterDefault)}
-                defaultValue={filterDefault == 'IU' ? individualUserDefault : lastModifiedDefault} 
-                isVisible={SelectedDrop}            
-                zIndex={5}
-                placeholder=""
-                placeholderStyle={{color: colors.Logintext}}
-                activeLabelStyle={{color: 'green'}}
-                labelStyle={{color: colors.Logintext}}
-                itemStyle={{justifyContent: 'flex-start'}}
-                style={{borderWidth: 1}}
-                dropDownStyle={{backgroundColor: '#fafafa',borderWidth: 1}}
-                containerStyle={{ height: 45, flex: 1, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: SelectedDropMargin }}
-                arrowColor='rgba(51,51,51,0.5)'
-                onOpen={() => {[DropdownController(2)]}}
-                onClose={() => {[setSelectedDropMargin(SelectedDropMargin = 10)]}}
-                onChangeItem={item => filterDefault == 'IU' ? setindividualUserDefault(individualUserDefault = item.value) : setlastModifiedDefault(lastModifiedDefault = item.value)}
-              />
-            }
+             
           </View> }
     <LinearGradient 
       colors={[colors.linearlight,colors.linearDark]}
